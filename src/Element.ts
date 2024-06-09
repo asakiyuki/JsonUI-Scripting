@@ -38,11 +38,17 @@ export class UIPackRegister {
 
 export class GlobalVariables {
     static register(variable_name: string, value: any) {
+        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
+        if (!fs.existsSync('.cached/ui')) fs.mkdirSync('.cached/ui');
+        if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         glovar[`$${variable_name}`] = (value[0] === "#" && typeof value[0] === 'string') ? Color.parse(value.slice(1)) : value;
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static registerObject(variableObject: object | any) {
+        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
+        if (!fs.existsSync('.cached/ui')) fs.mkdirSync('.cached/ui');
+        if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         for (const key of Object.keys(variableObject))
             glovar[`$${key}`] = (variableObject[key][0] === "#" && typeof variableObject[key][0] === 'string') ? Color.parse(variableObject[key].slice(1)) : variableObject[key];
