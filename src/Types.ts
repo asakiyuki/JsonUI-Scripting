@@ -86,8 +86,9 @@ export enum EasingTypes {
 export interface AnimationData {
     duration: number | DefaultGlobalVariableTypes,
     destroy_at_end?: string | DefaultGlobalVariableTypes,
-    ease?: EasingTypes,
+    easing?: EasingTypes,
     set_value: any | DefaultGlobalVariableTypes,
+    override_from_value?: any,
     initial_uv?: [number, number],
     fps?: number,
     frame_count?: number,
@@ -108,7 +109,7 @@ export interface AnimationInterface {
     end_event?: string,
     start_event?: string,
     reset_event?: string,
-    data: AnimationData[]
+    data: (AnimationData | number)[]
 }
 
 export interface ElementInterface {
@@ -207,7 +208,7 @@ export interface LabelInterface {
     font_scale_factor?: number | string,
     localize?: boolean | string,
     line_padding?: number | string,
-    font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen" | string,
-    backup_font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen" | string,
-    text_alignment?: "left" | "center" | "right" | string
+    font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen",
+    backup_font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen",
+    text_alignment?: "left" | "center" | "right"
 }

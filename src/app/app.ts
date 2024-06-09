@@ -9,41 +9,20 @@ new UIPackRegister({
     uuid: "dbd1f118-c495-fd17-d0af-faca9cb35b3d"
 })
 
-StartScreen.init("start_screen_content").insertBack(new JsonUIElement({
-    name: 'duckvipvailon',
-    namespace: 'a',
-    type: ElementTypes.Label
-}).setText({
-    text: "Duck Qua VIP"
-}).setLayout({
-    anchor: {
-        from: Anchor.Center,
-        to: Anchor.Center
-    },
-}).setControl({
-    layer: 999
-}), 'controls').modifyProperty({
-    anims: [new AnimationRegister({
-        type: AnimTypes.Offset,
-        start_value: [0, 0],
-        name: "duckVipVaiLon",
-        namespace: "a",
-        loop: true,
-        data: [
-            {
-                set_value: [50, 50],
-                ease: EasingTypes.InBack,
-                duration: 1
-            },
-            {
-                ease: EasingTypes.OutBack,
-                set_value: [-50, -50],
-                duration: 1
-            },
-            {
-                set_value: [0, 0],
-                duration: 1
-            }
-        ]
-    }).getAnimationPath()]
-});
+const helloWorldLabel = new JsonUIElement({ name: "helloWorld", namespace: "hello", type: ElementTypes.Label });
+const labelAnimation = new AnimationRegister({
+    name: "helloWorld", namespace: "helloWorld", type: AnimTypes.Offset, start_value: [0, 0], loop: true,
+    data: [
+        { duration: 1, set_value: [50, 0], easing: EasingTypes.InBack }, 1,
+        { duration: 1, set_value: [-50, 0] }, 1,
+        { duration: 1, set_value: [0, 0], easing: EasingTypes.InBack }, 1
+    ]
+})
+
+helloWorldLabel.setText({
+    text: "Hello World!",
+    font_type: "MinecraftTen",
+    shadow: true
+}).setAnimation(labelAnimation);
+
+StartScreen.init("start_screen_content").insertBack(helloWorldLabel, 'controls');

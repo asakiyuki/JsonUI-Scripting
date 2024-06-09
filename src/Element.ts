@@ -168,16 +168,21 @@ export class AnimationRegister {
         this.name = animateType.name;
         this.namespace = animateType.namespace;
         console.log(`UI Compiler: anims-${animateType.name}-index`)
-        animateType.data.forEach((v, i) => {
+        animateType.data.forEach((v: any, i) => {
             const to: any = v.set_value;
             delete v.set_value;
             const controlName = (i === 0) ? animateType.name : `${animateType.name}-index:${i}`;
-            this.animationObject[controlName] = {
+            this.from = v.override_from_value ?? this.from;
+            delete v.override_from_value;
+            this.animationObject[controlName] = (typeof v === "number") ? {
+                anim_type: AnimTypes.Wait,
+                duration: v
+            } : {
                 from: this.from, to,
                 ...v,
                 anim_type: animateType.type
             }
-            this.from = to;
+            this.from = to ?? this.from;
             if (i !== (this.length - 1)) this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}-index:${i += 1}`
             else if (animateType.loop) this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}`
 
