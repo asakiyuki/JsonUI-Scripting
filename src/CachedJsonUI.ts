@@ -5,6 +5,10 @@ export class CachedManager {
     static toString(path: string, jsonData: object) {
         fs.writeFileSync(path, JSON.stringify(jsonData), "utf-8");
     }
+    static readJson(path: string) {
+        if (fs.existsSync(path))
+            return JSON.parse(fs.readFileSync(path, 'utf-8').replace(/\/\/.*|\/\*[\s\S]*?\*\//g, ''));
+    }
     static createDirSync(data: string[]) {
         data.forEach(v => fs.existsSync(v) ? null : fs.mkdirSync(v));
     }
@@ -20,9 +24,9 @@ export class CachedManager {
             '.cached/ui/_ui_defs.json': JSON.stringify({ ui_defs: [] }),
             '.cached/ui/_global_variables.json': "{}"
         })
-
         const jsonDef: any = JSON.parse(fs.readFileSync('.cached/ui/_ui_defs.json', 'utf-8'));
-        if (!jsonDef['ui_defs'].includes(`ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`)) jsonDef['ui_defs'].push(`ui/build/${JsonUIData.namespace}.json`);
+        console.log(`ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`)
+        if (!jsonDef['ui_defs'].includes(`ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`)) jsonDef['ui_defs'].push(`ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`);
         const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         if ((JsonUIData as any).anim_name) for (const key of Object.keys(JsonUIData.data)) jsonData[key] = JsonUIData.data[key]
         else jsonData[(JsonUIData as any).extend ? `${(JsonUIData as any).name}@${(JsonUIData as any).extend.namespace}.${(JsonUIData as any).extend.name}` : (JsonUIData as any).name] = { type: (JsonUIData as any).type };

@@ -1,5 +1,5 @@
 import fs from "fs";
-import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface } from "./Types";
+import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface, LabelInterface } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
 
 console.log('Bao sao duck VIP vai lon')
@@ -63,7 +63,7 @@ export class JsonUIElement {
     private namespace: string;
     private name: string;
     private extend?: JsonUIElement;
-    protected jsonUIData: ElementCachedInterface;
+    public jsonUIData: ElementCachedInterface;
     constructor(data: ElementInterface) {
         this.type = data.type ?? this.type;
         this.extend = data.extend;
@@ -102,6 +102,10 @@ export class JsonUIElement {
                 v.source_control_name = v.source_control_name.name
             return v;
         }));
+        return this;
+    }
+    setAnimation(data: AnimationRegister) {
+        CachedManager.pushArray(this.jsonUIData, 'anims', data.getAnimationPath());
         return this;
     }
     setColor(color: string, variable_name?: string) {
@@ -146,6 +150,10 @@ export class JsonUIElement {
         CachedManager.createProperty(this.jsonUIData, "orientation", data);
         return this;
     }
+    setText(data: LabelInterface) {
+        CachedManager.createProperty(this.jsonUIData, data);
+        return this;
+    }
 };
 
 export class AnimationRegister {
@@ -170,10 +178,8 @@ export class AnimationRegister {
                 anim_type: animateType.type
             }
             this.from = to;
-            if (i !== (this.length - 1))
-                this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}-index:${i += 1}`
-            else if (animateType.loop)
-                this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}`
+            if (i !== (this.length - 1)) this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}-index:${i += 1}`
+            else if (animateType.loop) this.animationObject[controlName]['next'] = `@anims-${animateType.namespace}.${animateType.name}`
 
             CachedManager.data({
                 anim_name: animateType.name,

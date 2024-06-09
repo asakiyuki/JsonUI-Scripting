@@ -1,4 +1,5 @@
 import { JsonUIElement } from "./Element"
+import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes"
 
 export enum ElementTypes {
     Panel = "panel",
@@ -83,10 +84,10 @@ export enum EasingTypes {
 }
 
 export interface AnimationData {
-    duration: number,
-    destroy_at_end?: string,
+    duration: number | DefaultGlobalVariableTypes,
+    destroy_at_end?: string | DefaultGlobalVariableTypes,
     ease?: EasingTypes,
-    set_value: any,
+    set_value: any | DefaultGlobalVariableTypes,
     initial_uv?: [number, number],
     fps?: number,
     frame_count?: number,
@@ -194,4 +195,19 @@ export interface LayoutInterface {
     contained?: boolean | string,
     draggable?: "vertical" | "horizontal" | "both" | string,
     follows_cursor?: boolean | string
+}
+
+export interface LabelInterface {
+    text?: string,
+    shadow?: boolean | string,
+    hide_hyphen?: boolean | string,
+    notify_on_ellipses?: string[] | string,
+    enable_profanity_filter?: boolean | string,
+    font_size?: "small" | "normal" | "large" | "extra_large" | string,
+    font_scale_factor?: number | string,
+    localize?: boolean | string,
+    line_padding?: number | string,
+    font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen" | string,
+    backup_font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen" | string,
+    text_alignment?: "left" | "center" | "right" | string
 }
