@@ -2,6 +2,7 @@ import fs from "fs";
 import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
 
+console.log('Bao sao duck VIP vai lon')
 export class Color {
     static parse(data: string) {
         const _col = parseInt(data, 16);
