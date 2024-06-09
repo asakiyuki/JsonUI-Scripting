@@ -1,1 +1,1 @@
-Minecraft JsonUI
+Create your UI Resoucepacks for Minecraft Bedrock with TypeScript!
