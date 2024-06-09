@@ -15,7 +15,7 @@ export class Color {
 
 export class UIPackRegister {
     constructor(rspData: RegisterResourcePack) {
-        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
+        fs.mkdirSync('.cached', { recursive: true });
         fs.writeFileSync(`.cached/manifest.json`, JSON.stringify({
             format_version: 2,
             header: {
@@ -38,16 +38,14 @@ export class UIPackRegister {
 
 export class GlobalVariables {
     static register(variable_name: string, value: any) {
-        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
-        if (!fs.existsSync('.cached/ui')) fs.mkdirSync('.cached/ui');
+        CachedManager.createDirSync(['.cached', '.cached/ui']);
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         glovar[`$${variable_name}`] = (value[0] === "#" && typeof value[0] === 'string') ? Color.parse(value.slice(1)) : value;
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static registerObject(variableObject: object | any) {
-        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
-        if (!fs.existsSync('.cached/ui')) fs.mkdirSync('.cached/ui');
+        CachedManager.createDirSync(['.cached', '.cached/ui']);
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         for (const key of Object.keys(variableObject))
@@ -71,6 +69,7 @@ export class JsonUIElement {
         this.name = data.name;
         this.namespace = data.namespace;
         this.jsonUIData = { name: data.name, namespace: data.namespace, type: this.type }
+        console.log(`UI Compiler: ${this.namespace}.${this.name}`)
         if (this.extend) this.jsonUIData["extend"] = { name: data.extend?.name ?? "", namespace: data.extend?.namespace ?? "" }
         CachedManager.data(this.jsonUIData);
     }
@@ -85,9 +84,6 @@ export class JsonUIElement {
             }
         });
         return this;
-    }
-    setUIProperty() {
-
     }
     insertVariable(data: ElementVariables) {
         const idk: any = {};
@@ -162,6 +158,7 @@ export class AnimationRegister {
         this.length = animateType.data.length;
         this.name = animateType.name;
         this.namespace = animateType.namespace;
+        console.log(`UI Compiler: anims-${animateType.name}-index`)
         animateType.data.forEach((v, i) => {
             const to: any = v.set_value;
             delete v.set_value;

@@ -5,15 +5,22 @@ export class CachedManager {
     static toString(path: string, jsonData: object) {
         fs.writeFileSync(path, JSON.stringify(jsonData), "utf-8");
     }
+    static createDirSync(data: string[]) {
+        data.forEach(v => fs.existsSync(v) ? null : fs.mkdirSync(v));
+    }
+    static createFilesSync(data: any) {
+        for (const key of Object.keys(data))
+            if (!fs.existsSync(key)) fs.writeFileSync(key, data[key], 'utf-8')
+    }
     static data(JsonUIData: ElementCachedInterface | any, isAnimation: boolean = false) {
         const filePath = `.cached/ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`;
-        if (!fs.existsSync('.cached')) fs.mkdirSync('.cached');
-        if (!fs.existsSync('.cached/ui')) fs.mkdirSync('.cached/ui');
-        if (!fs.existsSync('.cached/ui/build')) fs.mkdirSync('.cached/ui/build');
-        if (!fs.existsSync('.cached/ui/build/anims')) fs.mkdirSync('.cached/ui/build/anims');
-        if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, JSON.stringify({ namespace: JsonUIData.namespace }), 'utf-8');
-        if (!fs.existsSync('.cached/ui/_ui_defs.json')) fs.writeFileSync(`.cached/ui/_ui_defs.json`, JSON.stringify({ ui_defs: [] }), 'utf-8');
-        if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
+        CachedManager.createDirSync(['.cached', '.cached/ui', '.cached/ui/build', '.cached/ui/build/anims']);
+        CachedManager.createFilesSync({
+            [filePath]: JSON.stringify({ namespace: JsonUIData.namespace }),
+            '.cached/ui/_ui_defs.json': JSON.stringify({ ui_defs: [] }),
+            '.cached/ui/_global_variables.json': "{}"
+        })
+
         const jsonDef: any = JSON.parse(fs.readFileSync('.cached/ui/_ui_defs.json', 'utf-8'));
         if (!jsonDef['ui_defs'].includes(`ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`)) jsonDef['ui_defs'].push(`ui/build/${JsonUIData.namespace}.json`);
         const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
