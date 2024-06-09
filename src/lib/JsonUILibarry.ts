@@ -14,7 +14,7 @@ export class JsonUILib {
                 });
                 binding_name = `${binding_name}_negative`;
             }
-
+            binding_name = binding_name.slice(1);
             while (i-- > 1) {
                 const nine = Array.from({ length: i - 1 }, () => '9').join('');
                 _.push({

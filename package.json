@@ -11,9 +11,12 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@types/node": "^20.14.2"
+    "@types/node": "^20.14.2",
+    "comment-json": "^4.2.3",
+    "fs-extra": "^11.2.0"
   }
 }

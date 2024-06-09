@@ -1,8 +1,10 @@
 import fs from "fs";
-import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface, LabelInterface } from "./Types";
+import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface, LabelInterface, ExtendInterface } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
 
-console.log('Bao sao duck VIP vai lon')
+export function generateRandomName() { return Array.from({ length: 25 }, v => Math.floor(Math.random() * 16).toString(16)).join(''); }
+const defaultNamespace: string = generateRandomName();
+console.log('JsonUI Compiler');
 export class Color {
     static parse(data: string) {
         const _col = parseInt(data, 16);
@@ -59,18 +61,18 @@ export class GlobalVariables {
 }
 
 export class JsonUIElement {
-    private type: ElementTypes = ElementTypes.Panel;
+    private type?: ElementTypes = ElementTypes.Panel;
     private namespace: string;
     private name: string;
-    private extend?: JsonUIElement;
+    private extend?: JsonUIElement | ExtendInterface;
     public jsonUIData: ElementCachedInterface;
-    constructor(data: ElementInterface) {
-        this.type = data.type ?? this.type;
+    constructor(data: ElementInterface | any) {
+        this.type = data.extend ? undefined ?? data.type : data.type ?? this.type;
+        this.name = data.name ?? generateRandomName();
+        this.namespace = data.namespace ?? defaultNamespace;
+        this.jsonUIData = { name: data.name ?? generateRandomName(), namespace: data.namespace ?? defaultNamespace, type: this.type }
+        console.log('Creating UI Object', new Date(), `${this.namespace}.${this.name}`)
         this.extend = data.extend;
-        this.name = data.name;
-        this.namespace = data.namespace;
-        this.jsonUIData = { name: data.name, namespace: data.namespace, type: this.type }
-        console.log(`UI Compiler: ${this.namespace}.${this.name}`)
         if (this.extend) this.jsonUIData["extend"] = { name: data.extend?.name ?? "", namespace: data.extend?.namespace ?? "" }
         CachedManager.data(this.jsonUIData);
     }
@@ -165,13 +167,15 @@ export class AnimationRegister {
     constructor(animateType: AnimationInterface) {
         this.from = animateType.start_value;
         this.length = animateType.data.length;
-        this.name = animateType.name;
-        this.namespace = animateType.namespace;
-        console.log(`UI Compiler: anims-${animateType.name}-index`)
+        animateType.name = animateType.name ?? generateRandomName();
+        this.name = animateType.name ?? generateRandomName();
+        animateType.namespace = animateType.namespace ?? defaultNamespace;
+        this.namespace = animateType.namespace ?? defaultNamespace;
+        console.log('Creating Animation UI Object', new Date(), `anims-${animateType.name}-index`)
         animateType.data.forEach((v: any, i) => {
             const to: any = v.set_value;
             delete v.set_value;
-            const controlName = (i === 0) ? animateType.name : `${animateType.name}-index:${i}`;
+            const controlName: any = (i === 0) ? animateType.name : `${animateType.name}-index:${i}`;
             this.from = v.override_from_value ?? this.from;
             delete v.override_from_value;
             this.animationObject[controlName] = (typeof v === "number") ? {

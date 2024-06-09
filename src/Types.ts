@@ -101,8 +101,8 @@ export interface AnimationData {
 
 export interface AnimationInterface {
     type: AnimTypes,
-    name: string,
-    namespace: string,
+    name?: string,
+    namespace?: string,
     start_value: any,
     loop?: boolean,
     play_event?: string,
@@ -112,17 +112,22 @@ export interface AnimationInterface {
     data: (AnimationData | number)[]
 }
 
+export interface ExtendInterface {
+    name: string,
+    namespace: string
+}
+
 export interface ElementInterface {
     type?: ElementTypes,
-    name: string,
-    namespace: string,
-    extend?: JsonUIElement
+    name?: string,
+    namespace?: string,
+    extend?: JsonUIElement | ExtendInterface
 }
 
 export interface ElementCachedInterface {
-    name: string,
-    namespace: string,
-    type: string | ElementTypes,
+    name?: string,
+    namespace?: string,
+    type?: string | ElementTypes,
     extend?: {
         name: string,
         namespace: string,
@@ -212,3 +217,5 @@ export interface LabelInterface {
     backup_font_type?: "default" | "rune" | "unicode" | "smooth" | "MinecraftTen",
     text_alignment?: "left" | "center" | "right"
 }
+
+export type ModifyObjectType = string | JsonUIElement | BindingInterface;
