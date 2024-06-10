@@ -1,7 +1,7 @@
 import { CachedManager } from "../../CachedJsonUI";
 import { JsonUIElement } from "../../Element";
-import { ModifyObjectType } from "../../Types";
-import { JsonUIArrayName } from "../Types";
+import { JsonUIProperty, ModifyObjectType } from "../../Types";
+import { JsonUIArrayName } from "../../Types";
 
 export class ScreenCommon {
     private screenJson: any;
@@ -9,6 +9,7 @@ export class ScreenCommon {
         CachedManager.createDirSync(['.cached', '.cached/ui']);
         this.screenJson = CachedManager.readJson(`.cached/ui/${screenFiles}.json`);
         this.screenJson = {
+            ...this.screenJson,
             [modifyElement]: {
                 modifications: []
             }
@@ -24,7 +25,7 @@ export class ScreenCommon {
         CachedManager.toString(`.cached/ui/${this.screenFiles}.json`, this.screenJson);
         return this;
     }
-    modifyProperty(data: any) {
+    setProperty(data: JsonUIProperty) {
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
         for (const key of Object.keys(data))
             this.screenJson[this.modifyElement][key] = data[key];
@@ -33,27 +34,35 @@ export class ScreenCommon {
     }
     insertBack(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("insert_back", data, arrayName, name, variables);
+        return this;
     }
     insertFront(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("insert_front", data, arrayName, name, variables);
+        return this;
     }
     insertAfter(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("insert_after", data, arrayName, name, variables);
+        return this;
     }
     insertBefore(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("insert_before", data, arrayName, name, variables);
+        return this;
     }
     moveBack(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("move_back", data, arrayName, name, variables);
+        return this;
     }
     moveFront(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("move_front", data, arrayName, name, variables);
+        return this;
     }
     moveAfter(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("move_after", data, arrayName, name, variables);
+        return this;
     }
     moveBefore(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.__jhdfasf12eisafjakhf__("move_before", data, arrayName, name, variables);
+        return this;
     }
     private __jhdfasf12eisafjakhf__(asfasf2: any, data: any, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);

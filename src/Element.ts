@@ -1,5 +1,5 @@
 import fs from "fs";
-import { ControlInterface, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, LayoutInterface, LabelInterface, ExtendInterface } from "./Types";
+import { JsonUIProperty, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, ExtendInterface, ButtonMapping } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
 
 export function generateRandomName() { return Array.from({ length: 25 }, v => Math.floor(Math.random() * 16).toString(16)).join(''); }
@@ -8,11 +8,38 @@ console.log('JsonUI Compiler');
 export class Color {
     static parse(data: string) {
         const _col = parseInt(data, 16);
-        return [
-            (_col >> 16 & 255) / 255,
-            (_col >> 8 & 255) / 255,
-            (_col & 255) / 255
-        ];
+
+        switch (data.length) {
+            case 3:
+                return [
+                    (_col >> 8 & 15) / 15,
+                    (_col >> 4 & 15) / 15,
+                    (_col & 15) / 15
+                ];
+            case 4:
+                return [
+                    (_col >> 16 & 15) / 15,
+                    (_col >> 8 & 15) / 15,
+                    (_col >> 4 & 15) / 15,
+                    (_col & 15) / 15
+                ];
+            case 8:
+                return [
+                    (_col >> 24 & 255) / 255,
+                    (_col >> 16 & 255) / 255,
+                    (_col >> 8 & 255) / 255,
+                    (_col & 255) / 255
+                ];
+            case 6:
+                return [
+                    (_col >> 16 & 255) / 255,
+                    (_col >> 8 & 255) / 255,
+                    (_col & 255) / 255
+                ];
+            default:
+                return null;
+        }
+
     }
 }
 
@@ -66,7 +93,8 @@ export class JsonUIElement {
     private name: string;
     private extend?: JsonUIElement | ExtendInterface;
     public jsonUIData: ElementCachedInterface;
-    constructor(data: ElementInterface | any) {
+    constructor($$$?: ElementInterface) {
+        const data: any = $$$ ?? {};
         this.type = data.extend ? undefined ?? data.type : data.type ?? this.type;
         this.name = data.name ?? generateRandomName();
         this.namespace = data.namespace ?? defaultNamespace;
@@ -75,6 +103,10 @@ export class JsonUIElement {
         this.extend = data.extend;
         if (this.extend) this.jsonUIData["extend"] = { name: data.extend?.name ?? "", namespace: data.extend?.namespace ?? "" }
         CachedManager.data(this.jsonUIData);
+    }
+    registerGlobalVariable(variableObject: object) {
+        GlobalVariables.registerObject(variableObject);
+        return this;
     }
     insertElement(data: JsonUIElement, name?: string, variables?: object | any) {
         for (const key of Object.keys(variables ?? {})) {
@@ -96,6 +128,10 @@ export class JsonUIElement {
             require: data.require,
             ...idk
         });
+        return this;
+    }
+    insertKeybind(data: ButtonMapping) {
+        CachedManager.setArray(this.jsonUIData, 'button_mappings', data);
         return this;
     }
     setBindings(data: BindingInterface[]) {
@@ -135,24 +171,7 @@ export class JsonUIElement {
         CachedManager.createProperty(this.jsonUIData, name, value);
         return this;
     }
-    setControl(data: ControlInterface) {
-        CachedManager.createProperty(this.jsonUIData, data);
-        return this;
-    }
-    setLayout(data: LayoutInterface) {
-        if (data.anchor) {
-            if (data.anchor.from) (data as any)["anchor_from"] = data.anchor.from;
-            if (data.anchor.from) (data as any)["anchor_to"] = data.anchor.to;
-            delete data.anchor;
-        }
-        CachedManager.createProperty(this.jsonUIData, data);
-        return this;
-    }
-    setOrientation(data: "vertical" | "horizontal") {
-        CachedManager.createProperty(this.jsonUIData, "orientation", data);
-        return this;
-    }
-    setText(data: LabelInterface) {
+    setProperty(data: JsonUIProperty) {
         CachedManager.createProperty(this.jsonUIData, data);
         return this;
     }
@@ -172,6 +191,14 @@ export class AnimationRegister {
         animateType.namespace = animateType.namespace ?? defaultNamespace;
         this.namespace = animateType.namespace ?? defaultNamespace;
         console.log('Creating Animation UI Object', new Date(), `anims-${animateType.name}-index`)
+        const startAnimation: any = {};
+        Object.assign(startAnimation, animateType);
+        delete startAnimation.start_value;
+        delete startAnimation.data;
+        delete startAnimation.name;
+        delete startAnimation.type;
+        delete startAnimation.loop;
+        delete startAnimation.namespace;
         animateType.data.forEach((v: any, i) => {
             const to: any = v.set_value;
             delete v.set_value;
@@ -180,10 +207,12 @@ export class AnimationRegister {
             delete v.override_from_value;
             this.animationObject[controlName] = (typeof v === "number") ? {
                 anim_type: AnimTypes.Wait,
-                duration: v
+                duration: v,
+                ...((i === 0) ? startAnimation : {})
             } : {
                 from: this.from, to,
                 ...v,
+                ...((i === 0) ? startAnimation : {}),
                 anim_type: animateType.type
             }
             this.from = to ?? this.from;
@@ -194,7 +223,7 @@ export class AnimationRegister {
                 anim_name: animateType.name,
                 namespace: `anims-${animateType.namespace}`,
                 data: { ...this.animationObject }
-            }, true)
+            } as any, true)
         })
     }
     getAnimationPath() {

@@ -1,11 +1,8 @@
-import fs from "fs";
-import fsx from "fs-extra";
+import fs from "fs-extra";
 import { parse } from "comment-json";
 import { ElementCachedInterface } from "./Types";
-
-fsx.removeSync('.cached');
-
-if (fs.existsSync('.cached')) fs.rmSync('.cached', { force: true });
+import { Color } from "./Element";
+fs.removeSync('.cached');
 export class CachedManager {
     static toString(path: string, jsonData: object) {
         console.log('Compile Json', new Date, path);
@@ -25,7 +22,8 @@ export class CachedManager {
         for (const key of Object.keys(data))
             if (!fs.existsSync(key)) fs.writeFileSync(key, data[key], 'utf-8')
     }
-    static data(JsonUIData: ElementCachedInterface | any, isAnimation: boolean = false) {
+    static data($$$: ElementCachedInterface, isAnimation: boolean = false) {
+        const JsonUIData: any = $$$;
         const filePath = `.cached/ui/build${isAnimation ? "/anims" : ""}/${JsonUIData.namespace}.json`;
         console.log("Build:", new Date(), filePath, `${isAnimation ? JsonUIData.anim_name : JsonUIData.name}.${JsonUIData.namespace}`);
         CachedManager.createDirSync(['.cached', '.cached/ui', '.cached/ui/build', '.cached/ui/build/anims']);
@@ -59,7 +57,9 @@ export class CachedManager {
         const jsonData = JSON.parse(fs.readFileSync(`.cached/ui/build/${element.namespace}.json`, 'utf-8'));
         const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
         if (typeof name === 'string') jsonData[parentItemObject][`${name}`] = value
-        else if (typeof name === 'object') for (const key of Object.keys(name)) jsonData[parentItemObject][`${key}`] = name[key];
+        else if (typeof name === 'object') for (const key of Object.keys(name)) {
+            jsonData[parentItemObject][`${key}`] = (name[key]?.[0] === "#") ? Color.parse(name[key].slice(1)) : name[key];
+        };
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }
 };
