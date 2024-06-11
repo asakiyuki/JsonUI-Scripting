@@ -58,7 +58,7 @@ export class CachedManager {
         const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
         if (typeof name === 'string') jsonData[parentItemObject][`${name}`] = value
         else if (typeof name === 'object') for (const key of Object.keys(name)) {
-            jsonData[parentItemObject][`${key}`] = (name[key]?.[0] === "#") ? Color.parse(name[key].slice(1)) : name[key];
+            jsonData[parentItemObject][`${key}`] = (name[key]?.[0] === "-") ? Color.parse(name[key].slice(1)) : name[key];
         };
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }

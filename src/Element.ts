@@ -71,7 +71,7 @@ export class GlobalVariables {
         CachedManager.createDirSync(['.cached', '.cached/ui']);
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
-        glovar[`$${variable_name}`] = (value[0] === "#" && typeof value[0] === 'string') ? Color.parse(value.slice(1)) : value;
+        glovar[`$${variable_name}`] = (value[0] === "-" && typeof value[0] === 'string') ? Color.parse(value.slice(1)) : value;
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static registerObject(variableObject: object | any) {
@@ -79,7 +79,7 @@ export class GlobalVariables {
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         for (const key of Object.keys(variableObject))
-            glovar[`$${key}`] = (variableObject[key][0] === "#" && typeof variableObject[key][0] === 'string') ? Color.parse(variableObject[key].slice(1)) : variableObject[key];
+            glovar[`$${key}`] = (variableObject[key][0] === "-" && typeof variableObject[key][0] === 'string') ? Color.parse(variableObject[key].slice(1)) : variableObject[key];
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static clear() {
@@ -93,16 +93,19 @@ export class JsonUIElement {
     private name: string;
     private extend?: JsonUIElement | ExtendInterface;
     public jsonUIData: ElementCachedInterface;
-    constructor($$$?: ElementInterface) {
-        const data: any = $$$ ?? {};
+    constructor(data: ElementInterface = {}) {
         this.type = data.extend ? undefined ?? data.type : data.type ?? this.type;
-        this.name = data.name ?? generateRandomName();
+        const $ = generateRandomName();
+        this.name = data.name ?? $;
         this.namespace = data.namespace ?? defaultNamespace;
-        this.jsonUIData = { name: data.name ?? generateRandomName(), namespace: data.namespace ?? defaultNamespace, type: this.type }
+        this.jsonUIData = { name: data.name ?? $, namespace: data.namespace ?? defaultNamespace, type: this.type }
         console.log('Creating UI Object', new Date(), `${this.namespace}.${this.name}`)
         this.extend = data.extend;
-        if (this.extend) this.jsonUIData["extend"] = { name: data.extend?.name ?? "", namespace: data.extend?.namespace ?? "" }
+        if (this.extend) this.jsonUIData["extend"] = { name: (data.extend as any)?.name ?? "", namespace: (data.extend as any)?.namespace ?? "" }
         CachedManager.data(this.jsonUIData);
+    }
+    getElementPath() {
+        return `@${this.namespace}.${this.name}`;
     }
     registerGlobalVariable(variableObject: object) {
         GlobalVariables.registerObject(variableObject);
@@ -114,7 +117,7 @@ export class JsonUIElement {
             delete variables[key];
         }
         CachedManager.pushArray(this.jsonUIData, 'controls', {
-            [`${name ?? data.name}@${data.namespace}.${data.name}`]: {
+            [`${name ?? data.name}@${data.getElementPath()}`]: {
                 ...variables
             }
         });
@@ -164,7 +167,7 @@ export class JsonUIElement {
             name = {};
             for (const key of Object.keys(cached)) {
                 if (typeof cached[key] === 'string')
-                    if (cached[key][0] === '#') cached[key] = Color.parse((cached[key] as string).slice(1));
+                    if (cached[key][0] === '-') cached[key] = Color.parse((cached[key] as string).slice(1));
                 name[`$${key}`] = cached[key];
             }
         }
