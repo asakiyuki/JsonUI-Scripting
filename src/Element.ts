@@ -131,14 +131,13 @@ export class JsonUIElement {
         GlobalVariables.registerObject(variableObject);
         return this;
     }
-    insertElement(data: JsonUIElement, name?: string, variables?: object | any) {
-        for (const key of Object.keys(variables ?? {})) {
-            variables[`$${key}`] = variables[key];
-            delete variables[key];
+    insertElement(data: JsonUIElement, name?: string, elementProperty?: JsonUIProperty) {
+        for (const key of Object.keys((elementProperty as any) ?? {})) {
+            (elementProperty as any)[`${key}`] = ReadJsonUIPropertyValue((elementProperty as any)[key]);
         }
         CachedManager.pushArray(this.jsonUIData, 'controls', {
-            [`${name ?? data.name}@${data.getElementPath()}`]: {
-                ...variables
+            [`${name ?? data.name}${data.getElementPath()}`]: {
+                ...(elementProperty as any)
             }
         });
         return this;

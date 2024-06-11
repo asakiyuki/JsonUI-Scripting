@@ -24,17 +24,17 @@ export class ScreenCommon {
         return this;
     }
 
-    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
-        return this.modifyInsert(data, insertArray, 'insert_back', elementName);
+    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_back', elementProperty, elementName);
     }
-    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
-        return this.modifyInsert(data, insertArray, 'insert_front', elementName);
+    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_front', elementProperty, elementName);
     }
-    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
-        return this.modifyInsert(data, insertArray, 'insert_after', elementName);
+    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_after', elementProperty, elementName);
     }
-    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
-        return this.modifyInsert(data, insertArray, 'insert_before', elementName);
+    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_before', elementProperty, elementName);
     }
 
     setProperty(property: JsonUIProperty) {
@@ -51,9 +51,12 @@ export class ScreenCommon {
         return this
     }
 
-    private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementName?: string) {
+    private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementProperty?: JsonUIProperty | any, elementName?: string) {
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
-        const element: any = (typeof data === "object") ? ((data instanceof JsonUIElement) ? { [`${elementName ?? data.jsonUIData.name}${data.getElementPath()}`]: {} } : data) : { [data]: {} };
+        if (elementProperty)
+            for (const key in elementProperty)
+                elementProperty[key] = ReadJsonUIPropertyValue(elementProperty[key]);
+        const element: any = (typeof data === "object") ? ((data instanceof JsonUIElement) ? { [`${elementName ?? data.jsonUIData.name}${data.getElementPath()}`]: { ...elementProperty } } : data) : { [data]: { ...elementProperty } };
         if (!this.screenJson[this.modifyElement].modifications) this.screenJson[this.modifyElement].modifications = [];
         if (this.insertPos.includes(`${insertType}:${insertArray}`))
             this.screenJson[this.modifyElement].modifications[this.insertPos.indexOf(`${insertType}:${insertArray}`)].value.push(element);

@@ -4,6 +4,7 @@ import { ElementCachedInterface } from "./Types";
 import { Color } from "./Element";
 import ReadJsonUIPropertyValue from "./ReadProperty";
 fs.removeSync('.cached');
+
 export class CachedManager {
     static toString(path: string, jsonData: object) {
         console.log('Compile Json', new Date, path);
@@ -69,3 +70,14 @@ export class CachedManager {
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }
 };
+
+process.on('exit', () => {
+    const _ = CachedManager.readJson('config.json'),
+        directory = `${process.env.LOCALAPPDATA}\\Packages\\${_?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${_?.development ? 'development_resource_packs' : 'resource_packs'}\\${_?.folder_name ?? "debugger"}`;
+    if (fs.existsSync(directory)) {
+        fs.removeSync(directory);
+        fs.mkdir(directory);
+    } else fs.mkdir(directory);
+    fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
+    console.log("UI Pack installed", new Date(), directory);
+});
