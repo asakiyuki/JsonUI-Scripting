@@ -30,7 +30,7 @@ StartScreen.init('start_screen_content').insertBack(helloWorldText, 'controls');
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:
 
-```json
+```jsonc
 // start_screen.json
 {
     "start_screen_content": {
@@ -48,7 +48,7 @@ And the code snippet you will receive in JsonUI format will be as follows after 
     }
 }
 ```
-```json
+```jsonc
 // build/ba42e09397f7bab940f0bd27f.json
 {
     "namespace": "ba42e09397f7bab940f0bd27f",
@@ -61,7 +61,7 @@ And the code snippet you will receive in JsonUI format will be as follows after 
 
 # Config.json
 You can also create a config.json file in your project so that when the JsonUI pack is built, it will be installed into the game.
-```json
+```jsonc
 {
     // Custom output folder name
     "folder_name": "output_ui_pack",
