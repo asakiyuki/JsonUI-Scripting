@@ -1,6 +1,7 @@
 import { CachedManager } from "../../CachedJsonUI";
 import { Color, JsonUIElement } from "../../Element";
-import { JsonUIArrayName, JsonUIProperty } from "../../Types";
+import ReadJsonUIPropertyValue from "../../ReadProperty";
+import { BindingInterface, ButtonMapping, JsonUIArrayName, JsonUIProperty } from "../../Types";
 
 export class ScreenCommon {
     private screenJson: any;
@@ -23,25 +24,23 @@ export class ScreenCommon {
         return this;
     }
 
-    insertBack(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
         return this.modifyInsert(data, insertArray, 'insert_back', elementName);
     }
-    insertFront(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
         return this.modifyInsert(data, insertArray, 'insert_front', elementName);
     }
-    insertAfter(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
         return this.modifyInsert(data, insertArray, 'insert_after', elementName);
     }
-    insertBefore(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementName?: string) {
         return this.modifyInsert(data, insertArray, 'insert_before', elementName);
     }
 
     setProperty(property: JsonUIProperty) {
         const k: any = {};
-        for (const key of Object.keys(property)) {
-            const $ = (property as any)[key];
-            k[key] = ($ instanceof Array && typeof $[0] === "string" && $[0][0] === "#") ? Color.parse($[0].slice(1)) : $;
-        }
+        for (const key of Object.keys(property))
+            k[key] = ReadJsonUIPropertyValue((property as any)[key])
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
         this.screenJson[this.modifyElement] = {
             ...this.screenJson[this.modifyElement],

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "run": "node --watch app/app.js"
+    "run": "node --watch dist/app/app.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,7 @@
-import fs from "fs";
+import fs from "fs-extra";
 import { JsonUIProperty, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, ExtendInterface, ButtonMapping } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
+import ReadJsonUIPropertyValue from "./ReadProperty";
 
 export function generateRandomName() { return Array.from({ length: 25 }, v => Math.floor(Math.random() * 16).toString(16)).join(''); }
 const defaultNamespace: string = generateRandomName();
@@ -8,7 +9,6 @@ console.log('JsonUI Compiler');
 export class Color {
     static parse(data: string) {
         const _col = parseInt(data, 16);
-
         switch (data.length) {
             case 3:
                 return [
@@ -71,7 +71,7 @@ export class GlobalVariables {
         CachedManager.createDirSync(['.cached', '.cached/ui']);
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
-        glovar[`$${variable_name}`] = (value instanceof Array && typeof value[0] === "string" && value[0][0] === "#") ? Color.parse(value[0].slice(1)) : value;
+        glovar[`$${variable_name}`] = ReadJsonUIPropertyValue(value);
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static registerObject(variableObject: object | any) {
@@ -79,11 +79,31 @@ export class GlobalVariables {
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         for (const key of Object.keys(variableObject))
-            glovar[`$${key}`] = (variableObject[key] instanceof Array && typeof variableObject[key][0] === "string" && variableObject[key][0][0] === "#") ? Color.parse(variableObject[key][0].slice(1)) : variableObject[key];
+            glovar[`$${key}`] = ReadJsonUIPropertyValue(variableObject[key]);
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static clear() {
         CachedManager.toString('.cached/ui/_global_variables.json', {});
+    }
+}
+
+export class RegisterLanguage {
+    constructor(languageFile: string, languageName: string) {
+        CachedManager.createDirSync(['.cached', '.cached/texts']);
+        const langName: [string | string][] = CachedManager.readJson(`.cached/texts/language_names.json`) ?? [],
+            langFile: string[] = CachedManager.readJson(`.cached/texts/languages.json`) ?? [];
+        if (!langFile.includes(languageFile)) (langFile as any).push(languageFile);
+        let index: number = 0;
+        for (const lang of langName) {
+            if (lang[0] === languageFile) {
+                (langName as any)[index] = [languageFile, languageName];
+                break;
+            }
+            index++;
+        }
+        (langName as any).push([languageFile, languageName]);
+        CachedManager.toString('.cached/texts/language_names.json', langName);
+        CachedManager.toString('.cached/texts/languages.json', langFile);
     }
 }
 
@@ -126,7 +146,7 @@ export class JsonUIElement {
     insertVariable(data: ElementVariables) {
         const idk: any = {};
         for (const key of Object.keys(data.value))
-            idk[`$${key}`] = data.value[key]
+            idk[`$${key}`] = ReadJsonUIPropertyValue(data.value[key]);
         CachedManager.pushArray(this.jsonUIData, 'variables', {
             require: data.require,
             ...idk
@@ -149,24 +169,13 @@ export class JsonUIElement {
         CachedManager.pushArray(this.jsonUIData, 'anims', data.getAnimationPath());
         return this;
     }
-    setColor(color: string, variable_name?: string) {
-        if (variable_name)
-            variable_name = `$${variable_name}`;
-        const obj: any = {
-            color: variable_name ?? Color.parse(color)
-        };
-        if (variable_name)
-            obj[`${variable_name}|default`] = Color.parse(color);
-        CachedManager.createProperty(this.jsonUIData, obj);
-        return this;
-    }
     createVariable(name: string | Object | any, value?: any) {
         if (typeof name === "string") name = `$${name}`;
         else {
             const cached = name;
             name = {};
             for (const key of Object.keys(cached))
-                name[`$${key}`] = (cached[key] instanceof Array && typeof cached[key][0] === "string" && cached[key][0][0] === "#") ? Color.parse(cached[key][0].slice(1)) : cached[key];
+                name[`$${key}`] = ReadJsonUIPropertyValue(cached[key]);
         }
         CachedManager.createProperty(this.jsonUIData, name, value);
         return this;
@@ -176,6 +185,12 @@ export class JsonUIElement {
         return this;
     }
 };
+
+export class UITexture {
+    constructor(directory_path: string) {
+        fs.cpSync(directory_path, '.cached/textures/', { recursive: true });
+    }
+}
 
 export class AnimationRegister {
     private animationObject: any = {};

@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import { parse } from "comment-json";
 import { ElementCachedInterface } from "./Types";
 import { Color } from "./Element";
+import ReadJsonUIPropertyValue from "./ReadProperty";
 fs.removeSync('.cached');
 export class CachedManager {
     static toString(path: string, jsonData: object) {
@@ -14,6 +15,11 @@ export class CachedManager {
     }
     static readJson(path: string) {
         if (fs.existsSync(path)) return parse(fs.readFileSync(path, 'utf-8')) as any;
+    }
+    static readFile(path: string) {
+        return fs.existsSync(path)
+            ? fs.readFileSync(path, "utf-8")
+            : "";
     }
     static createDirSync(data: string[]) {
         data.forEach(v => fs.existsSync(v) ? null : fs.mkdirSync(v));
@@ -57,9 +63,9 @@ export class CachedManager {
         const jsonData = JSON.parse(fs.readFileSync(`.cached/ui/build/${element.namespace}.json`, 'utf-8'));
         const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
         if (typeof name === 'string')
-            jsonData[parentItemObject][`${name}`] = (value instanceof Array && typeof value[0] === "string" && value[0][0] === "#") ? Color.parse(value[0].slice(1)) : value;
+            jsonData[parentItemObject][`${name}`] = ReadJsonUIPropertyValue(value[0]);
         else if (typeof name === 'object') for (const key of Object.keys(name))
-            jsonData[parentItemObject][`${key}`] = (name[key] instanceof Array && typeof name[key][0] === "string" && name[key][0][0] === "#") ? Color.parse(name[key][0].slice(1)) : name[key]
+            jsonData[parentItemObject][`${key}`] = ReadJsonUIPropertyValue(name[key]);
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }
 };
