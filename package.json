@@ -1,15 +1,16 @@
 {
   "name": "jsonui-ts",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "run": "node --watch dist/app/app.js"
   },
-  "author": "",
+  "author": "AsakiZuki",
   "license": "ISC",
-  "description": "",
+  "description": "Create Minecraft Json UI with JavaScript/TypeScript!",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "typescript": "^5.4.5"
