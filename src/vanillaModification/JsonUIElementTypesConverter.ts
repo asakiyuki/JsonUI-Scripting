@@ -1,5 +1,6 @@
 import { CachedManager } from "../CachedJsonUI";
 import fs, { read } from "fs";
+import path from "path";
 
 function readControl(data: any, parentKey: string) {
     const arr: any = [];
@@ -14,11 +15,12 @@ function readControl(data: any, parentKey: string) {
 }
 
 function WriteTSFiles(data: any) {
-    let tsFile = ``
+    let tsFile = ``;
     for (const key of Object.keys(data)) {
         const _ = data[key].join(" | "),
-            $ = (key as any).replace(/(_|-)\w/g, (v: any) => v[1].toUpperCase())
-        tsFile += `export type ${$[0].toUpperCase()}${$.slice(1)}Types = ${_};\n`
+            $ = (key as any).replace(/(_|-)\w/g, (v: any) => v[1].toUpperCase()),
+            k = `${$[0].toUpperCase()}${$.slice(1)}Types`;
+        tsFile += `export type ${k} = ${_};\n`;
     }
     CachedManager.writeString(`src/vanillaModification/Types.ts`, tsFile);
 }

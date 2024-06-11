@@ -1,82 +1,73 @@
 import { CachedManager } from "../../CachedJsonUI";
-import { JsonUIElement } from "../../Element";
-import { JsonUIProperty, ModifyObjectType } from "../../Types";
-import { JsonUIArrayName } from "../../Types";
+import { Color, JsonUIElement } from "../../Element";
+import { JsonUIArrayName, JsonUIProperty } from "../../Types";
 
 export class ScreenCommon {
     private screenJson: any;
+    private insertPos: string[] = [];
     constructor(private modifyElement: string, private screenFiles: string) {
         CachedManager.createDirSync(['.cached', '.cached/ui']);
         this.screenJson = CachedManager.readJson(`.cached/ui/${screenFiles}.json`);
-        this.screenJson = {
-            ...this.screenJson,
-            [modifyElement]: {
-                modifications: []
-            }
-        };
+        this.screenJson = { ...this.screenJson, [modifyElement]: {} }
         CachedManager.toString(`.cached/ui/${screenFiles}.json`, this.screenJson);
+        delete this.screenJson;
     }
-    modifyExtend(name: string, namespace: string) {
+    modifyExtend(extentElement: string | JsonUIElement) {
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
-        const screenData = this.screenJson[`${this.modifyElement}`];
-        delete this.screenJson[`${this.modifyElement}`];
-        this.modifyElement = `${this.modifyElement}@${namespace}.${name}`;
-        this.screenJson[this.modifyElement] = screenData;
+        const bak = Object.assign(this.screenJson[this.modifyElement]);
+        delete this.screenJson[this.modifyElement];
+        this.modifyElement = `${this.modifyElement}@${extentElement instanceof JsonUIElement ? extentElement.getElementPath().slice(1) : extentElement}`
+        this.screenJson = { ...this.screenJson, [`${this.modifyElement}`]: bak };
         CachedManager.toString(`.cached/ui/${this.screenFiles}.json`, this.screenJson);
+        delete this.screenJson;
         return this;
     }
-    setProperty(data: JsonUIProperty) {
-        this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
-        for (const key of Object.keys(data))
-            this.screenJson[this.modifyElement][key] = data[key];
-        CachedManager.toString(`.cached/ui/${this.screenFiles}.json`, this.screenJson);
-        return this;
+
+    insertBack(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_back', elementName);
     }
-    insertBack(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("insert_back", data, arrayName, name, variables);
-        return this;
+    insertFront(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_front', elementName);
     }
-    insertFront(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("insert_front", data, arrayName, name, variables);
-        return this;
+    insertAfter(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_after', elementName);
     }
-    insertAfter(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("insert_after", data, arrayName, name, variables);
-        return this;
+    insertBefore(data: JsonUIElement | string | Object, insertArray: JsonUIArrayName, elementName?: string) {
+        return this.modifyInsert(data, insertArray, 'insert_before', elementName);
     }
-    insertBefore(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("insert_before", data, arrayName, name, variables);
-        return this;
-    }
-    moveBack(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("move_back", data, arrayName, name, variables);
-        return this;
-    }
-    moveFront(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("move_front", data, arrayName, name, variables);
-        return this;
-    }
-    moveAfter(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("move_after", data, arrayName, name, variables);
-        return this;
-    }
-    moveBefore(data: ModifyObjectType, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.__jhdfasf12eisafjakhf__("move_before", data, arrayName, name, variables);
-        return this;
-    }
-    private __jhdfasf12eisafjakhf__(asfasf2: any, data: any, arrayName: JsonUIArrayName, name?: string, variables?: object | any) {
-        this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
-        const screenData = this.screenJson[`${this.modifyElement}`];
-        for (const key of Object.keys(variables ?? {})) {
-            variables[`$${key}`] = variables[key];
-            delete variables[key];
+
+    setProperty(property: JsonUIProperty) {
+        const k: any = {};
+        for (const key of Object.keys(property)) {
+            const $ = (property as any)[key];
+            k[key] = ($ instanceof Array && typeof $[0] === "string" && $[0][0] === "#") ? Color.parse($[0].slice(1)) : $;
         }
-        screenData.modifications.push((data.jsonUIData as any) ? {
-            array_name: arrayName,
-            operation: asfasf2,
-            value: [{ [`${name ?? data.jsonUIData.name}@${data.jsonUIData.namespace}.${data.jsonUIData.name}`]: variables ?? {} }]
-        } : data);
+        this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
+        this.screenJson[this.modifyElement] = {
+            ...this.screenJson[this.modifyElement],
+            ...k
+        }
         CachedManager.toString(`.cached/ui/${this.screenFiles}.json`, this.screenJson);
+        delete this.screenJson;
+        return this
+    }
+
+    private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementName?: string) {
+        this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
+        const element: any = (typeof data === "object") ? ((data instanceof JsonUIElement) ? { [`${elementName ?? data.jsonUIData.name}${data.getElementPath()}`]: {} } : data) : { [data]: {} };
+        if (!this.screenJson[this.modifyElement].modifications) this.screenJson[this.modifyElement].modifications = [];
+        if (this.insertPos.includes(`${insertType}:${insertArray}`))
+            this.screenJson[this.modifyElement].modifications[this.insertPos.indexOf(`${insertType}:${insertArray}`)].value.push(element);
+        else {
+            this.insertPos.push(`${insertType}:${insertArray}`);
+            this.screenJson[this.modifyElement].modifications.push({
+                array_name: insertArray,
+                operation: insertType,
+                value: [element]
+            })
+        }
+        CachedManager.toString(`.cached/ui/${this.screenFiles}.json`, this.screenJson);
+        delete this.screenJson;
         return this;
     }
 }

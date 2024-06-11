@@ -56,10 +56,10 @@ export class CachedManager {
     static createProperty(element: ElementCachedInterface, name: any, value?: any) {
         const jsonData = JSON.parse(fs.readFileSync(`.cached/ui/build/${element.namespace}.json`, 'utf-8'));
         const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
-        if (typeof name === 'string') jsonData[parentItemObject][`${name}`] = value
-        else if (typeof name === 'object') for (const key of Object.keys(name)) {
-            jsonData[parentItemObject][`${key}`] = (name[key]?.[0] === "-") ? Color.parse(name[key].slice(1)) : name[key];
-        };
+        if (typeof name === 'string')
+            jsonData[parentItemObject][`${name}`] = (value instanceof Array && typeof value[0] === "string" && value[0][0] === "#") ? Color.parse(value[0].slice(1)) : value;
+        else if (typeof name === 'object') for (const key of Object.keys(name))
+            jsonData[parentItemObject][`${key}`] = (name[key] instanceof Array && typeof name[key][0] === "string" && name[key][0][0] === "#") ? Color.parse(name[key][0].slice(1)) : name[key]
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }
 };

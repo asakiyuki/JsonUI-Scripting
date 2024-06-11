@@ -71,7 +71,7 @@ export class GlobalVariables {
         CachedManager.createDirSync(['.cached', '.cached/ui']);
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
-        glovar[`$${variable_name}`] = (value[0] === "-" && typeof value[0] === 'string') ? Color.parse(value.slice(1)) : value;
+        glovar[`$${variable_name}`] = (value instanceof Array && typeof value[0] === "string" && value[0][0] === "#") ? Color.parse(value[0].slice(1)) : value;
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static registerObject(variableObject: object | any) {
@@ -79,7 +79,7 @@ export class GlobalVariables {
         if (!fs.existsSync('.cached/ui/_global_variables.json')) fs.writeFileSync(`.cached/ui/_global_variables.json`, "{}", 'utf-8');
         const glovar = JSON.parse(fs.readFileSync('.cached/ui/_global_variables.json', 'utf-8'));
         for (const key of Object.keys(variableObject))
-            glovar[`$${key}`] = (variableObject[key][0] === "-" && typeof variableObject[key][0] === 'string') ? Color.parse(variableObject[key].slice(1)) : variableObject[key];
+            glovar[`$${key}`] = (variableObject[key] instanceof Array && typeof variableObject[key][0] === "string" && variableObject[key][0][0] === "#") ? Color.parse(variableObject[key][0].slice(1)) : variableObject[key];
         CachedManager.toString('.cached/ui/_global_variables.json', glovar);
     }
     static clear() {
@@ -165,11 +165,8 @@ export class JsonUIElement {
         else {
             const cached = name;
             name = {};
-            for (const key of Object.keys(cached)) {
-                if (typeof cached[key] === 'string')
-                    if (cached[key][0] === '-') cached[key] = Color.parse((cached[key] as string).slice(1));
-                name[`$${key}`] = cached[key];
-            }
+            for (const key of Object.keys(cached))
+                name[`$${key}`] = (cached[key] instanceof Array && typeof cached[key][0] === "string" && cached[key][0][0] === "#") ? Color.parse(cached[key][0].slice(1)) : cached[key];
         }
         CachedManager.createProperty(this.jsonUIData, name, value);
         return this;
