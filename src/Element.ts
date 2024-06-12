@@ -170,6 +170,10 @@ export class JsonUIElement {
         }));
         return this;
     }
+    addBindings(data: BindingInterface[]) {
+        CachedManager.pushArr(this.jsonUIData, 'bindings', data);
+        return this;
+    }
     setAnimation(data: AnimationRegister) {
         CachedManager.pushArray(this.jsonUIData, 'anims', data.getAnimationPath());
         return this;

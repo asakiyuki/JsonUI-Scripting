@@ -54,6 +54,13 @@ export class CachedManager {
         jsonData[parentItemObject][name].push(value);
         CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
     }
+    static pushArr(element: ElementCachedInterface, name: string, value: any[]) {
+        const jsonData = JSON.parse(fs.readFileSync(`.cached/ui/build/${element.namespace}.json`, 'utf-8'));
+        const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
+        if (!jsonData[parentItemObject][name]) jsonData[parentItemObject][name] = [];
+        jsonData[parentItemObject][name].push(...value);
+        CachedManager.toString(`.cached/ui/build/${element.namespace}.json`, jsonData);
+    }
     static setArray(element: ElementCachedInterface, name: string, value: any) {
         const jsonData = JSON.parse(fs.readFileSync(`.cached/ui/build/${element.namespace}.json`, 'utf-8'));
         const parentItemObject: any = element.extend ? `${element.name}@${element.extend.namespace}.${element.extend.name}` : element.name;
