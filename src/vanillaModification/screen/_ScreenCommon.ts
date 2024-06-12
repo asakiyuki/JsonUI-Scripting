@@ -57,7 +57,7 @@ export class ScreenCommon {
     }
 
     private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementProperty?: JsonUIProperty | any, elementName?: string | null, callback?: GetJsonUIGenerateName) {
-        if (elementProperty.anchor) {
+        if (elementProperty?.anchor) {
             elementProperty.anchor_from = elementProperty.anchor;
             elementProperty.anchor_to = elementProperty.anchor;
             delete elementProperty.anchor
