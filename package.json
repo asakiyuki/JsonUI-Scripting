@@ -1,6 +1,6 @@
 {
-  "name": "jsonui-ts",
-  "version": "1.0.0",
+  "name": "jsonui-scripting",
+  "version": "beta-0.0.1",
   "main": "dist/index.js",
   "types": "src/index.ts",
   "scripts": {
