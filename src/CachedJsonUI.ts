@@ -78,11 +78,31 @@ export class CachedManager {
     }
 };
 
+export interface Config {
+    folder_name?: string,
+    development?: boolean,
+    preview?: boolean,
+    obfuscator_element_name?: boolean
+}
+
+export class Config {
+    static data: Config = {};
+    static read() {
+        return fs.existsSync('config.json') ?
+            CachedManager.readJson('config.json') :
+            ({
+                folder_name: "debugger",
+                development: true,
+                preview: false,
+                obfuscator_element_name: true
+            })
+    }
+}
+
 process.on('exit', () => {
     if (!fs.existsSync('.cached') || !fs.existsSync('config.json')) return;
     if (!fs.existsSync('.cached/manifest.json')) new UIPackRegister({ pack_name: "UI Debugger", uuid: "00000000-0000-0000-0000-461c4d4d1817" })
-    const _ = CachedManager.readJson('config.json'),
-        directory = `${process.env.LOCALAPPDATA}\\Packages\\${_?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${_?.development ? 'development_resource_packs' : 'resource_packs'}\\${_?.folder_name ?? "debugger"}`;
+    const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name ?? "debugger"}`;
     if (fs.existsSync(directory)) {
         fs.removeSync(directory);
         fs.mkdir(directory);
@@ -90,3 +110,5 @@ process.on('exit', () => {
     fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
     console.log("UI Pack installed", new Date(), directory);
 });
+
+Config.data = Config.read();
