@@ -24,16 +24,16 @@ export class ScreenCommon {
         return this;
     }
 
-    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
+    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty | null, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_back', elementProperty, elementName, callback);
     }
-    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
+    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty | null, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_front', elementProperty, elementName, callback);
     }
-    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
+    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty | null, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_after', elementProperty, elementName, callback);
     }
-    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
+    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty | null, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_before', elementProperty, elementName, callback);
     }
 
