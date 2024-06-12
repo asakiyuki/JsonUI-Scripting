@@ -65,9 +65,9 @@ You can also create a config.json file in your project so that when the JsonUI p
 {
     // Custom output folder name
     "folder_name": "output_ui_pack",
-    // Once built, it will be added to the Preview version of Minecraft.
+    // Export JsonUI pack into Preview version of Minecraft.
     "preview": true,
-    // Export JsonUI pack into the development_resource_packs folder instead of resource_packs.
+    // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
     "development": true
 }
 ```
