@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import { JsonUIProperty, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, ExtendInterface, ButtonMapping, GetJsonUIGenerateName } from "./Types";
+import { JsonUIProperty, ElementTypes, ElementInterface, ElementCachedInterface, ElementVariables, BindingInterface, RegisterResourcePack, AnimTypes, AnimationInterface, ExtendInterface, ButtonMapping, GetJsonUIGenerateName, GetJsonUIGenerateNames } from "./Types";
 import { CachedManager } from "./CachedJsonUI";
 import ReadJsonUIPropertyValue from "./ReadProperty";
 
@@ -147,6 +147,18 @@ export class JsonUIElement {
             }
         });
         return this;
+    }
+    insertElementArray(data: JsonUIElement[], callback?: GetJsonUIGenerateNames) {
+        const arr: string[] = [], elementGenerateArray: any[] = [];
+        for (const element of data) {
+            const e = generateRandomName();
+            arr.push(e);
+            elementGenerateArray.push({
+                [`${e}${element.getElementPath()}`]: {}
+            })
+        }
+        CachedManager.pushArr(this.jsonUIData, 'controls', elementGenerateArray)
+        callback?.(arr);
     }
     insertVariable(data: ElementVariables) {
         const idk: any = {};

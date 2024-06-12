@@ -3,6 +3,7 @@ import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes"
 
 export type JsonUIArrayName = "controls" | "bindings" | "button_mappings" | "variables";
 export type GetJsonUIGenerateName = (name: string) => void;
+export type GetJsonUIGenerateNames = (name: string[]) => void;
 
 export enum ElementTypes {
     Panel = "panel",
