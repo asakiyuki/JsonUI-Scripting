@@ -141,7 +141,7 @@ export interface ElementCachedInterface {
 }
 
 export interface ElementVariables {
-    require: string | boolean,
+    requires: string | boolean,
     value: any
 }
 
