@@ -1,7 +1,7 @@
 import { JsonUIElement } from "./Element"
 import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes"
 import { ScreenCommon } from "./vanillaModification/screen/_ScreenCommon";
-import { PropertyBagKey } from "./PropertyPagKeys";
+import { PropertyBagKey } from "./PropertyBagKeys";
 
 export type JsonUIArrayName = "controls" | "bindings" | "button_mappings" | "variables";
 export type GetJsonUIGenerateName = (thisArg: JsonUIElement, name: string) => void;
