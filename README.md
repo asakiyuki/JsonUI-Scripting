@@ -1,6 +1,6 @@
 # Minecraft Scripting UI
 
-> Create your UI Resoucepacks for Minecraft Bedrock with TypeScript!
+> Create your UI Resource Packs for Minecraft Bedrock with JavaScript/TypeScript!
 
 # How to use
 
