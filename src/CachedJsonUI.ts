@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import { parse } from "comment-json";
 import { ElementCachedInterface } from "./Types";
-import { Color } from "./Element";
+import { Color, UIPackRegister } from "./Element";
 import ReadJsonUIPropertyValue from "./ReadProperty";
 fs.removeSync('.cached');
 
@@ -73,6 +73,7 @@ export class CachedManager {
 
 process.on('exit', () => {
     if (!fs.existsSync('.cached') || !fs.existsSync('config.json')) return;
+    if (!fs.existsSync('.cached/manifest.json')) return new UIPackRegister({ pack_name: "UI Debugger", uuid: "00000000-0000-0000-0000-461c4d4d1817" })
     const _ = CachedManager.readJson('config.json'),
         directory = `${process.env.LOCALAPPDATA}\\Packages\\${_?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${_?.development ? 'development_resource_packs' : 'resource_packs'}\\${_?.folder_name ?? "debugger"}`;
     if (fs.existsSync(directory)) {
