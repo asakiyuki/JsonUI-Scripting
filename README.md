@@ -61,13 +61,15 @@ And the code snippet you will receive in JsonUI format will be as follows after 
 
 # Config.json
 You can also create a config.json file in your project so that when the JsonUI pack is built, it will be installed into the game.
-```jsonc
+```json
 {
     // Custom output folder name
     "folder_name": "output_ui_pack",
     // Export JsonUI pack into Preview version of Minecraft.
     "preview": true,
     // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
-    "development": true
+    "development": true,
+    // Do not export JsonUI pack with custom name
+    "obfuscator_element_name": true
 }
 ```
