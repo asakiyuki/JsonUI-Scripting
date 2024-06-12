@@ -175,7 +175,7 @@ export class JsonUIElement {
         for (const key of Object.keys(data.value))
             idk[`$${key}`] = ReadJsonUIPropertyValue(data.value[key]);
         CachedManager.pushArray(this.jsonUIData, 'variables', {
-            require: data.require,
+            requires: data.requires,
             ...idk
         });
         return this;
