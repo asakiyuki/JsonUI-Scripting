@@ -38,6 +38,11 @@ export class ScreenCommon {
     }
 
     setProperty(property: JsonUIProperty) {
+        if (property.anchor) {
+            property.anchor_from = property.anchor;
+            property.anchor_to = property.anchor;
+            delete property.anchor
+        }
         const k: any = {};
         for (const key of Object.keys(property))
             k[key] = ReadJsonUIPropertyValue((property as any)[key])

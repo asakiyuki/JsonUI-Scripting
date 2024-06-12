@@ -180,6 +180,11 @@ export class JsonUIElement {
         return this;
     }
     setProperty(data: JsonUIProperty) {
+        if (data.anchor) {
+            data.anchor_from = data.anchor;
+            data.anchor_to = data.anchor;
+            delete data.anchor
+        }
         CachedManager.createProperty(this.jsonUIData, data);
         return this;
     }
