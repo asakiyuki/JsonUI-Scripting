@@ -131,7 +131,7 @@ export class JsonUIElement {
         GlobalVariables.registerObject(variableObject);
         return this;
     }
-    insertElement(data: JsonUIElement, elementProperty?: JsonUIProperty, name?: string | null, callback?: GetJsonUIGenerateName) {
+    insertElement(data: JsonUIElement, elementProperty?: JsonUIProperty | null, name?: string | null, callback?: GetJsonUIGenerateName) {
         if (elementProperty?.anchor) {
             elementProperty.anchor_from = elementProperty.anchor;
             elementProperty.anchor_to = elementProperty.anchor;
@@ -159,6 +159,7 @@ export class JsonUIElement {
         }
         CachedManager.pushArr(this.jsonUIData, 'controls', elementGenerateArray)
         callback?.(this, arr);
+        return this;
     }
     insertVariable(data: ElementVariables) {
         const idk: any = {};
