@@ -1,5 +1,8 @@
 {
+    // Custom output folder name
     "folder_name": "output_ui_pack",
-    "preview": false,
+    // Export JsonUI pack into Preview version of Minecraft.
+    "preview": true,
+    // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
     "development": true
 }
