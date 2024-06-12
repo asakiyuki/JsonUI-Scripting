@@ -138,7 +138,7 @@ export class JsonUIElement {
             delete elementProperty.anchor
         }
         const e = name ?? generateRandomName();
-        callback?.(e);
+        callback?.(this, e);
         for (const key of Object.keys((elementProperty as any) ?? {}))
             (elementProperty as any)[`${key}`] = ReadJsonUIPropertyValue((elementProperty as any)[key]);
         CachedManager.pushArray(this.jsonUIData, 'controls', {
@@ -158,7 +158,7 @@ export class JsonUIElement {
             })
         }
         CachedManager.pushArr(this.jsonUIData, 'controls', elementGenerateArray)
-        callback?.(arr);
+        callback?.(this, arr);
     }
     insertVariable(data: ElementVariables) {
         const idk: any = {};

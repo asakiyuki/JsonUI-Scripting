@@ -1,7 +1,7 @@
 import { CachedManager } from "../../CachedJsonUI";
 import { Color, JsonUIElement, generateRandomName } from "../../Element";
 import ReadJsonUIPropertyValue from "../../ReadProperty";
-import { BindingInterface, ButtonMapping, GetJsonUIGenerateName, JsonUIArrayName, JsonUIProperty } from "../../Types";
+import { BindingInterface, ButtonMapping, GetJsonUIGenerateName, GetJsonUIGenerateNameScreenCommon, JsonUIArrayName, JsonUIProperty } from "../../Types";
 
 export class ScreenCommon {
     private screenJson: any;
@@ -24,16 +24,16 @@ export class ScreenCommon {
         return this;
     }
 
-    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateName) {
+    insertBack(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_back', elementProperty, elementName, callback);
     }
-    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateName) {
+    insertFront(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_front', elementProperty, elementName, callback);
     }
-    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateName) {
+    insertAfter(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_after', elementProperty, elementName, callback);
     }
-    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateName) {
+    insertBefore(data: JsonUIElement | JsonUIProperty | ButtonMapping | BindingInterface | string, insertArray: JsonUIArrayName, elementProperty?: JsonUIProperty, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         return this.modifyInsert(data, insertArray, 'insert_before', elementProperty, elementName, callback);
     }
 
@@ -56,14 +56,14 @@ export class ScreenCommon {
         return this
     }
 
-    private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementProperty?: JsonUIProperty | any, elementName?: string | null, callback?: GetJsonUIGenerateName) {
+    private modifyInsert(data: any, insertArray: JsonUIArrayName, insertType: string, elementProperty?: JsonUIProperty | any, elementName?: string | null, callback?: GetJsonUIGenerateNameScreenCommon) {
         if (elementProperty?.anchor) {
             elementProperty.anchor_from = elementProperty.anchor;
             elementProperty.anchor_to = elementProperty.anchor;
             delete elementProperty.anchor
         }
         const e = elementName ?? generateRandomName();
-        callback?.(e);
+        callback?.(this, e);
         this.screenJson = CachedManager.readJson(`.cached/ui/${this.screenFiles}.json`);
         if (elementProperty)
             for (const key in elementProperty)

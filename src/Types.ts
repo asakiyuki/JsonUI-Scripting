@@ -1,9 +1,11 @@
 import { JsonUIElement } from "./Element"
 import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes"
+import { ScreenCommon } from "./vanillaModification/screen/_ScreenCommon";
 
 export type JsonUIArrayName = "controls" | "bindings" | "button_mappings" | "variables";
-export type GetJsonUIGenerateName = (name: string) => void;
-export type GetJsonUIGenerateNames = (name: string[]) => void;
+export type GetJsonUIGenerateName = (thisArg: JsonUIElement, name: string) => void;
+export type GetJsonUIGenerateNameScreenCommon = (thisArg: ScreenCommon, name: string) => void;
+export type GetJsonUIGenerateNames = (thisArg: JsonUIElement, name: string[]) => void;
 
 export enum ElementTypes {
     Panel = "panel",
