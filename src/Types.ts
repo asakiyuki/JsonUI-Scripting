@@ -1,6 +1,7 @@
 import { JsonUIElement } from "./Element"
 import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes"
 import { ScreenCommon } from "./vanillaModification/screen/_ScreenCommon";
+import { PropertyBagKey } from "./PropertyPagKeys";
 
 export type JsonUIArrayName = "controls" | "bindings" | "button_mappings" | "variables";
 export type GetJsonUIGenerateName = (thisArg: JsonUIElement, name: string) => void;
@@ -331,7 +332,9 @@ export interface JsonUIProperty {
     clip_offset?: ArrayProperty | Vector2,
     clip_state_change_event?: ArrayProperty | string,
     enable_scissor_test?: ArrayProperty | Bool,
-    property_bag?: ArrayProperty | Obj,
+    property_bag?: ArrayProperty | Obj | {
+        [key in PropertyBagKey]: any
+    },
     selected?: ArrayProperty | Bool,
     use_child_anchors?: ArrayProperty | Bool,
     disable_anim_fast_forward?: ArrayProperty | Bool,
