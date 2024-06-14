@@ -1,5 +1,5 @@
 .cached
-jsonUI
+./jsonUI
 dist
 node_modules
 app

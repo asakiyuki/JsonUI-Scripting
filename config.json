@@ -6,5 +6,5 @@
     // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
     "development": true,
     // Do not export JsonUI pack with custom name
-    "obfuscator_element_name": true
+    "obfuscator_element_name": false
 }
