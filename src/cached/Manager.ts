@@ -20,9 +20,21 @@ const jsonUIObject: JsonUIObjectInterface = {
 };
 
 export class CachedManager {
+    static screenInitRegister(init_element: string, screen_file: string) {
+        jsonUIObject.modify[screen_file] = {
+            ...jsonUIObject.modify[screen_file],
+            [init_element]: {}
+        }
+    }
+    static readInitElement(init_element: string, screen_file: string) {
+        return jsonUIObject.modify[screen_file][init_element] ?? {};
+    }
+    static writeInitElement(init_element: string, screen_file: string, value: any) {
+        jsonUIObject.modify[screen_file][init_element] = value;
+    }
+
     static register(key: string, namespace: string, value: any) {
         jsonUIObject.json[namespace] = {
-            namespace,
             ...jsonUIObject.json[namespace],
             [key]: value
         };

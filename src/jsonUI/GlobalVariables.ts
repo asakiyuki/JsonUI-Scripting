@@ -9,6 +9,6 @@ export class GlobalVariables {
         CachedManager.createGlobalVariables(variableObject);
     }
     static from(value: any) {
-        return CachedManager.obfuscatorGlobalVariable(value);
+        return `$${CachedManager.obfuscatorGlobalVariable(value)}`;
     }
 }

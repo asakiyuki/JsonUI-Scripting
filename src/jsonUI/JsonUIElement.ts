@@ -59,7 +59,7 @@ export class JsonUIElement {
                 this,
                 this.data.namespace as string, {
                 [`${name}@${value?.extend}`]: {
-                    ...value?.property
+                    ...ModifyReadJsonUIProperty(value?.property ?? {})
                 }
             });
         }

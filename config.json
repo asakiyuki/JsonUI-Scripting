@@ -6,5 +6,16 @@
     // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
     "development": true,
     // Do not export JsonUI pack with custom name
-    "obfuscator_element_name": false
+    "obfuscator_element_name": false,
+    // Create manifest.json
+    "manifest": {
+        "name": "pack_name",
+        "version": [
+            1,
+            0,
+            0
+        ],
+        "uuid": "thot-gay",
+        "description": "pack_decscription"
+    }
 }
