@@ -8,6 +8,16 @@ process.on('exit', () => {
     fs.mkdirSync('.cached/ui/build');
     const jsonUI: any = CachedManager.getJsonUICode();
     const ui_defs: string[] = [];
+
+    for (let index = 0; index < jsonUI.global_variables_arr[0].length; index++) {
+        jsonUI.global_variables = {
+            ...jsonUI.global_variables,
+            [`$${jsonUI.global_variables_arr[0][index]}`]: jsonUI.global_variables_arr[1][index],
+        }
+    }
+
+    delete jsonUI.global_variables_arr;
+
     if (Object.keys(jsonUI.global_variables).length !== 0) {
         fs.writeFileSync(
             '.cached/ui/_global_variables.json',

@@ -8,11 +8,7 @@ export class GlobalVariables {
     ) {
         CachedManager.createGlobalVariables(variableObject);
     }
-    static from(value: any, name_length?: number) {
-        const name = generateRandomName(name_length);
-        GlobalVariables.register({
-            [name]: value
-        } as any);
-        return `$${name}`;
+    static from(value: any) {
+        return CachedManager.obfuscatorGlobalVariable(value);
     }
 }

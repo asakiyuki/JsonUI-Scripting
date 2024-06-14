@@ -2,7 +2,7 @@ export * from "./cached/Config";
 export * from "./cached/ConfigInterface";
 export * from "./cached/Manager";
 export * from "./index";
-export * from "./jsonUI/AnimationRegisters";
+export * from "./jsonUI/Animation";
 export * from "./jsonUI/Color";
 export * from "./jsonUI/GenerateRandomName";
 export * from "./jsonUI/GlobalVariables";

@@ -20,16 +20,22 @@ export default function ModifyReadJsonUIProperty(property: JsonUIProperty) {
         delete property.height;
     }
     objectForEach(property, (v, key) => {
-        if (Array.isArray(v)) {
-            if (typeof v[0] === 'string') {
-                if (v[0].startsWith('#')) property[key] = Color.parse(v[0].slice(1));
-            }
-
-        } else if (typeof v === 'object') {
-
-        } else if (v instanceof JsonUIElement) {
-            (property as any)[key] = v.getElementPath().slice(1);
-        }
+        property[key] = ReadProperty(v);
     })
     return property;
+}
+
+export function ReadProperty(value: any) {
+    if (Array.isArray(value)) {
+        if (typeof value[0] === 'string') {
+            if (value[0].startsWith('#')) {
+                return Color.parse(value[0].slice(1));
+            }
+        }
+    } else if (typeof value === 'object') {
+
+    } else if (value instanceof JsonUIElement) {
+        return value.getElementJsonUIKey()
+    }
+    return value;
 }

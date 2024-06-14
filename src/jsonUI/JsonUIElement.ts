@@ -9,7 +9,8 @@ import { InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
 import { JsonUIElementInterface } from "../jsonUITypes/JsonUIElementInterface";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { Variables } from "../jsonUITypes/Variables";
-import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
+import { objectForEach } from "../lib/ObjectForEach";
+import ModifyReadJsonUIProperty, { ReadProperty } from "../lib/ReadJsonUIProperty";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
 
 export class JsonUIElement {
@@ -44,7 +45,7 @@ export class JsonUIElement {
         CachedManager.createGlobalVariables(variableObject);
         return this;
     }
-    insertElement(
+    addElement(
         value?: InsertElementInterface | JsonUIElement,
         callback?: GetJsonUIGenerateName | null
     ) {
@@ -67,47 +68,67 @@ export class JsonUIElement {
             return this;
         } else return name;
     }
-    insertElementArray(
+    addElementArray(
         data: JsonUIElement[],
         callback?: GetJsonUIGenerateNames
     ) {
-
         return this;
     }
-    insertVariable(
+    addVariables(
         data: Variables
     ) {
+        objectForEach(data.value, (v, k) => {
+            data.value[`$${k}`] = v;
+            delete data.value[k];
+        });
+        CachedManager.insertArray('variables', this, this.data.namespace ?? "", {
+            ...data.value,
+            requires: data.requires,
+        });
         return this;
     }
-    insertKeybind(
-        data: ButtonMapping
+    addKeybind(
+        data: ButtonMapping | ButtonMapping[]
     ) {
-        return this;
-    }
-    setBindings(
-        data: BindingInterface[]
-    ) {
+        if (Array.isArray(data)) data.forEach(_ => CachedManager.insertArray('button_mappings', this, this.data.namespace ?? "", _));
+        else CachedManager.insertArray('button_mappings', this, this.data.namespace ?? "", data);
         return this;
     }
     addBindings(
-        data: BindingInterface[]
+        data: (BindingInterface | string)[]
+    ) {
+        data.forEach(_ => {
+            if (typeof _ === 'string') {
+                const binding = _.split(':');
+                (_ as BindingInterface) = {
+                    binding_name: binding[0],
+                    binding_name_override: binding[1]
+                }
+            }
+            CachedManager.insertArray('bindings', this, this.data.namespace ?? "", _ as any);
+        });
+        return this;
+    }
+    addAnimation(
+        data: Animation
     ) {
         return this;
     }
-    setAnimation(
-        data: AnimationInterface
-    ) {
-        return this;
-    }
-    createVariable(
-        name: string | Object | any,
-        value?: any
-    ) {
-        return this;
+    addVariable(propertyKey: string, default_value: any, callback?: ((arg: JsonUIElement, variable_name: string) => void) | null) {
+        const name = generateRandomName();
+        CachedManager.setElementProperty(this, this.data.namespace ?? "", {
+            [propertyKey]: `$${name}`,
+            [`$${name}|default`]: default_value
+        });
+        if (callback === null || callback) {
+            callback?.(this, name);
+            return name;
+        } else return this;
     }
     setProperty(
         data: JsonUIProperty
     ) {
+        CachedManager.setElementProperty(this, this.data.namespace ?? "", data);
         return this;
     }
 };

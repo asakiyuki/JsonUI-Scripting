@@ -1,6 +1,6 @@
 import { AnimationInterface } from "../jsonUITypes/AnimationInterface";
 
-export class AnimationRegister {
+export class Animation {
     constructor(
         animateType: AnimationInterface
     ) {
