@@ -1,6 +1,13 @@
 # Minecraft Scripting UI
 
-> Create your UI Resource Packs for Minecraft Bedrock with JavaScript/TypeScript!
+ Create your UI Resource Packs for Minecraft Bedrock with JavaScript/TypeScript!
+
+# Installation
+To install the required dependencies, run the following command in your project directory:
+```bat
+npm i jsonui-scripting
+```
+This will add jsonui-scripting to your project's package.json file and download the package into your node_modules directory.
 
 # How to use
 
