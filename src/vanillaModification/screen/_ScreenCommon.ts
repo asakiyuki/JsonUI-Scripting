@@ -15,6 +15,7 @@ import ModifyReadJsonUIProperty from "../../lib/ReadJsonUIProperty";
  * This class is used to manage and manipulate screen initialization data.
  */
 export class JsonUIObject {
+
     private screenInitKey: string;
     private elementModifyKey: string[] = [];
 

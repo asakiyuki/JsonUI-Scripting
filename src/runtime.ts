@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import { CachedManager } from "./cached/Manager";
 import { Config } from "./cached/Config";
 import { objectForEach } from "./lib/ObjectForEach";
+import { ChildProcess, spawn } from "child_process";
 
 /**
  * An array to store file paths with their relative paths from the .cached directory.
@@ -36,6 +37,20 @@ function writeContent(path: string = '') {
  * compiling UI code, generating manifest and content files, and exporting the resource packs.
  */
 process.on('exit', () => {
+    if (!fs.existsSync('.vscode')) {
+        // Create the.vscode directory
+        fs.mkdirSync('.vscode');
+
+        fs.writeJsonSync('.vscode/settings.json', {
+            "json.schemas": [
+                {
+                    fileMatch: ["config.json"],
+                    url: "./node_modules/jsonui-scripting/config.json"
+                }
+            ]
+        })
+    }
+
     // Remove and recreate the .cached directory
     fs.removeSync('.cached');
     fs.mkdirSync('.cached');
@@ -148,7 +163,7 @@ process.on('exit', () => {
     writeContent();
 
     // Write collected file paths to a JSON file
-    fs.writeJSONSync('.cached/content.json', { content }, 'utf-8');
+    fs.writeJSONSync('.cached/contents.json', { content }, 'utf-8');
     console.log("Create content.json file", new Date(), '.cached/content.json', `${content.length} file path(s) found!`);
 
     // Determine the target directory for exporting resource packs

@@ -1,25 +1,46 @@
 {
-    // Specifies the name of the folder where the UI pack will be output.
-    "folder_name": "output_ui_pack",
-    // Indicates whether the UI pack should be previewed.
-    "preview": true,
-    // Indicates whether the UI pack is in development mode.
-    "development": true,
-    // Indicates whether element names should be obfuscated in the UI pack.
-    "obfuscator_element_name": false,
-    // Contains the manifest information of the UI pack.
-    "manifest": {
-        // Specifies the name of the UI pack.
-        "name": "pack_name",
-        // Specifies the version of the UI pack.
-        "version": [
-            1,
-            0,
-            0
-        ],
-        // Specifies the UUID of the UI pack.
-        "uuid": "********-****-****-****-************",
-        // Provides a description of the UI pack.
-        "description": "pack_decscription"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "JsonUI Config",
+    "description": "Build JsonUI options",
+    "type": "object",
+    "properties": {
+        "folder_name": {
+            "description": "Specifies the name of the folder where the UI pack will be output.",
+            "type": "string"
+        },
+        "preview": {
+            "description": "Install your JsonUI pack to Minecraft preview.",
+            "type": "boolean"
+        },
+        "development": {
+            "description": "Install your JsonUI pack to development folder.",
+            "type": "boolean"
+        },
+        "obfuscator_element_name": {
+            "description": "Specifies the name of the obfuscator element.",
+            "type": "boolean"
+        },
+        "manifest": {
+            "description": "Contains the manifest information of the UI pack.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Specifies the name of the UI pack.",
+                    "type": "string"
+                },
+                "version": {
+                    "description": "Specifies the version of the UI pack",
+                    "type": "array"
+                },
+                "uuid": {
+                    "description": "Specifies the UUID of the UI pack.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "Specifies the description of the UI pack.",
+                    "type": "string"
+                }
+            }
+        }
     }
 }
