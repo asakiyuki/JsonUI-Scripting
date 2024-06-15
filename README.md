@@ -4,28 +4,17 @@
 
 # How to use
 
-The syntax is very simple, I can provide an example using code snippets displaying 'Hello World' in 3 different languages on the Start Screen as follows:
+The syntax is very simple, I can provide an example using code snippets displaying 'Hello World' text on the Start Screen as follows:
 ```javascript
 // app.js
-const { JsonUIElement, ElementTypes, RegisterLanguage, StartScreen } = require('jsonui-ts');
-
-// This code is used to create a new language in Minecraft for you to use, language i used here is Vietnamese!
-new RegisterLanguage('vi_VN', 'Tiếng Việt (Việt Nam)');
-
-const helloWorldText = new JsonUIElement({ type: ElementTypes.Label }).setProperty({
-    text: [
-        {
-            lang: {
-                'helloworld.text': {
-                    en_US: "Hello World!",
-                    ja_JP: "こんにちは、世界！",
-                    vi_VN: "Xin chào thế giới!",
-                }
-            }
-        }
-    ]
+const { JsonUIElement, ElementTypes, StartScreen } = require('jsonui-ts');
+const helloWorldText = new JsonUIElement({
+    type: ElementTypes.Label,
+    property: {
+        text: "Hello World!"
+    }
 });
-StartScreen.init('start_screen_content').insertBack(helloWorldText, 'controls');
+StartScreen.init('start_screen_content').insert('back', 'controls', helloWorldText);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:
@@ -54,7 +43,7 @@ And the code snippet you will receive in JsonUI format will be as follows after 
     "namespace": "ba42e09397f7bab940f0bd27f",
     "1929e3d2d01c2d0cafdd005f7": {
         "type": "label",
-        "text": "helloworld.text"
+        "text": "Hello World!"
     }
 }
 ```
