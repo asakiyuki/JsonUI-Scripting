@@ -12,8 +12,20 @@ import { objectForEach } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
 
+/**
+ * Class representing a JSON UI element.
+ */
 export class JsonUIElement {
     private elementJsonUIKey: string;
+
+    /**
+     * Create a new instance of JsonUIElement.
+     * @param data - The initial data for the JSON UI element.
+     * @example
+     * ```typescript
+     * const element = new JsonUIElement({ type: ElementTypes.Panel });
+     * ```
+     */
     constructor(private data: JsonUIElementInterface = { type: ElementTypes.Panel }) {
         if (Config.data.obfuscator_element_name) {
             data.name = generateRandomName();
@@ -32,18 +44,47 @@ export class JsonUIElement {
             ...data.property
         });
     }
+
+    /**
+     * Get the unique key for the JSON UI element.
+     * @returns The unique key for the JSON UI element.
+     */
     getElementJsonUIKey() {
         return this.elementJsonUIKey;
     }
+
+    /**
+     * Get the path of the JSON UI element.
+     * @returns The path of the JSON UI element.
+     */
     getElementPath() {
         return `@${this.data.namespace}.${this.data.name}`;
     }
+
+    /**
+     * Register global variables for the JSON UI element.
+     * @param variableObject - The object containing the global variables.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     registerGlobalVariable(
         variableObject: object
     ) {
         CachedManager.createGlobalVariables(variableObject);
         return this;
     }
+
+    /**
+     * Add a child element to the JSON UI element.
+     * @param value - The value of the child element.
+     * @param callback - The callback function to be called after adding the child element.
+     * @returns The instance of JsonUIElement for method chaining or the name of the child element.
+     * @example
+     * ```typescript
+     * const childrenElement = new JsonUIElement({ type: ElementTypes.Panel });
+     * const parentElement = new JsonUIElement({ type: ElementTypes.Panel });
+     * parentElement.addElement(childrenElement);
+     * ```
+     */
     addElement(
         value?: InsertElementInterface | JsonUIElement,
         callback?: GetJsonUIGenerateName | null
@@ -67,12 +108,25 @@ export class JsonUIElement {
             return this;
         } else return name;
     }
+
+    /**
+     * Add an array of child elements to the JSON UI element.
+     * @param data - The array of child elements.
+     * @param callback - The callback function to be called after adding the child elements.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     addElementArray(
         data: JsonUIElement[],
         callback?: GetJsonUIGenerateNames
     ) {
         return this;
     }
+
+    /**
+     * Add variables to the JSON UI element.
+     * @param data - The variables to be added.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     addVariables(
         data: Variables
     ) {
@@ -86,6 +140,12 @@ export class JsonUIElement {
         });
         return this;
     }
+
+    /**
+     * Add keybinds to the JSON UI element.
+     * @param data - The keybinds to be added.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     addKeybind(
         data: ButtonMapping | ButtonMapping[]
     ) {
@@ -93,6 +153,12 @@ export class JsonUIElement {
         else CachedManager.insertArray('button_mappings', this, this.data.namespace ?? "", data);
         return this;
     }
+
+    /**
+     * Add bindings to the JSON UI element.
+     * @param data - The bindings to be added.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     addBindings(
         data: (BindingInterface | string)[]
     ) {
@@ -108,11 +174,25 @@ export class JsonUIElement {
         });
         return this;
     }
+
+    /**
+     * Add an animation to the JSON UI element.
+     * @param data - The animation to be added.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     addAnimation(
         data: Animation
     ) {
         return this;
     }
+
+    /**
+     * Add a variable to the JSON UI element.
+     * @param propertyKey - The key of the property to be updated.
+     * @param default_value - The default value of the variable.
+     * @param callback - The callback function to be called after adding the variable.
+     * @returns The instance of JsonUIElement for method chaining or the name of the variable.
+     */
     addVariable(propertyKey: string, default_value: any, callback?: ((arg: JsonUIElement, variable_name: string) => void) | null) {
         const name = generateRandomName();
         CachedManager.setElementProperty(this, this.data.namespace ?? "", {
@@ -124,6 +204,12 @@ export class JsonUIElement {
             return `$${name}`;
         } else return this;
     }
+
+    /**
+     * Set properties of the JSON UI element.
+     * @param data - The properties to be set.
+     * @returns The instance of JsonUIElement for method chaining.
+     */
     setProperty(
         data: JsonUIProperty
     ) {

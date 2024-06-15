@@ -19,38 +19,83 @@ const jsonUIObject: JsonUIObjectInterface = {
     global_variables_arr: [[], []],
 };
 
+/**
+ * A class to manage cached data for JSON UI generation.
+ */
 export class CachedManager {
+    /**
+     * Registers an initial element for a specific screen file.
+     * @param init_element - The name of the initial element.
+     * @param screen_file - The name of the screen file.
+     */
     static screenInitRegister(init_element: string, screen_file: string) {
         jsonUIObject.modify[screen_file] = {
             ...jsonUIObject.modify[screen_file],
             [init_element]: {}
         }
     }
+
+    /**
+     * Reads the initial element for a specific screen file.
+     * @param init_element - The name of the initial element.
+     * @param screen_file - The name of the screen file.
+     * @returns The initial element data.
+     */
     static readInitElement(init_element: string, screen_file: string) {
         return jsonUIObject.modify[screen_file][init_element] ?? {};
     }
+
+    /**
+     * Writes the initial element for a specific screen file.
+     * @param init_element - The name of the initial element.
+     * @param screen_file - The name of the screen file.
+     * @param value - The value to be written.
+     */
     static writeInitElement(init_element: string, screen_file: string, value: any) {
         jsonUIObject.modify[screen_file][init_element] = value;
     }
 
+    /**
+     * Registers a key-value pair in the JSON UI object.
+     * @param key - The key to be registered.
+     * @param namespace - The namespace for the key.
+     * @param value - The value to be registered.
+     */
     static register(key: string, namespace: string, value: any) {
         jsonUIObject.json[namespace] = {
             ...jsonUIObject.json[namespace],
             [key]: value
         };
-    };
+    }
+
+    /**
+     * Creates an element in the JSON UI object.
+     * @param data - The data for the element.
+     * @param namespace - The namespace for the element.
+     * @param property - The property of the element.
+     */
     static createElement(data: JsonUIElement, namespace: string, property: JsonUIProperty) {
         CachedManager.register(data.getElementJsonUIKey(), namespace, property);
     }
+
+    /**
+     * Sets the property of an element in the JSON UI object.
+     * @param data - The data for the element.
+     * @param namespace - The namespace for the element.
+     * @param property - The property of the element.
+     */
     static setElementProperty(data: JsonUIElement, namespace: string, property: JsonUIProperty) {
         jsonUIObject.json[namespace][data.getElementJsonUIKey()] = {
             ...jsonUIObject.json[namespace][data.getElementJsonUIKey()],
             ...ModifyReadJsonUIProperty(property),
         }
     }
-    static createGlobalVariables(
-        data: object
-    ) {
+
+    /**
+     * Creates global variables in the JSON UI object.
+     * @param data - The data for the global variables.
+     */
+    static createGlobalVariables(data: object) {
         objectForEach(data, (v, k) => {
             (data as any)[`$${k}`] = v;
             delete (data as any)[k];
@@ -60,6 +105,12 @@ export class CachedManager {
             ...data
         });
     }
+
+    /**
+     * Obfuscates a global variable in the JSON UI object.
+     * @param value - The value of the global variable.
+     * @returns The obfuscated name of the global variable.
+     */
     static obfuscatorGlobalVariable(value: any) {
         value = ReadProperty(value);
         const valueStringify = JSON.stringify(value),
@@ -75,12 +126,24 @@ export class CachedManager {
         } else return jsonUIObject.global_variables_arr[0][index];
     }
 
+    /**
+     * Inserts an item into an array in the JSON UI object.
+     * @param arrayName - The name of the array.
+     * @param data - The data for the item.
+     * @param namespace - The namespace for the item.
+     * @param value - The value of the item.
+     */
     static insertArray(arrayName: JsonUIArrayName, data: JsonUIElement, namespace: string, value: object) {
         jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] = [
             ...jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] ?? [],
             value
         ]
     }
+
+    /**
+     * Retrieves the JSON UI code from the cached object.
+     * @returns The JSON UI code.
+     */
     static getJsonUICode() {
         return jsonUIObject;
     }

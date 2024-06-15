@@ -63,13 +63,28 @@ And the code snippet you will receive in JsonUI format will be as follows after 
 You can also create a config.json file in your project so that when the JsonUI pack is built, it will be installed into the game.
 ```json
 {
-    // Custom output folder name
+    // Specifies the name of the folder where the UI pack will be output.
     "folder_name": "output_ui_pack",
-    // Export JsonUI pack into Preview version of Minecraft.
+    // Indicates whether the UI pack should be previewed.
     "preview": true,
-    // Export JsonUI pack into development_resource_packs folder instead of resource_packs.
+    // Indicates whether the UI pack is in development mode.
     "development": true,
-    // Do not export JsonUI pack with custom name
-    "obfuscator_element_name": true
+    // Indicates whether element names should be obfuscated in the UI pack.
+    "obfuscator_element_name": false,
+    // Contains the manifest information of the UI pack.
+    "manifest": {
+        // Specifies the name of the UI pack.
+        "name": "pack_name",
+        // Specifies the version of the UI pack.
+        "version": [
+            1,
+            0,
+            0
+        ],
+        // Specifies the UUID of the UI pack.
+        "uuid": "********-****-****-****-************",
+        // Provides a description of the UI pack.
+        "description": "pack_decscription"
+    }
 }
 ```

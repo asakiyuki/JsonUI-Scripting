@@ -3,7 +3,6 @@ import { generateRandomName } from "../../jsonUI/GenerateRandomName";
 import { JsonUIElement } from "../../jsonUI/JsonUIElement";
 import { BindingInterface } from "../../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../../jsonUITypes/ButtonMapping";
-import { GetJsonUIGenerateName } from "../../jsonUITypes/GetJsonUIGenerateName";
 import { InsertElementInterface } from "../../jsonUITypes/InsertElementInterface";
 import { JsonUIArrayName } from "../../jsonUITypes/JsonUIArrayName";
 import { JsonUIProperty } from "../../jsonUITypes/JsonUIProperty";
@@ -11,13 +10,30 @@ import { Variables } from "../../jsonUITypes/Variables";
 import { objectForEach } from "../../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../../lib/ReadJsonUIProperty";
 
+/**
+ * Class representing a ScreenCommon.
+ * This class is used to manage and manipulate screen initialization data.
+ */
 export class ScreenCommon {
     private screenInitKey: string;
     private elementModifyKey: string[] = [];
+
+    /**
+    * Create a new ScreenCommon instance.
+    * @param screenInitKey - The unique key for the screen initialization.
+    * @param screenFile - The file path of the screen initialization.
+    * @param extend - Optional parameter to extend the screen initialization with another element or path.
+    */
     constructor(screenInitKey: string, private screenFile: string, extend?: string | JsonUIElement) {
         this.screenInitKey = extend ? `${screenInitKey}@${(extend instanceof JsonUIElement) ? extend.getElementPath().slice(1) : extend}` : screenInitKey;
         CachedManager.screenInitRegister(this.screenInitKey, screenFile);
     }
+
+    /**
+     * Set a property in the screen initialization data.
+     * @param property - The property to set.
+     * @returns The instance of ScreenCommon for method chaining.
+     */
     setProperty(property: JsonUIProperty) {
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
@@ -25,6 +41,15 @@ export class ScreenCommon {
         })
         return this;
     }
+
+    /**
+    * Insert an element into a specific array in the screen initialization data.
+    * @param type - The type of insertion ('back' or 'front').
+    * @param arrayName - The name of the array to insert into.
+    * @param value - The value to insert.
+    * @param callback - Optional callback function to be executed after insertion.
+    * @returns The instance of ScreenCommon for method chaining.
+    */
     insert(type: 'back' | 'front', arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: () => void) {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
         let arrayValue;
@@ -94,6 +119,10 @@ export class ScreenCommon {
         return this;
     }
 
+    /**
+     * Add bindings to the screen initialization data.
+     * @param data - The bindings to add.
+     */
     addBindings(
         data: (BindingInterface | string)[]
     ) {
@@ -118,6 +147,10 @@ export class ScreenCommon {
         })
     }
 
+    /**
+     * Add keybinds to the screen initialization data.
+     * @param data - The keybinds to add.
+     */
     addKeybind(data: ButtonMapping | ButtonMapping[]) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
             button_mappings = _data.button_mappings ?? [];
@@ -131,6 +164,10 @@ export class ScreenCommon {
         })
     }
 
+    /**
+     * Add variables to the screen initialization data.
+     * @param data - The variables to add.
+     */
     addVariables(
         data: Variables
     ) {
@@ -150,6 +187,12 @@ export class ScreenCommon {
         });
     }
 
+    /**
+    * Add an element to the screen initialization data.
+    * @param value - The element to add.
+    * @param callback - Optional callback function to be executed after addition.
+    * @returns The name of the added element if callback is not provided, otherwise the instance of ScreenCommon for method chaining.
+    */
     addElement(
         value: InsertElementInterface | JsonUIElement,
         callback?: (name: string) => void | null
