@@ -4,7 +4,7 @@
 
 # How to use
 
-The syntax is very simple, I can provide an example using code snippets displaying 'Hello World' text on the Start Screen as follows:
+The syntax is very simple, I can provide an example using code snippets displaying 'Hello World!' text on the Start Screen as follows:
 ```javascript
 // app.js
 const { JsonUIElement, ElementTypes, StartScreen } = require('jsonui-scripting');
