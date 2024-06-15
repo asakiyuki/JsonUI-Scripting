@@ -17,7 +17,7 @@ The syntax is very simple, I can provide an example using code snippets displayi
 const { JsonUIElement, ElementTypes, StartScreen } = require('jsonui-scripting');
 const helloWorldText = new JsonUIElement({
     type: ElementTypes.Label,
-    property: {
+    properties: {
         text: "Hello World!"
     }
 });

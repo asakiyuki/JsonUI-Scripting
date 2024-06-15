@@ -27,6 +27,8 @@ export class JsonUIElement {
      * ```
      */
     constructor(private data: JsonUIElementInterface = { type: ElementTypes.Panel }) {
+        if (data.extend) delete data.type;
+
         if (Config.data.obfuscator_element_name) {
             data.name = generateRandomName();
             data.namespace = getRandomNamespace();
@@ -38,10 +40,10 @@ export class JsonUIElement {
         if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getElementPath()}`;
         else if (typeof data.extend === 'string') this.elementJsonUIKey = `${data.name}@${data.extend}`;
         else this.elementJsonUIKey = `${data.name}${data.extend ? `@${data.extend?.namespace}.${data.extend?.name}` : ''}`;
-        if (data.property) data.property = ModifyReadJsonUIProperty(data.property);
+        if (data.properties) data.properties = ModifyReadJsonUIProperty(data.properties);
         CachedManager.createElement(this, data.namespace, {
-            type: data.type ?? ElementTypes.Panel,
-            ...data.property
+            type: data.type ?? (data.extend) ? undefined : ElementTypes.Panel,
+            ...data.properties
         });
     }
 

@@ -9,7 +9,8 @@ interface JsonUIObjectInterface {
     json: { [key: string]: any },
     modify: { [key: string]: any },
     global_variables: { [key: string]: any },
-    global_variables_arr: [string[], string[]]
+    global_variables_arr: [string[], string[]],
+    sounds: { [key: string]: string | string[] }
 }
 
 const jsonUIObject: JsonUIObjectInterface = {
@@ -17,12 +18,16 @@ const jsonUIObject: JsonUIObjectInterface = {
     modify: {},
     global_variables: {},
     global_variables_arr: [[], []],
+    sounds: {}
 };
 
 /**
  * A class to manage cached data for JSON UI generation.
  */
 export class CachedManager {
+    static addSound(id: string, path: string | string[]) {
+        jsonUIObject.sounds[id] = path;
+    }
     /**
      * Registers an initial element for a specific screen file.
      * @param init_element - The name of the initial element.

@@ -7,6 +7,6 @@ export interface JsonUIElementInterface {
     type?: ElementTypes,
     name?: string,
     namespace?: string,
-    property?: JsonUIProperty,
+    properties?: JsonUIProperty,
     extend?: JsonUIElement | ExtendInterface | string
 }

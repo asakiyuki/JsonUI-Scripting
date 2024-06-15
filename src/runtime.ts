@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import { CachedManager } from "./cached/Manager";
 import { Config } from "./cached/Config";
+import { objectForEach } from "./lib/ObjectForEach";
 
 /**
  * An array to store file paths with their relative paths from the .cached directory.
@@ -128,6 +129,21 @@ process.on('exit', () => {
         fs.cpSync(Config.importTextures, '.cached/textures/', { recursive: true });
     console.log("Clone textures", new Date());
 
+    // Write sound_definitions.json
+
+    const soundsLength = Object.keys(jsonUI.sounds).length;
+    if (soundsLength !== 0) {
+        fs.mkdirSync('.cached/sounds');
+        objectForEach(jsonUI.sounds, (sounds, e) => {
+            jsonUI.sounds[e] = { category: "ui", sounds: Array.isArray(sounds) ? sounds.map(v => `sounds/${v}`) : `sounds/${sounds}` };
+        });
+        fs.mkdir('.cached/sounds');
+        fs.writeJSONSync('.cached/sounds/sound_definitions.json', jsonUI.sounds);
+        console.log('Compile', new Date(), '.cached/sounds/sound_definitions.json', `${soundsLength} sound(s) generated.`);
+
+        fs.readdirSync('.sounds').forEach(v => fs.cpSync(`.sounds/${v}`, `.cached/sounds/${v}`, { recursive: true }))
+    }
+
     // Recursively collect file paths from the .cached directory
     writeContent();
 
@@ -139,10 +155,12 @@ process.on('exit', () => {
     const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
 
     // Copy all files from the .cached directory to the target directory
+    if (!fs.existsSync(directory)) fs.removeSync(directory);
     fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
-
 
     // Log the export process
     console.log("Exporting resource packs", new Date(), directory);
     console.log("Compile time:", `${new Date().getTime() - Config.startTime}ms`)
+
+    fs.removeSync('.sounds');
 });

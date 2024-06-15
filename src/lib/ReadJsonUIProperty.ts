@@ -9,34 +9,34 @@ import { objectForEach } from "./ObjectForEach";
  * @param property - The JsonUIProperty object to be modified and read.
  * @returns The modified JsonUIProperty object.
  */
-export default function ModifyReadJsonUIProperty(property: JsonUIProperty): JsonUIProperty {
+export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): JsonUIProperty {
     // Modify anchor property
-    if (property.anchor) {
-        property.anchor_from = property.anchor;
-        property.anchor_to = property.anchor;
-        delete property.anchor;
+    if (properties.anchor) {
+        properties.anchor_from = properties.anchor;
+        properties.anchor_to = properties.anchor;
+        delete properties.anchor;
     }
 
     // Modify x and y properties
-    if (property.x || property.y) {
-        property.offset = [property.x ?? 0, property.y ?? 0];
-        delete property.x;
-        delete property.y;
+    if (properties.x || properties.y) {
+        properties.offset = [properties.x ?? 0, properties.y ?? 0];
+        delete properties.x;
+        delete properties.y;
     }
 
     // Modify width and height properties
-    if (property.width || property.height) {
-        property.size = [property.width ?? "default", property.height ?? "default"];
-        delete property.width;
-        delete property.height;
+    if (properties.width || properties.height) {
+        properties.size = [properties.width ?? "default", properties.height ?? "default"];
+        delete properties.width;
+        delete properties.height;
     }
 
     // Recursively read properties
-    objectForEach(property, (v, key) => {
-        property[key] = ReadProperty(v);
+    objectForEach(properties, (v, key) => {
+        properties[key] = ReadProperty(v);
     });
 
-    return property;
+    return properties;
 }
 
 /**

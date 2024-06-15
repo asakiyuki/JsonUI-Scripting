@@ -11,15 +11,15 @@ import { objectForEach } from "../../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../../lib/ReadJsonUIProperty";
 
 /**
- * Class representing a ScreenCommon.
+ * Class representing a JsonUIObject.
  * This class is used to manage and manipulate screen initialization data.
  */
-export class ScreenCommon {
+export class JsonUIObject {
     private screenInitKey: string;
     private elementModifyKey: string[] = [];
 
     /**
-    * Create a new ScreenCommon instance.
+    * Create a new JsonUIObject instance.
     * @param screenInitKey - The unique key for the screen initialization.
     * @param screenFile - The file path of the screen initialization.
     * @param extend - Optional parameter to extend the screen initialization with another element or path.
@@ -32,12 +32,12 @@ export class ScreenCommon {
     /**
      * Set a property in the screen initialization data.
      * @param property - The property to set.
-     * @returns The instance of ScreenCommon for method chaining.
+     * @returns The instance of JsonUIObject for method chaining.
      */
-    setProperty(property: JsonUIProperty) {
+    setProperty(properties: JsonUIProperty) {
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            ...ModifyReadJsonUIProperty(property),
+            ...ModifyReadJsonUIProperty(properties),
         })
         return this;
     }
@@ -48,7 +48,7 @@ export class ScreenCommon {
     * @param arrayName - The name of the array to insert into.
     * @param value - The value to insert.
     * @param callback - Optional callback function to be executed after insertion.
-    * @returns The instance of ScreenCommon for method chaining.
+    * @returns The instance of JsonUIObject for method chaining.
     */
     insert(type: 'back' | 'front', arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: () => void) {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
@@ -191,7 +191,7 @@ export class ScreenCommon {
     * Add an element to the screen initialization data.
     * @param value - The element to add.
     * @param callback - Optional callback function to be executed after addition.
-    * @returns The name of the added element if callback is not provided, otherwise the instance of ScreenCommon for method chaining.
+    * @returns The name of the added element if callback is not provided, otherwise the instance of JsonUIObject for method chaining.
     */
     addElement(
         value: InsertElementInterface | JsonUIElement,
