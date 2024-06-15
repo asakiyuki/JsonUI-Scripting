@@ -11,6 +11,7 @@ export class Config {
      * The static data property to hold the configuration data.
      */
     static data: ConfigInterface = {};
+    static importTextures?: string = undefined;
 
     /**
      * A static property to hold the start time of the application.

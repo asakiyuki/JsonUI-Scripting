@@ -124,6 +124,10 @@ process.on('exit', () => {
         ]
     }, 'utf-8');
 
+    if (Config.importTextures)
+        fs.cpSync(Config.importTextures, '.cached/textures/', { recursive: true });
+    console.log("Clone textures", new Date());
+
     // Recursively collect file paths from the .cached directory
     writeContent();
 
@@ -136,6 +140,7 @@ process.on('exit', () => {
 
     // Copy all files from the .cached directory to the target directory
     fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
+
 
     // Log the export process
     console.log("Exporting resource packs", new Date(), directory);

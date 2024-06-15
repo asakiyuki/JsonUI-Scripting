@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import { Config } from "../cached/Config";
 
 /**
  * Represents a UI texture that can be loaded from a directory.
@@ -12,6 +13,6 @@ export class UITexture {
      * @param directory_path - The path of the directory containing the texture files.
      */
     constructor(directory_path: string) {
-        fs.cpSync(directory_path, '.cached/textures/', { recursive: true });
+        Config.importTextures = directory_path;
     }
 }
