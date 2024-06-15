@@ -25,17 +25,19 @@ export default function ModifyReadJsonUIProperty(property: JsonUIProperty) {
     return property;
 }
 
-export function ReadProperty(value: any) {
+export function ReadProperty(value: any, isVariable: boolean = false) {
     if (Array.isArray(value)) {
         if (typeof value[0] === 'string') {
             if (value[0].startsWith('#')) {
                 return Color.parse(value[0].slice(1));
             }
         }
-    } else if (typeof value === 'object') {
+    }
+    else if (value instanceof JsonUIElement) {
+        return isVariable ? value.getElementPath().slice(1) : value.getElementJsonUIKey();
+    }
+    else if (typeof value === 'object') {
 
-    } else if (value instanceof JsonUIElement) {
-        return value.getElementJsonUIKey()
     }
     return value;
 }

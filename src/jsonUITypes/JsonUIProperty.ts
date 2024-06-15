@@ -86,6 +86,7 @@ export interface JsonUIProperty {
     keep_ratio?: string | JsonUIElement | ArrayProperty | Bool,
     bilinear?: string | JsonUIElement | ArrayProperty | Bool,
     fill?: string | JsonUIElement | ArrayProperty | Bool,
+    font_type?: string | JsonUIElement | ArrayProperty | FontType,
     "$fit_to_width"?: string | JsonUIElement | ArrayProperty | Bool,
     zip_folder?: string | JsonUIElement | ArrayProperty,
     grayscale?: string | JsonUIElement | ArrayProperty | Bool,

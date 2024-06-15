@@ -1,6 +1,5 @@
 import { Config } from "../cached/Config";
 import { CachedManager } from "../cached/Manager";
-import { AnimationInterface } from "../jsonUITypes/AnimationInterface";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { ElementTypes } from "../jsonUITypes/ElementTypes";
@@ -10,7 +9,7 @@ import { JsonUIElementInterface } from "../jsonUITypes/JsonUIElementInterface";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { Variables } from "../jsonUITypes/Variables";
 import { objectForEach } from "../lib/ObjectForEach";
-import ModifyReadJsonUIProperty, { ReadProperty } from "../lib/ReadJsonUIProperty";
+import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
 
 export class JsonUIElement {
@@ -121,8 +120,8 @@ export class JsonUIElement {
             [`$${name}|default`]: default_value
         });
         if (callback === null || callback) {
-            callback?.(this, name);
-            return name;
+            callback?.(this, `$${name}`);
+            return `$${name}`;
         } else return this;
     }
     setProperty(

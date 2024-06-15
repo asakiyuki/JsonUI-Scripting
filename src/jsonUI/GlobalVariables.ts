@@ -1,6 +1,5 @@
-import { register } from "module";
 import { CachedManager } from "../cached/Manager";
-import { generateRandomName } from "./GenerateRandomName";
+import { ReadProperty } from "../lib/ReadJsonUIProperty";
 
 export class GlobalVariables {
     static register(
@@ -9,6 +8,6 @@ export class GlobalVariables {
         CachedManager.createGlobalVariables(variableObject);
     }
     static from(value: any) {
-        return `$${CachedManager.obfuscatorGlobalVariable(value)}`;
+        return `$${CachedManager.obfuscatorGlobalVariable(ReadProperty(value, true))}`;
     }
 }
