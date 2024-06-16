@@ -3,6 +3,7 @@ import { generateRandomName } from "../../jsonUI/GenerateRandomName";
 import { JsonUIElement } from "../../jsonUI/JsonUIElement";
 import { BindingInterface } from "../../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../../jsonUITypes/ButtonMapping";
+import { GetJsonUIInitGenerateName } from "../../jsonUITypes/GetJsonUIGenerateName";
 import { InsertElementInterface } from "../../jsonUITypes/InsertElementInterface";
 import { JsonUIArrayName } from "../../jsonUITypes/JsonUIArrayName";
 import { JsonUIProperty } from "../../jsonUITypes/JsonUIProperty";
@@ -44,6 +45,28 @@ export class JsonUIObject {
     }
 
     /**
+     * Inserts an element at the end of the specified array in the screen initialization data.
+     * @param arrayName - The name of the array to insert into.
+     * @param value - The value to insert.
+     * @param callback - Optional callback function to be executed after insertion.
+     * @returns The instance of JsonUIObject for method chaining.
+     */
+    insertBack(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
+        return this.insert('back', arrayName, value);
+    };
+
+    /**
+     * Inserts an element at the beginning of the specified array in the screen initialization data.
+     * @param arrayName - The name of the array to insert into.
+     * @param value - The value to insert.
+     * @param callback - Optional callback function to be executed after insertion.
+     * @returns The instance of JsonUIObject for method chaining.
+     */
+    insertFront(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
+        return this.insert('front', arrayName, value);
+    };
+
+    /**
     * Insert an element into a specific array in the screen initialization data.
     * @param type - The type of insertion ('back' or 'front').
     * @param arrayName - The name of the array to insert into.
@@ -51,12 +74,12 @@ export class JsonUIObject {
     * @param callback - Optional callback function to be executed after insertion.
     * @returns The instance of JsonUIObject for method chaining.
     */
-    insert(type: 'back' | 'front', arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: () => void) {
+    private insert(type: 'back' | 'front', arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
         let arrayValue;
         switch (arrayName) {
             case "controls": {
-                const _v: JsonUIArrayName | JsonUIElement = value as any,
+                const _v: InsertElementInterface | JsonUIElement = value as any,
                     isElement = value instanceof JsonUIElement,
                     name = isElement ? generateRandomName() : (_v as any)?.name ?? generateRandomName(),
                     extend = isElement ? (_v as JsonUIElement).getPath().slice(1) :
@@ -72,6 +95,7 @@ export class JsonUIObject {
                         }
                     }
                 ];
+                callback?.(this, name);
             }; break;
             case "button_mappings": {
                 const _v: ButtonMapping = value as any;
@@ -113,6 +137,132 @@ export class JsonUIObject {
                 value: arrayValue
             })
         }
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
+            ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
+            modifications
+        })
+        return this;
+    };
+
+    /**
+     * Inserts an element before a specific element in the specified array in the screen initialization data.
+     * @param arrayName - The name of the array to insert into.
+     * @param from - The element to insert before. Can be a string, BindingInterface, ButtonMapping, or Variables.
+     * @param value - The value to insert. Can be InsertElementInterface, JsonUIElement, array of BindingInterface or string, ButtonMapping, or Variables.
+     * @param callback - Optional callback function to be executed after insertion.
+     * @returns The instance of JsonUIObject for method chaining.
+     */
+    insertBefore(
+        arrayName: JsonUIArrayName, from: string | BindingInterface | ButtonMapping | Variables,
+        value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables,
+        callback?: GetJsonUIInitGenerateName
+    ) {
+        return this._insert('before', arrayName, from, value, callback);
+    }
+
+    /**
+     * Inserts an element after a specific element in the specified array in the screen initialization data.
+     * @param arrayName - The name of the array to insert into.
+     * @param from - The element to insert after. Can be a string, BindingInterface, ButtonMapping, or Variables.
+     * @param value - The value to insert. Can be InsertElementInterface, JsonUIElement, array of BindingInterface or string, ButtonMapping, or Variables.
+     * @param callback - Optional callback function to be executed after insertion.
+     * @returns The instance of JsonUIObject for method chaining.
+     */
+    insertAfter(
+        arrayName: JsonUIArrayName, from: string | BindingInterface | ButtonMapping | Variables,
+        value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables,
+        callback?: GetJsonUIInitGenerateName
+    ) {
+        return this._insert('after', arrayName, from, value, callback);
+    }
+
+    /**
+     * Private method to handle insert operations in the screen initialization data.
+     * @param type - The type of insertion ('before' or 'after').
+     * @param arrayName - The name of the array to insert into.
+     * @param from - The element to insert before or after. Can be a string, BindingInterface, ButtonMapping, or Variables.
+     * @param value - The value to insert. Can be InsertElementInterface, JsonUIElement, array of BindingInterface or string, ButtonMapping, or Variables.
+     * @param callback - Optional callback function to be executed after insertion.
+     * @returns The instance of JsonUIObject for method chaining.
+     */
+    private _insert(
+        type: 'before' | 'after',
+        arrayName: JsonUIArrayName, from: string | BindingInterface | ButtonMapping | Variables,
+        value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables,
+        callback?: GetJsonUIInitGenerateName
+    ) {
+        if (!this.elementModifyKey.includes(`${type}:${arrayName}:${JSON.stringify(from)}`))
+            this.elementModifyKey.push(`${type}:${arrayName}:${JSON.stringify(from)}`);
+
+        const modifyIndex = this.elementModifyKey.indexOf(`${type}:${arrayName}:${JSON.stringify(from)}`),
+            modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+
+        const modifyObject = {
+            value: [],
+            array_name: arrayName,
+            operation: `insert_${type}`,
+            control_name: typeof from === 'string' ? from : undefined,
+            ...modifications[modifyIndex],
+        }
+
+        let arrValue;
+        switch (arrayName) {
+            case "controls": {
+                const _v = <JsonUIElement | InsertElementInterface>value,
+                    isElement = _v instanceof JsonUIElement,
+                    name = isElement ? generateRandomName() : (_v as any)?.name ?? generateRandomName(),
+                    extend = isElement ? (_v as JsonUIElement).getPath().slice(1) : (() => {
+                        const extend = (_v as InsertElementInterface).extend;
+                        return (typeof extend === 'string') ? `@${extend}` : (extend as JsonUIElement).getPath();
+                    })();
+
+                callback?.(this, name);
+                arrValue = [
+                    {
+                        [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
+                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.property ?? {}),
+                        }
+                    }
+                ];
+            }; break;
+            case "button_mappings": {
+                const _v: ButtonMapping = value as any;
+                arrValue = [_v];
+                modifyObject['where'] = from;
+            } break;
+            case "bindings": {
+                const _v: (BindingInterface | string)[] = value as any;
+                arrValue = _v.map(v => {
+                    if (typeof v === 'string') {
+                        const binding = v.split(':');
+                        return (v as BindingInterface) = {
+                            binding_name: binding[0],
+                            binding_name_override: binding[1]
+                        }
+                    } else return v;
+                });
+
+                modifyObject['where'] = from;
+            }; break;
+            case "variables": {
+                const _v: Variables = value as any;
+                objectForEach(_v.value, (v, k) => {
+                    _v.value[`$${k}`] = v;
+                    delete _v.value[k];
+                })
+                arrValue = [
+                    {
+                        requires: _v.requires,
+                        ..._v.value
+                    }
+                ];
+                modifyObject['where'] = from;
+            }; break;
+        }
+
+        modifyObject.value.push(...<any>arrValue);
+        modifications[modifyIndex] = modifyObject;
+
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
             modifications
@@ -221,5 +371,5 @@ export class JsonUIObject {
             callback?.(name)
             return this;
         } else return name;
-    }
+    };
 }
