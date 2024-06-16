@@ -1,7 +1,6 @@
 .cached
+.jsonUI
+.vscode
 node_modules
 app
 update.bat
-config.json
-textures
-.jsonUI

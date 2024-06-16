@@ -1,6 +1,5 @@
 .cached
 .jsonUI
+.vscode
 dist
 node_modules
-app
-textures
