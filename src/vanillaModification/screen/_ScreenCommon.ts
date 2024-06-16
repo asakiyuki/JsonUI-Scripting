@@ -26,7 +26,7 @@ export class JsonUIObject {
     * @param extend - Optional parameter to extend the screen initialization with another element or path.
     */
     constructor(screenInitKey: string, private screenFile: string, extend?: string | JsonUIElement) {
-        this.screenInitKey = extend ? `${screenInitKey}@${(extend instanceof JsonUIElement) ? extend.getElementPath().slice(1) : extend}` : screenInitKey;
+        this.screenInitKey = extend ? `${screenInitKey}@${(extend instanceof JsonUIElement) ? extend.getPath().slice(1) : extend}` : screenInitKey;
         CachedManager.screenInitRegister(this.screenInitKey, screenFile);
     }
 
@@ -59,15 +59,15 @@ export class JsonUIObject {
                 const _v: JsonUIArrayName | JsonUIElement = value as any,
                     isElement = value instanceof JsonUIElement,
                     name = isElement ? generateRandomName() : (_v as any)?.name ?? generateRandomName(),
-                    extend = isElement ? (_v as JsonUIElement).getElementPath().slice(1) :
+                    extend = isElement ? (_v as JsonUIElement).getPath().slice(1) :
                         (() => {
                             const extend = (_v as InsertElementInterface).extend;
-                            return (typeof extend === 'string') ? `@${extend}` : (extend as JsonUIElement).getElementPath();
+                            return (typeof extend === 'string') ? `@${extend}` : (extend as JsonUIElement).getPath();
                         })();
 
                 arrayValue = [
                     {
-                        [`${name}${isElement ? (_v as JsonUIElement).getElementPath() : extend}`]: {
+                        [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
                             ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.property ?? {}),
                         }
                     }
@@ -202,9 +202,9 @@ export class JsonUIObject {
             controls = _data.controls ?? [];
         const isElement = value instanceof JsonUIElement,
             name = isElement ? generateRandomName() : value?.name ?? generateRandomName();
-        if (isElement) controls.push({ [`${name}${value.getElementPath()}`]: {} });
+        if (isElement) controls.push({ [`${name}${value.getPath()}`]: {} });
         else {
-            if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getElementPath().slice(1);
+            if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             controls.push({
                 [`${name}@${value.extend}`]: {
                     ...ModifyReadJsonUIProperty(value.property ?? {})

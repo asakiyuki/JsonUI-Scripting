@@ -15,6 +15,6 @@
  *
  * @throws {Error} If the Math.random() function fails to generate a random number.
  */
-export function GenerateUUID() {
+export function GenerateUUID(): string {
     return "$$$$$$$$-$$$$-$$$$-$$$$-$$$$$$$$$$$$".replaceAll(/\$/g, () => Math.floor(Math.random() * 16).toString(16));
 }

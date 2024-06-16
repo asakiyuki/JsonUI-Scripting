@@ -17,7 +17,7 @@
  * console.log(randomName); // Output: "a1b2c3d4e5"
  * ```
  */
-export function generateRandomName(length: number = 25) {
+export function generateRandomName(length: number = 25): string {
     return Array.from({ length }, v => Math.floor(Math.random() * 16).toString(16)).join('');
 }
 
@@ -38,6 +38,6 @@ const namespace: string[] = Array.from({ length: 64 }, () => generateRandomName(
  * console.log(randomNamespace); // Output: "a1b2c3d4e5f6g7h8i9j0k1l2"
  * ```
  */
-export function getRandomNamespace() {
+export function getRandomNamespace(): string {
     return namespace[Math.floor(Math.random() * 10)];
 }

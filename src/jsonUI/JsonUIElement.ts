@@ -10,6 +10,7 @@ import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { Variables } from "../jsonUITypes/Variables";
 import { objectForEach } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
+import { Animation } from "./Animation";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
 
 /**
@@ -27,7 +28,9 @@ export class JsonUIElement {
      * ```
      */
     constructor(private data: JsonUIElementInterface = { type: ElementTypes.Panel }) {
-        if (data.extend) delete data.type;
+        if (data.extend) {
+            delete data.type;
+        };
 
         if (Config.data.obfuscator_element_name) {
             data.name = generateRandomName();
@@ -37,12 +40,13 @@ export class JsonUIElement {
             data.namespace = data.namespace ?? getRandomNamespace();
         }
 
-        if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getElementPath()}`;
+        if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getPath()}`;
         else if (typeof data.extend === 'string') this.elementJsonUIKey = `${data.name}@${data.extend}`;
         else this.elementJsonUIKey = `${data.name}${data.extend ? `@${data.extend?.namespace}.${data.extend?.name}` : ''}`;
         if (data.properties) data.properties = ModifyReadJsonUIProperty(data.properties);
+
         CachedManager.createElement(this, data.namespace, {
-            type: data.type ?? (data.extend) ? undefined : ElementTypes.Panel,
+            type: data.type,
             ...data.properties
         });
     }
@@ -59,7 +63,7 @@ export class JsonUIElement {
      * Get the path of the JSON UI element.
      * @returns The path of the JSON UI element.
      */
-    getElementPath() {
+    getPath() {
         return `@${this.data.namespace}.${this.data.name}`;
     }
 
@@ -94,9 +98,9 @@ export class JsonUIElement {
         const isElement = value instanceof JsonUIElement;
         const name = isElement ? generateRandomName() : value?.name ?? generateRandomName();
         if (isElement) {
-            CachedManager.insertArray('controls', this, this.data.namespace ?? "", { [`${name}${value.getElementPath()}`]: {} })
+            CachedManager.insertArray('controls', this, this.data.namespace ?? "", { [`${name}${value.getPath()}`]: {} })
         } else {
-            if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getElementPath().slice(1);
+            if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             CachedManager.insertArray('controls',
                 this,
                 this.data.namespace as string, {
@@ -121,6 +125,9 @@ export class JsonUIElement {
         data: JsonUIElement[],
         callback?: GetJsonUIGenerateNames
     ) {
+        const name: string[] = [];
+        data.forEach(_ => name.push(<string>this.addElement(_, null)));
+        callback?.(this, name);
         return this;
     }
 
@@ -183,8 +190,11 @@ export class JsonUIElement {
      * @returns The instance of JsonUIElement for method chaining.
      */
     addAnimation(
-        data: Animation
+        data: (Animation | string)[] | (Animation | string)
     ) {
+        if (Array.isArray(data)) {
+            data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace ?? "", (v instanceof Animation) ? v.getPath() : v));
+        } else CachedManager.insertArray('anims', this, this.data.namespace ?? "", (data instanceof Animation) ? data.getPath() : data);
         return this;
     }
 

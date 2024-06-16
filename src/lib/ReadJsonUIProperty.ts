@@ -1,3 +1,4 @@
+import { Animation } from "../jsonUI/Animation";
 import { Color } from "../jsonUI/Color";
 import { JsonUIElement } from "../jsonUI/JsonUIElement";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
@@ -54,9 +55,8 @@ export function ReadProperty(value: any, isVariable: boolean = false): any {
             }
         }
     }
-    else if (value instanceof JsonUIElement) {
-        return isVariable ? value.getElementPath().slice(1) : value.getElementJsonUIKey();
-    }
+    else if (value instanceof JsonUIElement) isVariable ? value.getPath().slice(1) : value.getElementJsonUIKey();
+    else if (value instanceof Animation) return value.getPath();
     else if (typeof value === 'object') {
         // Additional operations for object type
     }

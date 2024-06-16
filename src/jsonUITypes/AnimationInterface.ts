@@ -5,11 +5,7 @@ export interface AnimationInterface {
     type: AnimTypes,
     name?: string,
     namespace?: string,
-    start_value: any,
+    from: any,
     loop?: boolean,
-    play_event?: string,
-    end_event?: string,
-    start_event?: string,
-    reset_event?: string,
-    value: (AnimationValue | number)[]
+    keys: (AnimationValue | number)[]
 }

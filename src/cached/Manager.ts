@@ -138,7 +138,7 @@ export class CachedManager {
      * @param namespace - The namespace for the item.
      * @param value - The value of the item.
      */
-    static insertArray(arrayName: JsonUIArrayName, data: JsonUIElement, namespace: string, value: object) {
+    static insertArray(arrayName: JsonUIArrayName, data: JsonUIElement, namespace: string, value: object | string) {
         jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] = [
             ...jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] ?? [],
             value
