@@ -21,7 +21,7 @@ const helloWorldText = new JsonUIElement({
         text: "Hello World!"
     }
 });
-StartScreen.init('start_screen_content').insert('back', 'controls', helloWorldText);
+StartScreen.init('start_screen_content').insertBack('controls', helloWorldText);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:
