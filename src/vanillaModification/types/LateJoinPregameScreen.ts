@@ -1,0 +1,1 @@
+export type LateJoinPregameScreenTypes = "animation_panel" | "animation_panel/stacked_column" | "gamepad_helpers" | "gamepad_helpers/gamepad_helper_b_and_padding" | "late_join_pregame_screen" | "late_join_screen_content" | "late_join_screen_content/animation_panel" | "late_join_screen_content/animation_panel/gamepad_helpers";

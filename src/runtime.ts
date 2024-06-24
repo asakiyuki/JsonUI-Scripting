@@ -2,7 +2,14 @@ import fs from "fs-extra";
 import { CachedManager } from "./cached/Manager";
 import { Config } from "./cached/Config";
 import { objectForEach } from "./lib/ObjectForEach";
-import { ChildProcess, spawn } from "child_process";
+
+const saveConsole: any = [];
+const Console = { ...console };
+for (const key in console) {
+    delete (console as any)[key];
+    saveConsole[key] = [];
+    (console as any)[key] = function () { saveConsole.push({ type: key, data: arguments }) };
+}
 
 /**
  * An array to store file paths with their relative paths from the .cached directory.
@@ -37,6 +44,12 @@ function writeContent(path: string = '') {
  * compiling UI code, generating manifest and content files, and exporting the resource packs.
  */
 process.on('exit', () => {
+    for (const key in console) {
+        delete (console as any)[key];
+        (console as any)[key] = (Console as any)[key]
+        delete (Console as any)[key];
+    }
+
     if (!fs.existsSync('.vscode')) {
         // Create the.vscode directory
         fs.mkdirSync('.vscode');
@@ -166,16 +179,23 @@ process.on('exit', () => {
     fs.writeJSONSync('.cached/contents.json', { content }, 'utf-8');
     console.log("Create content.json file", new Date(), '.cached/content.json', `${content.length} file path(s) found!`);
 
+    // Log the export process
+    let i = 0;
+    for (const log of saveConsole) {
+        if (i === 0) console.log('\n');
+        delete saveConsole[i++];
+        (console as any)[log.type](...log.data);
+    }
+    console.log('\n');
+
     // Determine the target directory for exporting resource packs
     const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
 
     // Copy all files from the .cached directory to the target directory
-    if (!fs.existsSync(directory)) fs.removeSync(directory);
+    if (fs.existsSync(directory)) fs.removeSync(directory);
     fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
-
-    // Log the export process
     console.log("Exporting resource packs", new Date(), directory);
-    console.log("Compile time:", `${new Date().getTime() - Config.startTime}ms`)
 
+    console.timeEnd('Compile time');
     fs.removeSync('.sounds');
 });

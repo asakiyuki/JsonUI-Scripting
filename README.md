@@ -14,14 +14,13 @@ This will add jsonui-scripting to your project's package.json file and download 
 The syntax is very simple, I can provide an example using code snippets displaying 'Hello World!' text on the Start Screen as follows:
 ```javascript
 // app.js
-const { JsonUIElement, ElementTypes, StartScreen } = require('jsonui-scripting');
-const helloWorldText = new JsonUIElement({
-    type: ElementTypes.Label,
+const { JsonUIElement, StartScreen } = require("jsonui-scripting");
+const helloWorld = JsonUIElement.label({
     properties: {
         text: "Hello World!"
     }
 });
-StartScreen.init('start_screen_content').insertBack('controls', helloWorldText);
+StartScreen.init('start_screen_content').insertBack('controls', helloWorld);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:

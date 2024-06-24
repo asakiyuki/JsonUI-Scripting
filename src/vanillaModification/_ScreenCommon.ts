@@ -1,15 +1,15 @@
-import { CachedManager } from "../../cached/Manager";
-import { generateRandomName } from "../../jsonUI/GenerateRandomName";
-import { JsonUIElement } from "../../jsonUI/JsonUIElement";
-import { BindingInterface } from "../../jsonUITypes/BindingInterface";
-import { ButtonMapping } from "../../jsonUITypes/ButtonMapping";
-import { GetJsonUIInitGenerateName } from "../../jsonUITypes/GetJsonUIGenerateName";
-import { InsertElementInterface } from "../../jsonUITypes/InsertElementInterface";
-import { JsonUIArrayName } from "../../jsonUITypes/JsonUIArrayName";
-import { JsonUIProperty } from "../../jsonUITypes/JsonUIProperty";
-import { Variables } from "../../jsonUITypes/Variables";
-import { objectForEach } from "../../lib/ObjectForEach";
-import ModifyReadJsonUIProperty from "../../lib/ReadJsonUIProperty";
+import { CachedManager } from "../cached/Manager";
+import { generateRandomName } from "../jsonUI/GenerateRandomName";
+import { JsonUIElement } from "../jsonUI/JsonUIElement";
+import { BindingInterface } from "../jsonUITypes/BindingInterface";
+import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
+import { GetJsonUIInitGenerateName } from "../jsonUITypes/GetJsonUIGenerateName";
+import { InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
+import { JsonUIArrayName } from "../jsonUITypes/JsonUIArrayName";
+import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
+import { Variables } from "../jsonUITypes/Variables";
+import { objectForEach } from "../lib/ObjectForEach";
+import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 
 /**
  * Class representing a JsonUIObject.
@@ -26,9 +26,10 @@ export class JsonUIObject {
     * @param screenFile - The file path of the screen initialization.
     * @param extend - Optional parameter to extend the screen initialization with another element or path.
     */
-    constructor(screenInitKey: string, private screenFile: string, extend?: string | JsonUIElement) {
+    constructor(screenInitKey: string, private screenFile: string, extend?: string | JsonUIElement, property?: JsonUIProperty) {
         this.screenInitKey = extend ? `${screenInitKey}@${(extend instanceof JsonUIElement) ? extend.getPath().slice(1) : extend}` : screenInitKey;
         CachedManager.screenInitRegister(this.screenInitKey, screenFile);
+        if (property) this.setProperty(property);
     }
 
     /**
@@ -91,7 +92,7 @@ export class JsonUIObject {
                 arrayValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.property ?? {}),
+                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties ?? {}),
                         }
                     }
                 ];
@@ -220,7 +221,7 @@ export class JsonUIObject {
                 arrValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.property ?? {}),
+                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties ?? {}),
                         }
                     }
                 ];
@@ -295,7 +296,9 @@ export class JsonUIObject {
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ..._data,
             bindings
-        })
+        });
+
+        return this;
     }
 
     /**
@@ -312,7 +315,9 @@ export class JsonUIObject {
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ..._data,
             button_mappings
-        })
+        });
+
+        return this;
     }
 
     /**
@@ -336,6 +341,8 @@ export class JsonUIObject {
             ..._data,
             variables
         });
+
+        return this;
     }
 
     /**
@@ -357,7 +364,7 @@ export class JsonUIObject {
             if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             controls.push({
                 [`${name}@${value.extend}`]: {
-                    ...ModifyReadJsonUIProperty(value.property ?? {})
+                    ...ModifyReadJsonUIProperty(value.properties ?? {})
                 }
             });
         }

@@ -1,0 +1,1 @@
+export type AuthenticationModalsTypes = "modal_dialog_label" | "modal_dialog_content" | "modal_dialog_content/body_text" | "modal_dialog_content/body_text/button_wrapper" | "modal_dialog_frame" | "modal_dialog_frame/title" | "modal_dialog_frame/title/close" | "modal_dialog_frame/title/close/black_tint_image" | "ad_modal_dialog";

@@ -1,0 +1,1 @@
+export type PanoramaScreenTypes = "panorama_view" | "panorama_view/pan_left" | "panorama_view/pan_left/screenshot" | "panorama_view/pan_left/screenshot/pan_right" | "panorama_input_panel" | "panorama_input_panel/image_border" | "pan_left_button" | "pan_right_button";

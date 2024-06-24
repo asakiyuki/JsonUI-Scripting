@@ -5,8 +5,9 @@ import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { ElementTypes } from "../jsonUITypes/ElementTypes";
 import { GetJsonUIGenerateName, GetJsonUIGenerateNames } from "../jsonUITypes/GetJsonUIGenerateName";
 import { InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
-import { JsonUIElementInterface } from "../jsonUITypes/JsonUIElementInterface";
+import { JsonUIElementInterface, StaticJsonUIElementInterface } from "../jsonUITypes/JsonUIElementInterface";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
+import { Renderer } from "../jsonUITypes/Renderer";
 import { Variables } from "../jsonUITypes/Variables";
 import { objectForEach } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
@@ -27,6 +28,16 @@ export class JsonUIElement {
      * const element = new JsonUIElement({ type: ElementTypes.Panel });
      * ```
      */
+
+    private static apply() { };
+    private static arguments = '';
+    private static bind() { };
+    private static call() { };
+    private static caller = '';
+    private static length = '';
+    private static name = '';
+    private static toString() { };
+
     constructor(private data: JsonUIElementInterface = { type: ElementTypes.Panel }) {
         if (data.extend) {
             delete data.type;
@@ -48,6 +59,125 @@ export class JsonUIElement {
         CachedManager.createElement(this, data.namespace, {
             type: data.type,
             ...data.properties
+        });
+    }
+
+    static panel(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Panel,
+            ...data
+        });
+    }
+    static stackPanel(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.StackPanel,
+            ...data
+        });
+    };
+    static collectionPanel(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.CollectionPanel,
+            ...data
+        });
+    }
+    static button(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Button,
+            ...data
+        });
+    }
+    static toggle(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Toggle,
+            ...data
+        });
+    }
+    static slider(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Slider,
+            ...data
+        });
+    }
+    static label(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Label,
+            ...data
+        });
+    }
+    static image(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Image,
+            ...data
+        });
+    }
+    static editBox(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.EditBox,
+            ...data
+        });
+    }
+    static grid(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Grid,
+            ...data
+        });
+    }
+    static dropdown(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Dropdown,
+            ...data
+        });
+    }
+    static sliderBox(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.SliderBox,
+            ...data
+        });
+    }
+    static scrollView(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.ScrollView,
+            ...data
+        });
+    }
+    static scrollbarTrack(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.ScrollbarTrack,
+            ...data
+        });
+    }
+    static scrollbarBox(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.ScrollbarBox,
+            ...data
+        });
+    }
+    static factory(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Factory,
+            ...data
+        });
+    }
+    static screen(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Screen,
+            ...data
+        });
+    }
+    static custom(renderer: Renderer, data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.Custom,
+            ...data,
+            properties: {
+                ...(data.properties),
+                renderer
+            }
+        });
+    }
+    static selectionWheel(data: StaticJsonUIElementInterface) {
+        return new JsonUIElement({
+            type: ElementTypes.SelectionWheel,
+            ...data
         });
     }
 
@@ -105,7 +235,7 @@ export class JsonUIElement {
                 this,
                 this.data.namespace as string, {
                 [`${name}@${value?.extend}`]: {
-                    ...ModifyReadJsonUIProperty(value?.property ?? {})
+                    ...ModifyReadJsonUIProperty(value?.properties ?? {})
                 }
             });
         }

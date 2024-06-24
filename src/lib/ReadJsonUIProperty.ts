@@ -26,7 +26,13 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
     }
 
     // Modify width and height properties
-    if (properties.width || properties.height) {
+    if (typeof properties.size === 'number'
+        || (
+            typeof properties.size === 'string'
+            && (!['#', '$'].includes(properties.size[0])
+            ))
+    ) properties.size = [properties.size, properties.size];
+    else if (properties.width || properties.height) {
         properties.size = [properties.width ?? "default", properties.height ?? "default"];
         delete properties.width;
         delete properties.height;
@@ -55,7 +61,7 @@ export function ReadProperty(value: any, isVariable: boolean = false): any {
             }
         }
     }
-    else if (value instanceof JsonUIElement) isVariable ? value.getPath().slice(1) : value.getElementJsonUIKey();
+    else if (value instanceof JsonUIElement) return isVariable ? value.getPath().slice(1) : value.getElementJsonUIKey();
     else if (value instanceof Animation) return value.getPath();
     else if (typeof value === 'object') {
         // Additional operations for object type

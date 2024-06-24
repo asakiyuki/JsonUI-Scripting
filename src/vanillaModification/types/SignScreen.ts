@@ -1,0 +1,1 @@
+export type SignScreenTypes = "sign_background" | "hanging_sign_background" | "base_sign_text_multiline" | "regular_sign_text_multiline" | "hanging_sign_text_multiline" | "sign_screen_content" | "sign_screen_content/input_eating_panel" | "sign_screen_content/input_eating_panel/invisible_exit_background" | "sign_screen";

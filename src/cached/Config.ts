@@ -14,12 +14,6 @@ export class Config {
     static importTextures?: string = undefined;
 
     /**
-     * A static property to hold the start time of the application.
-     * It is initialized with the current time when the Config class is loaded.
-     */
-    static startTime = new Date().getTime();
-
-    /**
      * Reads the configuration from a file and returns it.
      * If the configuration file does not exist, it creates a default configuration.
      *

@@ -1,0 +1,1 @@
+export type SmokerScreenTypes = "smoker_screen";

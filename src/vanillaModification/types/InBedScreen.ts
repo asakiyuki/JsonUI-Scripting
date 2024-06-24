@@ -1,0 +1,1 @@
+export type InBedScreenTypes = "in_bed_screen" | "in_bed_screen_content" | "in_bed_screen_content/wake_up_button_panel" | "in_bed_screen_content/wake_up_button_panel/wake_up_label_panel" | "in_bed_screen_content/wake_up_button_panel/wake_up_label_panel/select_button" | "background";

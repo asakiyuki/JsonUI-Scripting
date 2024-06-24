@@ -1,0 +1,1 @@
+export type StoreSalesItemListScreenTypes = "banner_header" | "banner_header/label_panel" | "sales_offer_content" | "sales_offer_content/top_padding" | "sales_offer_content/top_padding/sales_panel" | "all_offer_content" | "all_offer_content/store_offer_grid_panel";

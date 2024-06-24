@@ -3,7 +3,7 @@ import { GetJsonUIGenerateName } from "./GetJsonUIGenerateName";
 import { JsonUIProperty } from "./JsonUIProperty";
 
 export interface InsertElementInterface {
-    property?: JsonUIProperty,
+    properties?: JsonUIProperty,
     name?: string,
     extend?: JsonUIElement | string
 }

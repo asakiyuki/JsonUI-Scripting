@@ -10,3 +10,9 @@ export interface JsonUIElementInterface {
     properties?: JsonUIProperty,
     extend?: JsonUIElement | ExtendInterface | string
 }
+
+export interface StaticJsonUIElementInterface {
+    name?: string,
+    namespace?: string,
+    properties?: JsonUIProperty,
+}

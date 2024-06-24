@@ -226,6 +226,7 @@ export interface JsonUIProperty {
     force_render_below?: GlobalTypes | ArrayProperty | Bool,
     send_telemetry?: GlobalTypes | ArrayProperty | Bool,
     close_on_player_hurt?: GlobalTypes | ArrayProperty | Bool,
+    orientation?: GlobalTypes | ArrayProperty | Orientation,
     cache_screen?: GlobalTypes | ArrayProperty | Bool,
     load_screen_immediately?: GlobalTypes | ArrayProperty | Bool,
     gamepad_cursor?: GlobalTypes | ArrayProperty | Bool,

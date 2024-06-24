@@ -1,0 +1,1 @@
+export type RealmsplusUpgradeNoticeScreenTypes = "screen" | "main_content" | "main_content/dialog" | "content" | "content/image_row_positioner" | "content/image_row_positioner/padding_0" | "content/image_row_positioner/padding_0/wall_of_text" | "content/image_row_positioner/padding_0/wall_of_text/buttons_row" | "buttonlbl" | "buttonlbl/label" | "lbutton_label" | "rbutton_label";

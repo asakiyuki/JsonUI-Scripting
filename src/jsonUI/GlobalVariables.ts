@@ -5,6 +5,14 @@ import { ReadProperty } from "../lib/ReadJsonUIProperty";
  * A class to manage global variables.
  */
 export class GlobalVariables {
+    private static apply() { };
+    private static arguments = '';
+    private static bind() { };
+    private static call() { };
+    private static caller = '';
+    private static length = '';
+    private static name = '';
+    private static toString() { };
     /**
      * Registers a global variable object.
      *
