@@ -1,4 +1,5 @@
 console.time('Compile time');
+export * from "./builder/Bindings";
 export * from "./cached/Config";
 export * from "./cached/ConfigInterface";
 export * from "./cached/Manager";

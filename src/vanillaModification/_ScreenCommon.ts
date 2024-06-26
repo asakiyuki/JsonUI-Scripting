@@ -1,3 +1,4 @@
+import { BindingsHandle } from "../builder/Bindings";
 import { CachedManager } from "../cached/Manager";
 import { generateRandomName } from "../jsonUI/GenerateRandomName";
 import { JsonUIElement } from "../jsonUI/JsonUIElement";
@@ -281,17 +282,7 @@ export class JsonUIObject {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
             bindings = _data.bindings ?? [];
 
-        data = data.map(v => {
-            if (typeof v === 'string') {
-                const binding = v.split(':');
-                return (v as BindingInterface) = {
-                    binding_name: binding[0],
-                    binding_name_override: binding[1]
-                }
-            } else return v;
-        });
-
-        bindings.push(...data);
+        bindings.push(BindingsHandle(data));
 
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ..._data,

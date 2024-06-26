@@ -5,7 +5,7 @@
 # Installation
 To install the required dependencies, run the following command in your project directory:
 ```bat
-npm i jsonui-scripting
+npm install jsonui-scripting
 ```
 This will add jsonui-scripting to your project's package.json file and download the package into your node_modules directory.
 
@@ -14,13 +14,14 @@ This will add jsonui-scripting to your project's package.json file and download 
 The syntax is very simple, I can provide an example using code snippets displaying 'Hello World!' text on the Start Screen as follows:
 ```javascript
 // app.js
-const { JsonUIElement, StartScreen } = require("jsonui-scripting");
-const helloWorld = JsonUIElement.label({
+const { JsonUIElement, Modify } = require('jsonui-scripting');
+const a = JsonUIElement.label({
     properties: {
-        text: "Hello World!"
+        text: 'Hello World!'
     }
 });
-StartScreen.init('start_screen_content').insertBack('controls', helloWorld);
+Modify.startScreen('start_screen_content')
+    .insertBack('controls', a);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:

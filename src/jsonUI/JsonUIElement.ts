@@ -1,3 +1,4 @@
+import { BindingsHandle } from "../builder/Bindings";
 import { Config } from "../cached/Config";
 import { CachedManager } from "../cached/Manager";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
@@ -299,18 +300,9 @@ export class JsonUIElement {
      * @returns The instance of JsonUIElement for method chaining.
      */
     addBindings(
-        data: (BindingInterface | string)[]
+        data: (BindingInterface | string | string[])[]
     ) {
-        data.forEach(_ => {
-            if (typeof _ === 'string') {
-                const binding = _.split(':');
-                (_ as BindingInterface) = {
-                    binding_name: binding[0],
-                    binding_name_override: binding[1]
-                }
-            }
-            CachedManager.insertArray('bindings', this, this.data.namespace ?? "", _ as any);
-        });
+        BindingsHandle(data).forEach(v => CachedManager.insertArray('bindings', this, this.data.namespace ?? "", v));
         return this;
     }
 
