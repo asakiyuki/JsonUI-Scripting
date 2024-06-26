@@ -1,1 +1,1 @@
-export type ScreenshotScreenTypes = "anim_screenshot_flash" | "screenshot_flash_image" | "screenshot_screen" | "screenshot_screen_content" | "screenshot_screen_content/transparent_background" | "screenshot_screen_content/transparent_background/screenshot_flash";
+export type ScreenshotScreenTypes = "anim_screenshot_flash" | "screenshot_flash_image" | "screenshot_screen" | "screenshot_screen_content" | "screenshot_screen_content/transparent_background" | "screenshot_screen_content/screenshot_flash";

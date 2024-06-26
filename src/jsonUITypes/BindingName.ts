@@ -1924,6 +1924,7 @@ export enum BindingName {
     VerboseSidebarFactoryCollection = "#verbose_sidebar_factory_collection",
     IsControllerHoverVisible = "#is_controller_hover_visible",
     PageLoadingFinished = "#page_loading_finished",
+    ShowingPlatformStoreIcon = "#showing_platform_store_icon",
     SignTextMulti = "#sign_text_multi",
     SignText = "#sign_text",
     InProgressTitle = "#in_progress_title",

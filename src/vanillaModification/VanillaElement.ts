@@ -4583,6 +4583,7 @@ export const VanillaElement = {
         'SidebarEmptyPanel': "sidebar_navigation.sidebar_empty_panel",
         'ContentView': "sidebar_navigation.content_view",
         'SidebarView': "sidebar_navigation.sidebar_view",
+        'PlatformStoreIconSpacing': "sidebar_navigation.platform_store_icon_spacing",
     },
     SignScreen: {
         'SignBackground': "sign.sign_background",

@@ -11,13 +11,13 @@ const jsonUIs = fs.readdirSync('.jsonui', 'utf-8').map(v => {
 
 function readThis(readElement = [], path) {
     const elementPaths = [];
-    readElement.forEach(v => {
-        const eK = Object.keys(v)[0];
-        path = `${path}/${eK.replace(/@.+/g, '')}`;
-        v = v[eK];
-        elementPaths.push(`"${path}"`);
-        if (Array.isArray(v.controls)) readThis(v.controls, path);
-    });
+    for (const element of readElement) {
+        const elementKey = Object.keys(element)[0];
+        const elementName = elementKey.split('@')[0];
+        const elementPath = `${path}/${elementName}`;
+        elementPaths.push(`"${elementPath}"`);
+        if (element[elementKey].controls) elementPaths.push(...readThis(element[elementKey].controls, elementPath));
+    }
     return elementPaths;
 }
 

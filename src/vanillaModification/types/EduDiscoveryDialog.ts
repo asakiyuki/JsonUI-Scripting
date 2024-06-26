@@ -1,1 +1,1 @@
-export type EduDiscoveryDialogTypes = "service_body_label" | "service_button" | "service_buttons" | "content" | "content/body_text" | "content/body_text/text_to_button_padding" | "content/body_text/text_to_button_padding/buttons" | "service_dialog" | "discovery_dialog_factory";
+export type EduDiscoveryDialogTypes = "service_body_label" | "service_button" | "service_buttons" | "content" | "content/body_text" | "content/text_to_button_padding" | "content/buttons" | "service_dialog" | "discovery_dialog_factory";
