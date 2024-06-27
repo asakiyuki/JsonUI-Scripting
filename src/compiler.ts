@@ -188,13 +188,15 @@ process.on('exit', () => {
     }
     console.log('\n');
 
-    // Determine the target directory for exporting resource packs
-    const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
+    if (fs.existsSync('config.json')) {
+        // Determine the target directory for exporting resource packs
+        const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
 
-    // Copy all files from the .cached directory to the target directory
-    if (fs.existsSync(directory)) fs.removeSync(directory);
-    fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
-    console.log("Exporting resource packs", new Date(), directory);
+        // Copy all files from the .cached directory to the target directory
+        if (fs.existsSync(directory)) fs.removeSync(directory);
+        fs.readdirSync('.cached').forEach(v => fs.cpSync(`.cached/${v}`, `${directory}\\${v}`, { recursive: true }));
+        console.log("Exporting resource packs", new Date(), directory);
+    }
 
     console.timeEnd('Compile time');
     fs.removeSync('.sounds');
