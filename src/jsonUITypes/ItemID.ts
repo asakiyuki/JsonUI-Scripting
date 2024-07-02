@@ -1,5 +1,5 @@
 import fs from "fs-extra";
-import {parse} from "comment-json";
+import { parse } from "comment-json";
 
 export const ItemID = {
     "prismarine_bricks": -948,
