@@ -68,9 +68,7 @@ ${insideArr.join('\n')}
 
     const _ = jsonUIs[index];
     arr.push(`import { ${_.typeBase} } from "./types/${_.classBase}";`);
-    arr2.push(`    static ${_.classBase[0].toLowerCase()}${_.classBase.slice(1)}(modify: ${_.typeBase}, extend?: JsonUIElement | string) {
-        return new JsonUIObject(modify, "${_.jsonUIFile}", extend);
-    }`)
+    arr2.push(`static ${_.classBase[0].toLowerCase()}${_.classBase.slice(1)}(modify: ${_.typeBase}, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['${_.jsonUIFile}'] ??= {})[modify] ??= new JsonUIObject(modify, "${_.jsonUIFile}", extend)); }`)
     fs.writeFileSync(`src/vanillaModification/types/${_.classBase}.ts`, `export type ${_.typeBase} = ${elementPaths.join(' | ')};`);
 
 };
@@ -81,21 +79,7 @@ ${arr3.join('\n')}
 }`);
 
 fs.writeFileSync('src/vanillaModification/Modify.ts',
-    `import { JsonUIElement } from "../jsonUI/JsonUIElement";
-${arr.join('\n')}
-import { JsonUIObject } from "./_ScreenCommon";
-
-export class Modify {
-    private static apply() { };
-    private static arguments = '';
-    private static bind() { };
-    private static call() { };
-    private static caller = '';
-    private static length = '';
-    private static name = '';
-    private static toString() { };
-${arr2.join('\n')}
-}`);
+    `import { JsonUIElement } from "../jsonUI/JsonUIElement"; ${arr.join(' ')} import { JsonUIObject } from "./_ScreenCommon"; const jsonUIScreen: any = {}; export class Modify { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${arr2.join('; ')}}`);
 
 fs.writeFileSync('src/jsonUITypes/BindingName.ts', `export enum BindingName {
 ${arr4.join('\n')}

@@ -11,7 +11,6 @@ export class Config {
      * The static data property to hold the configuration data.
      */
     static data: ConfigInterface = {};
-    static importTextures?: string = undefined;
 
     /**
      * Reads the configuration from a file and returns it.
@@ -21,9 +20,9 @@ export class Config {
      */
     static read(): ConfigInterface {
         // Read or generate a unique identifier (UUID) for the application
-        const uuid: string = fs.existsSync('uuid.txt') ? fs.readFileSync('uuid.txt', 'utf-8') : (() => {
+        const uuid: string = fs.existsSync('uuid') ? fs.readFileSync('uuid', 'utf-8') : (() => {
             const uuid = GenerateUUID();
-            fs.writeFileSync('uuid.txt', uuid, 'utf-8');
+            fs.writeFileSync('uuid', uuid, 'utf-8');
             return uuid;
         })();
 

@@ -1,7 +1,7 @@
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 
 export class JsonUILib {
-    static floatToIntBindingsBuild(binding_name: string, binding_name_override: string, max_int: number, checkNegative: boolean = false) {
+    static floatToIntBindingsBuild(binding_name: string, binding_name_override: string, max_int: number, checkNegative: boolean = false): BindingInterface[] | undefined {
         try {
             if (max_int >= 10000000000) throw "Max int should lower 10000000000";
             const l = `${max_int}`.length, _: BindingInterface[] = [];

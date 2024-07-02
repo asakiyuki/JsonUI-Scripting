@@ -46,6 +46,94 @@ export class JsonUIObject {
         return this;
     }
 
+    swap(arrayName: JsonUIArrayName,
+        where: BindingInterface | ButtonMapping | Variables | object,
+        target: BindingInterface | ButtonMapping | Variables | object
+    ) {
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+
+        if (arrayName === 'variables') {
+            for (const key in (<any>where).value)
+                (<any>where)[`$${key}`] = (<any>where).value[key];
+            for (const key in (<any>target).value)
+                (<any>target)[`$${key}`] = (<any>target).value[key];
+
+            delete (<any>where).value;
+            delete (<any>target).value;
+        }
+
+        modifications.push({
+            array_name: arrayName,
+            operation: 'swap',
+            where,
+            target
+        });
+
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
+            ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
+            modifications
+        });
+
+        return this;
+    };
+
+    replace(arrayName: JsonUIArrayName,
+        where: BindingInterface | ButtonMapping | Variables | object,
+        value: BindingInterface | ButtonMapping | Variables | object
+    ) {
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+
+        if (arrayName === 'variables') {
+            for (const key in (<any>where).value)
+                (<any>where)[`$${key}`] = (<any>where).value[key];
+            for (const key in (<any>value).value)
+                (<any>value)[`$${key}`] = (<any>value).value[key];
+
+            delete (<any>where).value;
+            delete (<any>value).value;
+        }
+
+        modifications.push({
+            array_name: arrayName,
+            operation: 'replace',
+            where,
+            value
+        });
+
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
+            ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
+            modifications
+        });
+
+        return this;
+    };
+
+    remove(arrayName: JsonUIArrayName,
+        where: BindingInterface | ButtonMapping | Variables | object
+    ) {
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+
+        if (arrayName === 'variables') {
+            for (const key in (<any>where).value)
+                (<any>where)[`$${key}`] = (<any>where).value[key];
+
+            delete (<any>where).value;
+        }
+
+        modifications.push({
+            array_name: arrayName,
+            operation: 'remove',
+            where
+        });
+
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
+            ...CachedManager.readInitElement(this.screenInitKey, this.screenFile),
+            modifications
+        });
+
+        return this;
+    };
+
     /**
      * Inserts an element at the end of the specified array in the screen initialization data.
      * @param arrayName - The name of the array to insert into.
@@ -54,7 +142,7 @@ export class JsonUIObject {
      * @returns The instance of JsonUIObject for method chaining.
      */
     insertBack(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
-        return this.insert('back', arrayName, value);
+        return this.insert('back', arrayName, value, callback);
     };
 
     /**
@@ -65,7 +153,7 @@ export class JsonUIObject {
      * @returns The instance of JsonUIObject for method chaining.
      */
     insertFront(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
-        return this.insert('front', arrayName, value);
+        return this.insert('front', arrayName, value, callback);
     };
 
     /**

@@ -39,5 +39,5 @@ const namespace: string[] = Array.from({ length: 64 }, () => generateRandomName(
  * ```
  */
 export function getRandomNamespace(): string {
-    return namespace[Math.floor(Math.random() * 10)];
+    return namespace[Math.floor(Math.random() * 64)];
 }

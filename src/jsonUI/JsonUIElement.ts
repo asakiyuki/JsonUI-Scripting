@@ -63,109 +63,109 @@ export class JsonUIElement {
         });
     }
 
-    static panel(data: StaticJsonUIElementInterface) {
+    static panel(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Panel,
             ...data
         });
     }
-    static stackPanel(data: StaticJsonUIElementInterface) {
+    static stackPanel(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.StackPanel,
             ...data
         });
     };
-    static collectionPanel(data: StaticJsonUIElementInterface) {
+    static collectionPanel(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.CollectionPanel,
             ...data
         });
     }
-    static button(data: StaticJsonUIElementInterface) {
+    static button(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Button,
             ...data
         });
     }
-    static toggle(data: StaticJsonUIElementInterface) {
+    static toggle(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Toggle,
             ...data
         });
     }
-    static slider(data: StaticJsonUIElementInterface) {
+    static slider(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Slider,
             ...data
         });
     }
-    static label(data: StaticJsonUIElementInterface) {
+    static label(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Label,
             ...data
         });
     }
-    static image(data: StaticJsonUIElementInterface) {
+    static image(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Image,
             ...data
         });
     }
-    static editBox(data: StaticJsonUIElementInterface) {
+    static editBox(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.EditBox,
             ...data
         });
     }
-    static grid(data: StaticJsonUIElementInterface) {
+    static grid(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Grid,
             ...data
         });
     }
-    static dropdown(data: StaticJsonUIElementInterface) {
+    static dropdown(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Dropdown,
             ...data
         });
     }
-    static sliderBox(data: StaticJsonUIElementInterface) {
+    static sliderBox(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.SliderBox,
             ...data
         });
     }
-    static scrollView(data: StaticJsonUIElementInterface) {
+    static scrollView(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollView,
             ...data
         });
     }
-    static scrollbarTrack(data: StaticJsonUIElementInterface) {
+    static scrollbarTrack(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollbarTrack,
             ...data
         });
     }
-    static scrollbarBox(data: StaticJsonUIElementInterface) {
+    static scrollbarBox(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollbarBox,
             ...data
         });
     }
-    static factory(data: StaticJsonUIElementInterface) {
+    static factory(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Factory,
             ...data
         });
     }
-    static screen(data: StaticJsonUIElementInterface) {
+    static screen(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Screen,
             ...data
         });
     }
-    static custom(renderer: Renderer, data: StaticJsonUIElementInterface) {
+    static custom(renderer: Renderer, data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Custom,
             ...data,
@@ -175,7 +175,7 @@ export class JsonUIElement {
             }
         });
     }
-    static selectionWheel(data: StaticJsonUIElementInterface) {
+    static selectionWheel(data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.SelectionWheel,
             ...data

@@ -1,6 +1,12 @@
 import { generateRandomName } from "../jsonUI/GenerateRandomName";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 
+/**
+ * Lexer function to tokenize the input string into an array of tokens.
+ *
+ * @param data - The input string to tokenize.
+ * @returns An array of tokens.
+ */
 function lexer(data: string) {
     const xlrq: string[] = [];
     let index = -1;
@@ -201,6 +207,12 @@ function lexer(data: string) {
     return xlrq;
 }
 
+/**
+ * Parser function to transform the array of tokens into a structured format.
+ *
+ * @param data - The array of tokens to parse.
+ * @returns An array of parsed tokens.
+ */
 function parser(data: string[]): string[] {
     const bak = Array.from(data);
     let index = 0;
@@ -266,6 +278,12 @@ function parser(data: string[]): string[] {
     return data;
 }
 
+/**
+ * Binding Syntax Handler function to handle the syntax of binding expressions.
+ *
+ * @param data - The input binding expression string.
+ * @returns The parsed and formatted binding expression string.
+ */
 function bindingSyntaxHandler(data: string): string {
     let arr: string[] = [];
     const strLexer = lexer(data);
@@ -281,6 +299,12 @@ function bindingSyntaxHandler(data: string): string {
     return arr.join('');
 }
 
+/**
+ * Bindings Handle function to process and format the binding expressions.
+ *
+ * @param bindings - The array of binding expressions to process.
+ * @returns An array of formatted binding expressions.
+ */
 export function BindingsHandle(bindings: (BindingInterface | string | string[])[]): BindingInterface[] {
     const jsonUIBindings: BindingInterface[] = [];
     for (const binding of bindings) {
