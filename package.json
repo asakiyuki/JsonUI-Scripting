@@ -4,9 +4,12 @@
   "main": "dist/index.js",
   "types": "src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc -w",
-    "run": "node --watch dist/app/app.js"
+    "build": "npx tsc",
+    "dev": "npx tsc -w",
+    "run": "node --watch dist/app/app.js",
+    "index": "node .docs/updateIndex",
+    "id": "node .docs/updateItemID",
+    "jsonui": "node .docs/updateJsonUI"
   },
   "author": "AsakiZuki",
   "license": "ISC",

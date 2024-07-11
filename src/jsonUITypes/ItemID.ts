@@ -1,6 +1,3 @@
-import fs from "fs-extra";
-import { parse } from "comment-json";
-
 export const ItemID = {
     "prismarine_bricks": -948,
     "dark_prismarine": -947,
@@ -1689,10 +1686,4 @@ export const ItemID = {
     "banner_pattern": 763,
     "spawn_egg": 764,
     "end_crystal": 765
-}
-
-if (fs.existsSync('ItemID.json')) {
-    const overrideItemID: any = parse(fs.readFileSync('ItemID.json', 'utf-8'));
-    for (const key in overrideItemID) 
-        (<any>ItemID)[key] = overrideItemID[key];
 }

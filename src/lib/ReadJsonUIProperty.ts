@@ -40,7 +40,12 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
 
     // Recursively read properties
     objectForEach(properties, (v, key) => {
-        properties[key] = ReadProperty(v);
+        if (Array.isArray(v)) {
+            if ((<string>v[0])?.startsWith?.('$')) {
+                properties[key] = v[0];
+                properties[`${v[0]}|default`] = v[1];
+            }
+        } else properties[key] = ReadProperty(v);
     });
 
     return properties;
