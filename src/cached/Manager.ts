@@ -25,6 +25,9 @@ const jsonUIObject: JsonUIObjectInterface = {
  * A class to manage cached data for JSON UI generation.
  */
 export class CachedManager {
+    static getJsonUIObject() {
+        return jsonUIObject;
+    }
     static addSound(id: string, path: string | string[]) {
         jsonUIObject.sounds[id] = path;
     }

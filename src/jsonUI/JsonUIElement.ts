@@ -1,6 +1,7 @@
 import { BindingsHandle } from "../builder/Bindings";
 import { Config } from "../cached/Config";
 import { CachedManager } from "../cached/Manager";
+import { CurrentLine } from "../lib/CurrentLine";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { ElementTypes } from "../jsonUITypes/ElementTypes";
@@ -48,7 +49,7 @@ export class JsonUIElement {
             data.name = generateRandomName();
             data.namespace = getRandomNamespace();
         } else {
-            data.name = data.name ?? generateRandomName();
+            data.name = data.name ?? CurrentLine();
             data.namespace = data.namespace ?? getRandomNamespace();
         }
 
@@ -187,7 +188,16 @@ export class JsonUIElement {
      * @returns The unique key for the JSON UI element.
      */
     getElementJsonUIKey() {
-        return this.elementJsonUIKey;
+        const jso = CachedManager.getJsonUIObject().json[this.data.namespace ?? ''] ?? {};
+        if (jso[this.elementJsonUIKey]) {
+            let i = 0;
+            while (true) {
+                const key = `${this.elementJsonUIKey}-${++i}`;
+                if (jso[key]) continue;
+                else return this.elementJsonUIKey = key;
+            }
+        }
+        else return this.elementJsonUIKey;
     }
 
     /**
@@ -195,7 +205,7 @@ export class JsonUIElement {
      * @returns The path of the JSON UI element.
      */
     getPath() {
-        return `@${this.data.namespace}.${this.data.name}`;
+        return `@${this.data.namespace}.${this.elementJsonUIKey}`;
     }
 
     /**

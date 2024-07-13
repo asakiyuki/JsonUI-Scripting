@@ -6,6 +6,7 @@ export * from "./cached/Manager";
 export * from "./compiler";
 export * from "./compoments/ButtonSetup";
 export * from "./compoments/ItemRenderer";
+export * from "./lib/CurrentLine";
 export * from "./jsonUI/Animation";
 export * from "./jsonUI/Color";
 export * from "./jsonUI/GenerateRandomName";

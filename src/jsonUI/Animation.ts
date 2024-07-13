@@ -1,4 +1,4 @@
-import { AnimTypes, AnimationValue, CachedManager, Config, generateRandomName, getRandomNamespace } from "..";
+import { AnimTypes, AnimationValue, CachedManager, Config, CurrentLine, generateRandomName, getRandomNamespace } from "..";
 import { AnimationInterface } from "../jsonUITypes/AnimationInterface";
 
 /**
@@ -16,7 +16,7 @@ export class Animation {
             animate.namespace = `anims-${getRandomNamespace()}`;
         } else {
             // If name is not provided, generate a random name
-            animate.name = animate.name ?? generateRandomName();
+            animate.name = animate.name ?? CurrentLine();
             // If namespace is not provided, generate a random namespace
             animate.namespace = `anims-${animate.namespace ?? getRandomNamespace()}`;
         }
