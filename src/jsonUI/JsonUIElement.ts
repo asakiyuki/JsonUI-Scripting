@@ -1,7 +1,7 @@
 import { BindingsHandle } from "../builder/Bindings";
 import { Config } from "../cached/Config";
 import { CachedManager } from "../cached/Manager";
-import { CurrentLine } from "../lib/CurrentLine";
+import { CurrentFile, CurrentLine } from "../lib/CurrentLine";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { ElementTypes } from "../jsonUITypes/ElementTypes";
@@ -15,6 +15,8 @@ import { objectForEach } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 import { Animation } from "./Animation";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
+
+const cnt: any = {}
 
 /**
  * Class representing a JSON UI element.
@@ -50,7 +52,7 @@ export class JsonUIElement {
             data.namespace = getRandomNamespace();
         } else {
             data.name = data.name ?? CurrentLine();
-            data.namespace = data.namespace ?? getRandomNamespace();
+            data.namespace = data.namespace ?? CurrentFile();
         }
 
         if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getPath()}`;
@@ -188,16 +190,9 @@ export class JsonUIElement {
      * @returns The unique key for the JSON UI element.
      */
     getElementJsonUIKey() {
-        const jso = CachedManager.getJsonUIObject().json[this.data.namespace ?? ''] ?? {};
-        if (jso[this.elementJsonUIKey]) {
-            let i = 0;
-            while (true) {
-                const key = `${this.elementJsonUIKey}-${++i}`;
-                if (jso[key]) continue;
-                else return this.elementJsonUIKey = key;
-            }
-        }
-        else return this.elementJsonUIKey;
+        ((cnt[this.data.namespace ?? ''] ??= {})[this.elementJsonUIKey] ??= -1);
+        const count = (cnt[this.data.namespace ?? ''][this.elementJsonUIKey] += 1);
+        return count ? `${this.elementJsonUIKey}[${count}]` : this.elementJsonUIKey;
     }
 
     /**
