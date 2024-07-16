@@ -5,3 +5,5 @@ src
 node_modules
 app
 update.bat
+tsconfig.json
+.docs

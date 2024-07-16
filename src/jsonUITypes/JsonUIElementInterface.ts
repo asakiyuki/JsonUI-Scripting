@@ -13,6 +13,5 @@ export interface JsonUIElementInterface {
 
 export interface StaticJsonUIElementInterface {
     name?: string,
-    namespace?: string,
-    properties?: JsonUIProperty,
+    namespace?: string
 }
