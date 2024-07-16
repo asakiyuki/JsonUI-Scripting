@@ -1,6 +1,6 @@
 import SelectionWheelInterface from "../properties/SelectionWheel";
-import ElementInputPanelInterface from "./InputPanel";
+import { ElementInputPanelInterface } from "./InputPanel";
 
-export default interface ElementSelectionWheelInterface extends
+export interface ElementSelectionWheelInterface extends
     ElementInputPanelInterface,
     SelectionWheelInterface { }

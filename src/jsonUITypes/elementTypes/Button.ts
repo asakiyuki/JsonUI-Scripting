@@ -1,6 +1,6 @@
 import ButtonInterface from "../properties/Button";
-import ElementInputPanelInterface from "./InputPanel";
+import { ElementInputPanelInterface } from "./InputPanel";
 
-export default interface ElementButtonInterface extends
+export interface ElementButtonInterface extends
     ElementInputPanelInterface,
     ButtonInterface { }

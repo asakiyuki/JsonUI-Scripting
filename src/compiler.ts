@@ -49,6 +49,14 @@ process.on('exit', () => {
         (console as any)[key] = (Console as any)[key]
         delete (Console as any)[key];
     }
+    // Log the export process
+    let i = 0;
+    for (const log of saveConsole) {
+        if (i === 0) console.log('\n');
+        delete saveConsole[i++];
+        (console as any)[log.type](...log.data);
+    }
+    if (i !== 0) console.log('\n');
 
     if (!fs.existsSync('.vscode')) {
         // Create the.vscode directory
@@ -176,15 +184,6 @@ process.on('exit', () => {
     // Write collected file paths to a JSON file
     fs.writeJSONSync('.build/contents.json', { content }, 'utf-8');
     console.log("Create content.json file", new Date(), '.build/contents.json', `${content.length} file path(s) found!`);
-
-    // Log the export process
-    let i = 0;
-    for (const log of saveConsole) {
-        if (i === 0) console.log('\n');
-        delete saveConsole[i++];
-        (console as any)[log.type](...log.data);
-    }
-    console.log('\n');
 
     if (fs.existsSync('.bedrock')) {
         for (const $ of fs.readdirSync('.bedrock'))

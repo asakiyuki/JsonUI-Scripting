@@ -1,6 +1,6 @@
 import GirdInterface from "../properties/Gird";
-import ElementCollectionPanelInterface from "./CollectionPanel";
+import { ElementCollectionPanelInterface } from "./CollectionPanel";
 
-export default interface ElementGirdInterface extends
+export interface ElementGirdInterface extends
     ElementCollectionPanelInterface,
     GirdInterface { }

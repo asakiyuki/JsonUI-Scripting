@@ -2,7 +2,7 @@ import AnyPropertyInterface from "../properties/AnyProperty";
 import ControlInterface from "../properties/Control";
 import LayoutInterface from "../properties/Layout";
 
-export default interface ElementPanelInterface extends
+export interface ElementPanelInterface extends
     AnyPropertyInterface,
     ControlInterface,
     LayoutInterface { }

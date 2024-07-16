@@ -1,6 +1,6 @@
 import ScreenInterface from "../properties/Screen";
-import ElementPanelInterface from "./panel";
+import { ElementPanelInterface } from "./panel";
 
-export default interface ElementScreenInterface extends
+export interface ElementScreenInterface extends
     ElementPanelInterface,
     ScreenInterface { }

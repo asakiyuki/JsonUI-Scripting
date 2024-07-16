@@ -83,7 +83,7 @@ export class CachedManager {
      * @param property - The property of the element.
      */
     static createElement(data: JsonUIElement, namespace: string, property: JsonUIProperty) {
-        CachedManager.register(data.getElementJsonUIKey(), namespace, property);
+        CachedManager.register((<any>data).getElementJsonUIKey(true), namespace, property);
     }
 
     /**

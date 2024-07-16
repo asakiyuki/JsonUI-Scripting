@@ -1,10 +1,11 @@
 import { Direction } from "readline";
 import { GlobalTypes } from "../..";
 import { Anchor } from "../Anchor";
-import { Vector2_str, Bool } from "../Types";
+import { Vector2_str, Bool, Num } from "../Types";
 
 export default interface LayoutInterface {
     size?: GlobalTypes | Vector2_str,
+    layer?: GlobalTypes | Num,
     max_size?: GlobalTypes | Vector2_str,
     min_size?: GlobalTypes | Vector2_str,
     offset?: GlobalTypes | Vector2_str,

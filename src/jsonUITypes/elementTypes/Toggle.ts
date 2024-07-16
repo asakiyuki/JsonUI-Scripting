@@ -1,6 +1,6 @@
 import ToggleInterface from "../properties/Toggle";
-import ElementInputPanelInterface from "./InputPanel";
+import { ElementInputPanelInterface } from "./InputPanel";
 
-export default interface ElementToggleInterface extends
+export interface ElementToggleInterface extends
     ElementInputPanelInterface,
     ToggleInterface { } 

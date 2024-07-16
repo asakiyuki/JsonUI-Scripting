@@ -1,6 +1,6 @@
 import DropdownInterface from "../properties/Dropdown";
-import ElementToggleInterface from "./Toggle";
+import { ElementToggleInterface } from "./Toggle";
 
-export default interface ElementDropdownInterface extends
+export interface ElementDropdownInterface extends
     ElementToggleInterface,
     DropdownInterface { }

@@ -1,3 +1,3 @@
-import ElementPanelInterface from "./panel";
+import { ElementPanelInterface } from "./panel";
 
-export default interface ElementFactoryInterface extends ElementPanelInterface { }
+export interface ElementFactoryInterface extends ElementPanelInterface { }

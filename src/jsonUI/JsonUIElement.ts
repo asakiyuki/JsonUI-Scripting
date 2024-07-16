@@ -16,25 +16,25 @@ import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 import { Animation } from "./Animation";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
 import { ExtendInterface } from "../jsonUITypes/ExtendInterface";
-import ElementPanelInterface from "../jsonUITypes/elementTypes/panel";
-import ElementStackPanelInterface from "../jsonUITypes/elementTypes/StackPanel";
-import ElementCollectionPanelInterface from "../jsonUITypes/elementTypes/CollectionPanel";
-import ElementButtonInterface from "../jsonUITypes/elementTypes/Button";
-import ElementToggleInterface from "../jsonUITypes/elementTypes/Toggle";
-import ElementSliderInterface from "../jsonUITypes/elementTypes/Slider";
-import ElementLabelInterface from "../jsonUITypes/elementTypes/Label";
-import ElementImageInterface from "../jsonUITypes/elementTypes/Image";
-import ElementEditBoxInterface from "../jsonUITypes/elementTypes/EditBox";
-import ElementGirdInterface from "../jsonUITypes/elementTypes/Gird";
-import ElementDropdownInterface from "../jsonUITypes/elementTypes/Dropdown";
-import ElementSliderBoxInterface from "../jsonUITypes/elementTypes/SliderBox";
-import ElementScrollViewInterface from "../jsonUITypes/elementTypes/ScrollView";
-import ElementScrollbarTrackInterface from "../jsonUITypes/elementTypes/ScrollbarTrack";
-import ElementScrollbarBoxInterface from "../jsonUITypes/elementTypes/ScrollbarBox";
-import ElementFactoryInterface from "../jsonUITypes/elementTypes/Factory";
-import ElementScreenInterface from "../jsonUITypes/elementTypes/Screen";
-import ElementCustomInterface from "../jsonUITypes/elementTypes/Custom";
-import ElementSelectionWheelInterface from "../jsonUITypes/elementTypes/SelectionWheel";
+import { ElementButtonInterface } from "../jsonUITypes/elementTypes/Button";
+import { ElementCollectionPanelInterface } from "../jsonUITypes/elementTypes/CollectionPanel";
+import { ElementCustomInterface } from "../jsonUITypes/elementTypes/Custom";
+import { ElementDropdownInterface } from "../jsonUITypes/elementTypes/Dropdown";
+import { ElementEditBoxInterface } from "../jsonUITypes/elementTypes/EditBox";
+import { ElementFactoryInterface } from "../jsonUITypes/elementTypes/Factory";
+import { ElementGirdInterface } from "../jsonUITypes/elementTypes/Gird";
+import { ElementImageInterface } from "../jsonUITypes/elementTypes/Image";
+import { ElementLabelInterface } from "../jsonUITypes/elementTypes/Label";
+import { ElementPanelInterface } from "../jsonUITypes/elementTypes/panel";
+import { ElementScreenInterface } from "../jsonUITypes/elementTypes/Screen";
+import { ElementScrollbarBoxInterface } from "../jsonUITypes/elementTypes/ScrollbarBox";
+import { ElementScrollbarTrackInterface } from "../jsonUITypes/elementTypes/ScrollbarTrack";
+import { ElementScrollViewInterface } from "../jsonUITypes/elementTypes/ScrollView";
+import { ElementSelectionWheelInterface } from "../jsonUITypes/elementTypes/SelectionWheel";
+import { ElementSliderInterface } from "../jsonUITypes/elementTypes/Slider";
+import { ElementSliderBoxInterface } from "../jsonUITypes/elementTypes/SliderBox";
+import { ElementStackPanelInterface } from "../jsonUITypes/elementTypes/StackPanel";
+import { ElementToggleInterface } from "../jsonUITypes/elementTypes/Toggle";
 
 const cnt: any = {}
 
@@ -86,6 +86,13 @@ export class JsonUIElement {
         });
     }
 
+
+    /**
+     * A element container, like ```div``` in HTML.
+     * @param properties
+     * @param jsonUIElement 
+     * @returns 
+     */
     static panel(properties: ElementPanelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Panel,
@@ -93,6 +100,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * 	Similar to ```panel``` but stacks its children depending on ```orientation``` property value
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static stackPanel(properties: ElementStackPanelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.StackPanel,
@@ -100,6 +114,13 @@ export class JsonUIElement {
             properties
         });
     };
+
+    /**
+     * Similar to ```stack_panel```, but does not have the ```orientation``` property
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static collectionPanel(properties: ElementCollectionPanelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.CollectionPanel,
@@ -107,6 +128,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * A button and it can have 4 states (default, hover, pressed and locked)
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns
+     */
     static button(properties: ElementButtonInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Button,
@@ -114,6 +142,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * 	A toggle and it has 2 states (checked or unchecked). Each state has a hover and locked variant
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static toggle(properties: ElementToggleInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Toggle,
@@ -121,6 +156,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * 	Range input element
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static slider(properties: ElementSliderInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Slider,
@@ -128,6 +170,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Text element
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static label(properties: ElementLabelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Label,
@@ -135,6 +184,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Sprite element. Draws a texture.
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static image(properties: ElementImageInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Image,
@@ -142,6 +198,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Text field element. By default it's single-lined
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static editBox(properties: ElementEditBoxInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.EditBox,
@@ -149,6 +212,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Grid of elements
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static grid(properties: ElementGirdInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Grid,
@@ -156,6 +226,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * A toggle for dropdown purposes
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static dropdown(properties: ElementDropdownInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Dropdown,
@@ -163,6 +240,14 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * The slider button that you use to change the slider value	Slider Box
+Input
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static sliderBox(properties: ElementSliderBoxInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.SliderBox,
@@ -170,6 +255,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Creates a scrolling panel element
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static scrollView(properties: ElementScrollViewInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollView,
@@ -177,6 +269,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * The scrollbar track
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static scrollbarTrack(properties: ElementScrollbarTrackInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollbarTrack,
@@ -184,6 +283,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * The scrollbar "thumb"/button. The draggable scrolling handle. By default is oriented vertically
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static scrollbarBox(properties: ElementScrollbarBoxInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.ScrollbarBox,
@@ -191,6 +297,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * A element generator
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static factory(properties: ElementFactoryInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Factory,
@@ -198,6 +311,13 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Screen element
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static screen(properties: ElementScreenInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Screen,
@@ -205,6 +325,14 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Special renderer element that is created in the code because it's too complex for JSON UI
+     * @param renderer 
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
     static custom(renderer: Renderer, properties: ElementCustomInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Custom,
@@ -215,6 +343,7 @@ export class JsonUIElement {
             }
         });
     }
+
     static selectionWheel(properties: ElementSelectionWheelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.SelectionWheel,
@@ -222,6 +351,14 @@ export class JsonUIElement {
             properties
         });
     }
+
+    /**
+     * Create a copy of an element
+     * @param jsonUIElement 
+     * @param data 
+     * @param properties 
+     * @returns 
+     */
     static extendOf(jsonUIElement: JsonUIElement | ExtendInterface | string, data: StaticJsonUIElementInterface = {}, properties: JsonUIProperty = {}) {
         return new JsonUIElement({
             extend: jsonUIElement,
@@ -235,9 +372,11 @@ export class JsonUIElement {
      * @returns The unique key for the JSON UI element.
      */
     getElementJsonUIKey() {
-        ((cnt[this.data.namespace ?? ''] ??= {})[this.elementJsonUIKey] ??= -1);
-        const count = (cnt[this.data.namespace ?? ''][this.elementJsonUIKey] += 1);
-        return count ? `${this.elementJsonUIKey}[${count}]` : this.elementJsonUIKey;
+        if (<boolean>arguments[0]) {
+            ((cnt[this.data.namespace ?? ''] ??= {})[this.elementJsonUIKey] ??= -1);
+            const count = (cnt[this.data.namespace ?? ''][this.elementJsonUIKey] += 1);
+            return count ? `${this.elementJsonUIKey}[${count}]` : this.elementJsonUIKey;
+        } else return this.elementJsonUIKey;
     }
 
     /**
