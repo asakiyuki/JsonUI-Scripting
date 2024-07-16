@@ -193,8 +193,9 @@ process.on('exit', () => {
 
     if (fs.existsSync('config.json')) {
         // Determine the target directory for exporting resource packs
-        const directory = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
-
+        const path = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}`;
+        const directory = `${path}\\${Config.data?.folder_name}`;
+        if (!fs.existsSync(path)) return;
         // Copy all files from the .build directory to the target directory
         if (fs.existsSync(directory)) fs.removeSync(directory);
         fs.readdirSync('.build').forEach(v => fs.cpSync(`.build/${v}`, `${directory}\\${v}`, { recursive: true }));

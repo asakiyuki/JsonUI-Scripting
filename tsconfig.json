@@ -8,7 +8,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     // "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "removeComments": true,
+    "declaration": true
   },
   "include": [
     "src"

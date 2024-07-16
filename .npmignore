@@ -1,6 +1,7 @@
 .cached
 .jsonUI
 .vscode
+src
 node_modules
 app
 update.bat

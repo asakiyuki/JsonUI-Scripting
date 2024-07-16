@@ -12,6 +12,54 @@ import { Variables } from "../jsonUITypes/Variables";
 import { objectForEach } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 
+
+interface ModifyControls {
+    swap: (where: object, target: object) => ModifyControls,
+    replace: (where: object, value: object) => ModifyControls,
+    remove: (where: object) => ModifyControls,
+    insertBack: (value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertFront: (value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertBefore: (from: string, value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertAfter: (from: string, value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls
+}
+
+interface ModifyBindings {
+    swap: (where: BindingInterface, target: BindingInterface) => ModifyBindings,
+    replace: (where: BindingInterface, value: BindingInterface) => ModifyBindings,
+    remove: (where: BindingInterface) => ModifyBindings,
+    insertBack: (value: (BindingInterface | string)[]) => ModifyBindings,
+    insertFront: (value: (BindingInterface | string)[]) => ModifyBindings,
+    insertBefore: (from: BindingInterface, value: (BindingInterface | string)[]) => ModifyBindings,
+    insertAfter: (from: BindingInterface, value: (BindingInterface | string)[]) => ModifyBindings
+}
+
+interface ModifyButtonMapping {
+    swap: (where: ButtonMapping, target: ButtonMapping) => ModifyButtonMapping,
+    replace: (where: ButtonMapping, value: ButtonMapping) => ModifyButtonMapping,
+    remove: (where: ButtonMapping) => ModifyButtonMapping,
+    insertBack: (value: ButtonMapping) => ModifyButtonMapping,
+    insertFront: (value: ButtonMapping) => ModifyButtonMapping,
+    insertBefore: (from: ButtonMapping, value: ButtonMapping) => ModifyButtonMapping,
+    insertAfter: (from: ButtonMapping, value: ButtonMapping) => ModifyButtonMapping
+}
+
+interface ModifyVariables {
+    swap: (where: Variables, target: Variables) => ModifyVariables,
+    replace: (where: Variables, value: Variables) => ModifyVariables,
+    remove: (where: Variables) => ModifyVariables,
+    insertBack: (value: Variables) => ModifyVariables,
+    insertFront: (value: Variables) => ModifyVariables,
+    insertBefore: (from: Variables, value: Variables) => ModifyVariables,
+    insertAfter: (from: Variables, value: Variables) => ModifyVariables
+}
+
+interface ModificationInterface {
+    controls: ModifyControls,
+    bindings: ModifyBindings,
+    buttonMappings: ModifyButtonMapping,
+    variables: ModifyVariables
+};
+
 /**
  * Class representing a JsonUIObject.
  * This class is used to manage and manipulate screen initialization data.
@@ -20,6 +68,128 @@ export class JsonUIObject {
 
     private screenInitKey: string;
     private elementModifyKey: string[] = [];
+    modifications: ModificationInterface = {
+        controls: {
+            swap: (where, target) => {
+                this.swap('controls', where, target);
+                return this.modifications.controls;
+            },
+            replace: (where, value) => {
+                this.replace('controls', where, value);
+                return this.modifications.controls;
+            },
+            remove: (where) => {
+                this.remove('controls', where);
+                return this.modifications.controls;
+            },
+            insertBack: (value, callback) => {
+                this.insertBack('controls', value, callback);
+                return this.modifications.controls;
+            },
+            insertFront: (value, callback) => {
+                this.insertFront('controls', value, callback);
+                return this.modifications.controls;
+            },
+            insertBefore: (child_name, value, callback) => {
+                this.insertBefore('controls', child_name, value, callback);
+                return this.modifications.controls;
+            },
+            insertAfter: (child_name, value, callback) => {
+                this.insertAfter('controls', child_name, value, callback);
+                return this.modifications.controls;
+            }
+        },
+        bindings: {
+            swap: (where, target) => {
+                this.swap('bindings', where, target);
+                return this.modifications.bindings;
+            },
+            replace: (where, value) => {
+                this.replace('bindings', where, value);
+                return this.modifications.bindings;
+            },
+            remove: (where) => {
+                this.remove('bindings', where);
+                return this.modifications.bindings;
+            },
+            insertBack: (value) => {
+                this.insertBack('bindings', value);
+                return this.modifications.bindings;
+            },
+            insertFront: (value) => {
+                this.insertFront('bindings', value);
+                return this.modifications.bindings;
+            },
+            insertBefore: (from, value) => {
+                this.insertBefore('bindings', from, value);
+                return this.modifications.bindings;
+            },
+            insertAfter: (from, value) => {
+                this.insertAfter('bindings', from, value);
+                return this.modifications.bindings;
+            }
+        },
+        buttonMappings: {
+            swap: (where, target) => {
+                this.swap('button_mappings', where, target);
+                return this.modifications.buttonMappings;
+            },
+            replace: (where, value) => {
+                this.replace('button_mappings', where, value);
+                return this.modifications.buttonMappings;
+            },
+            remove: (where) => {
+                this.remove('button_mappings', where);
+                return this.modifications.buttonMappings;
+            },
+            insertAfter: (from, value) => {
+                this.insertAfter('button_mappings', from, value);
+                return this.modifications.buttonMappings;
+            },
+            insertBefore: (from, value) => {
+                this.insertBefore('button_mappings', from, value);
+                return this.modifications.buttonMappings;
+            },
+            insertBack: (value) => {
+                this.insertBack('button_mappings', value);
+                return this.modifications.buttonMappings;
+            },
+            insertFront: (value) => {
+                this.insertFront('button_mappings', value)
+                return this.modifications.buttonMappings;
+            },
+        },
+        variables: {
+            swap: (where, target) => {
+                this.swap('variables', where, target);
+                return this.modifications.variables;
+            },
+            replace: (where, value) => {
+                this.replace('variables', where, value);
+                return this.modifications.variables;
+            },
+            remove: (where) => {
+                this.remove('variables', where);
+                return this.modifications.variables;
+            },
+            insertAfter: (from, value) => {
+                this.insertAfter('variables', from, value);
+                return this.modifications.variables;
+            },
+            insertBefore: (from, value) => {
+                this.insertBefore('variables', from, value);
+                return this.modifications.variables;
+            },
+            insertBack: (value) => {
+                this.insertBack('variables', value);
+                return this.modifications.variables;
+            },
+            insertFront: (value) => {
+                this.insertFront('variables', value)
+                return this.modifications.variables;
+            },
+        },
+    };
 
     /**
     * Create a new JsonUIObject instance.
@@ -46,7 +216,7 @@ export class JsonUIObject {
         return this;
     }
 
-    swap(arrayName: JsonUIArrayName,
+    private swap(arrayName: JsonUIArrayName,
         where: BindingInterface | ButtonMapping | Variables | object,
         target: BindingInterface | ButtonMapping | Variables | object
     ) {
@@ -77,7 +247,7 @@ export class JsonUIObject {
         return this;
     };
 
-    replace(arrayName: JsonUIArrayName,
+    private replace(arrayName: JsonUIArrayName,
         where: BindingInterface | ButtonMapping | Variables | object,
         value: BindingInterface | ButtonMapping | Variables | object
     ) {
@@ -108,7 +278,7 @@ export class JsonUIObject {
         return this;
     };
 
-    remove(arrayName: JsonUIArrayName,
+    private remove(arrayName: JsonUIArrayName,
         where: BindingInterface | ButtonMapping | Variables | object
     ) {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
@@ -141,7 +311,7 @@ export class JsonUIObject {
      * @param callback - Optional callback function to be executed after insertion.
      * @returns The instance of JsonUIObject for method chaining.
      */
-    insertBack(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
+    private insertBack(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
         return this.insert('back', arrayName, value, callback);
     };
 
@@ -152,7 +322,7 @@ export class JsonUIObject {
      * @param callback - Optional callback function to be executed after insertion.
      * @returns The instance of JsonUIObject for method chaining.
      */
-    insertFront(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
+    private insertFront(arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
         return this.insert('front', arrayName, value, callback);
     };
 
@@ -242,7 +412,7 @@ export class JsonUIObject {
      * @param callback - Optional callback function to be executed after insertion.
      * @returns The instance of JsonUIObject for method chaining.
      */
-    insertBefore(
+    private insertBefore(
         arrayName: JsonUIArrayName, from: string | BindingInterface | ButtonMapping | Variables,
         value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables,
         callback?: GetJsonUIInitGenerateName
@@ -258,7 +428,7 @@ export class JsonUIObject {
      * @param callback - Optional callback function to be executed after insertion.
      * @returns The instance of JsonUIObject for method chaining.
      */
-    insertAfter(
+    private insertAfter(
         arrayName: JsonUIArrayName, from: string | BindingInterface | ButtonMapping | Variables,
         value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables,
         callback?: GetJsonUIInitGenerateName
