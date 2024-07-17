@@ -35,6 +35,7 @@ import { ElementSliderInterface } from "../jsonUITypes/elementTypes/Slider";
 import { ElementSliderBoxInterface } from "../jsonUITypes/elementTypes/SliderBox";
 import { ElementStackPanelInterface } from "../jsonUITypes/elementTypes/StackPanel";
 import { ElementToggleInterface } from "../jsonUITypes/elementTypes/Toggle";
+import { ElementInputPanelInterface } from "../jsonUITypes/elementTypes/InputPanel";
 
 const cnt: any = {}
 
@@ -144,7 +145,7 @@ export class JsonUIElement {
     }
 
     /**
-     * 	A toggle and it has 2 states (checked or unchecked). Each state has a hover and locked variant
+     * A toggle and it has 2 states (checked or unchecked). Each state has a hover and locked variant
      * @param properties 
      * @param jsonUIElement 
      * @returns 
@@ -152,6 +153,20 @@ export class JsonUIElement {
     static toggle(properties: ElementToggleInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Toggle,
+            ...jsonUIElement,
+            properties
+        });
+    }
+
+    /**
+     * A input panel
+     * @param properties 
+     * @param jsonUIElement 
+     * @returns 
+     */
+    static inputPanel(properties: ElementInputPanelInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
+        return new JsonUIElement({
+            type: ElementTypes.InputPanel,
             ...jsonUIElement,
             properties
         });
@@ -489,9 +504,12 @@ Input
      * @returns The instance of JsonUIElement for method chaining.
      */
     addBindings(
-        data: (BindingInterface | string | string[])[]
+        data: (BindingInterface | string | string[])[] | BindingInterface | string
     ) {
-        BindingsHandle(data).forEach(v => CachedManager.insertArray('bindings', this, this.data.namespace ?? "", v));
+        if (Array.isArray(data))
+            BindingsHandle(data).forEach(v => CachedManager.insertArray('bindings', this, this.data.namespace ?? "", v));
+        else
+            CachedManager.insertArray('bindings', this, this.data.namespace ?? "", BindingsHandle([data])[0]);
         return this;
     }
 

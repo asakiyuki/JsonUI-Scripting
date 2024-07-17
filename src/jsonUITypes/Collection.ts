@@ -169,5 +169,6 @@ export enum Collection {
     TradeItem2 = "trade_item_2",
     SellItem = "sell_item",
     Trades = "trades",
+    ContainerItems = "container_items",
     TradeTiers = "trade_tiers",
 }

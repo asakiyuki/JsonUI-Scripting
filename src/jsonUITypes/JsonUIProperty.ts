@@ -1,24 +1,7 @@
 import { JsonUIElement } from "../jsonUI/JsonUIElement"
-import { Anchor } from "./Anchor"
-import { ClipDirection } from "./ClipDirecion"
-import { Collection } from "./Collection"
-import { Direction } from "./Direction"
-import { FocusContainerCustom } from "./FocusContainerCustom"
-import { FocusNavigationMode } from "./FocusNavigationMode"
-import { FontSize } from "./FontSize"
-import { FontType } from "./FontType"
 import { ArrayProperty } from "./LanguageInterface"
-import { Orientation } from "./Orientation"
-import { PropertyBagKey } from "./PropertyBagKeys"
-import { Renderer } from "./Renderer"
-import { RotationAuto } from "./RotationAuto"
-import { SoundObject } from "./SoundObject"
-import { TextType } from "./TextTypes"
-import { TextureFileSystem } from "./TextureFileSystem"
-import { Bool, Num, Vector2, Obj, Vector2_str, Vector3, ArrString, Vector4 } from "./Types"
 import { Animation } from "../jsonUI/Animation"
 
-import ControlInterface from "./properties/Control"
 import LayoutInterface from "./properties/Layout"
 import GirdInterface from "./properties/Gird"
 import TextInterface from "./properties/Text"
@@ -68,5 +51,6 @@ export interface JsonUIProperty extends
     TextInterface,
     TextEditInterface,
     ToggleInterface,
-    TTSInterface {
+    TTSInterface,
+    ChildCollectionInterface {
 }
