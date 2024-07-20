@@ -1,1 +1,658 @@
-import { JsonUIElement } from "../jsonUI/JsonUIElement"; import { AchievementScreenTypes } from "./types/AchievementScreen"; import { AddExternalServerScreenTypes } from "./types/AddExternalServerScreen"; import { AdhocInprogessScreenTypes } from "./types/AdhocInprogessScreen"; import { AdhocScreenTypes } from "./types/AdhocScreen"; import { AnvilScreenTypes } from "./types/AnvilScreen"; import { AnvilScreenPocketTypes } from "./types/AnvilScreenPocket"; import { AuthenticationModalsTypes } from "./types/AuthenticationModals"; import { AuthenticationScreenTypes } from "./types/AuthenticationScreen"; import { AutoSaveInfoScreenTypes } from "./types/AutoSaveInfoScreen"; import { BeaconScreenTypes } from "./types/BeaconScreen"; import { BeaconScreenPocketTypes } from "./types/BeaconScreenPocket"; import { BlastFurnaceScreenTypes } from "./types/BlastFurnaceScreen"; import { BookScreenTypes } from "./types/BookScreen"; import { BrewingStandScreenTypes } from "./types/BrewingStandScreen"; import { BrewingStandScreenPocketTypes } from "./types/BrewingStandScreenPocket"; import { BundlePurchaseWarningScreenTypes } from "./types/BundlePurchaseWarningScreen"; import { CartographyScreenTypes } from "./types/CartographyScreen"; import { CartographyScreenPocketTypes } from "./types/CartographyScreenPocket"; import { ChalkboardScreenTypes } from "./types/ChalkboardScreen"; import { ChatScreenTypes } from "./types/ChatScreen"; import { ChatSettingsMenuScreenTypes } from "./types/ChatSettingsMenuScreen"; import { ChestScreenTypes } from "./types/ChestScreen"; import { ChooseRealmScreenTypes } from "./types/ChooseRealmScreen"; import { CloudUploadScreenTypes } from "./types/CloudUploadScreen"; import { CoinPurchaseScreenTypes } from "./types/CoinPurchaseScreen"; import { CommandBlockScreenTypes } from "./types/CommandBlockScreen"; import { CommentScreenTypes } from "./types/CommentScreen"; import { ConfirmDeleteAccountScreenTypes } from "./types/ConfirmDeleteAccountScreen"; import { ConfirmMsaUnlinkScreenTypes } from "./types/ConfirmMsaUnlinkScreen"; import { ContentLogTypes } from "./types/ContentLog"; import { ContentLogHistoryScreenTypes } from "./types/ContentLogHistoryScreen"; import { ConvertPurchasesToXblScreenTypes } from "./types/ConvertPurchasesToXblScreen"; import { CrafterScreenPocketTypes } from "./types/CrafterScreenPocket"; import { CreateWorldUpsellScreenTypes } from "./types/CreateWorldUpsellScreen"; import { CreditsScreenTypes } from "./types/CreditsScreen"; import { CsbPurchaseErrorScreenTypes } from "./types/CsbPurchaseErrorScreen"; import { CsbScreenTypes } from "./types/CsbScreen"; import { CustomTemplatesScreenTypes } from "./types/CustomTemplatesScreen"; import { DayOneExperienceIntroScreenTypes } from "./types/DayOneExperienceIntroScreen"; import { DayOneExperienceScreenTypes } from "./types/DayOneExperienceScreen"; import { DeathScreenTypes } from "./types/DeathScreen"; import { DebugScreenTypes } from "./types/DebugScreen"; import { DevConsoleScreenTypes } from "./types/DevConsoleScreen"; import { DisconnectScreenTypes } from "./types/DisconnectScreen"; import { DisplayLoggedErrorScreenTypes } from "./types/DisplayLoggedErrorScreen"; import { EduDiscoveryDialogTypes } from "./types/EduDiscoveryDialog"; import { EduPauseScreenPauseButtonTypes } from "./types/EduPauseScreenPauseButton"; import { EmoteWheelScreenTypes } from "./types/EmoteWheelScreen"; import { EnchantingScreenTypes } from "./types/EnchantingScreen"; import { EnchantingScreenPocketTypes } from "./types/EnchantingScreenPocket"; import { EncyclopediaScreenTypes } from "./types/EncyclopediaScreen"; import { ExpandedSkinPackScreenTypes } from "./types/ExpandedSkinPackScreen"; import { FeedCommonTypes } from "./types/FeedCommon"; import { FeedScreenTypes } from "./types/FeedScreen"; import { FileUploadScreenTypes } from "./types/FileUploadScreen"; import { FurnaceScreenTypes } from "./types/FurnaceScreen"; import { FurnaceScreenPocketTypes } from "./types/FurnaceScreenPocket"; import { GamepadDisconnectedTypes } from "./types/GamepadDisconnected"; import { GamepadLayoutScreenTypes } from "./types/GamepadLayoutScreen"; import { GameTipScreenTypes } from "./types/GameTipScreen"; import { GatheringInfoScreenTypes } from "./types/GatheringInfoScreen"; import { GlobalPauseScreenTypes } from "./types/GlobalPauseScreen"; import { GrindstoneScreenTypes } from "./types/GrindstoneScreen"; import { GrindstoneScreenPocketTypes } from "./types/GrindstoneScreenPocket"; import { HdrCalibrationScreenTypes } from "./types/HdrCalibrationScreen"; import { HolographicPostrenderScreenTypes } from "./types/HolographicPostrenderScreen"; import { HorseScreenTypes } from "./types/HorseScreen"; import { HorseScreenPocketTypes } from "./types/HorseScreenPocket"; import { HostOptionsScreenTypes } from "./types/HostOptionsScreen"; import { HowToPlayCommonTypes } from "./types/HowToPlayCommon"; import { HowToPlayScreenTypes } from "./types/HowToPlayScreen"; import { HudScreenTypes } from "./types/HudScreen"; import { ImmersiveReaderTypes } from "./types/ImmersiveReader"; import { InventoryScreenTypes } from "./types/InventoryScreen"; import { InventoryScreenPocketTypes } from "./types/InventoryScreenPocket"; import { InviteScreenTypes } from "./types/InviteScreen"; import { InBedScreenTypes } from "./types/InBedScreen"; import { ItemDetailDescriptionScreenTypes } from "./types/ItemDetailDescriptionScreen"; import { JigsawEditorScreenTypes } from "./types/JigsawEditorScreen"; import { LateJoinPregameScreenTypes } from "./types/LateJoinPregameScreen"; import { LibraryModalScreenTypes } from "./types/LibraryModalScreen"; import { LocalWorldPickerScreenTypes } from "./types/LocalWorldPickerScreen"; import { LoomScreenTypes } from "./types/LoomScreen"; import { LoomScreenPocketTypes } from "./types/LoomScreenPocket"; import { ManageFeedScreenTypes } from "./types/ManageFeedScreen"; import { ManifestValidationScreenTypes } from "./types/ManifestValidationScreen"; import { MobEffectScreenTypes } from "./types/MobEffectScreen"; import { NonXblUserManagementScreenTypes } from "./types/NonXblUserManagementScreen"; import { NpcInteractScreenTypes } from "./types/NpcInteractScreen"; import { OnlineSafetyScreenTypes } from "./types/OnlineSafetyScreen"; import { PackSettingsScreenTypes } from "./types/PackSettingsScreen"; import { PanoramaScreenTypes } from "./types/PanoramaScreen"; import { PatchNotesScreenTypes } from "./types/PatchNotesScreen"; import { PauseScreenTypes } from "./types/PauseScreen"; import { PdpScreenTypes } from "./types/PdpScreen"; import { PdpScreenshotsSectionTypes } from "./types/PdpScreenshotsSection"; import { PerfTurtleTypes } from "./types/PerfTurtle"; import { PermissionsScreenTypes } from "./types/PermissionsScreen"; import { PersonaCastCharacterScreenTypes } from "./types/PersonaCastCharacterScreen"; import { PersonaCommonTypes } from "./types/PersonaCommon"; import { PersonaScreenTypes } from "./types/PersonaScreen"; import { PersonaSdlTypes } from "./types/PersonaSdl"; import { PlayScreenTypes } from "./types/PlayScreen"; import { PocketContainersTypes } from "./types/PocketContainers"; import { PopupDialogTypes } from "./types/PopupDialog"; import { PortfolioScreenTypes } from "./types/PortfolioScreen"; import { PostRatingScreenTypes } from "./types/PostRatingScreen"; import { ProfileCardTypes } from "./types/ProfileCard"; import { ProfileScreenTypes } from "./types/ProfileScreen"; import { ProgressScreenTypes } from "./types/ProgressScreen"; import { RatingPromptTypes } from "./types/RatingPrompt"; import { RealmsPlusScreenTypes } from "./types/RealmsPlusScreen"; import { RealmsplusUpgradeNoticeScreenTypes } from "./types/RealmsplusUpgradeNoticeScreen"; import { RealmsAllowlistTypes } from "./types/RealmsAllowlist"; import { RealmsCommonTypes } from "./types/RealmsCommon"; import { RealmsCreateTypes } from "./types/RealmsCreate"; import { RealmsPendingInvitationsTypes } from "./types/RealmsPendingInvitations"; import { RealmsPlusEndedScreenTypes } from "./types/RealmsPlusEndedScreen"; import { RealmsSettingsScreenTypes } from "./types/RealmsSettingsScreen"; import { RealmsSlotsScreenTypes } from "./types/RealmsSlotsScreen"; import { RedstoneScreenTypes } from "./types/RedstoneScreen"; import { ResourcePacksScreenTypes } from "./types/ResourcePacksScreen"; import { SafeZoneScreenTypes } from "./types/SafeZoneScreen"; import { ScoreboardsTypes } from "./types/Scoreboards"; import { ScreenshotPickerScreenTypes } from "./types/ScreenshotPickerScreen"; import { ScreenshotScreenTypes } from "./types/ScreenshotScreen"; import { ServerFormTypes } from "./types/ServerForm"; import { SettingsScreenTypes } from "./types/SettingsScreen"; import { SidebarNavigationTypes } from "./types/SidebarNavigation"; import { SignScreenTypes } from "./types/SignScreen"; import { SimpleInprogressScreenTypes } from "./types/SimpleInprogressScreen"; import { SkinPackPurchaseScreenTypes } from "./types/SkinPackPurchaseScreen"; import { SkinPickerScreenTypes } from "./types/SkinPickerScreen"; import { SmithingTable2ScreenTypes } from "./types/SmithingTable2Screen"; import { SmithingTable2ScreenPocketTypes } from "./types/SmithingTable2ScreenPocket"; import { SmithingTableScreenTypes } from "./types/SmithingTableScreen"; import { SmithingTableScreenPocketTypes } from "./types/SmithingTableScreenPocket"; import { SmokerScreenTypes } from "./types/SmokerScreen"; import { StartScreenTypes } from "./types/StartScreen"; import { StonecutterScreenTypes } from "./types/StonecutterScreen"; import { StonecutterScreenPocketTypes } from "./types/StonecutterScreenPocket"; import { StorageManagementTypes } from "./types/StorageManagement"; import { StorageManagementPopupTypes } from "./types/StorageManagementPopup"; import { StorageMigrationCommonTypes } from "./types/StorageMigrationCommon"; import { StorageMigrationGenericScreenTypes } from "./types/StorageMigrationGenericScreen"; import { StoreCommonTypes } from "./types/StoreCommon"; import { StoreDataDrivenScreenTypes } from "./types/StoreDataDrivenScreen"; import { StoreFilterMenuScreenTypes } from "./types/StoreFilterMenuScreen"; import { StoreInventoryScreenTypes } from "./types/StoreInventoryScreen"; import { StoreItemListScreenTypes } from "./types/StoreItemListScreen"; import { StorePromoTimelineScreenTypes } from "./types/StorePromoTimelineScreen"; import { StoreSalesItemListScreenTypes } from "./types/StoreSalesItemListScreen"; import { StoreSearchScreenTypes } from "./types/StoreSearchScreen"; import { StoreSortMenuScreenTypes } from "./types/StoreSortMenuScreen"; import { StructureEditorScreenTypes } from "./types/StructureEditorScreen"; import { SubmitFeedbackScreenTypes } from "./types/SubmitFeedbackScreen"; import { SyncIapsToXblScreenTypes } from "./types/SyncIapsToXblScreen"; import { TabbedUpsellScreenTypes } from "./types/TabbedUpsellScreen"; import { TestAnimsScreenTypes } from "./types/TestAnimsScreen"; import { ThanksForTestingScreenTypes } from "./types/ThanksForTestingScreen"; import { ThirdPartyStoreScreenTypes } from "./types/ThirdPartyStoreScreen"; import { ToastScreenTypes } from "./types/ToastScreen"; import { TokenFaqScreenTypes } from "./types/TokenFaqScreen"; import { Trade2ScreenTypes } from "./types/Trade2Screen"; import { Trade2ScreenPocketTypes } from "./types/Trade2ScreenPocket"; import { TradeScreenTypes } from "./types/TradeScreen"; import { TradeScreenPocketTypes } from "./types/TradeScreenPocket"; import { TrialUpsellScreenTypes } from "./types/TrialUpsellScreen"; import { UgcViewerScreenTypes } from "./types/UgcViewerScreen"; import { UiArtAssetsCommonTypes } from "./types/UiArtAssetsCommon"; import { UiCommonTypes } from "./types/UiCommon"; import { UiCommonClassicTypes } from "./types/UiCommonClassic"; import { UiEduCommonTypes } from "./types/UiEduCommon"; import { UiHoloCursorTypes } from "./types/UiHoloCursor"; import { UiPurchaseCommonTypes } from "./types/UiPurchaseCommon"; import { UiTemplateButtonsTypes } from "./types/UiTemplateButtons"; import { UiTemplateDialogsTypes } from "./types/UiTemplateDialogs"; import { UiTemplateTabsTypes } from "./types/UiTemplateTabs"; import { UiTemplateTogglesTypes } from "./types/UiTemplateToggles"; import { UpdateDimensionsTypes } from "./types/UpdateDimensions"; import { UpdateVersionTypes } from "./types/UpdateVersion"; import { Win10TrialConversionScreenTypes } from "./types/Win10TrialConversionScreen"; import { WorldConversionCompleteScreenTypes } from "./types/WorldConversionCompleteScreen"; import { WorldRecoveryScreenTypes } from "./types/WorldRecoveryScreen"; import { WorldTemplatesScreenTypes } from "./types/WorldTemplatesScreen"; import { XblConsoleQrSigninTypes } from "./types/XblConsoleQrSignin"; import { XblConsoleSigninTypes } from "./types/XblConsoleSignin"; import { XblConsoleSigninSucceededTypes } from "./types/XblConsoleSigninSucceeded"; import { XblFriendFinderTypes } from "./types/XblFriendFinder"; import { XblImmediateSigninTypes } from "./types/XblImmediateSignin"; import { XblOptionalSigninTypes } from "./types/XblOptionalSignin"; import { JsonUIObject } from "./_ScreenCommon"; const jsonUIScreen: any = {}; export class Modify { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; static achievementScreen(modify: AchievementScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['achievement_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "achievement_screen", extend)); }; static addExternalServerScreen(modify: AddExternalServerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['add_external_server_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "add_external_server_screen", extend)); }; static adhocInprogessScreen(modify: AdhocInprogessScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['adhoc_inprogess_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "adhoc_inprogess_screen", extend)); }; static adhocScreen(modify: AdhocScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['adhoc_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "adhoc_screen", extend)); }; static anvilScreen(modify: AnvilScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['anvil_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "anvil_screen", extend)); }; static anvilScreenPocket(modify: AnvilScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['anvil_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "anvil_screen_pocket", extend)); }; static authenticationModals(modify: AuthenticationModalsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['authentication_modals'] ??= {})[modify] ??= new JsonUIObject(modify, "authentication_modals", extend)); }; static authenticationScreen(modify: AuthenticationScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['authentication_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "authentication_screen", extend)); }; static autoSaveInfoScreen(modify: AutoSaveInfoScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['auto_save_info_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "auto_save_info_screen", extend)); }; static beaconScreen(modify: BeaconScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['beacon_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "beacon_screen", extend)); }; static beaconScreenPocket(modify: BeaconScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['beacon_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "beacon_screen_pocket", extend)); }; static blastFurnaceScreen(modify: BlastFurnaceScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['blast_furnace_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "blast_furnace_screen", extend)); }; static bookScreen(modify: BookScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['book_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "book_screen", extend)); }; static brewingStandScreen(modify: BrewingStandScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['brewing_stand_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "brewing_stand_screen", extend)); }; static brewingStandScreenPocket(modify: BrewingStandScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['brewing_stand_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "brewing_stand_screen_pocket", extend)); }; static bundlePurchaseWarningScreen(modify: BundlePurchaseWarningScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['bundle_purchase_warning_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "bundle_purchase_warning_screen", extend)); }; static cartographyScreen(modify: CartographyScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['cartography_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "cartography_screen", extend)); }; static cartographyScreenPocket(modify: CartographyScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['cartography_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "cartography_screen_pocket", extend)); }; static chalkboardScreen(modify: ChalkboardScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['chalkboard_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "chalkboard_screen", extend)); }; static chatScreen(modify: ChatScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['chat_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "chat_screen", extend)); }; static chatSettingsMenuScreen(modify: ChatSettingsMenuScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['chat_settings_menu_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "chat_settings_menu_screen", extend)); }; static chestScreen(modify: ChestScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['chest_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "chest_screen", extend)); }; static chooseRealmScreen(modify: ChooseRealmScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['choose_realm_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "choose_realm_screen", extend)); }; static cloudUploadScreen(modify: CloudUploadScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['cloud_upload_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "cloud_upload_screen", extend)); }; static coinPurchaseScreen(modify: CoinPurchaseScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['coin_purchase_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "coin_purchase_screen", extend)); }; static commandBlockScreen(modify: CommandBlockScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['command_block_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "command_block_screen", extend)); }; static commentScreen(modify: CommentScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['comment_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "comment_screen", extend)); }; static confirmDeleteAccountScreen(modify: ConfirmDeleteAccountScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['confirm_delete_account_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "confirm_delete_account_screen", extend)); }; static confirmMsaUnlinkScreen(modify: ConfirmMsaUnlinkScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['confirm_msa_unlink_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "confirm_msa_unlink_screen", extend)); }; static contentLog(modify: ContentLogTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['content_log'] ??= {})[modify] ??= new JsonUIObject(modify, "content_log", extend)); }; static contentLogHistoryScreen(modify: ContentLogHistoryScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['content_log_history_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "content_log_history_screen", extend)); }; static convertPurchasesToXblScreen(modify: ConvertPurchasesToXblScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['convert_purchases_to_xbl_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "convert_purchases_to_xbl_screen", extend)); }; static crafterScreenPocket(modify: CrafterScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['crafter_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "crafter_screen_pocket", extend)); }; static createWorldUpsellScreen(modify: CreateWorldUpsellScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['create_world_upsell_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "create_world_upsell_screen", extend)); }; static creditsScreen(modify: CreditsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['credits_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "credits_screen", extend)); }; static csbPurchaseErrorScreen(modify: CsbPurchaseErrorScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['csb_purchase_error_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "csb_purchase_error_screen", extend)); }; static csbScreen(modify: CsbScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['csb_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "csb_screen", extend)); }; static customTemplatesScreen(modify: CustomTemplatesScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['custom_templates_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "custom_templates_screen", extend)); }; static dayOneExperienceIntroScreen(modify: DayOneExperienceIntroScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['day_one_experience_intro_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "day_one_experience_intro_screen", extend)); }; static dayOneExperienceScreen(modify: DayOneExperienceScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['day_one_experience_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "day_one_experience_screen", extend)); }; static deathScreen(modify: DeathScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['death_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "death_screen", extend)); }; static debugScreen(modify: DebugScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['debug_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "debug_screen", extend)); }; static devConsoleScreen(modify: DevConsoleScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['dev_console_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "dev_console_screen", extend)); }; static disconnectScreen(modify: DisconnectScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['disconnect_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "disconnect_screen", extend)); }; static displayLoggedErrorScreen(modify: DisplayLoggedErrorScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['display_logged_error_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "display_logged_error_screen", extend)); }; static eduDiscoveryDialog(modify: EduDiscoveryDialogTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['edu_discovery_dialog'] ??= {})[modify] ??= new JsonUIObject(modify, "edu_discovery_dialog", extend)); }; static eduPauseScreenPauseButton(modify: EduPauseScreenPauseButtonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['edu_pause_screen_pause_button'] ??= {})[modify] ??= new JsonUIObject(modify, "edu_pause_screen_pause_button", extend)); }; static emoteWheelScreen(modify: EmoteWheelScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['emote_wheel_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "emote_wheel_screen", extend)); }; static enchantingScreen(modify: EnchantingScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['enchanting_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "enchanting_screen", extend)); }; static enchantingScreenPocket(modify: EnchantingScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['enchanting_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "enchanting_screen_pocket", extend)); }; static encyclopediaScreen(modify: EncyclopediaScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['encyclopedia_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "encyclopedia_screen", extend)); }; static expandedSkinPackScreen(modify: ExpandedSkinPackScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['expanded_skin_pack_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "expanded_skin_pack_screen", extend)); }; static feedCommon(modify: FeedCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['feed_common'] ??= {})[modify] ??= new JsonUIObject(modify, "feed_common", extend)); }; static feedScreen(modify: FeedScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['feed_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "feed_screen", extend)); }; static fileUploadScreen(modify: FileUploadScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['file_upload_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "file_upload_screen", extend)); }; static furnaceScreen(modify: FurnaceScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['furnace_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "furnace_screen", extend)); }; static furnaceScreenPocket(modify: FurnaceScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['furnace_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "furnace_screen_pocket", extend)); }; static gamepadDisconnected(modify: GamepadDisconnectedTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['gamepad_disconnected'] ??= {})[modify] ??= new JsonUIObject(modify, "gamepad_disconnected", extend)); }; static gamepadLayoutScreen(modify: GamepadLayoutScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['gamepad_layout_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "gamepad_layout_screen", extend)); }; static gameTipScreen(modify: GameTipScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['game_tip_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "game_tip_screen", extend)); }; static gatheringInfoScreen(modify: GatheringInfoScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['gathering_info_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "gathering_info_screen", extend)); }; static globalPauseScreen(modify: GlobalPauseScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['global_pause_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "global_pause_screen", extend)); }; static grindstoneScreen(modify: GrindstoneScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['grindstone_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "grindstone_screen", extend)); }; static grindstoneScreenPocket(modify: GrindstoneScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['grindstone_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "grindstone_screen_pocket", extend)); }; static hdrCalibrationScreen(modify: HdrCalibrationScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['hdr_calibration_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "hdr_calibration_screen", extend)); }; static holographicPostrenderScreen(modify: HolographicPostrenderScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['holographic_postrender_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "holographic_postrender_screen", extend)); }; static horseScreen(modify: HorseScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['horse_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "horse_screen", extend)); }; static horseScreenPocket(modify: HorseScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['horse_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "horse_screen_pocket", extend)); }; static hostOptionsScreen(modify: HostOptionsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['host_options_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "host_options_screen", extend)); }; static howToPlayCommon(modify: HowToPlayCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['how_to_play_common'] ??= {})[modify] ??= new JsonUIObject(modify, "how_to_play_common", extend)); }; static howToPlayScreen(modify: HowToPlayScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['how_to_play_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "how_to_play_screen", extend)); }; static hudScreen(modify: HudScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['hud_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "hud_screen", extend)); }; static immersiveReader(modify: ImmersiveReaderTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['immersive_reader'] ??= {})[modify] ??= new JsonUIObject(modify, "immersive_reader", extend)); }; static inventoryScreen(modify: InventoryScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['inventory_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "inventory_screen", extend)); }; static inventoryScreenPocket(modify: InventoryScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['inventory_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "inventory_screen_pocket", extend)); }; static inviteScreen(modify: InviteScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['invite_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "invite_screen", extend)); }; static inBedScreen(modify: InBedScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['in_bed_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "in_bed_screen", extend)); }; static itemDetailDescriptionScreen(modify: ItemDetailDescriptionScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['item_detail_description_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "item_detail_description_screen", extend)); }; static jigsawEditorScreen(modify: JigsawEditorScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['jigsaw_editor_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "jigsaw_editor_screen", extend)); }; static lateJoinPregameScreen(modify: LateJoinPregameScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['late_join_pregame_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "late_join_pregame_screen", extend)); }; static libraryModalScreen(modify: LibraryModalScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['library_modal_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "library_modal_screen", extend)); }; static localWorldPickerScreen(modify: LocalWorldPickerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['local_world_picker_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "local_world_picker_screen", extend)); }; static loomScreen(modify: LoomScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['loom_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "loom_screen", extend)); }; static loomScreenPocket(modify: LoomScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['loom_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "loom_screen_pocket", extend)); }; static manageFeedScreen(modify: ManageFeedScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['manage_feed_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "manage_feed_screen", extend)); }; static manifestValidationScreen(modify: ManifestValidationScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['manifest_validation_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "manifest_validation_screen", extend)); }; static mobEffectScreen(modify: MobEffectScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['mob_effect_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "mob_effect_screen", extend)); }; static nonXblUserManagementScreen(modify: NonXblUserManagementScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['non_xbl_user_management_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "non_xbl_user_management_screen", extend)); }; static npcInteractScreen(modify: NpcInteractScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['npc_interact_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "npc_interact_screen", extend)); }; static onlineSafetyScreen(modify: OnlineSafetyScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['online_safety_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "online_safety_screen", extend)); }; static packSettingsScreen(modify: PackSettingsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['pack_settings_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "pack_settings_screen", extend)); }; static panoramaScreen(modify: PanoramaScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['panorama_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "panorama_screen", extend)); }; static patchNotesScreen(modify: PatchNotesScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['patch_notes_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "patch_notes_screen", extend)); }; static pauseScreen(modify: PauseScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['pause_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "pause_screen", extend)); }; static pdpScreen(modify: PdpScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['pdp_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "pdp_screen", extend)); }; static pdpScreenshotsSection(modify: PdpScreenshotsSectionTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['pdp_screenshots_section'] ??= {})[modify] ??= new JsonUIObject(modify, "pdp_screenshots_section", extend)); }; static perfTurtle(modify: PerfTurtleTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['perf_turtle'] ??= {})[modify] ??= new JsonUIObject(modify, "perf_turtle", extend)); }; static permissionsScreen(modify: PermissionsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['permissions_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "permissions_screen", extend)); }; static personaCastCharacterScreen(modify: PersonaCastCharacterScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['persona_cast_character_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "persona_cast_character_screen", extend)); }; static personaCommon(modify: PersonaCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['persona_common'] ??= {})[modify] ??= new JsonUIObject(modify, "persona_common", extend)); }; static personaScreen(modify: PersonaScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['persona_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "persona_screen", extend)); }; static personaSdl(modify: PersonaSdlTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['persona_sdl'] ??= {})[modify] ??= new JsonUIObject(modify, "persona_sdl", extend)); }; static playScreen(modify: PlayScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['play_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "play_screen", extend)); }; static pocketContainers(modify: PocketContainersTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['pocket_containers'] ??= {})[modify] ??= new JsonUIObject(modify, "pocket_containers", extend)); }; static popupDialog(modify: PopupDialogTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['popup_dialog'] ??= {})[modify] ??= new JsonUIObject(modify, "popup_dialog", extend)); }; static portfolioScreen(modify: PortfolioScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['portfolio_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "portfolio_screen", extend)); }; static postRatingScreen(modify: PostRatingScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['post_rating_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "post_rating_screen", extend)); }; static profileCard(modify: ProfileCardTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['profile_card'] ??= {})[modify] ??= new JsonUIObject(modify, "profile_card", extend)); }; static profileScreen(modify: ProfileScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['profile_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "profile_screen", extend)); }; static progressScreen(modify: ProgressScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['progress_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "progress_screen", extend)); }; static ratingPrompt(modify: RatingPromptTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['rating_prompt'] ??= {})[modify] ??= new JsonUIObject(modify, "rating_prompt", extend)); }; static realmsPlusScreen(modify: RealmsPlusScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realmsPlus_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "realmsPlus_screen", extend)); }; static realmsplusUpgradeNoticeScreen(modify: RealmsplusUpgradeNoticeScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realmsplus_upgrade_notice_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "realmsplus_upgrade_notice_screen", extend)); }; static realmsAllowlist(modify: RealmsAllowlistTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_allowlist'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_allowlist", extend)); }; static realmsCommon(modify: RealmsCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_common'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_common", extend)); }; static realmsCreate(modify: RealmsCreateTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_create'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_create", extend)); }; static realmsPendingInvitations(modify: RealmsPendingInvitationsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_pending_invitations'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_pending_invitations", extend)); }; static realmsPlusEndedScreen(modify: RealmsPlusEndedScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_plus_ended_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_plus_ended_screen", extend)); }; static realmsSettingsScreen(modify: RealmsSettingsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_settings_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_settings_screen", extend)); }; static realmsSlotsScreen(modify: RealmsSlotsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['realms_slots_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "realms_slots_screen", extend)); }; static redstoneScreen(modify: RedstoneScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['redstone_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "redstone_screen", extend)); }; static resourcePacksScreen(modify: ResourcePacksScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['resource_packs_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "resource_packs_screen", extend)); }; static safeZoneScreen(modify: SafeZoneScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['safe_zone_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "safe_zone_screen", extend)); }; static scoreboards(modify: ScoreboardsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['scoreboards'] ??= {})[modify] ??= new JsonUIObject(modify, "scoreboards", extend)); }; static screenshotPickerScreen(modify: ScreenshotPickerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['screenshot_picker_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "screenshot_picker_screen", extend)); }; static screenshotScreen(modify: ScreenshotScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['screenshot_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "screenshot_screen", extend)); }; static serverForm(modify: ServerFormTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['server_form'] ??= {})[modify] ??= new JsonUIObject(modify, "server_form", extend)); }; static settingsScreen(modify: SettingsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['settings_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "settings_screen", extend)); }; static sidebarNavigation(modify: SidebarNavigationTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['sidebar_navigation'] ??= {})[modify] ??= new JsonUIObject(modify, "sidebar_navigation", extend)); }; static signScreen(modify: SignScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['sign_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "sign_screen", extend)); }; static simpleInprogressScreen(modify: SimpleInprogressScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['simple_inprogress_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "simple_inprogress_screen", extend)); }; static skinPackPurchaseScreen(modify: SkinPackPurchaseScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['skin_pack_purchase_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "skin_pack_purchase_screen", extend)); }; static skinPickerScreen(modify: SkinPickerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['skin_picker_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "skin_picker_screen", extend)); }; static smithingTable2Screen(modify: SmithingTable2ScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['smithing_table_2_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "smithing_table_2_screen", extend)); }; static smithingTable2ScreenPocket(modify: SmithingTable2ScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['smithing_table_2_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "smithing_table_2_screen_pocket", extend)); }; static smithingTableScreen(modify: SmithingTableScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['smithing_table_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "smithing_table_screen", extend)); }; static smithingTableScreenPocket(modify: SmithingTableScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['smithing_table_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "smithing_table_screen_pocket", extend)); }; static smokerScreen(modify: SmokerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['smoker_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "smoker_screen", extend)); }; static startScreen(modify: StartScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['start_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "start_screen", extend)); }; static stonecutterScreen(modify: StonecutterScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['stonecutter_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "stonecutter_screen", extend)); }; static stonecutterScreenPocket(modify: StonecutterScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['stonecutter_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "stonecutter_screen_pocket", extend)); }; static storageManagement(modify: StorageManagementTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['storage_management'] ??= {})[modify] ??= new JsonUIObject(modify, "storage_management", extend)); }; static storageManagementPopup(modify: StorageManagementPopupTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['storage_management_popup'] ??= {})[modify] ??= new JsonUIObject(modify, "storage_management_popup", extend)); }; static storageMigrationCommon(modify: StorageMigrationCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['storage_migration_common'] ??= {})[modify] ??= new JsonUIObject(modify, "storage_migration_common", extend)); }; static storageMigrationGenericScreen(modify: StorageMigrationGenericScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['storage_migration_generic_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "storage_migration_generic_screen", extend)); }; static storeCommon(modify: StoreCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_common'] ??= {})[modify] ??= new JsonUIObject(modify, "store_common", extend)); }; static storeDataDrivenScreen(modify: StoreDataDrivenScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_data_driven_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_data_driven_screen", extend)); }; static storeFilterMenuScreen(modify: StoreFilterMenuScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_filter_menu_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_filter_menu_screen", extend)); }; static storeInventoryScreen(modify: StoreInventoryScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_inventory_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_inventory_screen", extend)); }; static storeItemListScreen(modify: StoreItemListScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_item_list_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_item_list_screen", extend)); }; static storePromoTimelineScreen(modify: StorePromoTimelineScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_promo_timeline_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_promo_timeline_screen", extend)); }; static storeSalesItemListScreen(modify: StoreSalesItemListScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_sales_item_list_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_sales_item_list_screen", extend)); }; static storeSearchScreen(modify: StoreSearchScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_search_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_search_screen", extend)); }; static storeSortMenuScreen(modify: StoreSortMenuScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['store_sort_menu_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "store_sort_menu_screen", extend)); }; static structureEditorScreen(modify: StructureEditorScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['structure_editor_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "structure_editor_screen", extend)); }; static submitFeedbackScreen(modify: SubmitFeedbackScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['submit_feedback_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "submit_feedback_screen", extend)); }; static syncIapsToXblScreen(modify: SyncIapsToXblScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['sync_iaps_to_xbl_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "sync_iaps_to_xbl_screen", extend)); }; static tabbedUpsellScreen(modify: TabbedUpsellScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['tabbed_upsell_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "tabbed_upsell_screen", extend)); }; static testAnimsScreen(modify: TestAnimsScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['test_anims_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "test_anims_screen", extend)); }; static thanksForTestingScreen(modify: ThanksForTestingScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['thanks_for_testing_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "thanks_for_testing_screen", extend)); }; static thirdPartyStoreScreen(modify: ThirdPartyStoreScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['third_party_store_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "third_party_store_screen", extend)); }; static toastScreen(modify: ToastScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['toast_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "toast_screen", extend)); }; static tokenFaqScreen(modify: TokenFaqScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['token_faq_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "token_faq_screen", extend)); }; static trade2Screen(modify: Trade2ScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['trade_2_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "trade_2_screen", extend)); }; static trade2ScreenPocket(modify: Trade2ScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['trade_2_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "trade_2_screen_pocket", extend)); }; static tradeScreen(modify: TradeScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['trade_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "trade_screen", extend)); }; static tradeScreenPocket(modify: TradeScreenPocketTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['trade_screen_pocket'] ??= {})[modify] ??= new JsonUIObject(modify, "trade_screen_pocket", extend)); }; static trialUpsellScreen(modify: TrialUpsellScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['trial_upsell_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "trial_upsell_screen", extend)); }; static ugcViewerScreen(modify: UgcViewerScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ugc_viewer_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "ugc_viewer_screen", extend)); }; static uiArtAssetsCommon(modify: UiArtAssetsCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_art_assets_common'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_art_assets_common", extend)); }; static uiCommon(modify: UiCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_common'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_common", extend)); }; static uiCommonClassic(modify: UiCommonClassicTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_common_classic'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_common_classic", extend)); }; static uiEduCommon(modify: UiEduCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_edu_common'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_edu_common", extend)); }; static uiHoloCursor(modify: UiHoloCursorTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_holo_cursor'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_holo_cursor", extend)); }; static uiPurchaseCommon(modify: UiPurchaseCommonTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_purchase_common'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_purchase_common", extend)); }; static uiTemplateButtons(modify: UiTemplateButtonsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_template_buttons'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_template_buttons", extend)); }; static uiTemplateDialogs(modify: UiTemplateDialogsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_template_dialogs'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_template_dialogs", extend)); }; static uiTemplateTabs(modify: UiTemplateTabsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_template_tabs'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_template_tabs", extend)); }; static uiTemplateToggles(modify: UiTemplateTogglesTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['ui_template_toggles'] ??= {})[modify] ??= new JsonUIObject(modify, "ui_template_toggles", extend)); }; static updateDimensions(modify: UpdateDimensionsTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['update_dimensions'] ??= {})[modify] ??= new JsonUIObject(modify, "update_dimensions", extend)); }; static updateVersion(modify: UpdateVersionTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['update_version'] ??= {})[modify] ??= new JsonUIObject(modify, "update_version", extend)); }; static win10TrialConversionScreen(modify: Win10TrialConversionScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['win10_trial_conversion_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "win10_trial_conversion_screen", extend)); }; static worldConversionCompleteScreen(modify: WorldConversionCompleteScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['world_conversion_complete_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "world_conversion_complete_screen", extend)); }; static worldRecoveryScreen(modify: WorldRecoveryScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['world_recovery_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "world_recovery_screen", extend)); }; static worldTemplatesScreen(modify: WorldTemplatesScreenTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['world_templates_screen'] ??= {})[modify] ??= new JsonUIObject(modify, "world_templates_screen", extend)); }; static xblConsoleQrSignin(modify: XblConsoleQrSigninTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_console_qr_signin'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_console_qr_signin", extend)); }; static xblConsoleSignin(modify: XblConsoleSigninTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_console_signin'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_console_signin", extend)); }; static xblConsoleSigninSucceeded(modify: XblConsoleSigninSucceededTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_console_signin_succeeded'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_console_signin_succeeded", extend)); }; static xblFriendFinder(modify: XblFriendFinderTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_friend_finder'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_friend_finder", extend)); }; static xblImmediateSignin(modify: XblImmediateSigninTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_immediate_signin'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_immediate_signin", extend)); }; static xblOptionalSignin(modify: XblOptionalSigninTypes, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['xbl_optional_signin'] ??= {})[modify] ??= new JsonUIObject(modify, "xbl_optional_signin", extend)); } }
+import { JsonUIElement } from "../jsonUI/JsonUIElement";
+import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
+import { JsonUIObject } from "./_ScreenCommon";
+import * as Types from "./ScreenModifyTypes";
+const jsonUIScreen: any = {};
+
+export class Modify {
+    private static apply() { };
+    private static arguments = '';
+    private static bind() { };
+    private static call() { };
+    private static caller = '';
+    private static length = '';
+    private static name = '';
+    private static toString() { };
+   static achievementScreen(element: Types.AchievementScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/achievement_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/achievement_screen.json', extend, properties));
+    }
+   static addExternalServerScreen(element: Types.AddExternalServerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/add_external_server_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/add_external_server_screen.json', extend, properties));
+    }
+   static adhocInprogessScreen(element: Types.AdhocInprogessScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/adhoc_inprogess_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/adhoc_inprogess_screen.json', extend, properties));
+    }
+   static adhocScreen(element: Types.AdhocScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/adhoc_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/adhoc_screen.json', extend, properties));
+    }
+   static anvilScreen(element: Types.AnvilScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/anvil_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/anvil_screen.json', extend, properties));
+    }
+   static anvilScreenPocket(element: Types.AnvilScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/anvil_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/anvil_screen_pocket.json', extend, properties));
+    }
+   static authenticationModals(element: Types.AuthenticationModals, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/authentication_modals.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/authentication_modals.json', extend, properties));
+    }
+   static authenticationScreen(element: Types.AuthenticationScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/authentication_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/authentication_screen.json', extend, properties));
+    }
+   static autoSaveInfoScreen(element: Types.AutoSaveInfoScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/auto_save_info_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/auto_save_info_screen.json', extend, properties));
+    }
+   static beaconScreen(element: Types.BeaconScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/beacon_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/beacon_screen.json', extend, properties));
+    }
+   static beaconScreenPocket(element: Types.BeaconScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/beacon_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/beacon_screen_pocket.json', extend, properties));
+    }
+   static blastFurnaceScreen(element: Types.BlastFurnaceScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/blast_furnace_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/blast_furnace_screen.json', extend, properties));
+    }
+   static bookScreen(element: Types.BookScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/book_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/book_screen.json', extend, properties));
+    }
+   static brewingStandScreen(element: Types.BrewingStandScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/brewing_stand_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/brewing_stand_screen.json', extend, properties));
+    }
+   static brewingStandScreenPocket(element: Types.BrewingStandScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/brewing_stand_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/brewing_stand_screen_pocket.json', extend, properties));
+    }
+   static bundlePurchaseWarningScreen(element: Types.BundlePurchaseWarningScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/bundle_purchase_warning_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/bundle_purchase_warning_screen.json', extend, properties));
+    }
+   static cartographyScreen(element: Types.CartographyScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/cartography_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/cartography_screen.json', extend, properties));
+    }
+   static cartographyScreenPocket(element: Types.CartographyScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/cartography_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/cartography_screen_pocket.json', extend, properties));
+    }
+   static chalkboardScreen(element: Types.ChalkboardScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/chalkboard_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/chalkboard_screen.json', extend, properties));
+    }
+   static chatScreen(element: Types.ChatScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/chat_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/chat_screen.json', extend, properties));
+    }
+   static chatSettingsMenuScreen(element: Types.ChatSettingsMenuScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/chat_settings_menu_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/chat_settings_menu_screen.json', extend, properties));
+    }
+   static chestScreen(element: Types.ChestScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/chest_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/chest_screen.json', extend, properties));
+    }
+   static chooseRealmScreen(element: Types.ChooseRealmScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/choose_realm_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/choose_realm_screen.json', extend, properties));
+    }
+   static cloudUploadScreen(element: Types.CloudUploadScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/cloud_upload_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/cloud_upload_screen.json', extend, properties));
+    }
+   static coinPurchaseScreen(element: Types.CoinPurchaseScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/coin_purchase_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/coin_purchase_screen.json', extend, properties));
+    }
+   static commandBlockScreen(element: Types.CommandBlockScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/command_block_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/command_block_screen.json', extend, properties));
+    }
+   static commentScreen(element: Types.CommentScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/comment_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/comment_screen.json', extend, properties));
+    }
+   static confirmDeleteAccountScreen(element: Types.ConfirmDeleteAccountScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/confirm_delete_account_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/confirm_delete_account_screen.json', extend, properties));
+    }
+   static confirmMsaUnlinkScreen(element: Types.ConfirmMsaUnlinkScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/confirm_msa_unlink_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/confirm_msa_unlink_screen.json', extend, properties));
+    }
+   static contentLog(element: Types.ContentLog, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/content_log.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/content_log.json', extend, properties));
+    }
+   static contentLogHistoryScreen(element: Types.ContentLogHistoryScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/content_log_history_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/content_log_history_screen.json', extend, properties));
+    }
+   static convertPurchasesToXblScreen(element: Types.ConvertPurchasesToXblScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/convert_purchases_to_xbl_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/convert_purchases_to_xbl_screen.json', extend, properties));
+    }
+   static crafterScreenPocket(element: Types.CrafterScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/crafter_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/crafter_screen_pocket.json', extend, properties));
+    }
+   static createWorldUpsellScreen(element: Types.CreateWorldUpsellScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/create_world_upsell_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/create_world_upsell_screen.json', extend, properties));
+    }
+   static creditsScreen(element: Types.CreditsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/credits_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/credits_screen.json', extend, properties));
+    }
+   static csbPurchaseErrorScreen(element: Types.CsbPurchaseErrorScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_purchase_error_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_purchase_error_screen.json', extend, properties));
+    }
+   static csbScreen(element: Types.CsbScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_screen.json', extend, properties));
+    }
+   static csbSections_contentSection(element: Types.CsbSections_contentSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/content_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/content_section.json', extend, properties));
+    }
+   static csbSections_csbBanner(element: Types.CsbSections_csbBanner, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_banner.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_banner.json', extend, properties));
+    }
+   static csbSections_csbBuyNowScreen(element: Types.CsbSections_csbBuyNowScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_buy_now_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_buy_now_screen.json', extend, properties));
+    }
+   static csbSections_csbCommon(element: Types.CsbSections_csbCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_common.json', extend, properties));
+    }
+   static csbSections_csbPurchaseAmazondevicewarningScreen(element: Types.CsbSections_csbPurchaseAmazondevicewarningScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_purchase_amazondevicewarning_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_purchase_amazondevicewarning_screen.json', extend, properties));
+    }
+   static csbSections_csbPurchaseWarningScreen(element: Types.CsbSections_csbPurchaseWarningScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_purchase_warning_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_purchase_warning_screen.json', extend, properties));
+    }
+   static csbSections_csbSubscriptionPanel(element: Types.CsbSections_csbSubscriptionPanel, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_subscription_panel.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_subscription_panel.json', extend, properties));
+    }
+   static csbSections_csbUpsellDialog(element: Types.CsbSections_csbUpsellDialog, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_upsell_dialog.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_upsell_dialog.json', extend, properties));
+    }
+   static csbSections_csbViewPacksScreen(element: Types.CsbSections_csbViewPacksScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_view_packs_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_view_packs_screen.json', extend, properties));
+    }
+   static csbSections_csbWelcomeScreen(element: Types.CsbSections_csbWelcomeScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/csb_welcome_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/csb_welcome_screen.json', extend, properties));
+    }
+   static csbSections_faqSection(element: Types.CsbSections_faqSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/faq_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/faq_section.json', extend, properties));
+    }
+   static csbSections_landingSection(element: Types.CsbSections_landingSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/csb_sections/landing_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/csb_sections/landing_section.json', extend, properties));
+    }
+   static customTemplatesScreen(element: Types.CustomTemplatesScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/custom_templates_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/custom_templates_screen.json', extend, properties));
+    }
+   static dayOneExperienceIntroScreen(element: Types.DayOneExperienceIntroScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/day_one_experience_intro_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/day_one_experience_intro_screen.json', extend, properties));
+    }
+   static dayOneExperienceScreen(element: Types.DayOneExperienceScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/day_one_experience_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/day_one_experience_screen.json', extend, properties));
+    }
+   static deathScreen(element: Types.DeathScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/death_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/death_screen.json', extend, properties));
+    }
+   static debugScreen(element: Types.DebugScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/debug_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/debug_screen.json', extend, properties));
+    }
+   static devConsoleScreen(element: Types.DevConsoleScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/dev_console_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/dev_console_screen.json', extend, properties));
+    }
+   static disconnectScreen(element: Types.DisconnectScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/disconnect_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/disconnect_screen.json', extend, properties));
+    }
+   static displayLoggedErrorScreen(element: Types.DisplayLoggedErrorScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/display_logged_error_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/display_logged_error_screen.json', extend, properties));
+    }
+   static eduDiscoveryDialog(element: Types.EduDiscoveryDialog, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/edu_discovery_dialog.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/edu_discovery_dialog.json', extend, properties));
+    }
+   static eduPauseScreenPauseButton(element: Types.EduPauseScreenPauseButton, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/edu_pause_screen_pause_button.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/edu_pause_screen_pause_button.json', extend, properties));
+    }
+   static emoteWheelScreen(element: Types.EmoteWheelScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/emote_wheel_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/emote_wheel_screen.json', extend, properties));
+    }
+   static enchantingScreen(element: Types.EnchantingScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/enchanting_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/enchanting_screen.json', extend, properties));
+    }
+   static enchantingScreenPocket(element: Types.EnchantingScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/enchanting_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/enchanting_screen_pocket.json', extend, properties));
+    }
+   static encyclopediaScreen(element: Types.EncyclopediaScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/encyclopedia_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/encyclopedia_screen.json', extend, properties));
+    }
+   static expandedSkinPackScreen(element: Types.ExpandedSkinPackScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/expanded_skin_pack_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/expanded_skin_pack_screen.json', extend, properties));
+    }
+   static feedCommon(element: Types.FeedCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/feed_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/feed_common.json', extend, properties));
+    }
+   static feedScreen(element: Types.FeedScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/feed_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/feed_screen.json', extend, properties));
+    }
+   static fileUploadScreen(element: Types.FileUploadScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/file_upload_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/file_upload_screen.json', extend, properties));
+    }
+   static furnaceScreen(element: Types.FurnaceScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/furnace_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/furnace_screen.json', extend, properties));
+    }
+   static furnaceScreenPocket(element: Types.FurnaceScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/furnace_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/furnace_screen_pocket.json', extend, properties));
+    }
+   static gamepadDisconnected(element: Types.GamepadDisconnected, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/gamepad_disconnected.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/gamepad_disconnected.json', extend, properties));
+    }
+   static gamepadLayoutScreen(element: Types.GamepadLayoutScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/gamepad_layout_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/gamepad_layout_screen.json', extend, properties));
+    }
+   static gameTipScreen(element: Types.GameTipScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/game_tip_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/game_tip_screen.json', extend, properties));
+    }
+   static gatheringInfoScreen(element: Types.GatheringInfoScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/gathering_info_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/gathering_info_screen.json', extend, properties));
+    }
+   static globalPauseScreen(element: Types.GlobalPauseScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/global_pause_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/global_pause_screen.json', extend, properties));
+    }
+   static grindstoneScreen(element: Types.GrindstoneScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/grindstone_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/grindstone_screen.json', extend, properties));
+    }
+   static grindstoneScreenPocket(element: Types.GrindstoneScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/grindstone_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/grindstone_screen_pocket.json', extend, properties));
+    }
+   static hdrCalibrationScreen(element: Types.HdrCalibrationScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/hdr_calibration_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/hdr_calibration_screen.json', extend, properties));
+    }
+   static holographicPostrenderScreen(element: Types.HolographicPostrenderScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/holographic_postrender_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/holographic_postrender_screen.json', extend, properties));
+    }
+   static horseScreen(element: Types.HorseScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/horse_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/horse_screen.json', extend, properties));
+    }
+   static horseScreenPocket(element: Types.HorseScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/horse_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/horse_screen_pocket.json', extend, properties));
+    }
+   static hostOptionsScreen(element: Types.HostOptionsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/host_options_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/host_options_screen.json', extend, properties));
+    }
+   static howToPlayCommon(element: Types.HowToPlayCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/how_to_play_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/how_to_play_common.json', extend, properties));
+    }
+   static howToPlayScreen(element: Types.HowToPlayScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/how_to_play_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/how_to_play_screen.json', extend, properties));
+    }
+   static hudScreen(element: Types.HudScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/hud_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/hud_screen.json', extend, properties));
+    }
+   static immersiveReader(element: Types.ImmersiveReader, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/immersive_reader.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/immersive_reader.json', extend, properties));
+    }
+   static inventoryScreen(element: Types.InventoryScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/inventory_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/inventory_screen.json', extend, properties));
+    }
+   static inventoryScreenPocket(element: Types.InventoryScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/inventory_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/inventory_screen_pocket.json', extend, properties));
+    }
+   static inviteScreen(element: Types.InviteScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/invite_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/invite_screen.json', extend, properties));
+    }
+   static inBedScreen(element: Types.InBedScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/in_bed_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/in_bed_screen.json', extend, properties));
+    }
+   static itemDetailDescriptionScreen(element: Types.ItemDetailDescriptionScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/item_detail_description_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/item_detail_description_screen.json', extend, properties));
+    }
+   static jigsawEditorScreen(element: Types.JigsawEditorScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/jigsaw_editor_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/jigsaw_editor_screen.json', extend, properties));
+    }
+   static lateJoinPregameScreen(element: Types.LateJoinPregameScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/late_join_pregame_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/late_join_pregame_screen.json', extend, properties));
+    }
+   static libraryModalScreen(element: Types.LibraryModalScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/library_modal_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/library_modal_screen.json', extend, properties));
+    }
+   static localWorldPickerScreen(element: Types.LocalWorldPickerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/local_world_picker_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/local_world_picker_screen.json', extend, properties));
+    }
+   static loomScreen(element: Types.LoomScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/loom_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/loom_screen.json', extend, properties));
+    }
+   static loomScreenPocket(element: Types.LoomScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/loom_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/loom_screen_pocket.json', extend, properties));
+    }
+   static manageFeedScreen(element: Types.ManageFeedScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/manage_feed_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/manage_feed_screen.json', extend, properties));
+    }
+   static manifestValidationScreen(element: Types.ManifestValidationScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/manifest_validation_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/manifest_validation_screen.json', extend, properties));
+    }
+   static mobEffectScreen(element: Types.MobEffectScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/mob_effect_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/mob_effect_screen.json', extend, properties));
+    }
+   static nonXblUserManagementScreen(element: Types.NonXblUserManagementScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/non_xbl_user_management_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/non_xbl_user_management_screen.json', extend, properties));
+    }
+   static npcInteractScreen(element: Types.NpcInteractScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/npc_interact_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/npc_interact_screen.json', extend, properties));
+    }
+   static onlineSafetyScreen(element: Types.OnlineSafetyScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/online_safety_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/online_safety_screen.json', extend, properties));
+    }
+   static packSettingsScreen(element: Types.PackSettingsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/pack_settings_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/pack_settings_screen.json', extend, properties));
+    }
+   static panoramaScreen(element: Types.PanoramaScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/panorama_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/panorama_screen.json', extend, properties));
+    }
+   static patchNotesScreen(element: Types.PatchNotesScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/patch_notes_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/patch_notes_screen.json', extend, properties));
+    }
+   static pauseScreen(element: Types.PauseScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/pause_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/pause_screen.json', extend, properties));
+    }
+   static pdpScreen(element: Types.PdpScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/pdp_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/pdp_screen.json', extend, properties));
+    }
+   static pdpScreenshotsSection(element: Types.PdpScreenshotsSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/pdp_screenshots_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/pdp_screenshots_section.json', extend, properties));
+    }
+   static perfTurtle(element: Types.PerfTurtle, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/perf_turtle.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/perf_turtle.json', extend, properties));
+    }
+   static permissionsScreen(element: Types.PermissionsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/permissions_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/permissions_screen.json', extend, properties));
+    }
+   static personaCastCharacterScreen(element: Types.PersonaCastCharacterScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/persona_cast_character_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/persona_cast_character_screen.json', extend, properties));
+    }
+   static personaCommon(element: Types.PersonaCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/persona_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/persona_common.json', extend, properties));
+    }
+   static personaScreen(element: Types.PersonaScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/persona_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/persona_screen.json', extend, properties));
+    }
+   static personaSDL(element: Types.PersonaSDL, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/persona_SDL.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/persona_SDL.json', extend, properties));
+    }
+   static playScreen(element: Types.PlayScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/play_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/play_screen.json', extend, properties));
+    }
+   static pocketContainers(element: Types.PocketContainers, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/pocket_containers.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/pocket_containers.json', extend, properties));
+    }
+   static popupDialog(element: Types.PopupDialog, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/popup_dialog.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/popup_dialog.json', extend, properties));
+    }
+   static portfolioScreen(element: Types.PortfolioScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/portfolio_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/portfolio_screen.json', extend, properties));
+    }
+   static postRatingScreen(element: Types.PostRatingScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/post_rating_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/post_rating_screen.json', extend, properties));
+    }
+   static profileCard(element: Types.ProfileCard, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/profile_card.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/profile_card.json', extend, properties));
+    }
+   static profileScreen(element: Types.ProfileScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/profile_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/profile_screen.json', extend, properties));
+    }
+   static progressScreen(element: Types.ProgressScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/progress_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/progress_screen.json', extend, properties));
+    }
+   static ratingPrompt(element: Types.RatingPrompt, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/rating_prompt.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/rating_prompt.json', extend, properties));
+    }
+   static realmsPlusScreen(element: Types.RealmsPlusScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_screen.json', extend, properties));
+    }
+   static realmsPlusSections_contentSection(element: Types.RealmsPlusSections_contentSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/content_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/content_section.json', extend, properties));
+    }
+   static realmsPlusSections_faqSection(element: Types.RealmsPlusSections_faqSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/faq_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/faq_section.json', extend, properties));
+    }
+   static realmsPlusSections_landingSection(element: Types.RealmsPlusSections_landingSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/landing_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/landing_section.json', extend, properties));
+    }
+   static realmsPlusSections_realmsPlusBuyNowScreen(element: Types.RealmsPlusSections_realmsPlusBuyNowScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/realmsPlus_buy_now_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/realmsPlus_buy_now_screen.json', extend, properties));
+    }
+   static realmsPlusSections_realmsPlusPurchaseWarningScreen(element: Types.RealmsPlusSections_realmsPlusPurchaseWarningScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/realmsPlus_purchase_warning_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/realmsPlus_purchase_warning_screen.json', extend, properties));
+    }
+   static realmsPlusSections_realmsPlusViewPacksScreen(element: Types.RealmsPlusSections_realmsPlusViewPacksScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsPlus_sections/realmsPlus_view_packs_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsPlus_sections/realmsPlus_view_packs_screen.json', extend, properties));
+    }
+   static realmsplusUpgradeNoticeScreen(element: Types.RealmsplusUpgradeNoticeScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realmsplus_upgrade_notice_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realmsplus_upgrade_notice_screen.json', extend, properties));
+    }
+   static realmsAllowlist(element: Types.RealmsAllowlist, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_allowlist.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_allowlist.json', extend, properties));
+    }
+   static realmsCommon(element: Types.RealmsCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_common.json', extend, properties));
+    }
+   static realmsCreate(element: Types.RealmsCreate, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_create.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_create.json', extend, properties));
+    }
+   static realmsPendingInvitations(element: Types.RealmsPendingInvitations, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_pending_invitations.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_pending_invitations.json', extend, properties));
+    }
+   static realmsPlusEndedScreen(element: Types.RealmsPlusEndedScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_plus_ended_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_plus_ended_screen.json', extend, properties));
+    }
+   static realmsSettingsScreen(element: Types.RealmsSettingsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_settings_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_settings_screen.json', extend, properties));
+    }
+   static realmsSlotsScreen(element: Types.RealmsSlotsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/realms_slots_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/realms_slots_screen.json', extend, properties));
+    }
+   static redstoneScreen(element: Types.RedstoneScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/redstone_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/redstone_screen.json', extend, properties));
+    }
+   static resourcePacksScreen(element: Types.ResourcePacksScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/resource_packs_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/resource_packs_screen.json', extend, properties));
+    }
+   static safeZoneScreen(element: Types.SafeZoneScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/safe_zone_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/safe_zone_screen.json', extend, properties));
+    }
+   static scoreboards(element: Types.Scoreboards, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/scoreboards.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/scoreboards.json', extend, properties));
+    }
+   static screenshotPickerScreen(element: Types.ScreenshotPickerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/screenshot_picker_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/screenshot_picker_screen.json', extend, properties));
+    }
+   static screenshotScreen(element: Types.ScreenshotScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/screenshot_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/screenshot_screen.json', extend, properties));
+    }
+   static serverForm(element: Types.ServerForm, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/server_form.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/server_form.json', extend, properties));
+    }
+   static settingsScreen(element: Types.SettingsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_screen.json', extend, properties));
+    }
+   static settingsSections_controlsSection(element: Types.SettingsSections_controlsSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_sections/controls_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_sections/controls_section.json', extend, properties));
+    }
+   static settingsSections_generalSection(element: Types.SettingsSections_generalSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_sections/general_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_sections/general_section.json', extend, properties));
+    }
+   static settingsSections_realmsWorldSection(element: Types.SettingsSections_realmsWorldSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_sections/realms_world_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_sections/realms_world_section.json', extend, properties));
+    }
+   static settingsSections_settingsCommon(element: Types.SettingsSections_settingsCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_sections/settings_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_sections/settings_common.json', extend, properties));
+    }
+   static settingsSections_worldSection(element: Types.SettingsSections_worldSection, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/settings_sections/world_section.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/settings_sections/world_section.json', extend, properties));
+    }
+   static sidebarNavigation(element: Types.SidebarNavigation, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/sidebar_navigation.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/sidebar_navigation.json', extend, properties));
+    }
+   static signScreen(element: Types.SignScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/sign_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/sign_screen.json', extend, properties));
+    }
+   static simpleInprogressScreen(element: Types.SimpleInprogressScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/simple_inprogress_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/simple_inprogress_screen.json', extend, properties));
+    }
+   static skinPackPurchaseScreen(element: Types.SkinPackPurchaseScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/skin_pack_purchase_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/skin_pack_purchase_screen.json', extend, properties));
+    }
+   static skinPickerScreen(element: Types.SkinPickerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/skin_picker_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/skin_picker_screen.json', extend, properties));
+    }
+   static smithingTable2Screen(element: Types.SmithingTable2Screen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/smithing_table_2_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/smithing_table_2_screen.json', extend, properties));
+    }
+   static smithingTable2ScreenPocket(element: Types.SmithingTable2ScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/smithing_table_2_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/smithing_table_2_screen_pocket.json', extend, properties));
+    }
+   static smithingTableScreen(element: Types.SmithingTableScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/smithing_table_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/smithing_table_screen.json', extend, properties));
+    }
+   static smithingTableScreenPocket(element: Types.SmithingTableScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/smithing_table_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/smithing_table_screen_pocket.json', extend, properties));
+    }
+   static smokerScreen(element: Types.SmokerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/smoker_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/smoker_screen.json', extend, properties));
+    }
+   static startScreen(element: Types.StartScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/start_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/start_screen.json', extend, properties));
+    }
+   static stonecutterScreen(element: Types.StonecutterScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/stonecutter_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/stonecutter_screen.json', extend, properties));
+    }
+   static stonecutterScreenPocket(element: Types.StonecutterScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/stonecutter_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/stonecutter_screen_pocket.json', extend, properties));
+    }
+   static storageManagement(element: Types.StorageManagement, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/storage_management.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/storage_management.json', extend, properties));
+    }
+   static storageManagementPopup(element: Types.StorageManagementPopup, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/storage_management_popup.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/storage_management_popup.json', extend, properties));
+    }
+   static storageMigrationCommon(element: Types.StorageMigrationCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/storage_migration_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/storage_migration_common.json', extend, properties));
+    }
+   static storageMigrationGenericScreen(element: Types.StorageMigrationGenericScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/storage_migration_generic_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/storage_migration_generic_screen.json', extend, properties));
+    }
+   static storeCommon(element: Types.StoreCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_common.json', extend, properties));
+    }
+   static storeDataDrivenScreen(element: Types.StoreDataDrivenScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_data_driven_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_data_driven_screen.json', extend, properties));
+    }
+   static storeFilterMenuScreen(element: Types.StoreFilterMenuScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_filter_menu_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_filter_menu_screen.json', extend, properties));
+    }
+   static storeInventoryScreen(element: Types.StoreInventoryScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_inventory_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_inventory_screen.json', extend, properties));
+    }
+   static storeItemListScreen(element: Types.StoreItemListScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_item_list_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_item_list_screen.json', extend, properties));
+    }
+   static storePromoTimelineScreen(element: Types.StorePromoTimelineScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_promo_timeline_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_promo_timeline_screen.json', extend, properties));
+    }
+   static storeSalesItemListScreen(element: Types.StoreSalesItemListScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_sales_item_list_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_sales_item_list_screen.json', extend, properties));
+    }
+   static storeSearchScreen(element: Types.StoreSearchScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_search_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_search_screen.json', extend, properties));
+    }
+   static storeSortMenuScreen(element: Types.StoreSortMenuScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/store_sort_menu_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/store_sort_menu_screen.json', extend, properties));
+    }
+   static structureEditorScreen(element: Types.StructureEditorScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/structure_editor_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/structure_editor_screen.json', extend, properties));
+    }
+   static submitFeedbackScreen(element: Types.SubmitFeedbackScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/submit_feedback_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/submit_feedback_screen.json', extend, properties));
+    }
+   static syncIapsToXblScreen(element: Types.SyncIapsToXblScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/sync_iaps_to_xbl_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/sync_iaps_to_xbl_screen.json', extend, properties));
+    }
+   static tabbedUpsellScreen(element: Types.TabbedUpsellScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/tabbed_upsell_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/tabbed_upsell_screen.json', extend, properties));
+    }
+   static testAnimsScreen(element: Types.TestAnimsScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/test_anims_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/test_anims_screen.json', extend, properties));
+    }
+   static thanksForTestingScreen(element: Types.ThanksForTestingScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/thanks_for_testing_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/thanks_for_testing_screen.json', extend, properties));
+    }
+   static thirdPartyStoreScreen(element: Types.ThirdPartyStoreScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/third_party_store_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/third_party_store_screen.json', extend, properties));
+    }
+   static toastScreen(element: Types.ToastScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/toast_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/toast_screen.json', extend, properties));
+    }
+   static tokenFaqScreen(element: Types.TokenFaqScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/token_faq_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/token_faq_screen.json', extend, properties));
+    }
+   static trade2Screen(element: Types.Trade2Screen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/trade_2_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/trade_2_screen.json', extend, properties));
+    }
+   static trade2ScreenPocket(element: Types.Trade2ScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/trade_2_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/trade_2_screen_pocket.json', extend, properties));
+    }
+   static tradeScreen(element: Types.TradeScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/trade_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/trade_screen.json', extend, properties));
+    }
+   static tradeScreenPocket(element: Types.TradeScreenPocket, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/trade_screen_pocket.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/trade_screen_pocket.json', extend, properties));
+    }
+   static trialUpsellScreen(element: Types.TrialUpsellScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/trial_upsell_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/trial_upsell_screen.json', extend, properties));
+    }
+   static ugcViewerScreen(element: Types.UgcViewerScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ugc_viewer_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ugc_viewer_screen.json', extend, properties));
+    }
+   static uiArtAssetsCommon(element: Types.UiArtAssetsCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_art_assets_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_art_assets_common.json', extend, properties));
+    }
+   static uiCommon(element: Types.UiCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_common.json', extend, properties));
+    }
+   static uiCommonClassic(element: Types.UiCommonClassic, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_common_classic.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_common_classic.json', extend, properties));
+    }
+   static uiEduCommon(element: Types.UiEduCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_edu_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_edu_common.json', extend, properties));
+    }
+   static uiHoloCursor(element: Types.UiHoloCursor, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_holo_cursor.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_holo_cursor.json', extend, properties));
+    }
+   static uiPurchaseCommon(element: Types.UiPurchaseCommon, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_purchase_common.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_purchase_common.json', extend, properties));
+    }
+   static uiTemplateButtons(element: Types.UiTemplateButtons, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_template_buttons.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_template_buttons.json', extend, properties));
+    }
+   static uiTemplateDialogs(element: Types.UiTemplateDialogs, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_template_dialogs.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_template_dialogs.json', extend, properties));
+    }
+   static uiTemplateTabs(element: Types.UiTemplateTabs, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_template_tabs.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_template_tabs.json', extend, properties));
+    }
+   static uiTemplateToggles(element: Types.UiTemplateToggles, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/ui_template_toggles.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/ui_template_toggles.json', extend, properties));
+    }
+   static updateDimensions(element: Types.UpdateDimensions, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/update_dimensions.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/update_dimensions.json', extend, properties));
+    }
+   static updateVersion(element: Types.UpdateVersion, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/update_version.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/update_version.json', extend, properties));
+    }
+   static win10TrialConversionScreen(element: Types.Win10TrialConversionScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/win10_trial_conversion_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/win10_trial_conversion_screen.json', extend, properties));
+    }
+   static worldConversionCompleteScreen(element: Types.WorldConversionCompleteScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/world_conversion_complete_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/world_conversion_complete_screen.json', extend, properties));
+    }
+   static worldRecoveryScreen(element: Types.WorldRecoveryScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/world_recovery_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/world_recovery_screen.json', extend, properties));
+    }
+   static worldTemplatesScreen(element: Types.WorldTemplatesScreen, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/world_templates_screen.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/world_templates_screen.json', extend, properties));
+    }
+   static xblConsoleQrSignin(element: Types.XblConsoleQrSignin, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_console_qr_signin.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_console_qr_signin.json', extend, properties));
+    }
+   static xblConsoleSignin(element: Types.XblConsoleSignin, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_console_signin.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_console_signin.json', extend, properties));
+    }
+   static xblConsoleSigninSucceeded(element: Types.XblConsoleSigninSucceeded, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_console_signin_succeeded.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_console_signin_succeeded.json', extend, properties));
+    }
+   static xblFriendFinder(element: Types.XblFriendFinder, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_friend_finder.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_friend_finder.json', extend, properties));
+    }
+   static xblImmediateSignin(element: Types.XblImmediateSignin, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_immediate_signin.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_immediate_signin.json', extend, properties));
+    }
+   static xblOptionalSignin(element: Types.XblOptionalSignin, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/xbl_optional_signin.json'] ??= {})[element] ??= new JsonUIObject(element, 'ui/xbl_optional_signin.json', extend, properties));
+    }
+}

@@ -20,6 +20,10 @@
             "description": "Specifies the name of the obfuscator element.",
             "type": "boolean"
         },
+        "dont_unobfuscator_orther_pack": {
+            "description": "Do not decrypt all resource packs in the .uipacks folder.",
+            "type": "boolean"
+        },
         "manifest": {
             "description": "Contains the manifest information of the UI pack.",
             "type": "object",

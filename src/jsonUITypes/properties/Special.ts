@@ -18,5 +18,5 @@ export default interface SpecialInterface {
     use_skin_gui_scale?: GlobalTypes | Bool,
     use_player_paperdoll?: GlobalTypes | Bool,
     rotation?: GlobalTypes | RotationAuto,
-    end_event?: GlobalTypes,
+    end_event?: GlobalTypes
 }

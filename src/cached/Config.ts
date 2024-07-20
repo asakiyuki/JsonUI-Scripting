@@ -1,4 +1,4 @@
-import { parse } from "comment-json";
+import { parse } from "jsonc-parser";
 import { ConfigInterface } from "./ConfigInterface";
 import fs from "fs-extra";
 import { GenerateUUID } from "../jsonUI/GenerateUUID";
@@ -33,6 +33,7 @@ export class Config {
                 const config: any = parse(fs.readFileSync('config.json', 'utf-8'));
                 config.folder_name = config.folder_name ?? "debugger";
                 config.development = config.development ?? true;
+                config.dont_unobfuscator_orther_pack = config.dont_unobfuscator_orther_pack ?? true;
                 config.manifest = {
                     name: 'pack_name',
                     description: 'pack_description',
@@ -46,6 +47,7 @@ export class Config {
                 folder_name: "debugger",
                 development: true,
                 preview: false,
+                dont_unobfuscator_orther_pack: false,
                 obfuscator_element_name: false,
                 manifest: {
                     name: 'pack_name',

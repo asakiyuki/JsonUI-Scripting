@@ -1,1 +1,0 @@
-export type GlobalPauseScreenTypes = "message" | "quit_button" | "globalpause_screen" | "pause_screen_content" | "pause_screen_content/transparentFill" | "pause_screen_content/message" | "pause_screen_content/quit_button";

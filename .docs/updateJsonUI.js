@@ -1,88 +1,75 @@
-const fs = require('fs');
-const _JSON = require('comment-json');
-const jsonUIs = fs.readdirSync('.jsonui', 'utf-8').map(v => {
-    v = v.replace('.json', '');
-    return {
-        jsonUIFile: v,
-        classBase: `_${v}`.replace(/_./g, v => v.slice(1).toUpperCase()),
-        typeBase: `${`_${v}`.replace(/_./g, v => v.slice(1).toUpperCase())}Types`
+const fs = require('fs-extra');
+const Json = require('comment-json');
+
+const typesList = [], modifyList = [];
+let bindingsList = {};
+
+function GetJsonUIElements(data, readControl, elementKeyPath) {
+    const elements = [];
+    if (readControl) {
+        for (const e of data) {
+            const key = Object.keys(e)[0],
+                keyPath = `${elementKeyPath}/${key.split('@')[0]}`;
+            elements.push(`"${keyPath}"`);
+            const element = e[key];
+            if (Array.isArray(element.controls))
+                elements.push(...GetJsonUIElements(element.controls, true, keyPath));
+        }
+    } else {
+        delete data.namespace;
+        for (const key in data) {
+            const element = data[key],
+                eKey = key.split('@')[0];
+            elements.push(`"${eKey}"`);
+            if (Array.isArray(element.controls))
+                elements.push(...GetJsonUIElements(element.controls, true, eKey));
+        }
     }
-});
-
-function readThis(readElement = [], path) {
-    const elementPaths = [];
-    for (const element of readElement) {
-        const elementKey = Object.keys(element)[0];
-        const elementName = elementKey.split('@')[0];
-        const elementPath = `${path}/${elementName}`;
-        elementPaths.push(`"${elementPath}"`);
-        if (element[elementKey].controls) elementPaths.push(...readThis(element[elementKey].controls, elementPath));
-    }
-    return elementPaths;
-}
-
-function rewrite(text, allow = true) {
-    return (allow ? `_${text}` : text).replace(/[_-]\w/g, v => v.slice(1).toUpperCase());
-}
-
-let index = -1;
-const arr = [];
-const arr2 = [];
-const arr3 = [];
-const arr4 = [];
-const arr5 = [];
-
-for (const value of jsonUIs) {
-    index++;
-    const file = fs.readFileSync(`.jsonui/${value.jsonUIFile}.json`, 'utf-8');
-    file.match(/#\w+/g)?.forEach(v => {
-        const _ = `    ${(v => {
-            if (v[0].match(/\d/)) return `_${v}`
-            else return v
-        })(rewrite(v.slice(1)))} = "${v}",`
-        if (!arr4.includes(_)) {
-            arr4.push(_);
-            arr5.push(`"${v}"`);
-        };
-    })
-    const sex = _JSON.parse(file);
-    const namespace = sex.namespace;
-    delete sex.namespace;
-    const elementPaths = [];
-
-    const insideArr = [];
-
-    for (const key in sex) {
-        const path = key.replace(/@.+/g, '');
-        elementPaths.push(`"${path}"`);
-
-        insideArr.push(`        '${rewrite(path)}': "${namespace}.${path}",`);
-
-        if (Array.isArray(sex[key].controls))
-            elementPaths.push(...readThis(sex[key].controls, path));
-    }
-
-    arr3.push(`    ${rewrite(value.jsonUIFile)}: {
-${insideArr.join('\n')}
-    },`)
-
-    const _ = jsonUIs[index];
-    arr.push(`import { ${_.typeBase} } from "./types/${_.classBase}";`);
-    arr2.push(`static ${_.classBase[0].toLowerCase()}${_.classBase.slice(1)}(modify: ${_.typeBase}, extend?: JsonUIElement | string) { return <JsonUIObject>((jsonUIScreen['${_.jsonUIFile}'] ??= {})[modify] ??= new JsonUIObject(modify, "${_.jsonUIFile}", extend)); }`)
-    fs.writeFileSync(`src/vanillaModification/types/${_.classBase}.ts`, `export type ${_.typeBase} = ${elementPaths.join(' | ')};`);
-
+    return elements;
 };
 
-fs.writeFileSync('src/vanillaModification/VanillaElement.ts',
-    `export const VanillaElement = {
-${arr3.join('\n')}
-}`);
+function ReadJsonUIProperty(directory, screenName, typeName) {
+    const $ = fs.readFileSync(directory, 'utf-8');
+    const $1 = $.match(/#\w+/g) ?? [];
+    for (const binding of $1)
+        bindingsList[binding.replace(/[_#]\w/g, v => v.slice(1).toUpperCase())] ??= binding;
+    const dir = directory.replace(/\.jsonui\//, '');
+    typesList.push(`export type ${typeName} = ${GetJsonUIElements(Json.parse($)).join(' | ')};`);
+    modifyList.push(`   static ${screenName}(element: Types.${typeName}, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
+        return <JsonUIObject>((jsonUIScreen['ui/${dir}'] ??= {})[element] ??= new JsonUIObject(element, 'ui/${dir}', extend, properties));
+    }`)
+};
 
+(function readDirectory(dir = '.jsonui') {
+    for (const file of fs.readdirSync(dir, 'utf-8')) {
+        const dirFile = `${dir}/${file}`;
+        if (fs.statSync(dirFile).isDirectory()) readDirectory(dirFile);
+        else if (dirFile !== '.jsonui/_global_variables.json') {
+            const directory = dirFile.replace(/\.jsonui\//, ''),
+                typeName = `_${directory}`.replace(/.json$/, '').replace(/_\w/g, v => v.slice(1).toUpperCase()).replace(/\//g, '_');
+
+            ReadJsonUIProperty(dirFile, `${typeName[0].toLowerCase()}${typeName.slice(1)}`, typeName);
+        }
+    };
+})();
+
+fs.writeFileSync('src/jsonUITypes/BindingName.ts', `export enum BindingName ${Json.stringify(bindingsList, null, 4).replace(/:/g, ' =')};`);
+fs.writeFileSync('src/vanillaModification/ScreenModifyTypes.ts', typesList.join('\n'));
 fs.writeFileSync('src/vanillaModification/Modify.ts',
-    `import { JsonUIElement } from "../jsonUI/JsonUIElement"; ${arr.join(' ')} import { JsonUIObject } from "./_ScreenCommon"; const jsonUIScreen: any = {}; export class Modify { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${arr2.join('; ')}}`);
+    `import { JsonUIElement } from "../jsonUI/JsonUIElement";
+import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
+import { JsonUIObject } from "./_ScreenCommon";
+import * as Types from "./ScreenModifyTypes";
+const jsonUIScreen: any = {};
 
-fs.writeFileSync('src/jsonUITypes/BindingName.ts', `export enum BindingName {
-${arr4.join('\n')}
-}`);
-
-fs.writeFileSync('src/jsonUITypes/PropertyBagKeys.ts', `export type PropertyBagKey = ${arr5.join(' | ')};`);
+export class Modify {
+    private static apply() { };
+    private static arguments = '';
+    private static bind() { };
+    private static call() { };
+    private static caller = '';
+    private static length = '';
+    private static name = '';
+    private static toString() { };
+${modifyList.join('\n')}
+}`) 

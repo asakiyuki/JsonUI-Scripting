@@ -2,7 +2,7 @@ import { EasingTypes } from "./EasingTypes";
 import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes";
 
 export interface AnimationValue {
-    duration: number | DefaultGlobalVariableTypes,
+    duration?: number | DefaultGlobalVariableTypes,
     destroy_at_end?: string | DefaultGlobalVariableTypes,
     easing?: EasingTypes,
     from?: any,

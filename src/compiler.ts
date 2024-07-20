@@ -3,6 +3,7 @@ import { CachedManager } from "./cached/Manager";
 import { Config } from "./cached/Config";
 import { objectForEach } from "./lib/ObjectForEach";
 
+interface GlobalResourcePack { pack_id: string, version: [number, number, number] };
 const saveConsole: any = [];
 const Console = { ...console };
 for (const key in console) {
@@ -33,6 +34,23 @@ function writeContent(path: string = '') {
         if (fs.statSync(`${_}/${f}`).isDirectory()) writeContent(`${path}/${f}`);
         else content.push({ path: `${path}/${f}`.slice(1) });
     }
+}
+
+function BuildModifyJsonUI(data: any) {
+    objectForEach(data, (value, dir) => {
+        try {
+            fs.writeJSONSync(`.build/${dir}`, value, 'utf-8');
+        } catch (error) {
+            const directorys = dir.split('/');
+            directorys.pop();
+            let dirSave = '.build';
+            for (const directory of directorys) {
+                dirSave += `/${directory}`;
+                if (!fs.pathExistsSync(dirSave)) fs.mkdirSync(dirSave);
+            }
+            fs.writeJSONSync(`.build/${dir}`, value, 'utf-8');
+        }
+    });
 }
 
 /**
@@ -128,14 +146,7 @@ process.on('exit', () => {
     }
 
     // Process modified UI elements and write them to JSON files
-    for (const key of Object.keys(jsonUI.modify)) {
-        fs.writeJSONSync(
-            `.build/ui/${key}.json`,
-            jsonUI.modify[key],
-            'utf-8'
-        )
-        console.log('Compile', new Date(), `.build/build/${key}.json`, `${Object.keys(jsonUI.modify[key]).length} element(s) modified.`);
-    }
+    BuildModifyJsonUI(jsonUI.modify);
 
     // Write UI definition file paths to a JSON file
     fs.writeFileSync('.build/ui/_ui_defs.json', JSON.stringify({ ui_defs }), 'utf-8');
@@ -148,7 +159,7 @@ process.on('exit', () => {
             description: Config.data.manifest?.description,
             name: Config.data.manifest?.name,
             uuid: Config.data.manifest?.uuid,
-            version: [0, 0, 1],
+            version: Config.data.manifest?.version,
             min_engine_version: [1, 13, 0]
         },
         modules: [
@@ -160,8 +171,6 @@ process.on('exit', () => {
             }
         ]
     }, 'utf-8');
-
-    console.log("Clone textures", new Date());
 
     // Write sound_definitions.json
 
@@ -188,18 +197,43 @@ process.on('exit', () => {
     if (fs.existsSync('.bedrock')) {
         for (const $ of fs.readdirSync('.bedrock'))
             fs.cpSync(`.bedrock/${$}`, `.build/${$}`, { recursive: true });
+        console.log("Clone textures", new Date());
     }
 
     if (fs.existsSync('config.json')) {
         // Determine the target directory for exporting resource packs
-        const path = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}`;
-        const directory = `${path}\\${Config.data?.folder_name}`;
+        const path = `${process.env.LOCALAPPDATA}\\Packages\\${Config.data?.preview ? "Microsoft.MinecraftWindowsBeta_8wekyb3d8bbwe" : "Microsoft.MinecraftUWP_8wekyb3d8bbwe"}\\LocalState\\games\\com.mojang`;
+        const directory = `${path}\\${Config.data?.development ? 'development_resource_packs' : 'resource_packs'}\\${Config.data?.folder_name}`;
         if (!fs.existsSync(path)) return;
+
         // Copy all files from the .build directory to the target directory
-        if (fs.existsSync(directory)) fs.removeSync(directory);
+        if (fs.existsSync(directory))
+            fs.removeSync(directory);
+        if (!fs.existsSync(`${path}\\minecraftpe`))
+            fs.mkdirSync(`${path}\\minecraftpe`);
+        if (!fs.existsSync(`${path}\\minecraftpe\\global_resource_packs.json`))
+            fs.writeFileSync(`${path}\\minecraftpe\\global_resource_packs.json`, '[]', 'utf-8');
+
+        {
+            // Install resource pack
+            const readGlobalResourcePacks: GlobalResourcePack[] = fs.readJsonSync(`${path}\\minecraftpe\\global_resource_packs.json`);
+            const packsGlobalData: string = JSON.stringify(<GlobalResourcePack>{
+                pack_id: Config.data.manifest?.uuid ?? "",
+                version: Config.data.manifest?.version ?? [0, 0, 1]
+            });
+
+            const packIndex = readGlobalResourcePacks.findIndex((value) => JSON.stringify(value) === packsGlobalData);
+            if (packIndex === -1) {
+                readGlobalResourcePacks.push(JSON.parse(packsGlobalData));
+                fs.writeJsonSync(`${path}\\minecraftpe\\global_resource_packs.json`, readGlobalResourcePacks, 'utf-8');
+                console.log(`Resource Packs ${Config.data.manifest?.uuid} has been installed into Global Resource Packs`, new Date());
+            };
+        }
+
         fs.readdirSync('.build').forEach(v => fs.cpSync(`.build/${v}`, `${directory}\\${v}`, { recursive: true }));
         console.log("Exporting resource packs", new Date(), directory);
     }
+
 
     console.timeEnd('Compile time');
     fs.removeSync('.sounds');

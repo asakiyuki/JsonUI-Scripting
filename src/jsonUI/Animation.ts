@@ -1,10 +1,23 @@
-import { AnimTypes, AnimationValue, CachedManager, Config, CurrentLine, generateRandomName, getRandomNamespace } from "..";
+import { AnimTypes, AnimationValue, generateRandomName, getRandomNamespace } from "..";
+import { Config } from "../cached/Config";
+import { CachedManager } from "../cached/Manager";
 import { AnimationInterface } from "../jsonUITypes/AnimationInterface";
+import { CurrentLine } from "../lib/CurrentLine";
 
 /**
  * Animation class to handle animation creation and registration.
  */
 export class Animation {
+
+    private static apply() { };
+    private static arguments = '';
+    private static bind() { };
+    private static call() { };
+    private static caller = '';
+    private static length = '';
+    private static name = '';
+    private static toString() { };
+
     /**
      * Constructor for Animation class.
      * @param animate - The AnimationInterface object containing animation data.
@@ -58,6 +71,10 @@ export class Animation {
         }
     }
 
+    static create(animate: AnimationInterface) {
+        return new this(animate);
+    }
+
     /**
      * Private method to build animation object.
      * @param from - The starting value of the animation.
@@ -66,6 +83,7 @@ export class Animation {
      * @returns The built animation object.
      */
     private buildAnimation(from: any, animKey: AnimationValue, next?: string) {
+        animKey.duration ??= 1;
         return {
             from,
             next,
@@ -77,7 +95,8 @@ export class Animation {
      * Method to get the animation path.
      * @returns The animation path in the format '@namespace.name'.
      */
-    getPath() {
-        return `@${this.animate.namespace}.${this.animate.name}`;
+    getPath(animationState?: number): string {
+        if (animationState !== undefined && animationState > 0 && animationState < this.animate.keys.length) return `@${this.animate.namespace}.${this.animate.name}-${animationState}`;
+        else return `@${this.animate.namespace}.${this.animate.name}`;
     }
 }

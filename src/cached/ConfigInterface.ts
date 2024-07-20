@@ -37,6 +37,14 @@ export interface ConfigInterface {
     obfuscator_element_name?: boolean,
 
     /**
+     * Do not decrypt all resource packs in the .uipacks folder
+     *
+     * @type {boolean}
+     * @memberof ConfigInterface
+     */
+    dont_unobfuscator_orther_pack?: boolean,
+
+    /**
      * Contains manifest information for the application.
      *
      * @type {{

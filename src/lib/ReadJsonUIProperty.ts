@@ -44,7 +44,8 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
             if ((<string>v[0])?.startsWith?.('$')) {
                 properties[key] = v[0];
                 properties[`${v[0]}|default`] = v[1];
-            }
+            } else if ((<string>v[0])?.startsWith?.('#'))
+                properties[key] = Color.parse((<string>v[0]).slice(1))
         } else properties[key] = ReadProperty(v);
     });
 

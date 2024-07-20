@@ -1,1 +1,0 @@
-export type EduPauseScreenPauseButtonTypes = "quit_button";

@@ -1,3 +1,4 @@
+import { Animation } from "..";
 import { BindingsHandle } from "../builder/Bindings";
 import { CachedManager } from "../cached/Manager";
 import { generateRandomName } from "../jsonUI/GenerateRandomName";
@@ -201,6 +202,10 @@ export class JsonUIObject {
         this.screenInitKey = extend ? `${screenInitKey}@${(extend instanceof JsonUIElement) ? extend.getPath().slice(1) : extend}` : screenInitKey;
         CachedManager.screenInitRegister(this.screenInitKey, screenFile);
         if (property) this.setProperty(property);
+    }
+
+    static register(screenInitKey: string, screenFile: string, extend?: string | JsonUIElement, property?: JsonUIProperty) {
+        return new this(screenInitKey, screenFile, extend, property);
     }
 
     /**
@@ -595,20 +600,44 @@ export class JsonUIObject {
     }
 
     /**
+     * 
+     */
+    addAnimation(
+        data: Animation
+    ) {
+        const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
+            anims = _data.anims ?? [];
+
+        anims.push(data.getPath());
+
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
+            ..._data,
+            anims
+        });
+
+        return this;
+    }
+
+    /**
     * Add an element to the screen initialization data.
     * @param value - The element to add.
     * @param callback - Optional callback function to be executed after addition.
     * @returns The name of the added element if callback is not provided, otherwise the instance of JsonUIObject for method chaining.
     */
     addElement(
-        value: InsertElementInterface | JsonUIElement,
+        value: InsertElementInterface | JsonUIElement | string,
         callback?: (name: string) => void | null
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
             controls = _data.controls ?? [];
         const isElement = value instanceof JsonUIElement,
-            name = isElement ? generateRandomName() : value?.name ?? generateRandomName();
+            name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name ?? generateRandomName();
         if (isElement) controls.push({ [`${name}${value.getPath()}`]: {} });
+        else if (typeof value === 'string') {
+            this.addElement({ extend: value, name });
+            console.log('test')
+            return this;
+        }
         else {
             if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             controls.push({
@@ -623,9 +652,7 @@ export class JsonUIObject {
             controls
         });
 
-        if (callback === undefined || callback) {
-            callback?.(name)
-            return this;
-        } else return name;
+        callback?.(name)
+        return this;
     };
 }

@@ -1,1 +1,0 @@
-export type AdhocInprogessScreenTypes = "title_text" | "main_panel" | "main_panel/common_panel" | "main_panel/title" | "main_panel/main_content" | "main_panel/progress_loading_bars" | "adhoc_inprogress_screen" | "adhoc_inprogress_screen_content" | "adhoc_inprogress_screen_content/root_panel" | "adhoc_inprogress_screen_content/root_panel/main_panel";

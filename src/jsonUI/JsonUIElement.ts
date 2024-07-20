@@ -374,7 +374,7 @@ Input
      * @param properties 
      * @returns 
      */
-    static extendOf(jsonUIElement: JsonUIElement | ExtendInterface | string, data: StaticJsonUIElementInterface = {}, properties: JsonUIProperty = {}) {
+    static extendOf(jsonUIElement: JsonUIElement | ExtendInterface | string, properties: JsonUIProperty = {}, data: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             extend: jsonUIElement,
             ...data,
@@ -399,7 +399,7 @@ Input
      * @returns The path of the JSON UI element.
      */
     getPath() {
-        return `@${this.data.namespace}.${this.elementJsonUIKey}`;
+        return `@${this.data.namespace}.${this.elementJsonUIKey.split('@')[0]}`;
     }
 
     /**
@@ -427,13 +427,19 @@ Input
      * ```
      */
     addElement(
-        value?: InsertElementInterface | JsonUIElement,
+        value?: InsertElementInterface | JsonUIElement | string,
         callback?: GetJsonUIGenerateName | null
     ) {
         const isElement = value instanceof JsonUIElement;
-        const name = isElement ? generateRandomName() : value?.name ?? generateRandomName();
+        const name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name ?? generateRandomName();
         if (isElement) {
             CachedManager.insertArray('controls', this, this.data.namespace ?? "", { [`${name}${value.getPath()}`]: {} })
+        } else if (typeof value === 'string') {
+            this.addElement({
+                extend: value,
+                name
+            });
+            return this;
         } else {
             if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             CachedManager.insertArray('controls',
@@ -444,10 +450,9 @@ Input
                 }
             });
         }
-        if (callback === undefined || callback) {
-            callback?.(this, name)
-            return this;
-        } else return name;
+
+        callback?.(this, name);
+        return this;
     }
 
     /**
@@ -461,7 +466,7 @@ Input
         callback?: GetJsonUIGenerateNames
     ) {
         const name: string[] = [];
-        data.forEach(_ => name.push(<string>this.addElement(_, null)));
+        data.forEach(_ => this.addElement(_, (arg, $) => name.push($)));
         callback?.(this, name);
         return this;
     }
@@ -519,11 +524,13 @@ Input
      * @returns The instance of JsonUIElement for method chaining.
      */
     addAnimation(
-        data: (Animation | string)[] | (Animation | string)
+        data: (Animation | string)[] | (Animation | string),
+        startAtState?: undefined
     ) {
         if (Array.isArray(data)) {
-            data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace ?? "", (v instanceof Animation) ? v.getPath() : v));
-        } else CachedManager.insertArray('anims', this, this.data.namespace ?? "", (data instanceof Animation) ? data.getPath() : data);
+            data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace ?? "", (v instanceof Animation) ? v.getPath(startAtState) : v));
+        } else
+            CachedManager.insertArray('anims', this, this.data.namespace ?? "", (data instanceof Animation) ? data.getPath(startAtState) : data);
         return this;
     }
 

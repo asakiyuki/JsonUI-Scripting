@@ -5,6 +5,8 @@ import { Vector2_str, Bool, Num } from "../Types";
 
 export default interface LayoutInterface {
     size?: GlobalTypes | Num | Vector2_str,
+    visible?: GlobalTypes | Bool,
+    ignored?: GlobalTypes | Bool,
     layer?: GlobalTypes | Num,
     max_size?: GlobalTypes | Vector2_str,
     min_size?: GlobalTypes | Vector2_str,
