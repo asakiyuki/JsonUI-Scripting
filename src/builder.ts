@@ -1,3 +1,4 @@
+import { VanillaPaths } from "./vanillaModification/UIPaths";
 import fs from "fs-extra";
 import * as Json from "jsonc-parser";
 
@@ -5,16 +6,24 @@ let currentPack: string = '';
 let filePath: string = '';
 let currentNamespace: string = '';
 const JsonUIData: any = {};
+const JsonUINamespaceCount: any = {};
 
 if (!fs.pathExistsSync('ui')) fs.mkdirSync('ui');
 
 function ReadUICode(data: any, elementPath?: string) {
-    if (elementPath === undefined) {
-        (JsonUIData[currentPack] ??= {})[currentNamespace] ??= { filePath: filePath, elements: [] };
+    if (!elementPath) {
+        (JsonUIData[currentPack] ??= {})[currentNamespace] ??= { filePath, elements: [] };
         for (const key in data) {
+            const modifications = data[key].modifications ?? [];
             const eKey = key.split('@')[0];
             JsonUIData[currentPack][currentNamespace].elements.push(`"${eKey}"`);
-            if (Array.isArray(data[key].controls)) ReadUICode(data[key].controls, eKey);
+            const controls = [];
+            for (const modify of modifications) {
+                if ((modify?.array_name === 'controls') && ['insert_back', 'insert_front', 'insert_after', 'insert_before'].includes(modify?.operation)) {
+                    controls.push(...modify.value ?? []);
+                }
+            }
+            if (Array.isArray(data[key].controls) || controls.length) ReadUICode([...data[key].controls ?? [], ...controls], eKey);
         }
     } else {
         for (const element of data) {
@@ -33,10 +42,18 @@ function ReadPack(path: string) {
             ReadPack(`${path}/${file}`);
         } else {
             const json = Json.parse(fs.readFileSync(`${path}/${file}`, 'utf-8'));
-            if (json?.namespace) {
+            filePath = (`${path}/${file}`).split('/').slice(2).join('/');
+            const isVanilla = VanillaPaths.includes(filePath);
+            if (json?.namespace || isVanilla) {
                 fs.writeFileSync(`${path}/${file}`, JSON.stringify(json, null, 4), 'utf-8');
-                currentNamespace = json.namespace;
-                filePath = (`${path}/${file}`).split('/').slice(2).join('/');
+                currentNamespace = isVanilla ? filePath.match(/\w+\.json$/)?.[0]?.replace('.json', '') : (() => {
+                    if ((JsonUINamespaceCount[currentPack] ??= {})[json.namespace] ??= 0)
+                        return `${json.namespace}__${++JsonUINamespaceCount[currentPack][json.namespace]}`
+                    else {
+                        ++JsonUINamespaceCount[currentPack][json.namespace];
+                        return json.namespace;
+                    }
+                })();
                 delete json.namespace;
                 ReadUICode(json);
             } else fs.removeSync(`${path}/${file}`);
@@ -62,11 +79,13 @@ if (fs.pathExistsSync('.uipacks')) {
             const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
             return `static ${className}(element, extend, properties) { return (data[\`${JsonUIData[pack][v].filePath}\`] ??= {})[element] ??= JsonUIObject.register(element, \`${JsonUIData[pack][v].filePath}\`, extend, properties); }`
         });
+        console.log(`[ ${pack} reader ] >>`, modify.length, 'namespace(s) found!');
 
         fs.writeFileSync(`ui/${pack}.js`, `"use strict"; const { JsonUIObject } = require('jsonui-scripting'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
 
         const types = Object.keys(JsonUIData[pack]).map(v => {
             const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
+            console.log(`[ ${className} ]`, JsonUIData[pack][v].elements.length, 'element(s) found!', `.uipacks/${pack}/${JsonUIData[pack][v].filePath}`)
             easyType.push(`type ${className}Types = ${JsonUIData[pack][v].elements.join(" | ")};`)
             return `static ${className}(element: ${className}Types, extend?: string | JsonUIElement, properties?: JsonUIProperty): JsonUIObject;`
         });

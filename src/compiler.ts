@@ -50,6 +50,7 @@ function BuildModifyJsonUI(data: any) {
             }
             fs.writeJSONSync(`.build/${dir}`, value, 'utf-8');
         }
+        console.log('[ Compiler ] >>', `.build/${dir}`, new Date(), Object.keys(value).length, 'elements modified!')
     });
 }
 
@@ -122,7 +123,7 @@ process.on('exit', () => {
             jsonUI.global_variables,
             'utf-8'
         );
-        console.log('Compile', new Date(), '.build/ui/_global_variables.json', `${Object.keys(jsonUI.global_variables).length} variable(s) generated.`);
+        console.log('[ Compiler ] >>', new Date(), '.build/ui/_global_variables.json', `${Object.keys(jsonUI.global_variables).length} variable(s) generated.`);
 
         // Delete the global variables from the jsonUI object
         delete jsonUI.global_variables;
@@ -139,7 +140,7 @@ process.on('exit', () => {
             'utf-8'
         );
         ui_defs.push(`build/${key}`);
-        console.log('Compile', new Date(), `.build/build/${key}`, `${Object.keys(jsonUI.json[key]).length} element(s) generated.`);
+        console.log('[ Compiler ] >>', new Date(), `.build/build/${key}`, `${Object.keys(jsonUI.json[key]).length} element(s) generated.`);
 
         // Delete the processed UI elements from the jsonUI object
         delete jsonUI.json[key];
@@ -150,7 +151,7 @@ process.on('exit', () => {
 
     // Write UI definition file paths to a JSON file
     fs.writeFileSync('.build/ui/_ui_defs.json', JSON.stringify({ ui_defs }), 'utf-8');
-    console.log('Compile', new Date(), '.build/ui/_ui_defs.json', `${ui_defs.length} file(s) generated.`);
+    console.log('[ Compiler ] >>', new Date(), '.build/ui/_ui_defs.json', ui_defs.length, 'file(s) generated.');
 
     // Write manifest information to a JSON file
     fs.writeJSONSync('.build/manifest.json', {
@@ -182,7 +183,7 @@ process.on('exit', () => {
         });
         fs.mkdir('.build/sounds');
         fs.writeJSONSync('.build/sounds/sound_definitions.json', jsonUI.sounds);
-        console.log('Compile', new Date(), '.build/sounds/sound_definitions.json', `${soundsLength} sound(s) generated.`);
+        console.log('[ Compiler ] >>', new Date(), '.build/sounds/sound_definitions.json', `${soundsLength} sound(s) generated.`);
 
         fs.readdirSync('.sounds').forEach(v => fs.cpSync(`.sounds/${v}`, `.build/sounds/${v}`, { recursive: true }))
     }
@@ -192,12 +193,12 @@ process.on('exit', () => {
 
     // Write collected file paths to a JSON file
     fs.writeJSONSync('.build/contents.json', { content }, 'utf-8');
-    console.log("Create content.json file", new Date(), '.build/contents.json', `${content.length} file path(s) found!`);
+    console.log('[ Compiler ] >>', "Create content.json file", new Date(), '.build/contents.json', content.length, `file path(s) found!`);
 
     if (fs.existsSync('.bedrock')) {
         for (const $ of fs.readdirSync('.bedrock'))
             fs.cpSync(`.bedrock/${$}`, `.build/${$}`, { recursive: true });
-        console.log("Clone textures", new Date());
+        console.log('[ Compiler ] >>', "Clone resource packs", new Date());
     }
 
     if (fs.existsSync('config.json')) {
@@ -226,12 +227,12 @@ process.on('exit', () => {
             if (packIndex === -1) {
                 readGlobalResourcePacks.push(JSON.parse(packsGlobalData));
                 fs.writeJsonSync(`${path}\\minecraftpe\\global_resource_packs.json`, readGlobalResourcePacks, 'utf-8');
-                console.log(`Resource Packs ${Config.data.manifest?.uuid} has been installed into Global Resource Packs`, new Date());
+                console.log('[ Installer ] >>', `Resource Packs ${Config.data.manifest?.uuid} has been installed into Global Resource Packs`, new Date());
             };
         }
 
         fs.readdirSync('.build').forEach(v => fs.cpSync(`.build/${v}`, `${directory}\\${v}`, { recursive: true }));
-        console.log("Exporting resource packs", new Date(), directory);
+        console.log('[ Installer ] >>', "Exporting resource packs", new Date(), directory);
     }
 
 

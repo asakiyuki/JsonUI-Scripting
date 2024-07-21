@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
-const Json = require('comment-json');
+const Json = require('jsonc-parser');
 
-const typesList = [], modifyList = [];
+const typesList = [], modifyList = [], vanillaPathList = [];
 let bindingsList = {};
 
 function GetJsonUIElements(data, readControl, elementKeyPath) {
@@ -34,10 +34,9 @@ function ReadJsonUIProperty(directory, screenName, typeName) {
     for (const binding of $1)
         bindingsList[binding.replace(/[_#]\w/g, v => v.slice(1).toUpperCase())] ??= binding;
     const dir = directory.replace(/\.jsonui\//, '');
+    if (`ui/${dir}` !== 'ui/_global_variables.json') vanillaPathList.push(`ui/${dir}`);
     typesList.push(`export type ${typeName} = ${GetJsonUIElements(Json.parse($)).join(' | ')};`);
-    modifyList.push(`   static ${screenName}(element: Types.${typeName}, extend?: string | JsonUIElement, properties?: JsonUIProperty) {
-        return <JsonUIObject>((jsonUIScreen['ui/${dir}'] ??= {})[element] ??= new JsonUIObject(element, 'ui/${dir}', extend, properties));
-    }`)
+    modifyList.push(`static ${screenName}(element: Types.${typeName}, extend?: string | JsonUIElement, properties?: JsonUIProperty) { return <JsonUIObject>((jsonUIScreen['ui/${dir}'] ??= {})[element] ??= new JsonUIObject(element, 'ui/${dir}', extend, properties)); }`)
 };
 
 (function readDirectory(dir = '.jsonui') {
@@ -53,23 +52,8 @@ function ReadJsonUIProperty(directory, screenName, typeName) {
     };
 })();
 
-fs.writeFileSync('src/jsonUITypes/BindingName.ts', `export enum BindingName ${Json.stringify(bindingsList, null, 4).replace(/:/g, ' =')};`);
-fs.writeFileSync('src/vanillaModification/ScreenModifyTypes.ts', typesList.join('\n'));
+fs.writeFileSync('src/jsonUITypes/BindingName.ts', `export enum BindingName ${JSON.stringify(bindingsList).replace(/:/g, ' =')};`);
+fs.writeFileSync('src/vanillaModification/ScreenModifyTypes.ts', typesList.join(' '));
 fs.writeFileSync('src/vanillaModification/Modify.ts',
-    `import { JsonUIElement } from "../jsonUI/JsonUIElement";
-import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
-import { JsonUIObject } from "./_ScreenCommon";
-import * as Types from "./ScreenModifyTypes";
-const jsonUIScreen: any = {};
-
-export class Modify {
-    private static apply() { };
-    private static arguments = '';
-    private static bind() { };
-    private static call() { };
-    private static caller = '';
-    private static length = '';
-    private static name = '';
-    private static toString() { };
-${modifyList.join('\n')}
-}`) 
+    `import { JsonUIElement } from "../jsonUI/JsonUIElement"; import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty"; import { JsonUIObject } from "./_ScreenCommon"; import * as Types from "./ScreenModifyTypes"; const jsonUIScreen: any = {}; export class Modify { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${modifyList.join(' ')} }`);
+fs.writeFileSync('src/vanillaModification/UIPaths.ts', `export const VanillaPaths = ${JSON.stringify(vanillaPathList)};`, 'utf-8');
