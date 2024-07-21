@@ -8,8 +8,6 @@ let currentNamespace: string = '';
 const JsonUIData: any = {};
 const JsonUINamespaceCount: any = {};
 
-if (!fs.pathExistsSync('ui')) fs.mkdirSync('ui');
-
 function ReadUICode(data: any, elementPath?: string) {
     if (!elementPath) {
         (JsonUIData[currentPack] ??= {})[currentNamespace] ??= { filePath, elements: [] };
@@ -62,6 +60,17 @@ function ReadPack(path: string) {
 }
 
 if (fs.pathExistsSync('.uipacks')) {
+
+    if (!fs.pathExistsSync('node_modules/jsonui-scripting-modify')) fs.mkdirSync('node_modules/jsonui-scripting-modify');
+    if (!fs.pathExistsSync('node_modules/jsonui-scripting-modify/src')) fs.mkdirSync('node_modules/jsonui-scripting-modify/src');
+    if (!fs.existsSync('node_modules/jsonui-scripting-modify/package.json')) {
+        fs.writeJSONSync('node_modules/jsonui-scripting-modify/package.json', { "name": "jsonui-scripting-modify", "version": "0.0.1", "main": "src/index.js", "types": "src/index.d.ts", "author": "AsakiZuki", "license": "ISC", "description": "A modify JsonUI pack types." }, 'utf-8');
+        const modify = fs.readJsonSync('package.json', 'utf-8');
+        modify.dependencies["jsonui-scripting-modify"] = "0.0.1";
+        fs.writeFileSync('package.json', JSON.stringify(modify, null, 4), 'utf-8');
+    }
+    if (!fs.pathExistsSync('ui')) fs.mkdirSync('ui');
+
     for (const pack of fs.readdirSync('.uipacks')) {
         currentPack = pack;
         if (!fs.existsSync(`.uipacks/${pack}/jsonuiscripting`) && fs.statSync(`.uipacks/${pack}`).isDirectory()) {
@@ -81,7 +90,7 @@ if (fs.pathExistsSync('.uipacks')) {
         });
         console.log(`[ ${pack} reader ] >>`, modify.length, 'namespace(s) found!');
 
-        fs.writeFileSync(`ui/${pack}.js`, `"use strict"; const { JsonUIObject } = require('jsonui-scripting'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
+        fs.writeFileSync(`node_modules/jsonui-scripting-modify/src/${pack}.js`, `"use strict"; const { JsonUIObject } = require('jsonui-scripting'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
 
         const types = Object.keys(JsonUIData[pack]).map(v => {
             const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
@@ -90,12 +99,12 @@ if (fs.pathExistsSync('.uipacks')) {
             return `static ${className}(element: ${className}Types, extend?: string | JsonUIElement, properties?: JsonUIProperty): JsonUIObject;`
         });
 
-        fs.writeFileSync(`ui/${pack}.d.ts`, `import { JsonUIElement, JsonUIObject, JsonUIProperty } from "jsonui-scripting"; ${easyType.join(' ')}; export class ${pack} { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${types.join(' ')}}`, 'utf-8');
+        fs.writeFileSync(`node_modules/jsonui-scripting-modify/src/${pack}.d.ts`, `import { JsonUIElement, JsonUIObject, JsonUIProperty } from "jsonui-scripting"; ${easyType.join(' ')}; export class ${pack} { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${types.join(' ')}}`, 'utf-8');
     }
 
     const uiPack = fs.readdirSync('.uipacks');
     if (uiPack.length) {
-        fs.writeFileSync('ui/index.js', `module.exports = { ${uiPack.map(v => `...require("./${v}"),`).join(' ')} }`);
-        fs.writeFileSync('ui/index.d.ts', uiPack.map(v => `export * from "./${v}";`).join(''));
+        fs.writeFileSync('node_modules/jsonui-scripting-modify/src/index.js', `module.exports = { ${uiPack.map(v => `...require("./${v}"),`).join(' ')} }`);
+        fs.writeFileSync('node_modules/jsonui-scripting-modify/src/index.d.ts', uiPack.map(v => `export * from "./${v}";`).join(''));
     }
 })();
