@@ -60,10 +60,7 @@ function ReadPack(path: string) {
 }
 
 if (fs.pathExistsSync('.uipacks')) {
-
     if (!fs.pathExistsSync('node_modules/jsonui-scripting/dist/uipackages')) fs.mkdirSync('node_modules/jsonui-scripting/dist/uipackages');
-    if (!fs.pathExistsSync('ui')) fs.mkdirSync('ui');
-
     for (const pack of fs.readdirSync('.uipacks')) {
         currentPack = pack;
         if (!fs.existsSync(`.uipacks/${pack}/jsonuiscripting`) && fs.statSync(`.uipacks/${pack}`).isDirectory()) {
