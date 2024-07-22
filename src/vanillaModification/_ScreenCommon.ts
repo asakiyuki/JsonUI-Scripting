@@ -655,4 +655,8 @@ export class JsonUIObject {
         callback?.(name)
         return this;
     };
+
+    private debug() {
+        return CachedManager.debugUI(this.screenFile, this.screenInitKey, true);
+    }
 }

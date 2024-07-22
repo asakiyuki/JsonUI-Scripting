@@ -20,8 +20,8 @@
             "description": "Specifies the name of the obfuscator element.",
             "type": "boolean"
         },
-        "dont_unobfuscator_orther_pack": {
-            "description": "Do not decrypt all resource packs in the .uipacks folder.",
+        "debug_screen_content": {
+            "description": "Add a label to the project to debug which screen content that screen is using.",
             "type": "boolean"
         },
         "manifest": {

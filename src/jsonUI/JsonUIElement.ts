@@ -564,4 +564,11 @@ Input
         CachedManager.setElementProperty(this, this.data.namespace ?? "", data);
         return this;
     }
+
+    /**
+     * 
+     */
+    private debug() {
+        return CachedManager.debugUI(this.data.namespace || "", this.getElementJsonUIKey());
+    }
 };

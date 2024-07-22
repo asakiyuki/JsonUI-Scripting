@@ -1,7 +1,9 @@
 import fs from "fs-extra";
+import "./pre_compile";
 import { CachedManager } from "./cached/Manager";
 import { Config } from "./cached/Config";
 import { objectForEach } from "./lib/ObjectForEach";
+import { JsonUIElement, JsonUIObject } from ".";
 
 interface GlobalResourcePack { pack_id: string, version: [number, number, number] };
 const saveConsole: any = [];
@@ -73,7 +75,7 @@ process.on('exit', () => {
     for (const log of saveConsole) {
         if (i === 0) console.log('\n');
         delete saveConsole[i++];
-        (console as any)[log.type](...log.data);
+        (console as any)[log.type](...Array.from(log.data).map(v => (v instanceof JsonUIElement || v instanceof JsonUIObject) ? (<any>v).debug() : v));
     }
     if (i !== 0) console.log('\n');
 

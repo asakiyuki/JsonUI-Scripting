@@ -28,6 +28,9 @@ export class CachedManager {
     static getJsonUIObject() {
         return jsonUIObject;
     }
+    static debugUI(namespace: string, key: string, isModify?: boolean) {
+        return JSON.stringify({ [key]: jsonUIObject[isModify ? "modify" : "json"][namespace][key] }, null, 2);
+    }
     static addSound(id: string, path: string | string[]) {
         jsonUIObject.sounds[id] = path;
     }

@@ -42,7 +42,7 @@ export interface ConfigInterface {
      * @type {boolean}
      * @memberof ConfigInterface
      */
-    dont_unobfuscator_orther_pack?: boolean,
+    debug_screen_content?: boolean,
 
     /**
      * Contains manifest information for the application.

@@ -68,43 +68,43 @@ if (fs.pathExistsSync('.uipacks')) {
             fs.writeFileSync(`.uipacks/${pack}/jsonuiscripting`, 'JsonUI Scripting - Is compiled.', 'utf-8');
         }
     };
-}
 
-(function WriteTypes() {
-    for (const pack in JsonUIData) {
-        const easyType: any = [];
+    (function WriteTypes() {
+        for (const pack in JsonUIData) {
+            const easyType: any = [];
 
-        const modify = Object.keys(JsonUIData[pack]).map(v => {
-            const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
-            return `static ${className}(element, extend, properties) { return (data[\`${JsonUIData[pack][v].filePath}\`] ??= {})[element] ??= JsonUIObject.register(element, \`${JsonUIData[pack][v].filePath}\`, extend, properties); }`
-        });
-        console.log(`[ ${pack} reader ] >>`, modify.length, 'namespace(s) found!');
+            const modify = Object.keys(JsonUIData[pack]).map(v => {
+                const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
+                return `static ${className}(element, extend, properties) { return (data[\`${JsonUIData[pack][v].filePath}\`] ??= {})[element] ??= JsonUIObject.register(element, \`${JsonUIData[pack][v].filePath}\`, extend, properties); }`
+            });
+            console.log(`[ ${pack} reader ] >>`, modify.length, 'namespace(s) found!');
 
-        fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.js`, `"use strict"; const { JsonUIObject } = require('jsonui-scripting'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
+            fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.js`, `"use strict"; const { JsonUIObject } = require('jsonui-scripting'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
 
-        const types = Object.keys(JsonUIData[pack]).map(v => {
-            const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
-            console.log(`[ ${className} ]`, JsonUIData[pack][v].elements.length, 'element(s) found!', `.uipacks/${pack}/${JsonUIData[pack][v].filePath}`)
-            easyType.push(`type ${className}Types = ${JsonUIData[pack][v].elements.join(" | ")};`)
-            return `static ${className}(element: ${className}Types, extend?: string | JsonUIElement, properties?: JsonUIProperty): JsonUIObject;`
-        });
+            const types = Object.keys(JsonUIData[pack]).map(v => {
+                const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
+                console.log(`[ ${className} ]`, JsonUIData[pack][v].elements.length, 'element(s) found!', `.uipacks/${pack}/${JsonUIData[pack][v].filePath}`)
+                easyType.push(`type ${className}Types = ${JsonUIData[pack][v].elements.join(" | ")};`)
+                return `static ${className}(element: ${className}Types, extend?: string | JsonUIElement, properties?: JsonUIProperty): JsonUIObject;`
+            });
 
-        fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.d.ts`, `import { JsonUIElement, JsonUIObject, JsonUIProperty } from "jsonui-scripting"; ${easyType.join(' ')}; export class ${pack} { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${types.join(' ')}}`, 'utf-8');
+            fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.d.ts`, `import { JsonUIElement, JsonUIObject, JsonUIProperty } from "jsonui-scripting"; ${easyType.join(' ')}; export class ${pack} { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${types.join(' ')}}`, 'utf-8');
+        }
+
+        const uiPack = fs.readdirSync('.uipacks');
+        if (uiPack.length) {
+            fs.writeFileSync('node_modules/jsonui-scripting/dist/uipackages/index.js',
+                `${uiPack.map(v => `const { ${v} } = require('./${v}');`).join('\n')}
+    class UIPacks {
+        ${uiPack.map(v => `static ${v} = ${v};`).join('\n')}
     }
+    module.exports = { UIPacks }`);
 
-    const uiPack = fs.readdirSync('.uipacks');
-    if (uiPack.length) {
-        fs.writeFileSync('node_modules/jsonui-scripting/dist/uipackages/index.js',
-            `${uiPack.map(v => `const { ${v} } = require('./${v}');`).join('\n')}
-class UIPacks {
-    ${uiPack.map(v => `static ${v} = ${v};`).join('\n')}
+            fs.writeFileSync('node_modules/jsonui-scripting/dist/uipackages/index.d.ts',
+                `${uiPack.map(v => `import { ${v} } from "./${v}";`).join('\n    ')}
+    export class UIPacks {
+        ${uiPack.map(v => `static ${v} = ${v};`).join('\n   ')}
+    }`);
+        }
+    })();
 }
-module.exports = { UIPacks }`);
-
-        fs.writeFileSync('node_modules/jsonui-scripting/dist/uipackages/index.d.ts',
-            `${uiPack.map(v => `import { ${v} } from "./${v}";`).join('\n    ')}
-export class UIPacks {
-    ${uiPack.map(v => `static ${v} = ${v};`).join('\n   ')}
-}`);
-    }
-})();
