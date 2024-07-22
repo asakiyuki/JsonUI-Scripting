@@ -1,7 +1,7 @@
 /**
  * A utility class for working with colors represented as hexadecimal strings.
  */
-export class Color {
+export class ColorHandler {
     /**
      * Parses a hexadecimal color string into an array of color components.
      *

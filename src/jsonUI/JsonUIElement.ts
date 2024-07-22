@@ -68,7 +68,7 @@ export class JsonUIElement {
             delete data.type;
         };
 
-        if (Config.data.obfuscator_element_name) {
+        if (Config.data.obfuscate_element_names) {
             data.name = generateRandomName();
             data.namespace = getRandomNamespace();
         } else {

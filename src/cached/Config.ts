@@ -34,6 +34,7 @@ export class Config {
                 config.folder_name ??= "debugger";
                 config.development ??= true;
                 config.debug_screen_content ??= false;
+                config.obfuscate_element_names ??= false;
                 config.manifest = {
                     name: 'pack_name',
                     description: 'pack_description',
@@ -47,7 +48,7 @@ export class Config {
                 folder_name: "debugger",
                 development: true,
                 preview: false,
-                obfuscator_element_name: false,
+                obfuscate_element_names: false,
                 debug_screen_content: false,
                 manifest: {
                     name: 'pack_name',

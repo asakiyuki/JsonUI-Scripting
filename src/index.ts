@@ -40,6 +40,7 @@ export * from "./jsonUITypes/elementTypes/StackPanel";
 export * from "./jsonUITypes/elementTypes/Toggle";
 export * from "./jsonUITypes/ElementTypes";
 export * from "./jsonUITypes/ElementUIInterface";
+export * from "./jsonUITypes/EnumColor";
 export * from "./jsonUITypes/ExtendInterface";
 export * from "./jsonUITypes/FocusContainerCustom";
 export * from "./jsonUITypes/FocusNavigationMode";

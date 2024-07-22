@@ -2,6 +2,7 @@ import { Direction } from "readline";
 import { GlobalTypes } from "../..";
 import { Anchor } from "../Anchor";
 import { Vector2_str, Bool, Num } from "../Types";
+import { Color } from "../..";
 
 export default interface LayoutInterface {
     size?: GlobalTypes | Num | Vector2_str,
@@ -20,6 +21,7 @@ export default interface LayoutInterface {
     contained?: GlobalTypes | Bool,
     draggable?: GlobalTypes | Direction,
     follows_cursor?: GlobalTypes | Bool,
+    debug?: GlobalTypes | Color,
     width?: string | number,
     height?: string | number,
     x?: string | number,

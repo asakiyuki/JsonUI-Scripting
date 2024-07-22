@@ -9,6 +9,7 @@ if (Config.data.debug_screen_content) {
         size: "100%cm + 4px",
         layer: 100,
         anchor: Anchor.BottomLeft,
+        alpha: 0.75,
         ignored: "(($screen_content = 'toast_screen.toast_screen_content') or ($screen_content = 'debug_screen.content_panel'))"
     }, { namespace: 'debugTools', name: 'debugger:screen_content' });
 

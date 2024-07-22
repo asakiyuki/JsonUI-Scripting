@@ -24,7 +24,7 @@ export class Animation {
      */
     constructor(private animate: AnimationInterface) {
         // Obfuscate element name if enabled in config
-        if (Config.data.obfuscator_element_name) {
+        if (Config.data.obfuscate_element_names) {
             animate.name = generateRandomName();
             animate.namespace = `anims-${getRandomNamespace()}`;
         } else {

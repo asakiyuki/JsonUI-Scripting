@@ -1,5 +1,6 @@
 import { Animation } from "../jsonUI/Animation";
-import { Color } from "../jsonUI/Color";
+import { ColorHandler } from "../jsonUI/Color";
+import { Color as Col } from "../jsonUITypes/EnumColor";
 import { JsonUIElement } from "../jsonUI/JsonUIElement";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { objectForEach } from "./ObjectForEach";
@@ -40,13 +41,27 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
 
     // Recursively read properties
     objectForEach(properties, (v, key) => {
-        if (Array.isArray(v)) {
-            if ((<string>v[0])?.startsWith?.('$')) {
-                properties[key] = v[0];
-                properties[`${v[0]}|default`] = v[1];
-            } else if ((<string>v[0])?.startsWith?.('#'))
-                properties[key] = Color.parse((<string>v[0]).slice(1))
-        } else properties[key] = ReadProperty(v);
+        if (key === 'debug')
+            properties[key] = (v.length <= 2)
+                ? (<any>{
+                    w: Col.White,
+                    bl: Col.Black,
+                    b: Col.Blue,
+                    g: Col.Green,
+                    r: Col.Red,
+                    y: Col.Yellow,
+                    gr: Col.Gray
+                })[v.toLowerCase()] || Col.Red
+                : v;
+        else {
+            if (Array.isArray(v)) {
+                if ((<string>v[0])?.startsWith?.('$')) {
+                    properties[key] = v[0];
+                    properties[`${v[0]}|default`] = v[1];
+                } else if ((<string>v[0])?.startsWith?.('#'))
+                    properties[key] = ColorHandler.parse((<string>v[0]).slice(1))
+            } else properties[key] = ReadProperty(v);
+        }
     });
 
     return properties;
@@ -63,7 +78,7 @@ export function ReadProperty(value: any, isVariable: boolean = false): any {
     if (Array.isArray(value)) {
         if (typeof value[0] === 'string') {
             if (value[0].startsWith('#')) {
-                return Color.parse(value[0].slice(1));
+                return ColorHandler.parse(value[0].slice(1));
             }
         }
     }

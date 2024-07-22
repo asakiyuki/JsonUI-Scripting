@@ -16,7 +16,7 @@
             "description": "Install your JsonUI pack to development folder.",
             "type": "boolean"
         },
-        "obfuscator_element_name": {
+        "obfuscate_element_names": {
             "description": "Specifies the name of the obfuscator element.",
             "type": "boolean"
         },
