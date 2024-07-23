@@ -1,5 +1,6 @@
 .cached
 .jsonUI
+.jsonuipreview
 .vscode
 dist
 node_modules

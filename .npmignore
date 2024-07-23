@@ -1,5 +1,6 @@
 .cached
 .jsonUI
+.jsonuipreview
 .vscode
 src
 node_modules

@@ -17,6 +17,7 @@ export default interface TextInterface {
     localize?: GlobalTypes | Bool,
     line_padding?: GlobalTypes | Num,
     font_size?: GlobalTypes | FontSize,
+    font_type?: GlobalTypes | FontType,
     backup_font_type?: GlobalTypes | FontType,
     text_alignment?: GlobalTypes | Anchor,
 }

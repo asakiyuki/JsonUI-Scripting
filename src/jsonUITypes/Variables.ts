@@ -1,4 +1,3 @@
 export interface Variables {
-    requires: string | boolean,
-    value: any
+    [key: string]: object
 }

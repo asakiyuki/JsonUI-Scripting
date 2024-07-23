@@ -6,12 +6,12 @@ import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { ElementTypes } from "../jsonUITypes/ElementTypes";
 import { GetJsonUIGenerateName, GetJsonUIGenerateNames } from "../jsonUITypes/GetJsonUIGenerateName";
-import { InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
+import { ElementInterface, InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
 import { JsonUIElementInterface, StaticJsonUIElementInterface } from "../jsonUITypes/JsonUIElementInterface";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { Renderer } from "../jsonUITypes/Renderer";
 import { Variables } from "../jsonUITypes/Variables";
-import { objectForEach } from "../lib/ObjectForEach";
+import { objectForEach, objectMap } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 import { Animation } from "./Animation";
 import { generateRandomName, getRandomNamespace } from "./GenerateRandomName";
@@ -348,12 +348,13 @@ Input
      * @param jsonUIElement 
      * @returns 
      */
-    static custom(renderer: Renderer, properties: ElementCustomInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
+    static custom(renderer: Renderer, property_bag: object, properties: ElementCustomInterface = {}, jsonUIElement: StaticJsonUIElementInterface = {}) {
         return new JsonUIElement({
             type: ElementTypes.Custom,
             ...jsonUIElement,
             properties: {
                 ...properties,
+                property_bag,
                 renderer
             }
         });
@@ -479,13 +480,15 @@ Input
     addVariables(
         data: Variables
     ) {
-        objectForEach(data.value, (v, k) => {
-            data.value[`$${k}`] = v;
-            delete data.value[k];
-        });
-        CachedManager.insertArray('variables', this, this.data.namespace ?? "", {
-            ...data.value,
-            requires: data.requires,
+        objectForEach(data, (v, k) => {
+            CachedManager.insertArray('variables', this, this.data.namespace ?? "", {
+                requires: ['$', '('].includes(k[0]) ? k : `$${k}`,
+                ...objectMap(v, (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            });
         });
         return this;
     }
@@ -562,6 +565,24 @@ Input
         data: JsonUIProperty
     ) {
         CachedManager.setElementProperty(this, this.data.namespace ?? "", data);
+        return this;
+    }
+
+    setFactory(
+        name: string,
+        control_name: ElementInterface | JsonUIElement | string,
+        callback?: GetJsonUIGenerateName
+    ) {
+        const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
+        this.setProperty({
+            factory: {
+                name,
+                control_name: (() => (control_name instanceof JsonUIElement)
+                    ? `${rndName}${control_name.getPath()}` : (typeof control_name === 'string') ? `${rndName}@${control_name}` : `${rndName}${(() => (control_name.extend instanceof JsonUIElement) ? control_name.extend.getPath() : `@${control_name.extend}`)()}`
+                )()
+            }
+        });
+        callback?.(this, rndName);
         return this;
     }
 

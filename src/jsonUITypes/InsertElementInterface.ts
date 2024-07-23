@@ -7,3 +7,8 @@ export interface InsertElementInterface {
     name?: string,
     extend?: JsonUIElement | string
 }
+
+export interface ElementInterface {
+    name?: string,
+    extend?: JsonUIElement | string
+}

@@ -6,11 +6,11 @@ import { JsonUIElement } from "../jsonUI/JsonUIElement";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
 import { GetJsonUIInitGenerateName } from "../jsonUITypes/GetJsonUIGenerateName";
-import { InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
+import { ElementInterface, InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
 import { JsonUIArrayName } from "../jsonUITypes/JsonUIArrayName";
 import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty";
 import { Variables } from "../jsonUITypes/Variables";
-import { objectForEach } from "../lib/ObjectForEach";
+import { objectForEach, objectMap } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 
 
@@ -228,13 +228,25 @@ export class JsonUIObject {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
 
         if (arrayName === 'variables') {
-            for (const key in (<any>where).value)
-                (<any>where)[`$${key}`] = (<any>where).value[key];
-            for (const key in (<any>target).value)
-                (<any>target)[`$${key}`] = (<any>target).value[key];
+            const vK = Object.keys(target)[0];
+            const wK = Object.keys(where)[0];
 
-            delete (<any>where).value;
-            delete (<any>target).value;
+            target = {
+                requires: vK,
+                ...objectMap((<any>target)[vK], (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            };
+            where = {
+                requires: wK,
+                ...objectMap((<any>where)[wK], (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            };
         }
 
         modifications.push({
@@ -259,13 +271,25 @@ export class JsonUIObject {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
 
         if (arrayName === 'variables') {
-            for (const key in (<any>where).value)
-                (<any>where)[`$${key}`] = (<any>where).value[key];
-            for (const key in (<any>value).value)
-                (<any>value)[`$${key}`] = (<any>value).value[key];
+            const vK = Object.keys(value)[0];
+            const wK = Object.keys(where)[0];
 
-            delete (<any>where).value;
-            delete (<any>value).value;
+            value = {
+                requires: vK,
+                ...objectMap((<any>value)[vK], (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            };
+            where = {
+                requires: wK,
+                ...objectMap((<any>where)[wK], (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            };
         }
 
         modifications.push({
@@ -289,10 +313,15 @@ export class JsonUIObject {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
 
         if (arrayName === 'variables') {
-            for (const key in (<any>where).value)
-                (<any>where)[`$${key}`] = (<any>where).value[key];
-
-            delete (<any>where).value;
+            const wK = Object.keys(where)[0];
+            where = {
+                requires: wK,
+                ...objectMap((<any>where)[wK], (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            };
         }
 
         modifications.push({
@@ -380,16 +409,18 @@ export class JsonUIObject {
             }; break;
             case "variables": {
                 const _v: Variables = value as any;
-                objectForEach(_v.value, (v, k) => {
-                    _v.value[`$${k}`] = v;
-                    delete _v.value[k];
-                })
+                const k = Object.keys(_v)[0];
+                const v = _v[k];
                 arrayValue = [
                     {
-                        requires: _v.requires,
-                        ..._v.value
+                        requires: k,
+                        ...objectMap(v, (v, k) => {
+                            return {
+                                [k.startsWith('$') ? k : `$${k}`]: v
+                            }
+                        })
                     }
-                ]
+                ];
             }; break;
         }
 
@@ -511,14 +542,16 @@ export class JsonUIObject {
             }; break;
             case "variables": {
                 const _v: Variables = value as any;
-                objectForEach(_v.value, (v, k) => {
-                    _v.value[`$${k}`] = v;
-                    delete _v.value[k];
-                })
+                const k = Object.keys(_v)[0];
+                const v = _v[k];
                 arrValue = [
                     {
-                        requires: _v.requires,
-                        ..._v.value
+                        requires: k,
+                        ...objectMap(v, (v, k) => {
+                            return {
+                                [k.startsWith('$') ? k : `$${k}`]: v
+                            }
+                        })
                     }
                 ];
                 modifyObject['where'] = from;
@@ -582,20 +615,20 @@ export class JsonUIObject {
         data: Variables
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            variables = _data.variables ?? [];
+            variables: any[] = _data.variables ?? [];
 
-        objectForEach(data.value, (v, k) => {
-            data.value[`$${k}`] = v;
-            delete data.value[k];
+        objectForEach(data, (v, k) => {
+            variables.push({
+                requires: k,
+                ...objectMap(v, (v, k) => {
+                    return {
+                        [k.startsWith('$') ? k : `$${k}`]: v
+                    }
+                })
+            })
         });
 
-        variables.push(data);
-
-        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
-            ..._data,
-            variables
-        });
-
+        CachedManager.writeInitElement(this.screenInitKey, this.screenFile, { variables });
         return this;
     }
 
@@ -655,6 +688,24 @@ export class JsonUIObject {
         callback?.(name)
         return this;
     };
+
+    setFactory(
+        name: string,
+        control_name: ElementInterface | JsonUIElement | string,
+        callback?: (name: string) => void
+    ) {
+        const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
+        this.setProperty({
+            factory: {
+                name,
+                control_name: (() => (control_name instanceof JsonUIElement)
+                    ? `${rndName}${control_name.getPath()}` : (typeof control_name === 'string') ? `${rndName}@${control_name}` : `${rndName}${(() => (control_name.extend instanceof JsonUIElement) ? control_name.extend.getPath() : `@${control_name.extend}`)()}`
+                )()
+            }
+        });
+        callback?.(rndName);
+        return this;
+    }
 
     private debug() {
         return CachedManager.debugUI(this.screenFile, this.screenInitKey, true);

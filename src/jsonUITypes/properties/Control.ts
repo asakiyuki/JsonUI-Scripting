@@ -1,4 +1,4 @@
-import { Bool, GlobalTypes, Num, Obj, PropertyBagKey, Vector2 } from "../..";
+import { Bool, GlobalTypes, Num, Obj, Vector2 } from "../..";
 
 export default interface ControlInterface {
     visible?: GlobalTypes | Bool,
@@ -11,9 +11,7 @@ export default interface ControlInterface {
     clip_offset?: GlobalTypes | Vector2,
     clip_state_change_event?: GlobalTypes,
     enable_scissor_test?: GlobalTypes | Bool,
-    property_bag?: GlobalTypes | Obj | {
-        [key in PropertyBagKey]: any
-    },
+    property_bag?: GlobalTypes | Obj,
     selected?: GlobalTypes | Bool,
     use_child_anchors?: GlobalTypes | Bool,
     disable_anim_fast_forward?: GlobalTypes | Bool,
