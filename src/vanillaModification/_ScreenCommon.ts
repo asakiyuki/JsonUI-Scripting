@@ -18,12 +18,12 @@ const jsonUIScreen: any = {};
 
 interface ModifyControls {
     swap: (where: object, target: object) => ModifyControls,
-    replace: (where: object, value: object) => ModifyControls,
-    remove: (where: object) => ModifyControls,
-    insertBack: (value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
-    insertFront: (value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
-    insertBefore: (from: string, value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls,
-    insertAfter: (from: string, value: InsertElementInterface | JsonUIElement, callback?: GetJsonUIInitGenerateName) => ModifyControls
+    replace: (where: object | string, value: object) => ModifyControls,
+    remove: (where: object | string) => ModifyControls,
+    insertBack: (value: InsertElementInterface | JsonUIElement | (InsertElementInterface | JsonUIElement)[], callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertFront: (value: InsertElementInterface | JsonUIElement | (InsertElementInterface | JsonUIElement)[], callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertBefore: (from: string, value: InsertElementInterface | JsonUIElement | (InsertElementInterface | JsonUIElement)[], callback?: GetJsonUIInitGenerateName) => ModifyControls,
+    insertAfter: (from: string, value: InsertElementInterface | JsonUIElement | (InsertElementInterface | JsonUIElement)[], callback?: GetJsonUIInitGenerateName) => ModifyControls
 }
 
 interface ModifyBindings {
@@ -86,19 +86,23 @@ export class JsonUIObject {
                 return this.modifications.controls;
             },
             insertBack: (value, callback) => {
-                this.insertBack('controls', value, callback);
+                if (Array.isArray(value)) value.forEach(v => this.insertBack('controls', v));
+                else this.insertBack('controls', value, callback);
                 return this.modifications.controls;
             },
             insertFront: (value, callback) => {
-                this.insertFront('controls', value, callback);
+                if (Array.isArray(value)) value.forEach(v => this.insertFront('controls', v));
+                else this.insertFront('controls', value, callback);
                 return this.modifications.controls;
             },
             insertBefore: (child_name, value, callback) => {
-                this.insertBefore('controls', child_name, value, callback);
+                if (Array.isArray(value)) value.forEach(v => this.insertBefore('controls', child_name, v));
+                else this.insertBefore('controls', child_name, value, callback);
                 return this.modifications.controls;
             },
             insertAfter: (child_name, value, callback) => {
-                this.insertAfter('controls', child_name, value, callback);
+                if (Array.isArray(value)) value.forEach(v => this.insertAfter('controls', child_name, v));
+                else this.insertAfter('controls', child_name, value, callback);
                 return this.modifications.controls;
             }
         },
@@ -231,7 +235,7 @@ export class JsonUIObject {
         where: BindingInterface | ButtonMapping | Variables | object,
         target: BindingInterface | ButtonMapping | Variables | object
     ) {
-        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications || [];
 
         if (arrayName === 'variables') {
             const vK = Object.keys(target)[0];
@@ -271,10 +275,10 @@ export class JsonUIObject {
     };
 
     private replace(arrayName: JsonUIArrayName,
-        where: BindingInterface | ButtonMapping | Variables | object,
+        where: BindingInterface | ButtonMapping | Variables | object | string,
         value: BindingInterface | ButtonMapping | Variables | object
     ) {
-        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications || [];
 
         if (arrayName === 'variables') {
             const vK = Object.keys(value)[0];
@@ -298,7 +302,14 @@ export class JsonUIObject {
             };
         }
 
-        modifications.push({
+        if (arrayName === 'controls' && typeof where === 'string')
+            modifications.push({
+                array_name: arrayName,
+                operation: 'replace',
+                control_name: where,
+                value
+            })
+        else modifications.push({
             array_name: arrayName,
             operation: 'replace',
             where,
@@ -314,9 +325,9 @@ export class JsonUIObject {
     };
 
     private _remove(arrayName: JsonUIArrayName,
-        where: BindingInterface | ButtonMapping | Variables | object
+        where: BindingInterface | ButtonMapping | Variables | object | string
     ) {
-        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications || [];
 
         if (arrayName === 'variables') {
             const wK = Object.keys(where)[0];
@@ -330,7 +341,13 @@ export class JsonUIObject {
             };
         }
 
-        modifications.push({
+        if (arrayName === 'controls' && typeof where === 'string')
+            modifications.push({
+                array_name: arrayName,
+                operation: 'remove',
+                control_name: where
+            });
+        else modifications.push({
             array_name: arrayName,
             operation: 'remove',
             where
@@ -375,13 +392,13 @@ export class JsonUIObject {
     * @returns The instance of JsonUIObject for method chaining.
     */
     private insert(type: 'back' | 'front', arrayName: JsonUIArrayName, value: InsertElementInterface | JsonUIElement | (BindingInterface | string)[] | ButtonMapping | Variables, callback?: GetJsonUIInitGenerateName) {
-        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+        const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications || [];
         let arrayValue;
         switch (arrayName) {
             case "controls": {
                 const _v: InsertElementInterface | JsonUIElement = value as any,
                     isElement = value instanceof JsonUIElement,
-                    name = isElement ? generateRandomName() : (_v as any)?.name ?? generateRandomName(),
+                    name = isElement ? generateRandomName() : (_v as any)?.name || generateRandomName(),
                     extend = isElement ? (_v as JsonUIElement).getPath().slice(1) :
                         (() => {
                             const extend = (_v as InsertElementInterface).extend;
@@ -391,7 +408,7 @@ export class JsonUIObject {
                 arrayValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties ?? {}),
+                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties || {}),
                         }
                     }
                 ];
@@ -497,7 +514,7 @@ export class JsonUIObject {
             this.elementModifyKey.push(`${type}:${arrayName}:${JSON.stringify(from)}`);
 
         const modifyIndex = this.elementModifyKey.indexOf(`${type}:${arrayName}:${JSON.stringify(from)}`),
-            modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
+            modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications || [];
 
         const modifyObject = {
             value: [],
@@ -512,7 +529,7 @@ export class JsonUIObject {
             case "controls": {
                 const _v = <JsonUIElement | InsertElementInterface>value,
                     isElement = _v instanceof JsonUIElement,
-                    name = isElement ? generateRandomName() : (_v as any)?.name ?? generateRandomName(),
+                    name = isElement ? generateRandomName() : (_v as any)?.name || generateRandomName(),
                     extend = isElement ? (_v as JsonUIElement).getPath().slice(1) : (() => {
                         const extend = (_v as InsertElementInterface).extend;
                         return (typeof extend === 'string') ? `@${extend}` : (extend as JsonUIElement).getPath();
@@ -522,7 +539,7 @@ export class JsonUIObject {
                 arrValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties ?? {}),
+                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties || {}),
                         }
                     }
                 ];
@@ -582,7 +599,7 @@ export class JsonUIObject {
         data: (BindingInterface | string)[]
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            bindings = _data.bindings ?? [];
+            bindings = _data.bindings || [];
 
         bindings.push(BindingsHandle(data));
 
@@ -600,7 +617,7 @@ export class JsonUIObject {
      */
     addKeybind(data: ButtonMapping | ButtonMapping[]) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            button_mappings = _data.button_mappings ?? [];
+            button_mappings = _data.button_mappings || [];
 
         if (Array.isArray(data)) button_mappings.push(...data);
         else button_mappings.push(data);
@@ -621,7 +638,7 @@ export class JsonUIObject {
         data: Variables
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            variables: any[] = _data.variables ?? [];
+            variables: any[] = _data.variables || [];
 
         objectForEach(data, (v, k) => {
             variables.push({
@@ -645,7 +662,7 @@ export class JsonUIObject {
         data: Animation
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            anims = _data.anims ?? [];
+            anims = _data.anims || [];
 
         anims.push(data.getPath());
 
@@ -668,9 +685,9 @@ export class JsonUIObject {
         callback?: (name: string) => void | null
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
-            controls = _data.controls ?? [];
+            controls = _data.controls || [];
         const isElement = value instanceof JsonUIElement,
-            name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name ?? generateRandomName();
+            name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name || generateRandomName();
         if (isElement) controls.push({ [`${name}${value.getPath()}`]: {} });
         else if (typeof value === 'string') {
             this.addElement({ extend: value, name });
@@ -681,7 +698,7 @@ export class JsonUIObject {
             if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             controls.push({
                 [`${name}@${value.extend}`]: {
-                    ...ModifyReadJsonUIProperty(value.properties ?? {})
+                    ...ModifyReadJsonUIProperty(value.properties || {})
                 }
             });
         }
@@ -731,6 +748,13 @@ export class JsonUIObject {
 
     remove() {
         CachedManager.removeInitElement(this.screenInitKey, this.screenFile);
+        delete jsonUIScreen[this.screenFile][this.screenInitKey];
+        const initKeys = this.screenInitKey.split('/');
+        if (initKeys.length === 1) this.setProperty({ ignored: true })
+        else {
+            const k = initKeys.pop();
+            JsonUIObject.register(initKeys.join('/'), this.screenFile).modifications.controls.remove(k || "")
+        }
     }
 
     private debug() {

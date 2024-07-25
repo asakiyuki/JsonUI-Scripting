@@ -193,6 +193,12 @@ process.on('exit', () => {
     // Recursively collect file paths from the .build directory
     writeContent();
 
+    if (fs.existsSync('.textures') && fs.existsSync('.textures/.cached')) {
+        for (const item of fs.readdirSync('.textures/.cached'))
+            fs.copyFileSync(`.textures/.cached/${item}`, `.build/build/${item}`);
+        fs.removeSync('.textures/.cached');
+    }
+
     if (fs.existsSync('.bedrock')) {
         for (const $ of fs.readdirSync('.bedrock'))
             fs.cpSync(`.bedrock/${$}`, `.build/${$}`, { recursive: true });
@@ -221,8 +227,8 @@ process.on('exit', () => {
             // Install resource pack
             const readGlobalResourcePacks: GlobalResourcePack[] = fs.readJsonSync(`${path}\\minecraftpe\\global_resource_packs.json`);
             const packsGlobalData: string = JSON.stringify(<GlobalResourcePack>{
-                pack_id: Config.data.manifest?.uuid ?? "",
-                version: Config.data.manifest?.version ?? [0, 0, 1]
+                pack_id: Config.data.manifest?.uuid || "",
+                version: Config.data.manifest?.version || [0, 0, 1]
             });
 
             const packIndex = readGlobalResourcePacks.findIndex((value) => JSON.stringify(value) === packsGlobalData);

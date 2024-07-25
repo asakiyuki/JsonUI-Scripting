@@ -21,7 +21,7 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
 
     // Modify x and y properties
     if (properties.x || properties.y) {
-        properties.offset = [properties.x ?? 0, properties.y ?? 0];
+        properties.offset = [properties.x || 0, properties.y || 0];
         delete properties.x;
         delete properties.y;
     }
@@ -34,9 +34,33 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
             ))
     ) properties.size = [properties.size, properties.size];
     else if (properties.width || properties.height) {
-        properties.size = [properties.width ?? "default", properties.height ?? "default"];
+        properties.size = [properties.width || "default", properties.height || "default"];
         delete properties.width;
         delete properties.height;
+    }
+
+    if (typeof properties.min_size === 'number'
+        || (
+            typeof properties.min_size === 'string'
+            && (!['#', '$'].includes(properties.min_size[0])
+            ))
+    ) properties.min_size = [properties.min_size, properties.min_size];
+    else if (properties.width || properties.height) {
+        properties.min_size = [properties.min_width || "default", properties.min_height || "default"];
+        delete properties.min_width;
+        delete properties.min_height;
+    }
+
+    if (typeof properties.max_size === 'number'
+        || (
+            typeof properties.max_size === 'string'
+            && (!['#', '$'].includes(properties.max_size[0])
+            ))
+    ) properties.max_size = [properties.max_size, properties.max_size];
+    else if (properties.width || properties.height) {
+        properties.max_size = [properties.max_width || "default", properties.max_height || "default"];
+        delete properties.max_width;
+        delete properties.max_height;
     }
 
     // Recursively read properties
@@ -57,7 +81,7 @@ export default function ModifyReadJsonUIProperty(properties: JsonUIProperty): Js
             if (Array.isArray(v)) {
                 if ((<string>v[0])?.startsWith?.('$')) {
                     properties[key] = v[0];
-                    properties[`${v[0]}|default`] = v[1];
+                    properties[`${v[0]}|default`] = ['size', 'min_size', 'max_size'].includes(key) ? Array.isArray(v[1]) ? v[1] : [v[1], v[1]] : v[1];
                 } else if ((<string>v[0])?.startsWith?.('#'))
                     properties[key] = ColorHandler.parse((<string>v[0]).slice(1))
             } else properties[key] = ReadProperty(v);

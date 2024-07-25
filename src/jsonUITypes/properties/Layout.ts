@@ -24,6 +24,10 @@ export default interface LayoutInterface {
     debug?: GlobalTypes | Color,
     width?: string | number,
     height?: string | number,
+    min_width?: string | number,
+    min_height?: string | number,
+    max_width?: string | number,
+    max_height?: string | number,
     x?: string | number,
     y?: string | number,
 }

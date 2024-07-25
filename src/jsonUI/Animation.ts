@@ -26,12 +26,12 @@ export class Animation {
         // Obfuscate element name if enabled in config
         if (Config.data.obfuscate_element_names) {
             animate.name = generateRandomName();
-            animate.namespace = `anims-${getRandomNamespace()}`;
+            animate.namespace = `${getRandomNamespace()}`;
         } else {
             // If name is not provided, generate a random name
-            animate.name = animate.name ?? CurrentLine();
+            animate.name = animate.name || CurrentLine();
             // If namespace is not provided, generate a random namespace
-            animate.namespace = `anims-${animate.namespace ?? getRandomNamespace()}`;
+            animate.namespace = `${animate.namespace || getRandomNamespace()}`;
         }
 
         const animateLength = animate.keys.length;

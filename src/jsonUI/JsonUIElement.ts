@@ -73,8 +73,8 @@ export class JsonUIElement {
             data.name = generateRandomName();
             data.namespace = getRandomNamespace();
         } else {
-            data.name = data.name ?? CurrentLine();
-            data.namespace = data.namespace ?? CurrentFile();
+            data.name = data.name || CurrentLine();
+            data.namespace = data.namespace || CurrentFile();
         }
 
         if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getPath()}`;
@@ -433,7 +433,7 @@ Input
         callback?: GetJsonUIGenerateName | null
     ) {
         const isElement = value instanceof JsonUIElement;
-        const name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name ?? generateRandomName();
+        const name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name || generateRandomName();
         if (isElement) {
             CachedManager.insertArray('controls', this, this.data.namespace || "", { [`${name}${value.getPath()}`]: {} })
         } else if (typeof value === 'string') {
@@ -448,7 +448,7 @@ Input
                 this,
                 this.data.namespace as string, {
                 [`${name}@${value?.extend}`]: {
-                    ...ModifyReadJsonUIProperty(value?.properties ?? {})
+                    ...ModifyReadJsonUIProperty(value?.properties || {})
                 }
             });
         }

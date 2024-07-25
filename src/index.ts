@@ -8,6 +8,7 @@ export * from "./jsonUI/Animation";
 export * from "./jsonUI/GenerateRandomName";
 export * from "./jsonUI/GlobalVariables";
 export * from "./jsonUI/JsonUIElement";
+export * from "./jsonUI/Texture";
 export * from "./jsonUITypes/Anchor";
 export * from "./jsonUITypes/AnimationInterface";
 export * from "./jsonUITypes/AnimationValue";

@@ -24,8 +24,8 @@ function GetJsonUIElements(data, readControl, elementKeyPath) {
             const element = data[key],
                 eKey = key.split('@')[0];
 
+            if (element.anim_type) continue;
             (vanillaElements[nsp] ??= {})[`_${eKey}`.replace(/_\w/g, v => v.slice(1).toUpperCase())] = `${n}.${eKey}`;
-
             elements.push(`"${eKey}"`);
             if (Array.isArray(element.controls))
                 elements.push(...GetJsonUIElements(element.controls, true, eKey));

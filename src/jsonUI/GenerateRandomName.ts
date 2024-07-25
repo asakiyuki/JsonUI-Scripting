@@ -1,7 +1,7 @@
 /**
  * Generates a random name of a specified length.
  *
- * @param {number} [length=25] - The length of the random name. Default is 25.
+ * @param {number} [length=32] - The length of the random name. Default is 25.
  * @returns {string} - A random name of the specified length.
  *
  * @remarks
@@ -17,11 +17,12 @@
  * console.log(randomName); // Output: "a1b2c3d4e5"
  * ```
  */
-export function generateRandomName(length: number = 25): string {
-    return Array.from({ length }, v => Math.floor(Math.random() * 16).toString(16)).join('');
+export function generateRandomName(length: number = 32): string {
+    return Array.from({ length }, v => Math.floor(Math.random() * 32).toString(32)).join('');
 }
 
 const namespace: string[] = Array.from({ length: 64 }, () => generateRandomName());
+const animationNamespace: string[] = Array.from({ length: 64 }, () => generateRandomName());
 
 /**
  * Returns a random namespace from the predefined list.

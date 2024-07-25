@@ -13,7 +13,7 @@ export function ItemRenderer({ properties, value = 0, id }: {
             ...(properties),
             property_bag: {
                 [BindingName.ItemIdAux]: (id < 0) ? (id * 65536 - value) : (id * 65536 + value),
-                ...(properties?.property_bag ?? {})
+                ...(properties?.property_bag || {})
             },
         }
     });

@@ -12,16 +12,16 @@ function ReadUICode(data: any, elementPath?: string) {
     if (!elementPath) {
         (JsonUIData[currentPack] ??= {})[currentNamespace] ??= { filePath, elements: [] };
         for (const key in data) {
-            const modifications = data[key].modifications ?? [];
+            const modifications = data[key].modifications || [];
             const eKey = key.split('@')[0];
             JsonUIData[currentPack][currentNamespace].elements.push(`"${eKey}"`);
             const controls = [];
             for (const modify of modifications) {
                 if ((modify?.array_name === 'controls') && ['insert_back', 'insert_front', 'insert_after', 'insert_before'].includes(modify?.operation)) {
-                    controls.push(...modify.value ?? []);
+                    controls.push(...modify.value || []);
                 }
             }
-            if (Array.isArray(data[key].controls) || controls.length) ReadUICode([...data[key].controls ?? [], ...controls], eKey);
+            if (Array.isArray(data[key].controls) || controls.length) ReadUICode([...data[key].controls || [], ...controls], eKey);
         }
     } else {
         for (const element of data) {
@@ -54,7 +54,7 @@ function ReadPack(path: string) {
                 })();
                 delete json.namespace;
                 ReadUICode(json);
-            } else fs.removeSync(`${path}/${file}`);
+            }
         }
     }
 }

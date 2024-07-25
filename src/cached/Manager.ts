@@ -53,7 +53,7 @@ export class CachedManager {
      * @returns The initial element data.
      */
     static readInitElement(init_element: string, screen_file: string) {
-        return jsonUIObject.modify[screen_file][init_element] ?? {};
+        return jsonUIObject.modify[screen_file][init_element] || {};
     }
 
     /**
@@ -150,7 +150,7 @@ export class CachedManager {
      */
     static insertArray(arrayName: JsonUIArrayName, data: JsonUIElement, namespace: string, value: object | string) {
         jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] = [
-            ...jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] ?? [],
+            ...jsonUIObject.json[namespace][data.getElementJsonUIKey()][arrayName] || [],
             value
         ]
     }
