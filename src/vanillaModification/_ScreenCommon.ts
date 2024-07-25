@@ -222,6 +222,10 @@ export class JsonUIObject {
         return this;
     }
 
+    private getProperty(propertyName: string) {
+        return CachedManager.readInitElement(this.screenInitKey, this.screenFile)[propertyName];
+    }
+
     private swap(arrayName: JsonUIArrayName,
         where: BindingInterface | ButtonMapping | Variables | object,
         target: BindingInterface | ButtonMapping | Variables | object
@@ -713,6 +717,15 @@ export class JsonUIObject {
         });
         callback?.(rndName);
         return this;
+    }
+
+    addPropertyBag(propertyBag: object) {
+        return this.setProperty({
+            property_bag: {
+                ...this.getProperty('property_bag'),
+                ...propertyBag
+            }
+        });
     }
 
     private debug() {

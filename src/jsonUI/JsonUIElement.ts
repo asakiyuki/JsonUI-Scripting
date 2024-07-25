@@ -390,8 +390,8 @@ Input
      */
     getElementJsonUIKey() {
         if (<boolean>arguments[0]) {
-            ((cnt[this.data.namespace ?? ''] ??= {})[this.elementJsonUIKey] ??= -1);
-            const count = (cnt[this.data.namespace ?? ''][this.elementJsonUIKey] += 1);
+            ((cnt[this.data.namespace || ''] ??= {})[this.elementJsonUIKey] ??= -1);
+            const count = (cnt[this.data.namespace || ''][this.elementJsonUIKey] += 1);
             return count ? `${this.elementJsonUIKey}[${count}]` : this.elementJsonUIKey;
         } else return this.elementJsonUIKey;
     }
@@ -435,7 +435,7 @@ Input
         const isElement = value instanceof JsonUIElement;
         const name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name ?? generateRandomName();
         if (isElement) {
-            CachedManager.insertArray('controls', this, this.data.namespace ?? "", { [`${name}${value.getPath()}`]: {} })
+            CachedManager.insertArray('controls', this, this.data.namespace || "", { [`${name}${value.getPath()}`]: {} })
         } else if (typeof value === 'string') {
             this.addElement({
                 extend: value,
@@ -482,7 +482,7 @@ Input
         data: Variables
     ) {
         objectForEach(data, (v, k) => {
-            CachedManager.insertArray('variables', this, this.data.namespace ?? "", {
+            CachedManager.insertArray('variables', this, this.data.namespace || "", {
                 requires: ['$', '('].includes(k[0]) ? k : `$${k}`,
                 ...objectMap(v, (v, k) => {
                     return {
@@ -502,8 +502,8 @@ Input
     addKeybind(
         data: ButtonMapping | ButtonMapping[]
     ) {
-        if (Array.isArray(data)) data.forEach(_ => CachedManager.insertArray('button_mappings', this, this.data.namespace ?? "", _));
-        else CachedManager.insertArray('button_mappings', this, this.data.namespace ?? "", data);
+        if (Array.isArray(data)) data.forEach(_ => CachedManager.insertArray('button_mappings', this, this.data.namespace || "", _));
+        else CachedManager.insertArray('button_mappings', this, this.data.namespace || "", data);
         return this;
     }
 
@@ -516,9 +516,9 @@ Input
         data: (BindingInterface | string | string[])[] | BindingInterface | string
     ) {
         if (Array.isArray(data))
-            BindingsHandle(data).forEach(v => CachedManager.insertArray('bindings', this, this.data.namespace ?? "", v));
+            BindingsHandle(data).forEach(v => CachedManager.insertArray('bindings', this, this.data.namespace || "", v));
         else
-            CachedManager.insertArray('bindings', this, this.data.namespace ?? "", BindingsHandle([data])[0]);
+            CachedManager.insertArray('bindings', this, this.data.namespace || "", BindingsHandle([data])[0]);
         return this;
     }
 
@@ -532,9 +532,9 @@ Input
         startAtState?: undefined
     ) {
         if (Array.isArray(data)) {
-            data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace ?? "", (v instanceof Animation) ? v.getPath(startAtState) : v));
+            data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace || "", (v instanceof Animation) ? v.getPath(startAtState) : v));
         } else
-            CachedManager.insertArray('anims', this, this.data.namespace ?? "", (data instanceof Animation) ? data.getPath(startAtState) : data);
+            CachedManager.insertArray('anims', this, this.data.namespace || "", (data instanceof Animation) ? data.getPath(startAtState) : data);
         return this;
     }
 
@@ -547,7 +547,7 @@ Input
      */
     addVariable(propertyKey: string, default_value: any, callback?: ((arg: JsonUIElement, variable_name: string) => void) | null) {
         const name = generateRandomName();
-        CachedManager.setElementProperty(this, this.data.namespace ?? "", {
+        CachedManager.setElementProperty(this, this.data.namespace || "", {
             [propertyKey]: `$${name}`,
             [`$${name}|default`]: default_value
         });
@@ -565,7 +565,7 @@ Input
     setProperty(
         data: JsonUIProperty
     ) {
-        CachedManager.setElementProperty(this, this.data.namespace ?? "", data);
+        CachedManager.setElementProperty(this, this.data.namespace || "", data);
         return this;
     }
 
@@ -591,6 +591,11 @@ Input
             }
         });
         callback?.(this, rndName);
+        return this;
+    }
+
+    addPropertyBag(propertyBag: object) {
+        CachedManager.insertProperty('property_bag', this, this.data.namespace || '', propertyBag);
         return this;
     }
 

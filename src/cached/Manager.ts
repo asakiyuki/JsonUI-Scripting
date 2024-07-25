@@ -151,6 +151,14 @@ export class CachedManager {
         ]
     }
 
+    static insertProperty(propertyName: string, data: JsonUIElement, namespace: string, value: object) {
+        const json = jsonUIObject.json[namespace][data.getElementJsonUIKey()];
+        json[propertyName] = {
+            ...json[propertyName],
+            ...value
+        }
+    }
+
     /**
      * Retrieves the JSON UI code from the cached object.
      * @returns The JSON UI code.

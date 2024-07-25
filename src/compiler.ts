@@ -193,15 +193,15 @@ process.on('exit', () => {
     // Recursively collect file paths from the .build directory
     writeContent();
 
-    // Write collected file paths to a JSON file
-    fs.writeJSONSync('.build/contents.json', { content }, 'utf-8');
-    console.log('[ Compiler ] >>', "Create content.json file", new Date(), '.build/contents.json', content.length, `file path(s) found!`);
-
     if (fs.existsSync('.bedrock')) {
         for (const $ of fs.readdirSync('.bedrock'))
             fs.cpSync(`.bedrock/${$}`, `.build/${$}`, { recursive: true });
         console.log('[ Compiler ] >>', "Clone resource packs", new Date());
     }
+
+    // Write collected file paths to a JSON file
+    fs.writeJSONSync('.build/contents.json', { content }, 'utf-8');
+    console.log('[ Compiler ] >>', "Create content.json file", new Date(), '.build/contents.json', content.length, `file path(s) found!`);
 
     if (fs.existsSync('config.json')) {
         // Determine the target directory for exporting resource packs

@@ -57,3 +57,9 @@ fs.writeFileSync('src/vanillaModification/ScreenModifyTypes.ts', typesList.join(
 fs.writeFileSync('src/vanillaModification/Modify.ts',
     `import { JsonUIElement } from "../jsonUI/JsonUIElement"; import { JsonUIProperty } from "../jsonUITypes/JsonUIProperty"; import { JsonUIObject } from "./_ScreenCommon"; import * as Types from "./ScreenModifyTypes"; const jsonUIScreen: any = {}; export class Modify { private static apply() { }; private static arguments = ''; private static bind() { }; private static call() { }; private static caller = ''; private static length = ''; private static name = ''; private static toString() { }; ${modifyList.join(' ')} }`);
 fs.writeFileSync('src/vanillaModification/UIPaths.ts', `export const VanillaPaths = ${JSON.stringify(vanillaPathList)};`, 'utf-8');
+
+const globalVariables = Object.keys(Json.parse(fs.readFileSync(`.jsonui/_global_variables.json`, 'utf-8'))).map(
+    v => `"${v.replace(/(\$|_)\w/g, v => v.slice(1).toUpperCase())}" = "${v}"`
+);
+
+fs.writeFileSync('src/jsonUITypes/GlobalVariable.ts', `export enum GlobalVariable { ${globalVariables.join(', ')} }`)
