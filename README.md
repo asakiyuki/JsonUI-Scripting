@@ -34,7 +34,7 @@ const text = JsonUIElement.label({
 textBackground.addElement(text);
 
 // Insert the image background (with the text element) into the start screen's content controls
-Modify.startScreen('start_screen_content').modifications.controls.insertFront(textBackground);
+Modify.StartScreen('start_screen_content').modifications.controls.insertFront(textBackground);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:
