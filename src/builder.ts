@@ -75,11 +75,11 @@ if (fs.pathExistsSync('.uipacks')) {
 
             const modify = Object.keys(JsonUIData[pack]).map(v => {
                 const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());
-                return `static ${className}(element, extend, properties) { return (data[\`${JsonUIData[pack][v].filePath}\`] ??= {})[element] ??= JsonUIObject.register(element, \`${JsonUIData[pack][v].filePath}\`, extend, properties); }`
+                return `static ${className}(element, extend, properties) { return JsonUIObject.register(element, \`${JsonUIData[pack][v].filePath}\`, extend, properties); }`
             });
             console.log(`[ ${pack} reader ] >>`, modify.length, 'namespace(s) found!');
 
-            fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.js`, `"use strict"; const { JsonUIObject } = require('../vanillaModification/_ScreenCommon'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; const data = {}; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
+            fs.writeFileSync(`node_modules/jsonui-scripting/dist/uipackages/${pack}.js`, `"use strict"; const { JsonUIObject } = require('../vanillaModification/_ScreenCommon'); Object.defineProperty(exports, "__esModule", { value: true }); exports.${pack} = void 0; class ${pack} { ${modify.join(' ')} } exports.${pack} = ${pack};`);
 
             const types = Object.keys(JsonUIData[pack]).map(v => {
                 const className = `_${v}`.replace(/(_| )\w/g, v => v.slice(1).toUpperCase());

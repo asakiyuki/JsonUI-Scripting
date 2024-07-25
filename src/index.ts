@@ -98,4 +98,5 @@ export * from "./jsonUITypes/Variables";
 export * from "./vanillaModification/Modify";
 export * from "./vanillaModification/ScreenModifyTypes";
 export * from "./vanillaModification/UIPaths";
+export * from "./vanillaModification/vanillaUI";
 export * from "./vanillaModification/_ScreenCommon";

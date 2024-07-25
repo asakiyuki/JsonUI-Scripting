@@ -14,6 +14,7 @@ import { Variables } from "../jsonUITypes/Variables";
 import { objectForEach, objectMap } from "../lib/ObjectForEach";
 import ModifyReadJsonUIProperty from "../lib/ReadJsonUIProperty";
 
+const jsonUIScreen: any = {};
 
 interface ModifyControls {
     swap: (where: object, target: object) => ModifyControls,
@@ -81,7 +82,7 @@ export class JsonUIObject {
                 return this.modifications.controls;
             },
             remove: (where) => {
-                this.remove('controls', where);
+                this._remove('controls', where);
                 return this.modifications.controls;
             },
             insertBack: (value, callback) => {
@@ -111,7 +112,7 @@ export class JsonUIObject {
                 return this.modifications.bindings;
             },
             remove: (where) => {
-                this.remove('bindings', where);
+                this._remove('bindings', where);
                 return this.modifications.bindings;
             },
             insertBack: (value) => {
@@ -141,7 +142,7 @@ export class JsonUIObject {
                 return this.modifications.buttonMappings;
             },
             remove: (where) => {
-                this.remove('button_mappings', where);
+                this._remove('button_mappings', where);
                 return this.modifications.buttonMappings;
             },
             insertAfter: (from, value) => {
@@ -171,7 +172,7 @@ export class JsonUIObject {
                 return this.modifications.variables;
             },
             remove: (where) => {
-                this.remove('variables', where);
+                this._remove('variables', where);
                 return this.modifications.variables;
             },
             insertAfter: (from, value) => {
@@ -206,7 +207,7 @@ export class JsonUIObject {
     }
 
     static register(screenInitKey: string, screenFile: string, extend?: string | JsonUIElement, property?: JsonUIProperty) {
-        return new this(screenInitKey, screenFile, extend, property);
+        return <JsonUIObject>(((jsonUIScreen[screenFile] ??= {})[screenInitKey] ??= new this(screenInitKey, screenFile, extend, property)));
     }
 
     /**
@@ -312,7 +313,7 @@ export class JsonUIObject {
         return this;
     };
 
-    private remove(arrayName: JsonUIArrayName,
+    private _remove(arrayName: JsonUIArrayName,
         where: BindingInterface | ButtonMapping | Variables | object
     ) {
         const modifications: any[] = CachedManager.readInitElement(this.screenInitKey, this.screenFile).modifications ?? [];
@@ -726,6 +727,10 @@ export class JsonUIObject {
                 ...propertyBag
             }
         });
+    }
+
+    remove() {
+        CachedManager.removeInitElement(this.screenInitKey, this.screenFile);
     }
 
     private debug() {

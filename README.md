@@ -14,14 +14,27 @@ This will add jsonui-scripting to your project's package.json file and download 
 The syntax is very simple, I can provide an example using code snippets displaying 'Hello World!' text on the Start Screen as follows:
 ```javascript
 // app.js
+// Import the JsonUIElement and Modify classes from JsonUI Scripting.
 const { JsonUIElement, Modify } = require('jsonui-scripting');
-const a = JsonUIElement.label({
-    properties: {
-        text: 'Hello World!'
-    }
+
+// Create an image element to be used as the background for the text
+const textBackground = JsonUIElement.image({
+    texture: 'textures/ui/Black',
+    size: "100%cm + 2px",
+    layer: 10,
+    alpha: 0.8
 });
-Modify.startScreen('start_screen_content')
-    .insertBack('controls', a);
+
+// Create a text element with the content "Hello World!"
+const text = JsonUIElement.label({
+    text: "Hello World!"
+});
+
+// Add the text element to the image background
+textBackground.addElement(text);
+
+// Insert the image background (with the text element) into the start screen's content controls
+Modify.startScreen('start_screen_content').modifications.controls.insertFront(textBackground);
 ```
 
 And the code snippet you will receive in JsonUI format will be as follows after you run app.js:
@@ -33,22 +46,26 @@ And the code snippet you will receive in JsonUI format will be as follows after 
         "modifications": [
             {
                 "array_name": "controls",
-                "operation": "insert_back",
-                "value": [
-                    {
-                        "1929e3d2d01c2d0cafdd005f7@ba42e09397f7bab940f0bd27f.1929e3d2d01c2d0cafdd005f7": {}
-                    }
-                ]
+                "operation": "insert_front",
+                "value": [ { "a9e0fe62cac2194d5b9a4a297@app.app-js:5:38": {} } ]
             }
         ]
     }
 }
 ```
+
 ```jsonc
-// build/ba42e09397f7bab940f0bd27f.json
 {
-    "namespace": "ba42e09397f7bab940f0bd27f",
-    "1929e3d2d01c2d0cafdd005f7": {
+    "namespace": "app",
+    "app-js:5:38": {
+        "type": "image",
+        "texture": "textures/ui/Black",
+        "size": [ "100%cm + 2px", "100%cm + 2px" ],
+        "layer": 10,
+        "alpha": 0.8,
+        "controls": [ { "d8202554472234d22b5c841fe@app.app-js:13:28": {} } ]
+    },
+    "app-js:13:28": {
         "type": "label",
         "text": "Hello World!"
     }
@@ -59,27 +76,15 @@ And the code snippet you will receive in JsonUI format will be as follows after 
 You can also create a config.json file in your project so that when the JsonUI pack is built, it will be installed into the game.
 ```json
 {
-    // Specifies the name of the folder where the UI pack will be output.
     "folder_name": "output_ui_pack",
-    // Indicates whether the UI pack should be previewed.
     "preview": true,
-    // Indicates whether the UI pack is in development mode.
     "development": true,
-    // Indicates whether element names should be obfuscated in the UI pack.
-    "obfuscator_element_name": false,
-    // Contains the manifest information of the UI pack.
+    "obfuscate_element_names": false,
+    "debug_screen_content": false,
     "manifest": {
-        // Specifies the name of the UI pack.
         "name": "pack_name",
-        // Specifies the version of the UI pack.
-        "version": [
-            1,
-            0,
-            0
-        ],
-        // Specifies the UUID of the UI pack.
+        "version": [ 1, 0, 0 ],
         "uuid": "********-****-****-****-************",
-        // Provides a description of the UI pack.
         "description": "pack_decscription"
     }
 }

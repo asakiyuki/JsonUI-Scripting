@@ -66,6 +66,10 @@ export class CachedManager {
         jsonUIObject.modify[screen_file][init_element] = value;
     }
 
+    static removeInitElement(init_element: string, screen_file: string) {
+        delete jsonUIObject.modify[screen_file][init_element];
+    }
+
     /**
      * Registers a key-value pair in the JSON UI object.
      * @param key - The key to be registered.
