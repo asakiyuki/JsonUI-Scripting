@@ -13,7 +13,6 @@ This will add jsonui-scripting to your project's package.json file and download 
 
 The syntax is very simple, I can provide an example using code snippets displaying 'Hello World!' text on the Start Screen as follows:
 ```javascript
-// app.js
 // Import the JsonUIElement and Modify classes from JsonUI Scripting.
 const { JsonUIElement, Modify } = require('jsonui-scripting');
 
