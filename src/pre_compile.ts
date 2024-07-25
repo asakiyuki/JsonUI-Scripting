@@ -19,5 +19,5 @@ if (Config.data.debug_screen_content) {
 
     bg.addElement(label);
 
-    Modify.uiCommon('base_screen').modifications.controls.insertFront(bg);
+    Modify.UiCommon('base_screen').modifications.controls.insertFront(bg);
 }
