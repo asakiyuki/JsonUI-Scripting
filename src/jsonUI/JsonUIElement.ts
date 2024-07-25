@@ -36,6 +36,7 @@ import { ElementSliderBoxInterface } from "../jsonUITypes/elementTypes/SliderBox
 import { ElementStackPanelInterface } from "../jsonUITypes/elementTypes/StackPanel";
 import { ElementToggleInterface } from "../jsonUITypes/elementTypes/Toggle";
 import { ElementInputPanelInterface } from "../jsonUITypes/elementTypes/InputPanel";
+import { FactoryInterface } from "../jsonUITypes/Factory";
 
 const cnt: any = {}
 
@@ -569,14 +570,21 @@ Input
     }
 
     setFactory(
-        name: string,
+        factory_data: FactoryInterface | string,
         control_name: ElementInterface | JsonUIElement | string,
         callback?: GetJsonUIGenerateName
     ) {
         const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
         this.setProperty({
             factory: {
-                name,
+                ...(() => (typeof factory_data === 'string')
+                    ? {
+                        name: factory_data
+                    }
+                    : {
+                        name: factory_data.name,
+                        max_children_size: factory_data.maxChild
+                    })(),
                 control_name: (() => (control_name instanceof JsonUIElement)
                     ? `${rndName}${control_name.getPath()}` : (typeof control_name === 'string') ? `${rndName}@${control_name}` : `${rndName}${(() => (control_name.extend instanceof JsonUIElement) ? control_name.extend.getPath() : `@${control_name.extend}`)()}`
                 )()

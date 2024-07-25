@@ -1,4 +1,25 @@
-import { Bool, GlobalTypes, Num, Obj, Vector2 } from "../..";
+import { BindingInterface, Bool, ButtonMapping, GlobalTypes, JsonUIElement, JsonUIProperty, Num, Obj, Vector2, Vector2_str, Vector3, Vector4 } from "../..";
+
+interface ControlExtend extends JsonUIProperty { };
+
+interface ControlInterfaceObject {
+    [key: string]: { controls?: ControlInterfaceObject } | ControlExtend,
+}
+
+interface VariableInterfaceObject {
+    requires?: any,
+    [key: string]: any
+}
+
+interface FactoryControlIDs {
+    [key: string]: GlobalTypes
+}
+
+interface FactoryInterfaceObject {
+    name?: GlobalTypes | string,
+    control_name?: GlobalTypes | JsonUIElement,
+    max_children_size?: GlobalTypes | Num
+}
 
 export default interface ControlInterface {
     visible?: GlobalTypes | Bool,
@@ -19,4 +40,10 @@ export default interface ControlInterface {
     ignored?: GlobalTypes | Bool,
     grid_position?: GlobalTypes | Vector2,
     collection_index?: GlobalTypes | Num,
+    controls?: ControlInterfaceObject[],
+    variables?: VariableInterfaceObject[],
+    control_ids?: GlobalTypes | FactoryControlIDs,
+    bindings?: BindingInterface[]
+    factory?: FactoryInterfaceObject,
+    button_mappings?: ButtonMapping[]
 }

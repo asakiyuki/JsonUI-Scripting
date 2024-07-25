@@ -5,6 +5,7 @@ import { generateRandomName } from "../jsonUI/GenerateRandomName";
 import { JsonUIElement } from "../jsonUI/JsonUIElement";
 import { BindingInterface } from "../jsonUITypes/BindingInterface";
 import { ButtonMapping } from "../jsonUITypes/ButtonMapping";
+import { FactoryInterface } from "../jsonUITypes/Factory";
 import { GetJsonUIInitGenerateName } from "../jsonUITypes/GetJsonUIGenerateName";
 import { ElementInterface, InsertElementInterface } from "../jsonUITypes/InsertElementInterface";
 import { JsonUIArrayName } from "../jsonUITypes/JsonUIArrayName";
@@ -690,14 +691,21 @@ export class JsonUIObject {
     };
 
     setFactory(
-        name: string,
+        factory_data: string | FactoryInterface,
         control_name: ElementInterface | JsonUIElement | string,
         callback?: (name: string) => void
     ) {
         const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
         this.setProperty({
             factory: {
-                name,
+                ...(() => (typeof factory_data === 'string')
+                    ? {
+                        name: factory_data
+                    }
+                    : {
+                        name: factory_data.name,
+                        max_children_size: factory_data.maxChild
+                    })(),
                 control_name: (() => (control_name instanceof JsonUIElement)
                     ? `${rndName}${control_name.getPath()}` : (typeof control_name === 'string') ? `${rndName}@${control_name}` : `${rndName}${(() => (control_name.extend instanceof JsonUIElement) ? control_name.extend.getPath() : `@${control_name.extend}`)()}`
                 )()

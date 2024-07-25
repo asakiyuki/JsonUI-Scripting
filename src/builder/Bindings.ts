@@ -315,9 +315,9 @@ export function BindingsHandle(bindings: (BindingInterface | string | string[])[
         else {
             const { binding_name, source_property_name } = binding;
             if (Array.isArray(binding_name))
-                binding.binding_name = bindingSyntaxHandler(binding_name[0]);
+                binding.binding_name = bindingSyntaxHandler(<string>binding_name[0]);
             if (Array.isArray(source_property_name))
-                binding.source_property_name = bindingSyntaxHandler(source_property_name[0]);
+                binding.source_property_name = bindingSyntaxHandler(<string>source_property_name[0]);
             jsonUIBindings.push(binding);
         }
     }

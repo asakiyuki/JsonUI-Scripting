@@ -24,6 +24,7 @@ import SpecialInterface from "./properties/Special"
 import TTSInterface from "./properties/TTS"
 import StackPanelInterface from "./properties/StackPanel"
 import TextEditInterface from "./properties/TextEdit"
+import ControlInterface from "./properties/Control"
 
 export type GlobalTypes = string | JsonUIElement | Animation | ArrayProperty;
 
@@ -52,5 +53,5 @@ export interface JsonUIProperty extends
     TextEditInterface,
     ToggleInterface,
     TTSInterface,
-    ChildCollectionInterface {
-}
+    ChildCollectionInterface,
+    ControlInterface { }

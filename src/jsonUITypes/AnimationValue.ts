@@ -1,12 +1,11 @@
 import { EasingTypes } from "./EasingTypes";
-import { DefaultGlobalVariableTypes } from "./GlobalVariablesTypes";
 
 export interface AnimationValue {
-    duration?: number | DefaultGlobalVariableTypes,
-    destroy_at_end?: string | DefaultGlobalVariableTypes,
+    duration?: number,
+    destroy_at_end?: string,
     easing?: EasingTypes,
     from?: any,
-    to: any | DefaultGlobalVariableTypes,
+    to: any,
     initial_uv?: [number, number],
     fps?: number,
     frame_count?: number,
