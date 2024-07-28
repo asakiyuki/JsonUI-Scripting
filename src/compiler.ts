@@ -191,8 +191,6 @@ process.on('exit', () => {
     }
 
     // Recursively collect file paths from the .build directory
-    writeContent();
-
     if (fs.existsSync('.textures') && fs.existsSync('.textures/.cached')) {
         for (const item of fs.readdirSync('.textures/.cached'))
             fs.copyFileSync(`.textures/.cached/${item}`, `.build/build/${item}`);
@@ -204,6 +202,8 @@ process.on('exit', () => {
             fs.cpSync(`.bedrock/${$}`, `.build/${$}`, { recursive: true });
         console.log('[ Compiler ] >>', "Clone resource packs", new Date());
     }
+
+    writeContent();
 
     // Write collected file paths to a JSON file
     fs.writeJSONSync('.build/contents.json', { content }, 'utf-8');

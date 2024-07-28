@@ -45,6 +45,8 @@ const cnt: any = {}
  */
 export class JsonUIElement {
     private elementJsonUIKey: string;
+    private elementType?: ElementTypes;
+    private properties: JsonUIProperty = {};
 
     /**
      * Create a new instance of JsonUIElement.
@@ -65,9 +67,10 @@ export class JsonUIElement {
     private static toString() { };
 
     constructor(private data: JsonUIElementInterface = { type: ElementTypes.Panel }) {
-        if (data.extend) {
+        if (data.extend)
             delete data.type;
-        };
+        else
+            this.elementType = data.type;
 
         if (Config.data.obfuscate_element_names) {
             data.name = generateRandomName();
@@ -80,12 +83,9 @@ export class JsonUIElement {
         if (data.extend instanceof JsonUIElement) this.elementJsonUIKey = `${data.name}${data.extend.getPath()}`;
         else if (typeof data.extend === 'string') this.elementJsonUIKey = `${data.name}@${data.extend}`;
         else this.elementJsonUIKey = `${data.name}${data.extend ? `@${data.extend?.namespace}.${data.extend?.name}` : ''}`;
-        if (data.properties) data.properties = ModifyReadJsonUIProperty(data.properties);
 
-        CachedManager.createElement(this, data.namespace, {
-            type: data.type,
-            ...data.properties
-        });
+        CachedManager.createElement(this, data.namespace, { type: data.type });
+        this.setProperty(data.properties || {});
     }
 
 
@@ -392,7 +392,9 @@ Input
         if (<boolean>arguments[0]) {
             ((cnt[this.data.namespace || ''] ??= {})[this.elementJsonUIKey] ??= -1);
             const count = (cnt[this.data.namespace || ''][this.elementJsonUIKey] += 1);
-            return count ? `${this.elementJsonUIKey}[${count}]` : this.elementJsonUIKey;
+            const cuccut = this.elementJsonUIKey.split('@');
+            cuccut[0] += `[${count}]`;
+            return this.elementJsonUIKey = count ? cuccut.join('@') : this.elementJsonUIKey;
         } else return this.elementJsonUIKey;
     }
 
@@ -414,6 +416,24 @@ Input
     ) {
         CachedManager.createGlobalVariables(variableObject);
         return this;
+    }
+
+    clone(properties?: JsonUIProperty) {
+        return this.elementType
+            ? new JsonUIElement({
+                type: this.elementType,
+                properties: {
+                    ...this.properties,
+                    ...properties
+                }
+            }) : JsonUIElement.extendOf(this.getElementJsonUIKey().split('@')[1], {
+                ...this.properties,
+                ...properties
+            });
+    }
+
+    extend(properties?: JsonUIProperty) {
+        return JsonUIElement.extendOf(this, properties);
     }
 
     /**
@@ -529,7 +549,7 @@ Input
      */
     addAnimation(
         data: (Animation | string)[] | (Animation | string),
-        startAtState?: undefined
+        startAtState?: number
     ) {
         if (Array.isArray(data)) {
             data.forEach(v => CachedManager.insertArray('anims', this, this.data.namespace || "", (v instanceof Animation) ? v.getPath(startAtState) : v));
@@ -565,16 +585,18 @@ Input
     setProperty(
         data: JsonUIProperty
     ) {
-        CachedManager.setElementProperty(this, this.data.namespace || "", data);
+        CachedManager.setElementProperty(this, this.data.namespace || "", {
+            ...Object.assign(this.properties, data),
+        });
         return this;
     }
 
     setFactory(
         factory_data: FactoryInterface | string,
-        control_name: ElementInterface | JsonUIElement | string,
+        control_name?: ElementInterface | JsonUIElement | string,
+        control_id?: { [key: string]: ElementInterface | JsonUIElement | string },
         callback?: GetJsonUIGenerateName
     ) {
-        const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
         this.setProperty({
             factory: {
                 ...(() => (typeof factory_data === 'string')
@@ -585,12 +607,32 @@ Input
                         name: factory_data.name,
                         max_children_size: factory_data.maxChild
                     })(),
-                control_name: (() => (control_name instanceof JsonUIElement)
-                    ? `${rndName}${control_name.getPath()}` : (typeof control_name === 'string') ? `${rndName}@${control_name}` : `${rndName}${(() => (control_name.extend instanceof JsonUIElement) ? control_name.extend.getPath() : `@${control_name.extend}`)()}`
-                )()
+                control_name: (() => {
+                    if (control_name) {
+                        const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
+                        callback?.(this, rndName);
+                        return (control_name instanceof JsonUIElement)
+                            ? `${rndName}${control_name.getPath()}`
+                            : (typeof control_name === 'string')
+                                ? `${rndName}@${JsonUIElement}`
+                                : `${rndName}@${control_name?.extend}`;
+                    }
+                })(),
+                control_ids: <any>objectMap(control_id || {}, (v, k) => {
+                    if (control_id) {
+                        const rndName = (<ElementInterface>v)?.name || generateRandomName();
+                        callback?.(this, rndName);
+                        return {
+                            [k]: (v instanceof JsonUIElement)
+                                ? `${rndName}${v.getPath()}`
+                                : (typeof v === 'string')
+                                    ? `${rndName}@${JsonUIElement}`
+                                    : `${rndName}@${v?.extend}`
+                        }
+                    }
+                })
             }
         });
-        callback?.(this, rndName);
         return this;
     }
 

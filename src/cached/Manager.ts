@@ -100,10 +100,7 @@ export class CachedManager {
      * @param property - The property of the element.
      */
     static setElementProperty(data: JsonUIElement, namespace: string, property: JsonUIProperty) {
-        jsonUIObject.json[namespace][data.getElementJsonUIKey()] = {
-            ...jsonUIObject.json[namespace][data.getElementJsonUIKey()],
-            ...ModifyReadJsonUIProperty(property),
-        }
+        jsonUIObject.json[namespace][data.getElementJsonUIKey()] = ModifyReadJsonUIProperty(property);
     }
 
     /**

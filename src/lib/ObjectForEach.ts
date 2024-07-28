@@ -20,7 +20,7 @@ export function objectForEach(data: object, callback: (value: any, key: string) 
     for (const key in data) callback((data as any)[key], key);
 }
 
-export function objectMap(data: object, callback: (value: any, key: string) => object) {
+export function objectMap(data: object, callback: (value: any, key: string) => any) {
     objectForEach(data, (v, k) => {
         delete (<any>data)[k];
         data = {

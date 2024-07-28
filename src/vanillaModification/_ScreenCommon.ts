@@ -596,12 +596,12 @@ export class JsonUIObject {
      * @param data - The bindings to add.
      */
     addBindings(
-        data: (BindingInterface | string)[]
+        data: (BindingInterface | string | string[])[] | BindingInterface | string
     ) {
         const _data = CachedManager.readInitElement(this.screenInitKey, this.screenFile),
             bindings = _data.bindings || [];
 
-        bindings.push(BindingsHandle(data));
+        bindings.push(BindingsHandle(Array.isArray(data) ? data : [data]));
 
         CachedManager.writeInitElement(this.screenInitKey, this.screenFile, {
             ..._data,

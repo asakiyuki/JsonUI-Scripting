@@ -18,6 +18,9 @@ interface FactoryControlIDs {
 interface FactoryInterfaceObject {
     name?: GlobalTypes | string,
     control_name?: GlobalTypes | JsonUIElement,
+    control_ids?: {
+        [key: string]: GlobalTypes | JsonUIElement
+    },
     max_children_size?: GlobalTypes | Num
 }
 
