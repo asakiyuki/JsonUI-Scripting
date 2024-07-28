@@ -152,6 +152,18 @@ export class CachedManager {
         ]
     }
 
+    static getSpecialProperty(data: JsonUIElement, namespace: string) {
+        const v = jsonUIObject.json[namespace][data.getElementJsonUIKey()];
+        return {
+            controls: v.controls,
+            variables: v.variables,
+            bindings: v.bindings,
+            button_mappings: v.button_mappings,
+            anims: v.anims,
+            property_bag: v.property_bag
+        };
+    }
+
     static insertProperty(propertyName: string, data: JsonUIElement, namespace: string, value: object) {
         const json = jsonUIObject.json[namespace][data.getElementJsonUIKey()];
         json[propertyName] = {

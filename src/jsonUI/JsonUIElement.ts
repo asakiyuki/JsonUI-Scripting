@@ -424,11 +424,13 @@ Input
                 type: this.elementType,
                 properties: {
                     ...this.properties,
-                    ...properties
+                    ...properties,
+                    ...CachedManager.getSpecialProperty(this, this.data.namespace || '')
                 }
             }) : JsonUIElement.extendOf(this.getElementJsonUIKey().split('@')[1], {
                 ...this.properties,
-                ...properties
+                ...properties,
+                ...CachedManager.getSpecialProperty(this, this.data.namespace || '')
             });
     }
 
@@ -450,7 +452,7 @@ Input
      */
     addElement(
         value?: InsertElementInterface | JsonUIElement | string,
-        callback?: GetJsonUIGenerateName | null
+        callback?: GetJsonUIGenerateName
     ) {
         const isElement = value instanceof JsonUIElement;
         const name = (isElement || typeof value === 'string') ? generateRandomName() : value?.name || generateRandomName();
@@ -565,16 +567,14 @@ Input
      * @param callback - The callback function to be called after adding the variable.
      * @returns The instance of JsonUIElement for method chaining or the name of the variable.
      */
-    addVariable(propertyKey: string, default_value: any, callback?: ((arg: JsonUIElement, variable_name: string) => void) | null) {
+    addVariable(propertyKey: string, default_value: any, callback?: ((arg: JsonUIElement, variable_name: string) => void)) {
         const name = generateRandomName();
-        CachedManager.setElementProperty(this, this.data.namespace || "", {
+        this.setProperty({
             [propertyKey]: `$${name}`,
             [`$${name}|default`]: default_value
         });
-        if (callback === null || callback) {
-            callback?.(this, `$${name}`);
-            return `$${name}`;
-        } else return this;
+        callback?.(this, `$${name}`);
+        return this;
     }
 
     /**
@@ -593,10 +593,14 @@ Input
 
     setFactory(
         factory_data: FactoryInterface | string,
-        control_name?: ElementInterface | JsonUIElement | string,
-        control_id?: { [key: string]: ElementInterface | JsonUIElement | string },
+        control?: (ElementInterface | JsonUIElement | string)
+            | {
+                [key: string]: (ElementInterface | JsonUIElement | string)
+
+            },
         callback?: GetJsonUIGenerateName
     ) {
+        const isControlName = (typeof control === 'string') || (control instanceof JsonUIElement) || (control?.extend);
         this.setProperty({
             factory: {
                 ...(() => (typeof factory_data === 'string')
@@ -608,29 +612,33 @@ Input
                         max_children_size: factory_data.maxChild
                     })(),
                 control_name: (() => {
-                    if (control_name) {
-                        const rndName = (<ElementInterface>control_name)?.name || generateRandomName();
+                    if (isControlName) {
+                        const rndName = (<ElementInterface>control)?.name || generateRandomName();
                         callback?.(this, rndName);
-                        return (control_name instanceof JsonUIElement)
-                            ? `${rndName}${control_name.getPath()}`
-                            : (typeof control_name === 'string')
+                        return (control instanceof JsonUIElement)
+                            ? `${rndName}${control.getPath()}`
+                            : (typeof control === 'string')
                                 ? `${rndName}@${JsonUIElement}`
-                                : `${rndName}@${control_name?.extend}`;
+                                : `${rndName}@${control?.extend}`;
                     }
                 })(),
-                control_ids: <any>objectMap(control_id || {}, (v, k) => {
-                    if (control_id) {
-                        const rndName = (<ElementInterface>v)?.name || generateRandomName();
-                        callback?.(this, rndName);
-                        return {
-                            [k]: (v instanceof JsonUIElement)
-                                ? `${rndName}${v.getPath()}`
-                                : (typeof v === 'string')
-                                    ? `${rndName}@${JsonUIElement}`
-                                    : `${rndName}@${v?.extend}`
-                        }
+                control_ids: (() => {
+                    if (!isControlName) {
+                        return <any>objectMap(<any>control, (v, k) => {
+                            if (control) {
+                                const rndName = (<ElementInterface>v)?.name || generateRandomName();
+                                callback?.(this, rndName);
+                                return {
+                                    [k]: (v instanceof JsonUIElement)
+                                        ? `${rndName}${v.getPath()}`
+                                        : (typeof v === 'string')
+                                            ? `${rndName}@${JsonUIElement}`
+                                            : `${rndName}@${v?.extend}`
+                                }
+                            }
+                        })
                     }
-                })
+                })()
             }
         });
         return this;
