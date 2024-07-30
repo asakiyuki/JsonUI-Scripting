@@ -63,7 +63,10 @@ export class CachedManager {
      * @param value - The value to be written.
      */
     static writeInitElement(init_element: string, screen_file: string, value: any) {
-        jsonUIObject.modify[screen_file][init_element] = value;
+        jsonUIObject.modify[screen_file][init_element] = {
+            ...jsonUIObject.modify[screen_file][init_element],
+            ...value
+        };
     }
 
     static removeInitElement(init_element: string, screen_file: string) {
@@ -100,7 +103,10 @@ export class CachedManager {
      * @param property - The property of the element.
      */
     static setElementProperty(data: JsonUIElement, namespace: string, property: JsonUIProperty) {
-        jsonUIObject.json[namespace][data.getElementJsonUIKey()] = ModifyReadJsonUIProperty(property);
+        jsonUIObject.json[namespace][data.getElementJsonUIKey()] = {
+            type: jsonUIObject.json[namespace][data.getElementJsonUIKey()].type,
+            ...ModifyReadJsonUIProperty(property)
+        };
     }
 
     /**
@@ -159,8 +165,7 @@ export class CachedManager {
             variables: v.variables,
             bindings: v.bindings,
             button_mappings: v.button_mappings,
-            anims: v.anims,
-            property_bag: v.property_bag
+            anims: v.anims
         };
     }
 

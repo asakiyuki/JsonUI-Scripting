@@ -585,6 +585,12 @@ Input
     setProperty(
         data: JsonUIProperty
     ) {
+        delete this.properties.controls;
+        delete this.properties.button_mappings;
+        delete this.properties.factory;
+        delete this.properties.variables;
+        delete this.properties.anims;
+
         CachedManager.setElementProperty(this, this.data.namespace || "", {
             ...Object.assign(this.properties, data),
         });

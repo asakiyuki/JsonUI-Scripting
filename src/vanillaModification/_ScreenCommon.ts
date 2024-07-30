@@ -408,7 +408,7 @@ export class JsonUIObject {
                 arrayValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties || {}),
+                            ...ModifyReadJsonUIProperty((_v instanceof JsonUIElement) ? {} : (_v as InsertElementInterface)?.properties || {}),
                         }
                     }
                 ];
@@ -539,7 +539,7 @@ export class JsonUIObject {
                 arrValue = [
                     {
                         [`${name}${isElement ? (_v as JsonUIElement).getPath() : extend}`]: {
-                            ...ModifyReadJsonUIProperty((_v as InsertElementInterface)?.properties || {}),
+                            ...ModifyReadJsonUIProperty((_v instanceof JsonUIElement) ? {} : (_v as InsertElementInterface)?.properties || {}),
                         }
                     }
                 ];
@@ -691,14 +691,13 @@ export class JsonUIObject {
         if (isElement) controls.push({ [`${name}${value.getPath()}`]: {} });
         else if (typeof value === 'string') {
             this.addElement({ extend: value, name });
-            console.log('test')
             return this;
         }
         else {
             if (value?.extend instanceof JsonUIElement) value.extend = value.extend.getPath().slice(1);
             controls.push({
                 [`${name}@${value.extend}`]: {
-                    ...ModifyReadJsonUIProperty(value.properties || {})
+                    ...ModifyReadJsonUIProperty((value instanceof JsonUIElement) ? {} : value.properties || {})
                 }
             });
         }

@@ -11,8 +11,9 @@ const existPath: any = {};
 export class Texture {
 
     static from(path: string) {
-        if (existPath[path]) return `build/${existPath[path]}`;
-        else {
+        if (existPath[path]) {
+            return existPath[path];
+        } else {
             const rnd = generateRandomName();
             const $ = path.match(/\.[A-Z]+$/i);
             fs.copyFileSync(`.textures/${$ ? path : `${path}.png`}`, `.textures/.cached/${rnd}`);
