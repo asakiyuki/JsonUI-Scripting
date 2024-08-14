@@ -1,0 +1,1 @@
+export type Var = `$${string}` | [`$${string}`, any];
