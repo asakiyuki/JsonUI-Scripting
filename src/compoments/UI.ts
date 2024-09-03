@@ -1,9 +1,15 @@
 import { JsonBuilder } from "../compilers/JsonBuilder";
-import { ChildElement, ChildIdentifier } from "../types/compoments/ChildIdentifier";
+import {
+    ChildElement,
+    ChildIdentifier,
+} from "../types/compoments/ChildIdentifier";
 import { Identifier } from "../types/compoments/Identifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
-import { UIIdentifier } from "../types/compoments/UIIdentifier";
-import { ExtendInterface, StaticUIInterface, UIInterface } from "../types/compoments/UIInterface";
+import {
+    ExtendInterface,
+    StaticUIInterface,
+    UIInterface,
+} from "../types/compoments/UIInterface";
 import { Renderer } from "../types/enums/Renderer";
 import { Types } from "../types/enums/Types";
 import { Button } from "../types/objects/elements/Button";
@@ -26,9 +32,22 @@ import { Toggle } from "../types/objects/elements/Toggle";
 import { Properties } from "../types/objects/properties/Properties";
 import { Specials } from "../types/objects/properties/Specials";
 import { Random } from "./Random";
-import { Configs, ReadProperties } from "../";
+import {
+    Binding,
+    BindingInterface,
+    Configs,
+    Obj,
+    PropertyBag,
+    ReadProperties,
+    ReadValue,
+    Var,
+} from "../";
+import { ReadBinding } from "../compilers/ReadBinding";
+import { VariablesInterface } from "../types/objects/Variables";
 
-interface TypeExtend { [key: string]: string };
+interface TypeExtend {
+    [key: string]: string;
+}
 const typeExtend: TypeExtend = {};
 
 export class UI {
@@ -37,6 +56,8 @@ export class UI {
     namespace?: string;
     extends?: string;
     controls?: Array<ChildElement>;
+    bindings?: Array<BindingInterface>;
+    variables?: VariablesInterface;
     properties?: Properties;
 
     constructor(identifier: UIInterface | UI) {
@@ -47,24 +68,40 @@ export class UI {
             this.namespace = Random.getNamespace();
             this.extends = identifier.getPath();
         } else {
-            this.name = (!config.obfuscateElementNames && identifier?.name) || Random.getName();
-            this.namespace = (!config.obfuscateElementNames && identifier?.namespace) || Random.getNamespace();
+            this.name =
+                (!config.obfuscateElementNames && identifier?.name) ||
+                Random.getName();
+            this.namespace =
+                (!config.obfuscateElementNames && identifier?.namespace) ||
+                Random.getNamespace();
 
             if (identifier?.extends) {
-                if (identifier.type) { this.type = identifier.type };
+                if (identifier.type) {
+                    this.type = identifier.type;
+                }
 
-                if (identifier.extends instanceof UI) this.extends = `${identifier.extends.getPath()}`;
-                else if (typeof identifier.extends === 'string') this.extends = identifier.extends;
-                else this.extends = `${identifier.extends.namespace}.${identifier.extends.name}`
-
+                if (identifier.extends instanceof UI)
+                    this.extends = `${identifier.extends.getPath()}`;
+                else if (typeof identifier.extends === "string")
+                    this.extends = identifier.extends;
+                else
+                    this.extends = `${identifier.extends.namespace}.${identifier.extends.name}`;
             } else {
-                if (config.useExtendElementInsteadType && identifier.namespace !== 'element') {
+                if (
+                    config.useExtendElementInsteadType &&
+                    identifier.namespace !== "_type_c"
+                ) {
                     const type = identifier?.type || Types.Panel;
-                    this.extends = (typeExtend[type] ||= new UI({ name: type, namespace: 'element', type }).getPath());
+                    this.extends = typeExtend[type] ||= new UI({
+                        name: type,
+                        namespace: "_type_c",
+                        type,
+                    }).getPath();
                 } else this.type = identifier?.type || Types.Panel;
-            };
+            }
 
-            if (identifier?.properties) this.setProperties(identifier.properties);
+            if (identifier?.properties)
+                this.setProperties(identifier.properties);
         }
 
         JsonBuilder.registerElement(this.namespace, this);
@@ -75,166 +112,231 @@ export class UI {
             ...identifier,
             type: Types.Panel,
             properties,
-        })
-    };
+        });
+    }
     static stackPanel(properties?: StackPanel, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.StackPanel,
             properties,
-        })
-    };
-    static collectionPanel(properties?: CollectionPanel, identifier?: StaticUIInterface) {
+        });
+    }
+    static collectionPanel(
+        properties?: CollectionPanel,
+        identifier?: StaticUIInterface
+    ) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.CollectionPanel,
             properties,
-        })
-    };
+        });
+    }
     static inputPanel(properties?: InputPanel, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.InputPanel,
             properties,
-        })
-    };
+        });
+    }
     static grid(properties?: Grid, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Grid,
             properties,
-        })
-    };
+        });
+    }
     static button(properties?: Button, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Button,
             properties,
-        })
-    };
+        });
+    }
     static toggle(properties?: Toggle, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Toggle,
             properties,
-        })
-    };
+        });
+    }
     static label(properties?: Label, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Label,
             properties,
-        })
-    };
+        });
+    }
     static image(properties?: Image, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Image,
             properties,
-        })
-    };
+        });
+    }
     static dropdown(properties?: Dropdown, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Dropdown,
             properties,
-        })
-    };
+        });
+    }
     static slider(properties?: Slider, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Slider,
             properties,
-        })
-    };
+        });
+    }
     static sliderBox(properties?: SliderBox, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.SliderBox,
             properties,
-        })
-    };
+        });
+    }
     static editBox(properties?: EditBox, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.EditBox,
             properties,
-        })
-    };
+        });
+    }
     static scrollView(properties?: ScrollView, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.ScrollView,
             properties,
-        })
-    };
-    static scrollbarTrack(properties?: ScrollbarTrack, identifier?: StaticUIInterface) {
+        });
+    }
+    static scrollbarTrack(
+        properties?: ScrollbarTrack,
+        identifier?: StaticUIInterface
+    ) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.ScrollbarTrack,
             properties,
-        })
-    };
-    static scrollbarBox(properties?: ScrollbarBox, identifier?: StaticUIInterface) {
+        });
+    }
+    static scrollbarBox(
+        properties?: ScrollbarBox,
+        identifier?: StaticUIInterface
+    ) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.ScrollbarBox,
             properties,
-        })
-    };
+        });
+    }
     static screen(properties?: Screen, identifier?: StaticUIInterface) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Screen,
             properties,
-        })
-    };
-    static custom<T extends Renderer>(renderer: T, properties?: Panel | Specials[T], identifier?: StaticUIInterface) {
+        });
+    }
+    static custom<T extends Renderer>(
+        renderer: T,
+        properties?: Panel | Specials[T],
+        propertyBag?: PropertyBag,
+        identifier?: StaticUIInterface
+    ) {
         return new UI(<UIInterface>{
             ...identifier,
             type: Types.Custom,
             properties: {
                 ...properties,
-                renderer
+                property_bag: propertyBag,
+                renderer,
             },
-        })
-    };
-    static extend(extendElement?: string | Identifier | UI, properties?: Properties) {
+        });
+    }
+    static extend(
+        extendElement?: string | Identifier | UI,
+        properties?: Properties
+    ) {
         return new UI({
             extends: extendElement,
-            properties
+            properties,
         });
-    };
+    }
 
     setProperties(properties: Properties) {
         this.properties = {
-            ...this.properties || {},
-            ...properties
+            ...(this.properties || {}),
+            ...properties,
         };
         return this;
     }
 
-    addChild(child: string | UI | ChildIdentifier, callback?: UIChildNameCallback) {
+    addChild(
+        child: string | UI | ChildIdentifier,
+        callback?: UIChildNameCallback
+    ) {
         if (!this.controls) this.controls = [];
-        if (typeof child === 'string')
-            this.controls.push({ [`${child}`]: {} })
+        if (typeof child === "string") this.controls.push({ [`${child}`]: {} });
         else if (child instanceof UI) {
             const name = Random.getName();
             this.controls.push({ [`${name}${child.getElement()}`]: {} });
             callback?.(this, name);
         } else {
             child.name ??= Random.getName();
-            if (child.extend instanceof UI) child.extend = child.extend.getPath();
-            else if (typeof child.extend === 'object') child.extend = `${child.extend.namespace}.${child.extend.name}`;
-            this.controls.push({ [`${child.name}@${child.extend}`]: child.properties || {} });
+            if (child.extend instanceof UI)
+                child.extend = child.extend.getPath();
+            else if (typeof child.extend === "object")
+                child.extend = `${child.extend.namespace}.${child.extend.name}`;
+            this.controls.push({
+                [`${child.name}@${child.extend}`]: ReadProperties(
+                    child.properties || {}
+                ),
+            });
             callback?.(this, child.name);
         }
         return this;
     }
 
+    addBindings(
+        bindings:
+            | BindingInterface
+            | Binding
+            | Var
+            | (BindingInterface | Binding | Var)[]
+    ) {
+        if (Array.isArray(bindings))
+            for (const binding of bindings) this.addBindings(binding);
+        else (this.bindings ||= []).push(ReadBinding(<any>bindings));
+        return this;
+    }
+
+    addVariables(variables: VariablesInterface) {
+        this.variables ||= {};
+
+        Obj.forEach(variables, (key, value) => {
+            (<any>this.variables)[key] = {
+                ...this.variables,
+                ...Obj.map(value, (k, v) => {
+                    return { key: k, value: ReadValue(v) };
+                }),
+            };
+        });
+
+        return this;
+    }
+
     getUI() {
         const code: any = ReadProperties(<any>(this.properties ?? {}));
-        if (this.type) code['type'] = this.type;
+
+        for (const key of ["type", "controls", "bindings", "button_mappings"])
+            if ((<any>this)[key]) code[key] = (<any>this)[key];
+
+        if (this.variables)
+            Obj.forEach(this.variables, (k, v) => {
+                (code.variables ||= []).push({
+                    requires: k,
+                    ...v,
+                });
+            });
+
         return code;
     }
 
@@ -247,31 +349,23 @@ export class UI {
     }
 
     getFullPath(): string {
-        return `${this.name}${this.extends ? `@${this.extends}` : ''}`;
-    }
-
-    clone(identifier?: UIIdentifier) {
-        const cloneElement = Object.assign({}, this);
-        cloneElement.name = identifier?.name || Random.getName();
-        cloneElement.namespace = identifier?.namespace || Random.getNamespace();
-        JsonBuilder.registerElement(cloneElement.namespace, cloneElement);
-        return cloneElement;
+        return `${this.name}${this.extends ? `@${this.extends}` : ""}`;
     }
 
     extend(identifier?: ExtendInterface, properties?: Properties) {
         return new UI({
             ...identifier,
             extends: this,
-            properties
+            properties,
         });
-    };
+    }
 
-    private static apply() { };
-    private static arguments = '';
-    private static bind() { };
-    private static call() { };
-    private static caller = '';
-    private static length = '';
-    private static name = '';
-    private static toString() { };
+    private static apply() {}
+    private static arguments = "";
+    private static bind() {}
+    private static call() {}
+    private static caller = "";
+    private static length = "";
+    private static name = "";
+    private static toString() {}
 }

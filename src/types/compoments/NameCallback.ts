@@ -1,3 +1,4 @@
-import { UI } from "../../compoments/UI"
+import { Modify } from "../../compoments/Modify";
+import { UI } from "../../compoments/UI";
 
-export type UIChildNameCallback = (arg: UI, name: string) => void
+export type UIChildNameCallback = (arg: UI | Modify, name: string) => void;

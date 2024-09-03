@@ -4,17 +4,18 @@ import { BindingName } from "../enums/BindingName";
 import { Collection } from "../enums/Collection";
 import { BindingCondition } from "../enums/BindingCondition";
 import { Str } from "../values/Str";
+import { Var } from "../values/Variable";
 
 export interface BindingInterface {
-    ignored?: Bool,
-    binding_type?: BindingType,
-    binding_name?: BindingName,
-    binding_name_override?: BindingName
-    binding_collection_name?: Collection,
-    binding_collection_prefix?: Str,
-    binding_condition?: BindingCondition,
-    source_control_name?: Str,
-    source_property_name?: BindingName,
-    target_property_name?: BindingName,
-    resolve_sibling_scope?: Bool
+    ignored?: Var | Bool;
+    binding_type?: Var | BindingType;
+    binding_name?: Var | BindingName;
+    binding_name_override?: Var | BindingName;
+    binding_collection_name?: Var | Collection;
+    binding_collection_prefix?: Var | Str;
+    binding_condition?: Var | BindingCondition;
+    source_control_name?: Var | Str;
+    source_property_name?: string;
+    target_property_name?: Var | BindingName;
+    resolve_sibling_scope?: Var | Bool;
 }

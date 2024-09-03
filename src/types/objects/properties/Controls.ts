@@ -22,5 +22,5 @@ export interface Controls {
     animation_reset_name?: Str,
     ignored?: Bool,
     grid_position?: Vector2,
-    collection_index?: Int
+    collection_index?: Int,
 };

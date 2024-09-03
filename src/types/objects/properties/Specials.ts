@@ -7,7 +7,7 @@ import { Var } from "../../values/Variable";
 import { Vector4 } from "../../values/Vector";
 
 export interface Special {
-    gradient_direction: Var | Orientation,
+    gradient_direction?: Var | Orientation,
     color1?: Vector4,
     color2?: Vector4,
     text_color?: Vector4,
@@ -24,7 +24,7 @@ export interface Special {
 };
 
 interface Gradient {
-    gradient_direction: Var | Orientation,
+    gradient_direction?: Var | Orientation,
     color1?: Vector4,
     color2?: Vector4
 }

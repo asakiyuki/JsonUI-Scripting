@@ -1,7 +1,7 @@
-import { ColorVector3 } from "../../values/ColorVector";
 import { Buttons } from "./Buttons";
 import { CollectionIndexs } from "./CollectionIndexs";
 import { Collections } from "./Collections";
+import { Controls } from "./Controls";
 import { Dropdowns } from "./Dropdowns";
 import { Focus } from "./Focus";
 import { Girds } from "./Girds";
@@ -27,6 +27,7 @@ export interface Properties extends
     Buttons,
     CollectionIndexs,
     Collections,
+    Controls,
     Dropdowns,
     Focus,
     Girds,

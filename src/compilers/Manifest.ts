@@ -1,26 +1,35 @@
 import { UUID } from "crypto";
-import { ManifestInterface, SemverString, Type, Version } from "../types/objects/Manifest";
+import {
+    ManifestInterface,
+    SemverString,
+    Type,
+    Version,
+} from "../types/objects/Manifest";
 import { Save } from "./Save";
 
 interface ManifestHeader {
-    name: string,
-    description?: string,
-    uuid?: UUID,
-    version?: Version | SemverString
-};
+    name: string;
+    description?: string;
+    uuid?: UUID;
+    version?: Version | SemverString;
+}
 
 interface ManifestMetadata {
-    authors?: Array<string>,
-    license?: string,
-    url?: string,
-    producType?: string,
-    generatedWith?: object
-};
+    authors?: Array<string>;
+    license?: string;
+    url?: string;
+    producType?: string;
+    generatedWith?: object;
+}
 
 export class Manifest {
     manifest: ManifestInterface;
 
-    constructor(header: ManifestHeader, type: Type = Type.Resources, metadata?: ManifestMetadata) {
+    constructor(
+        header: ManifestHeader,
+        type: Type = Type.Resources,
+        metadata?: ManifestMetadata
+    ) {
         const uuid = Save.uuid();
 
         this.manifest = {
@@ -34,7 +43,7 @@ export class Manifest {
             modules: {
                 type: type,
                 uuid: uuid[1],
-                version: [1, 0, 0]
+                version: [1, 0, 0],
             },
             metadata: metadata && {
                 authors: metadata.authors,
@@ -42,11 +51,11 @@ export class Manifest {
                 url: metadata.url,
                 product_type: metadata.producType,
                 generated_with: metadata.generatedWith,
-            }
-        }
+            },
+        };
     }
 
     buildJson() {
         return JSON.stringify(this.manifest, null, 4);
     }
-};
+}
