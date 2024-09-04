@@ -1,4 +1,4 @@
-import { UUID } from "crypto";
+import { UUID } from "../types/objects/Manifest";
 import { Class } from "./Class";
 import { Configs } from "../compilers/Config";
 

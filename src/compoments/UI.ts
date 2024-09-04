@@ -270,7 +270,7 @@ export class UI {
     }
 
     addChild(
-        child: string | UI | ChildIdentifier,
+        child: string | ChildIdentifier | UI,
         callback?: UIChildNameCallback
     ) {
         if (!this.controls) this.controls = [];

@@ -12,6 +12,8 @@ export * from "./compilers/ReadProperties";
 export * from "./compilers/Save";
 export * from "./compilers/SearchFiles";
 export * from "./compilers/UIBuilder";
+export * from "./compoments/AddCollectionChill";
+export * from "./compoments/Anims";
 export * from "./compoments/Modify";
 export * from "./compoments/Random";
 export * from "./compoments/UI";
