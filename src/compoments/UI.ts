@@ -42,7 +42,7 @@ import {
     ReadValue,
     Var,
 } from "../";
-import { ReadBinding } from "../compilers/ReadBinding";
+import { ReadBinding } from "../compilers/BindingCompiler";
 import { VariablesInterface } from "../types/objects/Variables";
 
 interface TypeExtend {
@@ -262,6 +262,12 @@ export class UI {
     }
 
     setProperties(properties: Properties) {
+        if (properties.property_bag) {
+            properties.property_bag = {
+                ...this.properties?.property_bag,
+                ...properties.property_bag,
+            };
+        }
         this.properties = {
             ...(this.properties || {}),
             ...properties,
@@ -304,7 +310,7 @@ export class UI {
     ) {
         if (Array.isArray(bindings))
             for (const binding of bindings) this.addBindings(binding);
-        else (this.bindings ||= []).push(ReadBinding(<any>bindings));
+        else (this.bindings ||= []).push(ReadBinding(<any>bindings, this));
         return this;
     }
 

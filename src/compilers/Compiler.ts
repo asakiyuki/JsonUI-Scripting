@@ -16,10 +16,9 @@ export const installer = new ResourcePacks({
 });
 
 function manifestBuild() {
-    const { name, description, baseGameVersion, uuid, version } =
-        config.manifest;
+    const { name, description, uuid, version } = config.manifest;
     const manifest = new Manifest({ name, description, uuid, version });
-    manifest.manifest.header.base_game_version = baseGameVersion;
+    manifest.manifest.header.min_engine_version = [1, 21, 0];
     fs.writeFileSync(".build/manifest.json", manifest.buildJson(), "utf-8");
 }
 

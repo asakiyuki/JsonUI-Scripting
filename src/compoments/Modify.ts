@@ -1,6 +1,6 @@
 import { JsonBuilder } from "../compilers/JsonBuilder";
 import { Obj } from "../compilers/Object";
-import { ReadBinding } from "../compilers/ReadBinding";
+import { ReadBinding } from "../compilers/BindingCompiler";
 import { ReadProperties, ReadValue } from "../compilers/ReadProperties";
 import {
     ChildElement,
@@ -15,7 +15,7 @@ import { Var } from "../types/values/Variable";
 import { Random } from "./Random";
 import { UI } from "./UI";
 
-interface OverrideInterface {
+export interface OverrideInterface {
     setProperties(properties: Properties): OverrideInterface;
     addChild(
         child: string | ChildIdentifier | UI,
@@ -81,7 +81,10 @@ export class Modify {
             if (Array.isArray(bindings))
                 for (const binding of bindings)
                     this.override.addBindings(binding);
-            else (this.bindings ||= []).push(ReadBinding(<any>bindings));
+            else
+                (this.bindings ||= []).push(
+                    ReadBinding(<any>bindings, this.override)
+                );
             return this.override;
         },
 

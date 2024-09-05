@@ -40,11 +40,13 @@ export class Manifest {
                 description: header.description,
                 version: header.version || [1, 0, 0],
             },
-            modules: {
-                type: type,
-                uuid: uuid[1],
-                version: [1, 0, 0],
-            },
+            modules: [
+                {
+                    type: type,
+                    uuid: uuid[1],
+                    version: [1, 0, 0],
+                },
+            ],
             metadata: metadata && {
                 authors: metadata.authors,
                 license: metadata.license,
