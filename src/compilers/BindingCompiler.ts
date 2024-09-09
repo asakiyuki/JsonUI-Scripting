@@ -65,82 +65,6 @@ export function GetBindingTokens(propertyName: string) {
 
     let index = 0;
     for (const char of propertyName) {
-        index++;
-        if (skipIndex === 0) {
-            if (isString) {
-                if (char === "{") {
-                    templateStringCount++;
-                    token += char;
-                } else if (char === "}") {
-                    templateStringCount--;
-                    token += char;
-                } else if (char === "'" && !templateStringCount) {
-                    isString = false;
-                    token += "'";
-                } else token += char;
-            } else {
-                if (char === " " && !parenthesesCount && !functionCount) {
-                    continue;
-                } else if (
-                    /[+*-/><=!&|]/.test(char) &&
-                    !parenthesesCount &&
-                    !functionCount
-                ) {
-                    if (
-                        !/^-(\d+|(\d+\.\d+))/.test(
-                            propertyName.slice(index - 1)
-                        ) &&
-                        token !== ""
-                    ) {
-                        if (/[!><]=/.test(`${char}${propertyName[index]}`)) {
-                            tokens.push(token, `${char}${propertyName[index]}`);
-                            token = "";
-                        } else {
-                            tokens.push(token, char);
-                            token = "";
-                        }
-                    } else if (["!", "&", "|"].includes(char)) {
-                        tokens.push(token, char);
-                        token = "";
-                    } else token = "";
-                } else if (
-                    /\d/.test(char) &&
-                    !parenthesesCount &&
-                    !functionCount
-                ) {
-                    if (token !== "") tokens.push(token);
-                    token =
-                        propertyName
-                            .slice(index - 1)
-                            .match(/((\d+\.\d+)|\d+)|((\d+\.\d+)|\d+)/)?.[0] ||
-                        "";
-
-                    skipIndex = token.length - 1;
-                } else if (char === "(" && !functionCount) {
-                    if (parenthesesCount++ === 0) {
-                        if (token !== "") tokens.push(token);
-                        token = char;
-                    } else token += char;
-                } else if (char === ")" && !functionCount) {
-                    --parenthesesCount;
-                    token += char;
-                } else if (char === "'") {
-                    isString = true;
-                    if (!functionCount && !parenthesesCount) {
-                        if (token !== "") tokens.push(token);
-                        token = "'";
-                    } else token += char;
-                } else if (char === "[") {
-                    functionCount++;
-                    token += char;
-                } else if (char === "]") {
-                    functionCount--;
-                    token += char;
-                } else {
-                    token += char;
-                }
-            }
-        } else skipIndex--;
     }
 
     if (token !== "") tokens.push(token);
@@ -149,7 +73,6 @@ export function GetBindingTokens(propertyName: string) {
 }
 
 export function BuildString(str: string, UIElement: UI | OverrideInterface) {
-    const bindingName: Binding = `#${Random.getName()}`;
     const tokens: Array<string> = [];
 
     let templateStringCount = 0,
@@ -171,12 +94,18 @@ export function BuildString(str: string, UIElement: UI | OverrideInterface) {
 
     if (token !== "") tokens.push(`'${token}'`);
 
-    UIElement.addBindings({
-        source_property_name: `(${tokens.join(" + ")})`,
-        target_property_name: bindingName,
-    });
+    if (tokens.length <= 1) {
+        return str;
+    } else {
+        const bindingName: Binding = `#${Random.getName()}`;
 
-    return bindingName;
+        UIElement.addBindings({
+            source_property_name: `(${tokens.join(" + ")})`,
+            target_property_name: bindingName,
+        });
+
+        return bindingName;
+    }
 }
 
 export function BuildFunction(
@@ -260,6 +189,6 @@ export function BuildBinding(
     propertyName: string,
     UIElement: UI | OverrideInterface
 ) {
-    const result = BuildFromTokens(GetBindingTokens(propertyName), UIElement);
+    let result = BuildFromTokens(GetBindingTokens(propertyName), UIElement);
     return result.slice(0, result.length - 1);
 }
