@@ -7,7 +7,7 @@ export * from "./compilers/Installer";
 export * from "./compilers/JsonBuilder";
 export * from "./compilers/Manifest";
 export * from "./compilers/Object";
-export * from "./compilers/BindingCompiler";
+export * from "./compilers/ReadBinding";
 export * from "./compilers/ReadProperties";
 export * from "./compilers/Save";
 export * from "./compilers/SearchFiles";

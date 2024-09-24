@@ -42,7 +42,7 @@ import {
     ReadValue,
     Var,
 } from "../";
-import { ReadBinding } from "../compilers/BindingCompiler";
+import { ReadBinding } from "../compilers/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
 
 interface TypeExtend {

@@ -1,6 +1,6 @@
 import { JsonBuilder } from "../compilers/JsonBuilder";
 import { Obj } from "../compilers/Object";
-import { ReadBinding } from "../compilers/BindingCompiler";
+import { ReadBinding } from "../compilers/ReadBinding";
 import { ReadProperties, ReadValue } from "../compilers/ReadProperties";
 import {
     ChildElement,
