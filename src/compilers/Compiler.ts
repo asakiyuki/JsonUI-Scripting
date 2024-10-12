@@ -24,11 +24,30 @@ function manifestBuild() {
 
 process.on("beforeExit", () => {
     UIBuilder.delete();
-    UIBuilder.jsonUI();
-    UIBuilder.modify();
-    UIBuilder.uiDefs();
-    manifestBuild();
-    new Configs();
+    try {
+        console.log(Array.from({ length: 50 }, () => "-").join(""));
+        console.timeLog(
+            "Compiler",
+            `>> ${UIBuilder.jsonUI()} custom file(s) compiled!`
+        );
+        console.log();
+        console.timeLog(
+            "Compiler",
+            `>> ${UIBuilder.modify()} modify file(s) compiled!`
+        );
+        console.log();
+        console.timeLog(
+            "Compiler",
+            `>> ${UIBuilder.uiDefs()} files path found!`
+        );
+        console.log();
+        manifestBuild();
+        console.timeLog("Compiler", `>> Manifest file has been compiled!`);
+        console.timeLog("Compiler", ">> Compile completed!");
+    } catch (error) {
+        console.timeLog("Compiler", ">> An error occurred while compiling!");
+        console.error(error);
+    }
 });
 
 export {};

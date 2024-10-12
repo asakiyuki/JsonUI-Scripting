@@ -1,5 +1,6 @@
 import fs from "fs-extra";
 import { SemverString, UUID, Version } from "../types/objects/Manifest";
+import { Save } from "./Save";
 
 export interface GlobalResourcePacks {
     pack_id: UUID;
@@ -100,10 +101,7 @@ export class ResourcePacks {
         fs.writeJSONSync(this.globalResoucePacksPath, globalResourcePacks);
     }
 
-    mkpack(folderName: string) {
-        const path = `${this.installPath}/${folderName}`;
-        if (fs.existsSync(path)) fs.removeSync(path);
-        fs.mkdirSync(path);
-        return path;
+    getInstallPath() {
+        return `${this.installPath}/${Save.getBuildID()}`;
     }
 }

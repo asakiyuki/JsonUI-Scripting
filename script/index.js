@@ -18,4 +18,8 @@ function searchFilePaths(path = "", isStart = true) {
         ? [`export * from "./compilers/Config";`, ...importArr].join("\n")
         : importArr;
 }
-fs.writeFileSync("./src/index.ts", searchFilePaths(), "utf-8");
+fs.writeFileSync(
+    "./src/index.ts",
+    `console.time("Compiler");\n${searchFilePaths()}`,
+    "utf-8"
+);

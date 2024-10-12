@@ -53,4 +53,7 @@ export class Save extends Class {
             folderName: Random.getName(),
         }));
     }
+    static getBuildID() {
+        return Save.createJson("buildID", () => [Random.getName()])[0];
+    }
 }

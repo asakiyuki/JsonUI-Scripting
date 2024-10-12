@@ -1,3 +1,4 @@
+console.time("Compiler");
 export * from "./compilers/Config";
 export * from "./compilers/BindingCompiler";
 export * from "./compilers/Color";
@@ -50,6 +51,7 @@ export * from "./types/enums/Scope";
 export * from "./types/enums/TextTypes";
 export * from "./types/enums/TextureFileSystem";
 export * from "./types/enums/Types";
+export * from "./types/objects/BindingHook";
 export * from "./types/objects/BindingInterface";
 export * from "./types/objects/elements/Button";
 export * from "./types/objects/elements/CollectionPanel";
