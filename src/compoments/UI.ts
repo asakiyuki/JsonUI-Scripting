@@ -44,6 +44,7 @@ import {
 } from "../";
 import { ReadBinding } from "../compilers/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
+import { BindingHook } from "../types/objects/BindingHook";
 
 interface TypeExtend {
     [key: string]: string;
@@ -51,14 +52,14 @@ interface TypeExtend {
 const typeExtend: TypeExtend = {};
 
 export class UI {
-    type?: string;
     name?: string;
     namespace?: string;
     extends?: string;
-    controls?: Array<ChildElement>;
-    bindings?: Array<BindingInterface>;
-    variables?: VariablesInterface;
-    properties?: Properties;
+    private type?: string;
+    private controls?: Array<ChildElement>;
+    private bindings?: Array<BindingInterface>;
+    private variables?: VariablesInterface;
+    private properties?: Properties;
 
     constructor(identifier: UIInterface | UI) {
         const config = Configs.getConfig();
@@ -259,6 +260,41 @@ export class UI {
             extends: extendElement,
             properties,
         });
+    }
+
+    searchBinding(
+        bindingName: Binding,
+        controlName?: string,
+        targetBindingName?: Binding
+    ) {
+        for (let index = 0; index < (this.bindings?.length || 0); index++) {
+            const binding = this.bindings?.[index];
+            if (controlName) {
+                if (
+                    binding?.source_control_name === controlName &&
+                    binding.source_property_name === bindingName
+                ) {
+                    if (targetBindingName) {
+                        if (
+                            binding.target_property_name === targetBindingName
+                        ) {
+                            return targetBindingName;
+                        } else return undefined;
+                    } else return binding.target_property_name;
+                }
+            } else {
+                if (binding?.source_property_name === bindingName) {
+                    if (targetBindingName) {
+                        if (
+                            binding.target_property_name === targetBindingName
+                        ) {
+                            return targetBindingName;
+                        } else return undefined;
+                    } else return binding.target_property_name;
+                }
+            }
+        }
+        return undefined;
     }
 
     setProperties(properties: Properties) {

@@ -7,6 +7,7 @@ import {
     ChildIdentifier,
 } from "../types/compoments/ChildIdentifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
+import { BindingName } from "../types/enums/BindingName";
 import { BindingInterface } from "../types/objects/BindingInterface";
 import { Properties } from "../types/objects/properties/Properties";
 import { VariablesInterface } from "../types/objects/Variables";
@@ -29,10 +30,11 @@ export interface OverrideInterface {
             | Array<BindingInterface | Binding | Var>
     ): OverrideInterface;
     addVariables(variables: VariablesInterface): OverrideInterface;
+    searchBinding(bindingName: BindingName, controlName: string): any;
 }
 
 export class Modify {
-    properties: Properties = {};
+    private properties: Properties = {};
     override: OverrideInterface = {
         /** Override properties for Modify UI Element */
         setProperties: (properties: Properties) => {
@@ -103,10 +105,47 @@ export class Modify {
 
             return this.override;
         },
+
+        searchBinding: (
+            bindingName: Binding,
+            controlName?: string,
+            targetBindingName?: Binding
+        ) => {
+            for (let index = 0; index < (this.bindings?.length || 0); index++) {
+                const binding = this.bindings?.[index];
+                if (controlName) {
+                    if (
+                        binding?.source_control_name === controlName &&
+                        binding.source_property_name === bindingName
+                    ) {
+                        if (targetBindingName) {
+                            if (
+                                binding.target_property_name ===
+                                targetBindingName
+                            ) {
+                                return targetBindingName;
+                            } else return undefined;
+                        } else return binding.target_property_name;
+                    }
+                } else {
+                    if (binding?.source_property_name === bindingName) {
+                        if (targetBindingName) {
+                            if (
+                                binding.target_property_name ===
+                                targetBindingName
+                            ) {
+                                return targetBindingName;
+                            } else return undefined;
+                        } else return binding.target_property_name;
+                    }
+                }
+            }
+            return undefined;
+        },
     };
-    controls?: Array<ChildElement>;
-    bindings?: Array<BindingInterface>;
-    variables?: VariablesInterface;
+    private controls?: Array<ChildElement>;
+    private bindings?: Array<BindingInterface>;
+    private variables?: VariablesInterface;
 
     /** Constructor of Modify Minecraft Modify UI Element */
     private constructor(properties?: Properties) {

@@ -1,6 +1,9 @@
 import { UI } from "../compoments/UI";
 import { OverrideInterface } from "../compoments/Modify";
 import { Random } from "../compoments/Random";
+import { Items } from "../compoments/ItemDatas";
+import { Obj } from "./Object";
+import { log } from "console";
 
 interface BindingFunctionObject {
     [key: string]: (
@@ -8,10 +11,88 @@ interface BindingFunctionObject {
         params: Array<string>
     ) => string;
 }
+
 const funcObj: BindingFunctionObject = {
-    log: (arg, params) => {
-        console.log(...params);
-        return `${params.join(" ")}`;
+    mod: (arg, params) => {
+        const bindingName = `#${Random.getName()}`;
+
+        const [a, b] = params;
+        arg.addBindings({
+            source_property_name: [`${a} % ${b}`],
+            target_property_name: <any>bindingName,
+        });
+
+        return bindingName;
+    },
+    isEven: (arg, params) => {
+        const bindingName = `#${Random.getName()}`;
+        if (params.length > 1) {
+            params.map((binding) => {
+                const bindingName = `#${Random.getName()}`;
+                arg.addBindings({
+                    source_property_name: [`mod(${binding}, 2) == 0`],
+                    target_property_name: <any>bindingName,
+                });
+                return bindingName;
+            });
+            arg.addBindings({
+                source_property_name: `(${params.join(" and ")})`,
+                target_property_name: <any>bindingName,
+            });
+        } else {
+            arg.addBindings({
+                source_property_name: [`mod(${params[0]}, 2) == 0`],
+                target_property_name: <any>bindingName,
+            });
+        }
+
+        return bindingName;
+    },
+    isOdd: (arg, params) => {
+        const bindingName = `#${Random.getName()}`;
+        if (params.length > 1) {
+            params.map((binding) => {
+                const bindingName = `#${Random.getName()}`;
+                arg.addBindings({
+                    source_property_name: [`mod(${binding}, 2) == 0`],
+                    target_property_name: <any>bindingName,
+                });
+                return bindingName;
+            });
+            arg.addBindings({
+                source_property_name: `(${params.join(" and ")})`,
+                target_property_name: <any>bindingName,
+            });
+        } else {
+            arg.addBindings({
+                source_property_name: [`mod(${params[0]}, 2) == 1`],
+                target_property_name: <any>bindingName,
+            });
+        }
+
+        return bindingName;
+    },
+    getItemID: (arg, [identification]) => {
+        const bindingName: any = `#${Random.getName()}`;
+
+        arg.setProperties({
+            property_bag: {
+                [bindingName]: Items.getID(identification),
+            },
+        });
+
+        return bindingName;
+    },
+    getItemAuxID: (arg, [identification]) => {
+        const bindingName: any = `#${Random.getName()}`;
+
+        arg.setProperties({
+            property_bag: {
+                [bindingName]: Items.getAuxID(identification),
+            },
+        });
+
+        return bindingName;
     },
 };
 
@@ -30,6 +111,8 @@ export class BindingCompiler {
                 );
             else if (this.isFunction(token)) {
                 return <string>this.functionHandler(token, arg);
+            } else if (this.isString(token)) {
+                return <string>this.stringHandler(token, arg);
             } else return token;
         });
 
@@ -49,7 +132,7 @@ export class BindingCompiler {
             else if (token === "<=")
                 build += `< ${nextToken} or ${lastToken} = `;
             else if (token === "%") {
-                build += `(${lastToken} / ${nextToken} * ${nextToken} - ${nextToken}) `;
+                build += `(${lastToken} - (${lastToken} / ${nextToken} * ${nextToken})) `;
             } else if (token === "!=") build += "= ";
             else {
                 if (nextToken === "!=") build += `not (${token} `;
@@ -99,6 +182,46 @@ export class BindingCompiler {
         return tokens;
     }
 
+    static stringHandler(token: string, arg: UI | OverrideInterface) {
+        const tokens = this.getStringTokens(
+            token.slice(1, token.length - 1)
+        ).map((token) => {
+            if (this.isStringCode(token))
+                return BindingCompiler.build(
+                    token.slice(1, token.length - 1),
+                    arg
+                );
+            else return `'${token}'`;
+        });
+        return `(${tokens.join(" + ")})`;
+    }
+
+    static getStringTokens(token: string) {
+        const tokens: Array<string> = [];
+        let bracketsCount = 0,
+            strToken = "";
+
+        for (const char of token) {
+            if (char === "{") {
+                if (bracketsCount++ === 0) {
+                    tokens.push(strToken);
+                    strToken = "";
+                }
+                strToken += char;
+            } else if (char === "}") {
+                strToken += char;
+                if (--bracketsCount === 0) {
+                    tokens.push(strToken);
+                    strToken = "";
+                }
+            } else strToken += char;
+        }
+
+        if (strToken !== "") tokens.push(strToken);
+
+        return tokens;
+    }
+
     static functionHandler(token: string, arg: UI | OverrideInterface) {
         const func = this.readFunctionFromToken(
             this.getTokens(this.splitString(token)),
@@ -111,8 +234,9 @@ export class BindingCompiler {
             str = funcObj[func.name](arg, func.params);
         } else {
             console.warn(
-                `[Compile error] Function ${func.name} is not available!`
+                `[Compile error] Cannot found '${func.name}' function!`
             );
+            str = `'[Compile Error: function >>${func.name}<< not found!]'`;
         }
 
         return str;
@@ -126,12 +250,19 @@ export class BindingCompiler {
         tokens = tokens.slice(2, tokens.length - 1);
 
         const params: Array<string> = [];
-        let param = "";
+        let param = "",
+            $ = 0;
 
         for (const token of tokens) {
-            if (token === ",") {
+            if (token === "," && !$) {
                 params.push(param);
                 param = "";
+            } else if (token === "(") {
+                $++;
+                param += token;
+            } else if (token === ")") {
+                $--;
+                param += token;
             } else param += token;
         }
         if (param !== "") params.push(param);
@@ -139,14 +270,18 @@ export class BindingCompiler {
         return {
             name,
             params: params.map((token) => {
-                if (this.isFunction(token))
-                    return this.functionHandler(token, arg);
-                else if (this.isCodeBlock(token))
-                    return this.buildNewBinding(
-                        token.slice(1, token.length - 1),
-                        arg
-                    );
-                else return token;
+                if (this.getTokens(this.splitString(token)).length > 1) {
+                    if (this.isFunction(token))
+                        return this.functionHandler(token, arg);
+                    else if (this.isCodeBlock(token))
+                        return this.buildNewBinding(
+                            token.slice(1, token.length - 1),
+                            arg
+                        );
+                    else return this.buildNewBinding(token, arg);
+                } else {
+                    return token;
+                }
             }),
         };
     }
@@ -203,15 +338,29 @@ export class BindingCompiler {
 
     static buildNewBinding(token: string, arg: UI | OverrideInterface) {
         const rndName: `#${string}` = `#${Random.getName()}`;
-        arg.addBindings({
-            source_property_name: [token],
-            target_property_name: rndName,
-        });
+
+        if (this.isHasBinding(token)) {
+            arg.addBindings({
+                source_property_name: [token],
+                target_property_name: rndName,
+            });
+        } else {
+            arg.setProperties({
+                property_bag: {
+                    [rndName]: this.compile(token, arg),
+                },
+            });
+        }
+
         return rndName;
     }
 
     static isString(token: string) {
         return /^'.+'$/.test(token);
+    }
+
+    static isStringCode(token: string) {
+        return /^{.+}$/.test(token);
     }
 
     static isNegativeNumber(token: string) {
@@ -244,5 +393,9 @@ export class BindingCompiler {
 
     static isHasBinding(token: string) {
         return /#\w+/.test(token);
+    }
+
+    static isNumber(value: string) {
+        return !Number.isNaN(+value);
     }
 }
