@@ -2,8 +2,6 @@ import { UI } from "../compoments/UI";
 import { OverrideInterface } from "../compoments/Modify";
 import { Random } from "../compoments/Random";
 import { Items } from "../compoments/ItemDatas";
-import { Obj } from "./Object";
-import { log } from "console";
 
 interface BindingFunctionObject {
     [key: string]: (
@@ -24,6 +22,55 @@ const funcObj: BindingFunctionObject = {
 
         return bindingName;
     },
+
+    sum: (arg, params) => {
+        const bindingName = `#${Random.getName()}`;
+        arg.addBindings({
+            source_property_name: `(${params.join(" + ")})`,
+            target_property_name: <any>bindingName,
+        });
+        return bindingName;
+    },
+
+    max: (arg, params) => {
+        let current = params[0];
+
+        for (const nextBinding of params.slice(1)) {
+            arg.addBindings({
+                source_property_name: [
+                    `(${current} >= ${nextBinding}) * ${current} + (${current} < ${nextBinding}) * ${nextBinding}`,
+                ],
+                target_property_name: <any>(current = `#${Random.getName()}`),
+            });
+        }
+
+        return current;
+    },
+
+    min: (arg, params) => {
+        let current = params[0];
+
+        for (const nextBinding of params.slice(1)) {
+            arg.addBindings({
+                source_property_name: [
+                    `(${current} <= ${nextBinding}) * ${current} + (${current} > ${nextBinding}) * ${nextBinding}`,
+                ],
+                target_property_name: <any>(current = `#${Random.getName()}`),
+            });
+        }
+
+        return current;
+    },
+
+    abs: (arg, [binding]) => {
+        const bindingName = `#${Random.getName()}`;
+        arg.addBindings({
+            source_property_name: `((-1 + (${binding} > 0) * 2) * ${binding})`,
+            target_property_name: <any>bindingName,
+        });
+        return bindingName;
+    },
+
     isEven: (arg, params) => {
         const bindingName = `#${Random.getName()}`;
         if (params.length > 1) {
@@ -48,6 +95,7 @@ const funcObj: BindingFunctionObject = {
 
         return bindingName;
     },
+
     isOdd: (arg, params) => {
         const bindingName = `#${Random.getName()}`;
         if (params.length > 1) {
@@ -72,6 +120,7 @@ const funcObj: BindingFunctionObject = {
 
         return bindingName;
     },
+
     getItemID: (arg, [identification]) => {
         const bindingName: any = `#${Random.getName()}`;
 
@@ -83,6 +132,7 @@ const funcObj: BindingFunctionObject = {
 
         return bindingName;
     },
+
     getItemAuxID: (arg, [identification]) => {
         const bindingName: any = `#${Random.getName()}`;
 
@@ -193,7 +243,7 @@ export class BindingCompiler {
                 );
             else return `'${token}'`;
         });
-        return `(${tokens.join(" + ")})`;
+        return tokens.length > 1 ? `(${tokens.join(" + ")})` : tokens[0];
     }
 
     static getStringTokens(token: string) {
@@ -203,14 +253,14 @@ export class BindingCompiler {
 
         for (const char of token) {
             if (char === "{") {
-                if (bracketsCount++ === 0) {
+                if (bracketsCount++ === 0 && strToken !== "") {
                     tokens.push(strToken);
                     strToken = "";
                 }
                 strToken += char;
             } else if (char === "}") {
                 strToken += char;
-                if (--bracketsCount === 0) {
+                if (--bracketsCount === 0 && strToken !== "") {
                     tokens.push(strToken);
                     strToken = "";
                 }
@@ -270,18 +320,9 @@ export class BindingCompiler {
         return {
             name,
             params: params.map((token) => {
-                if (this.getTokens(this.splitString(token)).length > 1) {
-                    if (this.isFunction(token))
-                        return this.functionHandler(token, arg);
-                    else if (this.isCodeBlock(token))
-                        return this.buildNewBinding(
-                            token.slice(1, token.length - 1),
-                            arg
-                        );
-                    else return this.buildNewBinding(token, arg);
-                } else {
-                    return token;
-                }
+                if (this.getTokens(this.splitString(token)).length > 1)
+                    return this.build(token, arg);
+                else return token;
             }),
         };
     }
