@@ -1,7 +1,7 @@
-import { Class } from "../compoments/Class";
-import { Modify } from "../compoments/Modify";
-import { UI } from "../compoments/UI";
-import { Configs } from "./Config";
+import { Class } from "../../compoments/Class";
+import { Modify } from "../../compoments/Modify";
+import { UI } from "../../compoments/UI";
+import { Configs } from "../Config";
 
 interface JsonObject {
     build: {

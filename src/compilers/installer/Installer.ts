@@ -1,6 +1,6 @@
 import fs from "fs-extra";
-import { SemverString, UUID, Version } from "../types/objects/Manifest";
-import { Save } from "./Save";
+import { SemverString, UUID, Version } from "../../types/objects/Manifest";
+import { Save } from "../generator/Save";
 
 export interface GlobalResourcePacks {
     pack_id: UUID;

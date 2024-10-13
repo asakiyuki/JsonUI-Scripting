@@ -1,7 +1,7 @@
 import fs from "fs-extra";
-import { Class } from "../compoments/Class";
-import { Random } from "../compoments/Random";
-import { UUID } from "../types/objects/Manifest";
+import { Class } from "../../compoments/Class";
+import { Random } from "../../compoments/Random";
+import { UUID } from "../../types/objects/Manifest";
 type ReturnValue = () => any;
 
 export class Save extends Class {

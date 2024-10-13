@@ -4,9 +4,10 @@ function searchFilePaths(path = "", isStart = true) {
     for (const folder of fs.readdirSync(`./src/${path}`)) {
         if (
             ["index.ts", "Class.ts", "Config.ts", "items.json"].includes(folder)
-        )
+        ) {
+            console.log(folder);
             continue;
-        else {
+        } else {
             if (folder.split(".").length === 2)
                 importArr.push(
                     `export * from "./${path}${folder.replace(".ts", "")}";`

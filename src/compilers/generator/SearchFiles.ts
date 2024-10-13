@@ -1,4 +1,4 @@
-import { Class } from "../compoments/Class";
+import { Class } from "../../compoments/Class";
 import fs from "fs-extra";
 
 interface CallbackValue {

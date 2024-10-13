@@ -1,4 +1,4 @@
-import { Properties } from "../types/objects/properties/Properties";
+import { Properties } from "../../types/objects/properties/Properties";
 import { ColorHandler } from "./Color";
 import { Obj } from "./Object";
 

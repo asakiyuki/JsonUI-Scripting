@@ -1,4 +1,4 @@
-import { JsonBuilder } from "../compilers/JsonBuilder";
+import { JsonBuilder } from "../compilers/generator/JsonBuilder";
 import {
     ChildElement,
     ChildIdentifier,
@@ -42,7 +42,7 @@ import {
     ReadValue,
     Var,
 } from "../";
-import { ReadBinding } from "../compilers/ReadBinding";
+import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
 import { BindingHook } from "../types/objects/BindingHook";
 

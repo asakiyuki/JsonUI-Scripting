@@ -1,8 +1,8 @@
-import { Configs } from "./Config";
-import { Minecraft, ResourcePack, ResourcePacks } from "./Installer";
-import { Manifest } from "./Manifest";
-import { UIBuilder } from "./UIBuilder";
+import { Manifest } from "./generator/Manifest";
+import { UIBuilder } from "./generator/UIBuilder";
 import fs from "fs-extra";
+import { ResourcePacks, Minecraft, ResourcePack } from "./installer/Installer";
+import { Configs } from "./Config";
 
 const config = Configs.getConfig();
 

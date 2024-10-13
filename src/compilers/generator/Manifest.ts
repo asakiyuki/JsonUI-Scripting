@@ -4,7 +4,7 @@ import {
     SemverString,
     Type,
     Version,
-} from "../types/objects/Manifest";
+} from "../../types/objects/Manifest";
 import { Save } from "./Save";
 
 interface ManifestHeader {

@@ -1,10 +1,10 @@
-import { JsonBuilder } from "../compilers/JsonBuilder";
-import { Obj } from "../compilers/Object";
-import { ReadBinding } from "../compilers/ReadBinding";
-import { ReadProperties, ReadValue } from "../compilers/ReadProperties";
+import { JsonBuilder } from "../compilers/generator/JsonBuilder";
+import { Obj } from "../compilers/reader/Object";
+import { ReadBinding } from "../compilers/reader/ReadBinding";
+import { ReadProperties, ReadValue } from "../compilers/reader/ReadProperties";
 import {
-    ChildElement,
     ChildIdentifier,
+    ChildElement,
 } from "../types/compoments/ChildIdentifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
 import { BindingName } from "../types/enums/BindingName";

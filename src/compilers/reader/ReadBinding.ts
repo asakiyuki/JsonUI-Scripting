@@ -1,11 +1,10 @@
-import { OverrideInterface } from "../compoments/Modify";
-import { UI } from "../compoments/UI";
-import { BindingName } from "../types/enums/BindingName";
-import { BindingType } from "../types/enums/BindingType";
-import { BindingHook } from "../types/objects/BindingHook";
-import { BindingInterface } from "../types/objects/BindingInterface";
-import { Var } from "../types/values/Variable";
-import { BindingCompiler } from "./BindingCompiler";
+import { OverrideInterface } from "../../compoments/Modify";
+import { UI } from "../../compoments/UI";
+import { BindingName } from "../../types/enums/BindingName";
+import { BindingType } from "../../types/enums/BindingType";
+import { BindingInterface } from "../../types/objects/BindingInterface";
+import { Var } from "../../types/values/Variable";
+import { BindingCompiler } from "../BindingCompiler";
 
 export function ReadBinding(
     binding: BindingName | Var | BindingInterface,

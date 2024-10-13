@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 import fs from "fs-extra";
-import { Save } from "./Save";
+import { Save } from "./generator/Save";
 import { Version, SemverString } from "..";
 
 if (!fs.existsSync("asakiyuki.config.js"))

@@ -1,5 +1,5 @@
-import { Class } from "../compoments/Class";
-import { Vector3, Vector4 } from "../types/values/Vector";
+import { Class } from "../../compoments/Class";
+import { Vector3, Vector4 } from "../../types/values/Vector";
 
 export class ColorHandler extends Class {
     static parse(data: string): Vector3 | Vector4 | null {

@@ -1,4 +1,4 @@
-import { Class } from "../compoments/Class";
+import { Class } from "../../compoments/Class";
 
 type CallbackObject = (key: string, value: any) => void;
 type CallbackObjectMap = (
