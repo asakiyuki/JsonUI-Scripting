@@ -10,8 +10,8 @@ import { Binding } from "../values/Binding";
 export interface BindingInterface {
     ignored?: Var | Bool;
     binding_type?: Var | BindingType;
-    binding_name?: Var | BindingName | [string];
-    binding_name_override?: Var | BindingName;
+    binding_name?: Var | BindingName;
+    binding_name_override?: Var | BindingName | string;
     binding_collection_name?: Var | Collection;
     binding_collection_prefix?: Var | Str;
     binding_condition?: Var | BindingCondition;

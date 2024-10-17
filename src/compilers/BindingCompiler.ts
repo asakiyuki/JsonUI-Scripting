@@ -16,55 +16,184 @@ export class BindingCompiler {
     }
 
     static build(propertyName: string, arg: UI | OverrideInterface) {
-        const tokens = this.readTokens(
-            this.getTokens(this.splitString(propertyName))
-        ).map((token) => {
-            if (this.isCodeBlock(token))
-                return <string>(
-                    this.buildNewBinding(token.slice(1, token.length - 1), arg)
-                );
-            else if (this.isFunction(token)) {
-                return <string>this.functionHandler(token, arg);
-            } else if (this.isString(token)) {
-                return <string>this.stringHandler(token, arg);
-            } else return token;
-        });
+        const tokens = this.lexer(propertyName, arg);
 
         let build = "(";
 
         for (let index = 0; index < tokens.length; index++) {
             const token = tokens[index];
-            const lastToken = tokens[index - 1];
-            const nextToken = tokens[index + 1];
 
             if (token === "==") build += "= ";
             else if (token === "&") build += "and ";
             else if (token === "|") build += "or ";
             else if (token === "!") build += "not ";
-            else if (token === ">=")
-                build += `> ${nextToken} or ${lastToken} = `;
-            else if (token === "<=")
-                build += `< ${nextToken} or ${lastToken} = `;
-            else if (token === "%") {
-                build += `(${lastToken} - (${lastToken} / ${nextToken} * ${nextToken})) `;
-            } else if (token === "!=") build += "= ";
             else {
-                if (nextToken === "!=") build += `not (${token} `;
-                else if (lastToken === "!=") build += `${token}) `;
-                else if (nextToken === "%" || lastToken === "%") {
-                } else {
-                    if (
-                        this.isNegativeNumber(token) &&
-                        !this.isOperator(lastToken)
-                    ) {
-                        build += `- ${token.slice(1)} `;
-                    } else build += `${token} `;
-                }
+                if (
+                    this.isNegativeNumber(token) &&
+                    !this.isOperator(tokens[index - 1]) &&
+                    tokens[index - 1] !== undefined
+                ) {
+                    build += `- ${token.slice(1)} `;
+                } else build += `${token} `;
             }
         }
+
         build = `${build.slice(0, build.length - 1)})`;
 
         return build;
+    }
+
+    static compileSpecialOperator(
+        tokens: Array<string>,
+        arg: UI | OverrideInterface
+    ) {
+        const firstTokens: Array<string> = [];
+
+        if (tokens.includes("?")) {
+            const startIndex = tokens.indexOf("?");
+            firstTokens.push(...tokens.slice(0, startIndex));
+
+            const secondTokens: Array<string> = [];
+            const thirdTokens: Array<string> = [];
+
+            let questionCount = 1;
+            let endIndex = -1;
+
+            for (let index = startIndex + 1; index < tokens.length; index++) {
+                const token = tokens[index];
+
+                if (token === "?") questionCount++;
+                else if (token === ":" && --questionCount == 0) {
+                    endIndex = index;
+                    break;
+                }
+
+                secondTokens.push(token);
+            }
+
+            thirdTokens.push(...tokens.slice(endIndex + 1));
+
+            const generateBindingName = `#${Random.getName()}`;
+            const firstBinding = this.buildNewBinding(
+                firstTokens.join(""),
+                arg
+            );
+            const secondBinding = `${generateBindingName}true`;
+            const thirdBinding = `${generateBindingName}false`;
+
+            arg.addBindings([
+                {
+                    source_property_name: this.build(
+                        secondTokens.join(""),
+                        arg
+                    ),
+                    target_property_name: <any>secondBinding,
+                },
+                {
+                    source_property_name: this.build(thirdTokens.join(""), arg),
+                    target_property_name: <any>thirdBinding,
+                },
+                {
+                    source_property_name: [
+                        `'${generateBindingName}{${firstBinding}}'`,
+                    ],
+                    target_property_name: <any>generateBindingName,
+                },
+            ]);
+
+            return [generateBindingName];
+        } else {
+            for (let index = 0; index < tokens.length; index++) {
+                const token = tokens[index];
+                if (["%", ">=", "<=", "!="].includes(token)) {
+                    const secondTokens = tokens.slice(index + 1);
+
+                    const firstBinding =
+                        firstTokens.length === 1
+                            ? firstTokens[0]
+                            : this.buildNewBinding(firstTokens.join(""), arg);
+
+                    const secondBinding =
+                        secondTokens.length === 1
+                            ? secondTokens[0]
+                            : this.buildNewBinding(
+                                  tokens.slice(index + 1).join(""),
+                                  arg
+                              );
+
+                    switch (token) {
+                        case ">=": {
+                            return [
+                                firstBinding,
+                                ">",
+                                secondBinding,
+                                "|",
+                                firstBinding,
+                                "==",
+                                secondBinding,
+                            ];
+                        }
+                        case "<=": {
+                            return [
+                                firstBinding,
+                                "<",
+                                secondBinding,
+                                "|",
+                                firstBinding,
+                                "==",
+                                secondBinding,
+                            ];
+                        }
+                        case "!=": {
+                            return [
+                                "not",
+                                this.buildNewBinding(
+                                    `${firstBinding} == ${secondBinding}`,
+                                    arg
+                                ),
+                            ];
+                        }
+                        case "%": {
+                            return [
+                                firstBinding,
+                                "-",
+                                firstBinding,
+                                "/",
+                                secondBinding,
+                                "*",
+                                secondBinding,
+                            ];
+                        }
+                    }
+                } else firstTokens.push(token);
+            }
+        }
+
+        return firstTokens;
+    }
+
+    static lexer(propertyName: string, arg: UI | OverrideInterface) {
+        const getTokens = this.compileSpecialOperator(
+            this.readTokens(this.getTokens(this.splitString(propertyName))).map(
+                (token) => {
+                    if (this.isCodeBlock(token))
+                        return <string>(
+                            this.buildNewBinding(
+                                token.slice(1, token.length - 1),
+                                arg
+                            )
+                        );
+                    else if (this.isFunction(token)) {
+                        return <string>this.functionHandler(token, arg);
+                    } else if (this.isString(token)) {
+                        return <string>this.stringHandler(token, arg);
+                    } else return token;
+                }
+            ),
+            arg
+        );
+
+        return getTokens;
     }
 
     static splitString(propertyName: string) {
@@ -150,7 +279,7 @@ export class BindingCompiler {
             console.warn(
                 `[Compile error] Cannot found '${func.name}' function!`
             );
-            str = `'[Compile Error: function >>${func.name}<< not found!]'`;
+            str = `'[Compile Error]: function >>${func.name}<< not found!]'`;
         }
 
         return str;
@@ -185,7 +314,10 @@ export class BindingCompiler {
             name,
             params: params.map((token) => {
                 if (this.getTokens(this.splitString(token)).length > 1)
-                    return this.build(token, arg);
+                    return this.build(
+                        this.isCodeBlock(token) ? token : `(${token})`,
+                        arg
+                    );
                 else return token;
             }),
         };
@@ -234,7 +366,7 @@ export class BindingCompiler {
             else
                 tokens.push(
                     ...(token.match(
-                        /-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|[\[\]()+\-*\/=><!,&%|]/gm
+                        /-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|[\[\]()+\-*\/=><!,&%|?:]/gm
                     ) ?? [])
                 );
         }
