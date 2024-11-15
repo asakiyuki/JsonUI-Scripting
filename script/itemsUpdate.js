@@ -1,9 +1,19 @@
 const fs = require("fs-extra");
 (async () => {
-    const itemsList = await fetch(
-        "https://asakiyuki.com/api/minecraft/items/numberic-id"
-    ).then((v) => v.json());
+	const itemsList = await fetch(
+		"https://asakiyuki.com/api/minecraft/items/numberic-id"
+	).then((v) => v.json());
 
-    fs.writeJsonSync("src/items.json", itemsList, "utf-8");
-    fs.writeJsonSync("dist/items.json", itemsList, "utf-8");
+	const list = [];
+
+	for (const key in itemsList) {
+		const id = itemsList[key];
+		list.push(`    '${key}' = ${id * 0x10000}`);
+	}
+
+	fs.writeFileSync(
+		"src/types/enums/ItemAuxID.ts",
+		`export enum ItemAuxID {\n${list.join(",\n")}\n}`,
+		"utf-8"
+	);
 })();

@@ -5,6 +5,13 @@
 	if (!fs.existsSync(".VanillaUI/version"))
 		fs.writeFileSync(".VanillaUI/version", "0", "utf-8");
 
+	async function FetchMcRsp(path) {
+		const data = await fetch(
+			`https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/${path}`
+		).then((v) => v.text());
+		return data;
+	}
+
 	function GetScreenPath(ScreenData, prefix = "") {
 		delete ScreenData.namespace;
 		const data = [];
@@ -37,13 +44,6 @@
 
 	if (fs.readFileSync(".VanillaUI/version", "utf-8") !== latestVersion) {
 		fs.writeFileSync(".VanillaUI/version", latestVersion, "utf-8");
-
-		async function FetchMcRsp(path) {
-			const data = await fetch(
-				`https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/${path}`
-			).then((v) => v.text());
-			return data;
-		}
 
 		const uiDefs = jsonc.parse(
 			await FetchMcRsp("ui/_ui_defs.json")
@@ -118,6 +118,23 @@
 					w[1].toUpperCase()
 				)}" = "${b}"`;
 			}).join(",\n")}\n}`
+		);
+	}
+
+	{
+		const globalVariables = Object.keys(
+			jsonc.parse(await FetchMcRsp("ui/_global_variables.json"))
+		).map(
+			(key) =>
+				`	'${key.replace(/(\$|_)\w/g, (e) =>
+					e[1].toUpperCase()
+				)}' = '${key}',`
+		);
+
+		fs.writeFileSync(
+			"src/types/enums/GlobalVariables.ts",
+			`export enum GlobalVariables {\n${globalVariables.join("\n")}\n}`,
+			"utf-8"
 		);
 	}
 })();

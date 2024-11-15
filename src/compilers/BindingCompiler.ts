@@ -83,14 +83,17 @@ export class BindingCompiler {
 
 			arg.addBindings([
 				{
-					source_property_name: this.build(
+					source_property_name: this.buildNewBinding(
 						secondTokens.join(""),
 						arg
 					),
 					target_property_name: <any>secondBinding,
 				},
 				{
-					source_property_name: this.build(thirdTokens.join(""), arg),
+					source_property_name: this.buildNewBinding(
+						thirdTokens.join(""),
+						arg
+					),
 					target_property_name: <any>thirdBinding,
 				},
 				{

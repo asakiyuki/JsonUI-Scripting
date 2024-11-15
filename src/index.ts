@@ -42,6 +42,7 @@ export * from "./types/enums/FontSize";
 export * from "./types/enums/FontType";
 export * from "./types/enums/GlobalVariables";
 export * from "./types/enums/InputModeCondition";
+export * from "./types/enums/ItemAuxID";
 export * from "./types/enums/JsonUIArrayName";
 export * from "./types/enums/MappingFrom";
 export * from "./types/enums/MappingTo";
