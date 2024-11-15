@@ -1,0 +1,1 @@
+export type EduPauseScreenPauseButton = "quit_button";

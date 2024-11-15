@@ -18,6 +18,7 @@ export * from "./compilers/reader/ReadProperties";
 export * from "./compoments/AddCollectionChill";
 export * from "./compoments/Anims";
 export * from "./compoments/ItemDatas";
+export * from "./compoments/Modify/Files";
 export * from "./compoments/Modify";
 export * from "./compoments/Random";
 export * from "./compoments/UI";

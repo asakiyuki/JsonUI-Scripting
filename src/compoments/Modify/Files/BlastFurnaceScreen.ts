@@ -1,0 +1,1 @@
+export type BlastFurnaceScreen = "blast_furnace_screen";

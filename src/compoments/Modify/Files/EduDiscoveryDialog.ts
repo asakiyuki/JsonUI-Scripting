@@ -1,0 +1,1 @@
+export type EduDiscoveryDialog = "service_body_label" | "service_button" | "service_buttons" | "content" | "content/body_text" | "content/text_to_button_padding" | "content/buttons" | "service_dialog" | "discovery_dialog_factory";

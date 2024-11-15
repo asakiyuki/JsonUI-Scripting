@@ -1,0 +1,1 @@
+export type MarketplaceSdl_SdlDropdowns = "sdl_dropdown_rows" | "sdl_dropdown_rows/toggle" | "sdl_rows_toggle";

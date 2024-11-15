@@ -1,0 +1,1 @@
+export type HolographicPostrenderScreen = "special_render" | "holographic_postrender_screen";

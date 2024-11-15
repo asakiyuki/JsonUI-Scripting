@@ -1,0 +1,1 @@
+export type RealmsStoriesTransitionScreen = "realms_stories_transition_screen";

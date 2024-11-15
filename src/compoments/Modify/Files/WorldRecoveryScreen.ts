@@ -1,0 +1,1 @@
+export type WorldRecoveryScreen = "world_recovery_screen" | "world_recovery_screen_content" | "world_recovery_screen_content/dialog" | "description_panel" | "scrolling_panel" | "description_label" | "button_panel" | "background";

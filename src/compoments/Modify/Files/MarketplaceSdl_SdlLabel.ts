@@ -1,0 +1,1 @@
+export type MarketplaceSdl_SdlLabel = "sdl_label_factory" | "sdl_label" | "sdl_mc_ten_label";

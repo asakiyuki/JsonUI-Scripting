@@ -1,0 +1,1 @@
+export type UiHoloCursor = "special_render" | "ui_holo_cursor" | "ui_holo_cursor_content" | "ui_holo_cursor_content/special_render";
