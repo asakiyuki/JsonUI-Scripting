@@ -22,7 +22,6 @@ export interface ConfigManifest {
 export interface Config {
 	installToDevelopEvironment: boolean;
 	installToMinecraftPreview: boolean;
-	installOnCompile: boolean;
 	obfuscateElementNames: boolean;
 	useExtendElementInsteadType: boolean;
 	buildFileExtension: string;
@@ -48,7 +47,8 @@ export function readObject(obj?: object, defaultObjValue?: object) {
 					(<any>defaultObjValue)[key]
 				);
 			} else {
-				(<any>obj)[key] = (<any>defaultObjValue)[key];
+				(<any>obj)[key] =
+					(<any>obj)[key] ?? (<any>defaultObjValue)[key];
 			}
 		});
 		return obj;
@@ -72,7 +72,6 @@ export class Configs {
 
 	static getDefaultConfig(): Config {
 		return {
-			installOnCompile: true,
 			installToDevelopEvironment: true,
 			installToMinecraftPreview: false,
 			obfuscateElementNames: false,
@@ -86,7 +85,7 @@ export class Configs {
 				description: "Build with JsonUI Scripting <3",
 				uuid: Save.uuid()[0],
 				version: [1, 0, 0],
-				baseGameVersion: [1, 21, 1],
+				baseGameVersion: [1, 21, 40],
 			},
 		};
 	}

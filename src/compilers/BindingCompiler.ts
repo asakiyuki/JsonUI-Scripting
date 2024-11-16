@@ -43,6 +43,22 @@ export class BindingCompiler {
 		return build;
 	}
 
+	static buildNewPropertyBag(token: string, arg: UI | OverrideInterface) {
+		const bindingName: any = `#${Random.getName()}`;
+		arg.setProperties({
+			property_bag: {
+				[bindingName]: BindingCompiler.build(token, arg),
+			},
+		});
+		return bindingName;
+	}
+
+	static checkAndBuild(token: string, arg: UI | OverrideInterface) {
+		return this.isHasBinding(token)
+			? this.build(token, arg)
+			: this.buildNewPropertyBag(token, arg);
+	}
+
 	static compileSpecialOperator(
 		tokens: Array<string>,
 		arg: UI | OverrideInterface
@@ -74,23 +90,20 @@ export class BindingCompiler {
 			thirdTokens.push(...tokens.slice(endIndex + 1));
 
 			const generateBindingName = `#${Random.getName()}`;
-			const firstBinding = this.buildNewBinding(
-				firstTokens.join(""),
-				arg
-			);
+			const firstBinding = this.checkAndBuild(firstTokens.join(""), arg);
 			const secondBinding = `${generateBindingName}true`;
 			const thirdBinding = `${generateBindingName}false`;
 
 			arg.addBindings([
 				{
-					source_property_name: this.buildNewBinding(
+					source_property_name: this.checkAndBuild(
 						secondTokens.join(""),
 						arg
 					),
 					target_property_name: <any>secondBinding,
 				},
 				{
-					source_property_name: this.buildNewBinding(
+					source_property_name: this.checkAndBuild(
 						thirdTokens.join(""),
 						arg
 					),

@@ -37,11 +37,11 @@ export class ResourcePacks {
 	installPath: string;
 	globalResoucePacksPath: string;
 	constructor(data: ResourcePackInterface) {
-		const appdata = `${process.env.LOCALAPPDATA}/Packages`;
-		this.gamePath = `${appdata}/${data.installGame}/`;
-		this.gameDataPath = `${this.gamePath}/LocalState/games/com.mojang`;
-		this.installPath = `${this.gameDataPath}/${data.installFolder}`;
-		this.globalResoucePacksPath = `${this.gameDataPath}/minecraftpe/global_resource_packs.json`;
+		const appdata = `${process.env.LOCALAPPDATA}\\Packages`;
+		this.gamePath = `${appdata}\\${data.installGame}\\`;
+		this.gameDataPath = `${this.gamePath}LocalState\\games\\com.mojang`;
+		this.installPath = `${this.gameDataPath}\\${data.installFolder}`;
+		this.globalResoucePacksPath = `${this.gameDataPath}\\minecraftpe\\global_resource_packs.json`;
 	}
 
 	isPackInstalled(uuid: UUID, version: Version | SemverString) {
@@ -107,7 +107,7 @@ export class ResourcePacks {
 	}
 
 	getInstallPath() {
-		return `${this.installPath}/${Save.getBuildID()}`;
+		return `${this.installPath}\\${Save.getBuildID()}`;
 	}
 
 	packLink() {
