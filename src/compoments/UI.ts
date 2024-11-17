@@ -33,6 +33,7 @@ import { Properties } from "../types/objects/properties/Properties";
 import { Specials } from "../types/objects/properties/Specials";
 import { Random } from "./Random";
 import {
+	Animation,
 	Binding,
 	BindingInterface,
 	Configs,
@@ -44,7 +45,6 @@ import {
 } from "../";
 import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
-import { BindingHook } from "../types/objects/BindingHook";
 
 interface TypeExtend {
 	[key: string]: string;
@@ -59,6 +59,7 @@ export class UI {
 	private controls?: Array<ChildElement>;
 	private bindings?: Array<BindingInterface>;
 	private variables?: VariablesInterface;
+	private anims?: Array<string>;
 	private properties?: Properties;
 
 	constructor(identifier: UIInterface | UI) {
@@ -371,7 +372,13 @@ export class UI {
 	getUI() {
 		const code: any = ReadProperties(<any>(this.properties ?? {}));
 
-		for (const key of ["type", "controls", "bindings", "button_mappings"])
+		for (const key of [
+			"type",
+			"controls",
+			"bindings",
+			"button_mappings",
+			"anims",
+		])
 			if ((<any>this)[key]) code[key] = (<any>this)[key];
 
 		if (this.variables)
@@ -403,6 +410,11 @@ export class UI {
 			extends: this,
 			properties,
 		});
+	}
+
+	addAnimation(animation: Animation, startIndex?: number) {
+		(this.anims ||= []).push(animation.getKeyIndex(startIndex || 0));
+		return this;
 	}
 
 	private static apply() {}
