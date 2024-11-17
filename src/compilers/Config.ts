@@ -20,6 +20,7 @@ export interface ConfigManifest {
 }
 
 export interface Config {
+	buildInProject: boolean;
 	installToDevelopEvironment: boolean;
 	installToMinecraftPreview: boolean;
 	obfuscateElementNames: boolean;
@@ -72,6 +73,7 @@ export class Configs {
 
 	static getDefaultConfig(): Config {
 		return {
+			buildInProject: false,
 			installToDevelopEvironment: true,
 			installToMinecraftPreview: false,
 			obfuscateElementNames: false,

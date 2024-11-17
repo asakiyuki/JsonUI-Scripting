@@ -111,7 +111,7 @@ export class ResourcePacks {
 	}
 
 	packLink() {
-		UIBuilder.delete(".build");
-		fs.createSymlinkSync(this.getInstallPath(), ".build", "junction");
+		UIBuilder.delete(".minecraft");
+		fs.createSymlinkSync(this.getInstallPath(), ".minecraft", "junction");
 	}
 }
