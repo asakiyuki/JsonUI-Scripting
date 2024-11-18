@@ -429,7 +429,7 @@ export class Modify {
 						array_name: "controls",
 						operation: "insert_after",
 						control_name: childName,
-						value: element,
+						value: [element],
 					})
 				)
 			);
@@ -439,7 +439,7 @@ export class Modify {
 						array_name: "controls",
 						operation: "insert_before",
 						control_name: childName,
-						value: element,
+						value: [element],
 					})
 				)
 			);

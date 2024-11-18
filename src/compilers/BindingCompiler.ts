@@ -12,7 +12,7 @@ export interface BindingFunctionObject {
 
 export class BindingCompiler {
 	static compile(propetyName: string, arg: UI | OverrideInterface) {
-		return this.build(propetyName, arg);
+		return this.build(propetyName, arg).replaceAll("\\n", "\n");
 	}
 
 	static build(propertyName: string, arg: UI | OverrideInterface) {
@@ -69,6 +69,8 @@ export class BindingCompiler {
 			const startIndex = tokens.indexOf("?");
 			firstTokens.push(...tokens.slice(0, startIndex));
 
+			let elseCount = 0;
+
 			const secondTokens: Array<string> = [];
 			const thirdTokens: Array<string> = [];
 
@@ -81,6 +83,7 @@ export class BindingCompiler {
 				if (token === "?") questionCount++;
 				else if (token === ":" && --questionCount == 0) {
 					endIndex = index;
+					elseCount++;
 					break;
 				}
 
@@ -103,19 +106,22 @@ export class BindingCompiler {
 					target_property_name: <any>secondBinding,
 				},
 				{
-					source_property_name: this.checkAndBuild(
-						thirdTokens.join(""),
-						arg
-					),
-					target_property_name: <any>thirdBinding,
-				},
-				{
 					source_property_name: [
 						`'${generateBindingName}{${firstBinding}}'`,
 					],
 					target_property_name: <any>generateBindingName,
 				},
 			]);
+
+			if (elseCount !== 0) {
+				arg.addBindings({
+					source_property_name: this.checkAndBuild(
+						thirdTokens.join(""),
+						arg
+					),
+					target_property_name: <any>thirdBinding,
+				});
+			}
 
 			return [generateBindingName];
 		} else {
@@ -225,6 +231,8 @@ export class BindingCompiler {
 					tokens.push(isString ? token : `'${token}'`);
 				}
 				token = "";
+			} else if (char === "\n" && isString) {
+				token += "\\n";
 			} else if (char === "{" && isString) {
 				openFormatCount++;
 				token += "{";

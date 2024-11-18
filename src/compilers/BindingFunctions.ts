@@ -218,7 +218,7 @@ export const funcObj: BindingFunctionObject = {
 		return bindingName;
 	},
 
-	getPrefix: (arg, [str, strLength]) => {
+	getPrefix: (arg, [str, strLength = 0]) => {
 		const bindingName: any = `#${Random.getName()}`;
 
 		if (
@@ -232,8 +232,8 @@ export const funcObj: BindingFunctionObject = {
 		arg.addBindings({
 			source_property_name: [
 				Number.isNaN(+strLength)
-					? `(${str}) * ('%.{'{${strLength}}s'}')`
-					: `(${str}) * ('%.{'${strLength}s'}')`,
+					? `'%.{ ${strLength} }s' * ${str}`
+					: `'%.${strLength}s' * ${str}`,
 			],
 			target_property_name: bindingName,
 		});
@@ -255,18 +255,83 @@ export const funcObj: BindingFunctionObject = {
 		if (end) {
 			arg.addBindings({
 				source_property_name: [
-					`getPrefix(slice(${str}, ${start}), ${end} - ${start})`,
+					` '%.{${end} - ${start}}s' * slice(${str}, ${start}) `,
 				],
-				target_property_name: bindingName,
+				target_property_name: <any>bindingName,
 			});
 		} else {
 			arg.addBindings({
 				source_property_name: [
-					`'asa39921728{${str}}' - 'asa39921728{getPrefix(${str}, ${start})}'`,
+					Number.isNaN(+start)
+						? ` 'prefix{ ${str} }' - 'prefix{ '%.{ ${start} }s' * ${str} }' `
+						: ` 'prefix{ ${str} }' - 'prefix{ '%.${start}s' * ${str} }' `,
 				],
-				target_property_name: bindingName,
+				target_property_name: <any>bindingName,
 			});
 		}
+
+		return bindingName;
+	},
+
+	getAfterPrefix: (arg, [str, str2, prefix, maxLength = 30]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		arg.addBindings({
+			source_property_name: `(${prefix} + ${str} - ${Array.from(
+				{ length: +maxLength },
+				(v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
+			).join(" - ")} )`,
+			target_property_name: <any>bindingName,
+		});
+
+		return bindingName;
+	},
+
+	getAfter: (arg, [str, str2, maxLength = 30]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		arg.addBindings({
+			source_property_name: `( ${str} - ${Array.from(
+				{ length: +maxLength },
+				(v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
+			).join(" - ")} )`,
+			target_property_name: <any>bindingName,
+		});
+
+		return bindingName;
+	},
+
+	getBefore: (arg, [str, str2, maxLength = 30]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		arg.addBindings({
+			source_property_name: [
+				` ${str} - '{${str2}}{getAfter(${str}, ${str2}, ${maxLength})}' `,
+			],
+			target_property_name: <any>bindingName,
+		});
+
+		return bindingName;
+	},
+
+	exclude: (arg, [str, excStr]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		arg.addBindings({
+			source_property_name: `((${str} - ${excStr}) = ${str})`,
+			target_property_name: <any>bindingName,
+		});
+
+		return bindingName;
+	},
+
+	include: (arg, [str, incStr]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		arg.addBindings({
+			source_property_name: `(not ((${str} - ${incStr}) = ${str}))`,
+			target_property_name: <any>bindingName,
+		});
 
 		return bindingName;
 	},
