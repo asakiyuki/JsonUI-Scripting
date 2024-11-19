@@ -19,15 +19,9 @@ export class UIBuilder {
 		for (const file in build) {
 			const namespace = build[file].namespace;
 			delete build[file].namespace;
-			for (const jsonUI in build[file])
-				build[file][jsonUI] = build[file][jsonUI].getUI();
+			for (const jsonUI in build[file]) build[file][jsonUI] = build[file][jsonUI].getUI();
 
-			console.timeLog(
-				"Compiler",
-				`>> ${file} ${
-					Object.keys(build[file]).length
-				} elements has generated!`
-			);
+			console.timeLog("Compiler", `>> ${file} ${Object.keys(build[file]).length} elements has generated!`);
 
 			build[file].namespace = namespace;
 			fs.writeJsonSync(`${installPath}/@/${file}`, build[file], "utf-8");
@@ -38,21 +32,14 @@ export class UIBuilder {
 	}
 
 	static modify(installPath: string) {
-		if (!fs.existsSync(`${installPath}/ui`))
-			fs.mkdirSync(`${installPath}/ui`);
+		if (!fs.existsSync(`${installPath}/ui`)) fs.mkdirSync(`${installPath}/ui`);
 		let count = 0;
 		const modify = JsonBuilder.save.modify;
 		for (const key in modify) {
 			GenerateDir(installPath, key);
-			for (const element in modify[key])
-				modify[key][element] = modify[key][element].getUI();
+			for (const element in modify[key]) modify[key][element] = modify[key][element].getUI();
 
-			console.timeLog(
-				"Compiler",
-				`>> ${key} ${
-					Object.keys(modify[key]).length
-				} modify element(s) has generated!`
-			);
+			console.timeLog("Compiler", `>> ${key} ${Object.keys(modify[key]).length} modify element(s) has generated!`);
 
 			fs.writeJSONSync(`${installPath}/${key}`, modify[key], "utf-8");
 			delete modify[key];
@@ -63,11 +50,7 @@ export class UIBuilder {
 
 	static uiDefs(installPath: string) {
 		const arr = SearchFiles.array(`${installPath}/@`, "@");
-		fs.writeJsonSync(
-			`${installPath}/ui/_ui_defs.json`,
-			{ ui_defs: arr },
-			"utf-8"
-		);
+		fs.writeJsonSync(`${installPath}/ui/_ui_defs.json`, { ui_defs: arr }, "utf-8");
 		return arr.length;
 	}
 
@@ -81,6 +64,15 @@ export class UIBuilder {
 			},
 			"utf-8"
 		);
+
+		return arr.length;
+	}
+
+	static texturesList(installPath: string) {
+		const arr = SearchFiles.array(installPath).filter((v) => /\.(png|jpg|jpeg)$/.test(v));
+
+		if (!fs.existsSync(`${installPath}/textures`)) fs.mkdirSync(`${installPath}/textures`);
+		fs.writeJSONSync(`${installPath}/textures/textures_list.json`, arr, "utf-8");
 
 		return arr.length;
 	}

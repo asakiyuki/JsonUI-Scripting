@@ -16,9 +16,7 @@ export const funcObj: BindingFunctionObject = {
 		const bindingName = `#${Random.getName()}`;
 
 		arg.addBindings({
-			source_property_name: `((${params.join(" + ")}) / ${
-				params.length
-			})`,
+			source_property_name: `((${params.join(" + ")}) / ${params.length})`,
 			target_property_name: <any>bindingName,
 		});
 
@@ -30,9 +28,7 @@ export const funcObj: BindingFunctionObject = {
 
 		for (const nextBinding of params.slice(1)) {
 			arg.addBindings({
-				source_property_name: [
-					`(${current} >= ${nextBinding}) * ${current} + (${current} < ${nextBinding}) * ${nextBinding}`,
-				],
+				source_property_name: [`(${current} >= ${nextBinding}) * ${current} + (${current} < ${nextBinding}) * ${nextBinding}`],
 				target_property_name: <any>(current = `#${Random.getName()}`),
 			});
 		}
@@ -45,9 +41,7 @@ export const funcObj: BindingFunctionObject = {
 
 		for (const nextBinding of params.slice(1)) {
 			arg.addBindings({
-				source_property_name: [
-					`(${current} <= ${nextBinding}) * ${current} + (${current} > ${nextBinding}) * ${nextBinding}`,
-				],
+				source_property_name: [`(${current} <= ${nextBinding}) * ${current} + (${current} > ${nextBinding}) * ${nextBinding}`],
 				target_property_name: <any>(current = `#${Random.getName()}`),
 			});
 		}
@@ -146,9 +140,7 @@ export const funcObj: BindingFunctionObject = {
 
 		arg.addBindings({
 			source_property_name: [`abs(${float})`],
-			target_property_name: <any>(
-				(calcBindingName = `#${Random.getName()}`)
-			),
+			target_property_name: <any>(calcBindingName = `#${Random.getName()}`),
 		});
 
 		for (let i = Math.max(_intLength - 1, 0); i >= 0; i--) {
@@ -157,35 +149,26 @@ export const funcObj: BindingFunctionObject = {
 					{
 						length: 10,
 					},
-					(v, c) =>
-						`(${calcBindingName} > ${eval(`${c + 1}e${i}`) - 1})`
+					(v, c) => `(${calcBindingName} > ${eval(`${c + 1}e${i}`) - 1})`
 				).join(" + ")}))`,
-				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
-				),
+				target_property_name: <any>(bindingName = `#${Random.getName()}`),
 			});
 			sumBnd.push(bindingName);
 			if (i !== 0)
 				arg.addBindings({
 					source_property_name: `(${calcBindingName} - ${bindingName})`,
-					target_property_name: <any>(
-						(calcBindingName = `#${Random.getName()}`)
-					),
+					target_property_name: <any>(calcBindingName = `#${Random.getName()}`),
 				});
 		}
 
 		arg.addBindings([
 			{
 				source_property_name: `(${sumBnd.join(" + ")})`,
-				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
-				),
+				target_property_name: <any>(bindingName = `#${Random.getName()}`),
 			},
 			{
 				source_property_name: `(${bindingName} * (1 - (${float} < 0) * 2))`,
-				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
-				),
+				target_property_name: <any>(bindingName = `#${Random.getName()}`),
 			},
 		]);
 
@@ -205,12 +188,7 @@ export const funcObj: BindingFunctionObject = {
 				target_property_name: <any>`${arrayBindingName}${i}`,
 			})),
 			{
-				source_property_name: [
-					`'${arrayBindingName}{${BindingCompiler.checkAndBuild(
-						accessIndex,
-						arg
-					)}}'`,
-				],
+				source_property_name: [`'${arrayBindingName}{${BindingCompiler.checkAndBuild(accessIndex, arg)}}'`],
 				target_property_name: bindingName,
 			},
 		]);
@@ -221,20 +199,10 @@ export const funcObj: BindingFunctionObject = {
 	getPrefix: (arg, [str, strLength = 0]) => {
 		const bindingName: any = `#${Random.getName()}`;
 
-		if (
-			!(
-				BindingCompiler.isString(str) ||
-				BindingCompiler.isHasBinding(str)
-			)
-		)
-			str = `'${str}'`;
+		if (!(BindingCompiler.isString(str) || BindingCompiler.isHasBinding(str))) str = `'${str}'`;
 
 		arg.addBindings({
-			source_property_name: [
-				Number.isNaN(+strLength)
-					? `'%.{ ${strLength} }s' * ${str}`
-					: `'%.${strLength}s' * ${str}`,
-			],
+			source_property_name: [Number.isNaN(+strLength) ? `'%.{ ${strLength} }s' * ${str}` : `'%.${strLength}s' * ${str}`],
 			target_property_name: bindingName,
 		});
 
@@ -244,19 +212,11 @@ export const funcObj: BindingFunctionObject = {
 	slice: (arg, [str, start, end]) => {
 		const bindingName: any = `#${Random.getName()}`;
 
-		if (
-			!(
-				BindingCompiler.isString(str) ||
-				BindingCompiler.isHasBinding(str)
-			)
-		)
-			str = `'${str}'`;
+		if (!(BindingCompiler.isString(str) || BindingCompiler.isHasBinding(str))) str = `'${str}'`;
 
 		if (end) {
 			arg.addBindings({
-				source_property_name: [
-					` '%.{${end} - ${start}}s' * slice(${str}, ${start}) `,
-				],
+				source_property_name: [` '%.{${end} - ${start}}s' * slice(${str}, ${start}) `],
 				target_property_name: <any>bindingName,
 			});
 		} else {
@@ -277,10 +237,7 @@ export const funcObj: BindingFunctionObject = {
 		const bindingName: any = `#${Random.getName()}`;
 
 		arg.addBindings({
-			source_property_name: `(${prefix} + ${str} - ${Array.from(
-				{ length: +maxLength },
-				(v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
-			).join(" - ")} )`,
+			source_property_name: `(${prefix} + ${str} - ${Array.from({ length: +maxLength }, (v, i) => `('%.${i + 1}s' * ${str} + ${str2})`).join(" - ")} )`,
 			target_property_name: <any>bindingName,
 		});
 
@@ -291,10 +248,7 @@ export const funcObj: BindingFunctionObject = {
 		const bindingName: any = `#${Random.getName()}`;
 
 		arg.addBindings({
-			source_property_name: `( ${str} - ${Array.from(
-				{ length: +maxLength },
-				(v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
-			).join(" - ")} )`,
+			source_property_name: `( ${str} - ${Array.from({ length: +maxLength }, (v, i) => `('%.${i + 1}s' * ${str} + ${str2})`).join(" - ")} )`,
 			target_property_name: <any>bindingName,
 		});
 
@@ -305,9 +259,7 @@ export const funcObj: BindingFunctionObject = {
 		const bindingName: any = `#${Random.getName()}`;
 
 		arg.addBindings({
-			source_property_name: [
-				` ${str} - '{${str2}}{getAfter(${str}, ${str2}, ${maxLength})}' `,
-			],
+			source_property_name: [` ${str} - '{${str2}}{getAfter(${str}, ${str2}, ${maxLength})}' `],
 			target_property_name: <any>bindingName,
 		});
 
