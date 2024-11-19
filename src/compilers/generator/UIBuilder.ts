@@ -69,7 +69,9 @@ export class UIBuilder {
 	}
 
 	static texturesList(installPath: string) {
-		const arr = SearchFiles.array(installPath).filter((v) => /\.(png|jpg|jpeg)$/.test(v));
+		const arr = SearchFiles.array(installPath)
+			.filter((v) => /\.(png|jpg|jpeg)$/.test(v))
+			.map((v) => v.replace(/\.(png|jpg|jpeg)$/, ""));
 
 		if (!fs.existsSync(`${installPath}/textures`)) fs.mkdirSync(`${installPath}/textures`);
 		fs.writeJSONSync(`${installPath}/textures/textures_list.json`, arr, "utf-8");
