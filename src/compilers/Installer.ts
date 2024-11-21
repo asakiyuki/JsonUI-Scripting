@@ -1,8 +1,7 @@
 import fs from "fs-extra";
-import { exec } from "child_process";
-import { SemverString, UUID, Version } from "../../types/objects/Manifest";
-import { Save } from "../generator/Save";
-import { UIBuilder } from "../generator/UIBuilder";
+import { SemverString, UUID, Version } from "./../types/objects/Manifest";
+import { Save } from "./generator/Save";
+import { UIBuilder } from "./generator/UIBuilder";
 
 export interface GlobalResourcePacks {
 	pack_id: UUID;

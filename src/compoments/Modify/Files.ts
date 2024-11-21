@@ -216,218 +216,1897 @@ import { XblOptionalSignin } from "./Files/XblOptionalSignin";
 import { Win10TrialConversionScreen } from "./Files/Win10TrialConversionScreen";
 
 export class Files {
-    static AchievementScreen(elementPath: AchievementScreen, properties?: Properties) { return Modify.register("ui/achievement_screen.json", elementPath, properties); };
-    static AddExternalServerScreen(elementPath: AddExternalServerScreen, properties?: Properties) { return Modify.register("ui/add_external_server_screen.json", elementPath, properties); };
-    static AdhocInprogessScreen(elementPath: AdhocInprogessScreen, properties?: Properties) { return Modify.register("ui/adhoc_inprogess_screen.json", elementPath, properties); };
-    static AdhocScreen(elementPath: AdhocScreen, properties?: Properties) { return Modify.register("ui/adhoc_screen.json", elementPath, properties); };
-    static AnvilScreen(elementPath: AnvilScreen, properties?: Properties) { return Modify.register("ui/anvil_screen.json", elementPath, properties); };
-    static AnvilScreenPocket(elementPath: AnvilScreenPocket, properties?: Properties) { return Modify.register("ui/anvil_screen_pocket.json", elementPath, properties); };
-    static AuthenticationModals(elementPath: AuthenticationModals, properties?: Properties) { return Modify.register("ui/authentication_modals.json", elementPath, properties); };
-    static AuthenticationScreen(elementPath: AuthenticationScreen, properties?: Properties) { return Modify.register("ui/authentication_screen.json", elementPath, properties); };
-    static AutoSaveInfoScreen(elementPath: AutoSaveInfoScreen, properties?: Properties) { return Modify.register("ui/auto_save_info_screen.json", elementPath, properties); };
-    static BeaconScreen(elementPath: BeaconScreen, properties?: Properties) { return Modify.register("ui/beacon_screen.json", elementPath, properties); };
-    static BeaconScreenPocket(elementPath: BeaconScreenPocket, properties?: Properties) { return Modify.register("ui/beacon_screen_pocket.json", elementPath, properties); };
-    static BlastFurnaceScreen(elementPath: BlastFurnaceScreen, properties?: Properties) { return Modify.register("ui/blast_furnace_screen.json", elementPath, properties); };
-    static BookScreen(elementPath: BookScreen, properties?: Properties) { return Modify.register("ui/book_screen.json", elementPath, properties); };
-    static BrewingStandScreen(elementPath: BrewingStandScreen, properties?: Properties) { return Modify.register("ui/brewing_stand_screen.json", elementPath, properties); };
-    static BrewingStandScreenPocket(elementPath: BrewingStandScreenPocket, properties?: Properties) { return Modify.register("ui/brewing_stand_screen_pocket.json", elementPath, properties); };
-    static BundlePurchaseWarningScreen(elementPath: BundlePurchaseWarningScreen, properties?: Properties) { return Modify.register("ui/bundle_purchase_warning_screen.json", elementPath, properties); };
-    static CartographyScreen(elementPath: CartographyScreen, properties?: Properties) { return Modify.register("ui/cartography_screen.json", elementPath, properties); };
-    static CartographyScreenPocket(elementPath: CartographyScreenPocket, properties?: Properties) { return Modify.register("ui/cartography_screen_pocket.json", elementPath, properties); };
-    static ChalkboardScreen(elementPath: ChalkboardScreen, properties?: Properties) { return Modify.register("ui/chalkboard_screen.json", elementPath, properties); };
-    static ChatScreen(elementPath: ChatScreen, properties?: Properties) { return Modify.register("ui/chat_screen.json", elementPath, properties); };
-    static ChatSettingsMenuScreen(elementPath: ChatSettingsMenuScreen, properties?: Properties) { return Modify.register("ui/chat_settings_menu_screen.json", elementPath, properties); };
-    static ChestScreen(elementPath: ChestScreen, properties?: Properties) { return Modify.register("ui/chest_screen.json", elementPath, properties); };
-    static ChooseRealmScreen(elementPath: ChooseRealmScreen, properties?: Properties) { return Modify.register("ui/choose_realm_screen.json", elementPath, properties); };
-    static CloudUploadScreen(elementPath: CloudUploadScreen, properties?: Properties) { return Modify.register("ui/cloud_upload_screen.json", elementPath, properties); };
-    static CoinPurchaseScreen(elementPath: CoinPurchaseScreen, properties?: Properties) { return Modify.register("ui/coin_purchase_screen.json", elementPath, properties); };
-    static CommandBlockScreen(elementPath: CommandBlockScreen, properties?: Properties) { return Modify.register("ui/command_block_screen.json", elementPath, properties); };
-    static ConfirmDeleteAccountScreen(elementPath: ConfirmDeleteAccountScreen, properties?: Properties) { return Modify.register("ui/confirm_delete_account_screen.json", elementPath, properties); };
-    static ConfirmMsaUnlinkScreen(elementPath: ConfirmMsaUnlinkScreen, properties?: Properties) { return Modify.register("ui/confirm_msa_unlink_screen.json", elementPath, properties); };
-    static ContentLog(elementPath: ContentLog, properties?: Properties) { return Modify.register("ui/content_log.json", elementPath, properties); };
-    static ContentLogHistoryScreen(elementPath: ContentLogHistoryScreen, properties?: Properties) { return Modify.register("ui/content_log_history_screen.json", elementPath, properties); };
-    static CrafterScreenPocket(elementPath: CrafterScreenPocket, properties?: Properties) { return Modify.register("ui/crafter_screen_pocket.json", elementPath, properties); };
-    static CreateWorldUpsellScreen(elementPath: CreateWorldUpsellScreen, properties?: Properties) { return Modify.register("ui/create_world_upsell_screen.json", elementPath, properties); };
-    static CreditsScreen(elementPath: CreditsScreen, properties?: Properties) { return Modify.register("ui/credits_screen.json", elementPath, properties); };
-    static CsbPurchaseErrorScreen(elementPath: CsbPurchaseErrorScreen, properties?: Properties) { return Modify.register("ui/csb_purchase_error_screen.json", elementPath, properties); };
-    static CsbScreen(elementPath: CsbScreen, properties?: Properties) { return Modify.register("ui/csb_screen.json", elementPath, properties); };
-    static CsbSections_ContentSection(elementPath: CsbSections_ContentSection, properties?: Properties) { return Modify.register("ui/csb_sections/content_section.json", elementPath, properties); };
-    static CsbSections_CsbBanner(elementPath: CsbSections_CsbBanner, properties?: Properties) { return Modify.register("ui/csb_sections/csb_banner.json", elementPath, properties); };
-    static CsbSections_CsbBuyNowScreen(elementPath: CsbSections_CsbBuyNowScreen, properties?: Properties) { return Modify.register("ui/csb_sections/csb_buy_now_screen.json", elementPath, properties); };
-    static CsbSections_CsbCommon(elementPath: CsbSections_CsbCommon, properties?: Properties) { return Modify.register("ui/csb_sections/csb_common.json", elementPath, properties); };
-    static CsbSections_CsbPurchaseAmazondevicewarningScreen(elementPath: CsbSections_CsbPurchaseAmazondevicewarningScreen, properties?: Properties) { return Modify.register("ui/csb_sections/csb_purchase_amazondevicewarning_screen.json", elementPath, properties); };
-    static CsbSections_CsbPurchaseWarningScreen(elementPath: CsbSections_CsbPurchaseWarningScreen, properties?: Properties) { return Modify.register("ui/csb_sections/csb_purchase_warning_screen.json", elementPath, properties); };
-    static CsbSections_CsbSubscriptionPanel(elementPath: CsbSections_CsbSubscriptionPanel, properties?: Properties) { return Modify.register("ui/csb_sections/csb_subscription_panel.json", elementPath, properties); };
-    static CsbSections_CsbUpsellDialog(elementPath: CsbSections_CsbUpsellDialog, properties?: Properties) { return Modify.register("ui/csb_sections/csb_upsell_dialog.json", elementPath, properties); };
-    static CsbSections_CsbViewPacksScreen(elementPath: CsbSections_CsbViewPacksScreen, properties?: Properties) { return Modify.register("ui/csb_sections/csb_view_packs_screen.json", elementPath, properties); };
-    static CsbSections_CsbWelcomeScreen(elementPath: CsbSections_CsbWelcomeScreen, properties?: Properties) { return Modify.register("ui/csb_sections/csb_welcome_screen.json", elementPath, properties); };
-    static CsbSections_FaqSection(elementPath: CsbSections_FaqSection, properties?: Properties) { return Modify.register("ui/csb_sections/faq_section.json", elementPath, properties); };
-    static CsbSections_LandingSection(elementPath: CsbSections_LandingSection, properties?: Properties) { return Modify.register("ui/csb_sections/landing_section.json", elementPath, properties); };
-    static CustomTemplatesScreen(elementPath: CustomTemplatesScreen, properties?: Properties) { return Modify.register("ui/custom_templates_screen.json", elementPath, properties); };
-    static WorldConversionCompleteScreen(elementPath: WorldConversionCompleteScreen, properties?: Properties) { return Modify.register("ui/world_conversion_complete_screen.json", elementPath, properties); };
-    static DayOneExperienceIntroScreen(elementPath: DayOneExperienceIntroScreen, properties?: Properties) { return Modify.register("ui/day_one_experience_intro_screen.json", elementPath, properties); };
-    static DayOneExperienceScreen(elementPath: DayOneExperienceScreen, properties?: Properties) { return Modify.register("ui/day_one_experience_screen.json", elementPath, properties); };
-    static DeathScreen(elementPath: DeathScreen, properties?: Properties) { return Modify.register("ui/death_screen.json", elementPath, properties); };
-    static DebugScreen(elementPath: DebugScreen, properties?: Properties) { return Modify.register("ui/debug_screen.json", elementPath, properties); };
-    static DevConsoleScreen(elementPath: DevConsoleScreen, properties?: Properties) { return Modify.register("ui/dev_console_screen.json", elementPath, properties); };
-    static DisconnectScreen(elementPath: DisconnectScreen, properties?: Properties) { return Modify.register("ui/disconnect_screen.json", elementPath, properties); };
-    static DisplayLoggedErrorScreen(elementPath: DisplayLoggedErrorScreen, properties?: Properties) { return Modify.register("ui/display_logged_error_screen.json", elementPath, properties); };
-    static EduDiscoveryDialog(elementPath: EduDiscoveryDialog, properties?: Properties) { return Modify.register("ui/edu_discovery_dialog.json", elementPath, properties); };
-    static EduFeatured(elementPath: EduFeatured, properties?: Properties) { return Modify.register("ui/edu_featured.json", elementPath, properties); };
-    static EduPauseScreenPauseButton(elementPath: EduPauseScreenPauseButton, properties?: Properties) { return Modify.register("ui/edu_pause_screen_pause_button.json", elementPath, properties); };
-    static EmoteWheelScreen(elementPath: EmoteWheelScreen, properties?: Properties) { return Modify.register("ui/emote_wheel_screen.json", elementPath, properties); };
-    static EnchantingScreen(elementPath: EnchantingScreen, properties?: Properties) { return Modify.register("ui/enchanting_screen.json", elementPath, properties); };
-    static EnchantingScreenPocket(elementPath: EnchantingScreenPocket, properties?: Properties) { return Modify.register("ui/enchanting_screen_pocket.json", elementPath, properties); };
-    static EncyclopediaScreen(elementPath: EncyclopediaScreen, properties?: Properties) { return Modify.register("ui/encyclopedia_screen.json", elementPath, properties); };
-    static ExpandedSkinPackScreen(elementPath: ExpandedSkinPackScreen, properties?: Properties) { return Modify.register("ui/expanded_skin_pack_screen.json", elementPath, properties); };
-    static FeedCommon(elementPath: FeedCommon, properties?: Properties) { return Modify.register("ui/feed_common.json", elementPath, properties); };
-    static FileUploadScreen(elementPath: FileUploadScreen, properties?: Properties) { return Modify.register("ui/file_upload_screen.json", elementPath, properties); };
-    static FurnaceScreen(elementPath: FurnaceScreen, properties?: Properties) { return Modify.register("ui/furnace_screen.json", elementPath, properties); };
-    static FurnaceScreenPocket(elementPath: FurnaceScreenPocket, properties?: Properties) { return Modify.register("ui/furnace_screen_pocket.json", elementPath, properties); };
-    static GameTipScreen(elementPath: GameTipScreen, properties?: Properties) { return Modify.register("ui/game_tip_screen.json", elementPath, properties); };
-    static GamepadDisconnected(elementPath: GamepadDisconnected, properties?: Properties) { return Modify.register("ui/gamepad_disconnected.json", elementPath, properties); };
-    static GameplayCommon(elementPath: GameplayCommon, properties?: Properties) { return Modify.register("ui/gameplay_common.json", elementPath, properties); };
-    static GatheringInfoScreen(elementPath: GatheringInfoScreen, properties?: Properties) { return Modify.register("ui/gathering_info_screen.json", elementPath, properties); };
-    static GlobalPauseScreen(elementPath: GlobalPauseScreen, properties?: Properties) { return Modify.register("ui/global_pause_screen.json", elementPath, properties); };
-    static GrindstoneScreen(elementPath: GrindstoneScreen, properties?: Properties) { return Modify.register("ui/grindstone_screen.json", elementPath, properties); };
-    static GrindstoneScreenPocket(elementPath: GrindstoneScreenPocket, properties?: Properties) { return Modify.register("ui/grindstone_screen_pocket.json", elementPath, properties); };
-    static GammaCalibrationScreen(elementPath: GammaCalibrationScreen, properties?: Properties) { return Modify.register("ui/gamma_calibration_screen.json", elementPath, properties); };
-    static HolographicPostrenderScreen(elementPath: HolographicPostrenderScreen, properties?: Properties) { return Modify.register("ui/holographic_postrender_screen.json", elementPath, properties); };
-    static HorseScreen(elementPath: HorseScreen, properties?: Properties) { return Modify.register("ui/horse_screen.json", elementPath, properties); };
-    static HorseScreenPocket(elementPath: HorseScreenPocket, properties?: Properties) { return Modify.register("ui/horse_screen_pocket.json", elementPath, properties); };
-    static HowToPlayCommon(elementPath: HowToPlayCommon, properties?: Properties) { return Modify.register("ui/how_to_play_common.json", elementPath, properties); };
-    static HowToPlayScreen(elementPath: HowToPlayScreen, properties?: Properties) { return Modify.register("ui/how_to_play_screen.json", elementPath, properties); };
-    static HudScreen(elementPath: HudScreen, properties?: Properties) { return Modify.register("ui/hud_screen.json", elementPath, properties); };
-    static HostOptionsScreen(elementPath: HostOptionsScreen, properties?: Properties) { return Modify.register("ui/host_options_screen.json", elementPath, properties); };
-    static InBedScreen(elementPath: InBedScreen, properties?: Properties) { return Modify.register("ui/in_bed_screen.json", elementPath, properties); };
-    static ItemDetailDescriptionScreen(elementPath: ItemDetailDescriptionScreen, properties?: Properties) { return Modify.register("ui/item_detail_description_screen.json", elementPath, properties); };
-    static ImmersiveReader(elementPath: ImmersiveReader, properties?: Properties) { return Modify.register("ui/immersive_reader.json", elementPath, properties); };
-    static InventoryScreen(elementPath: InventoryScreen, properties?: Properties) { return Modify.register("ui/inventory_screen.json", elementPath, properties); };
-    static InventoryScreenPocket(elementPath: InventoryScreenPocket, properties?: Properties) { return Modify.register("ui/inventory_screen_pocket.json", elementPath, properties); };
-    static InviteScreen(elementPath: InviteScreen, properties?: Properties) { return Modify.register("ui/invite_screen.json", elementPath, properties); };
-    static JigsawEditorScreen(elementPath: JigsawEditorScreen, properties?: Properties) { return Modify.register("ui/jigsaw_editor_screen.json", elementPath, properties); };
-    static LateJoinPregameScreen(elementPath: LateJoinPregameScreen, properties?: Properties) { return Modify.register("ui/late_join_pregame_screen.json", elementPath, properties); };
-    static LibraryModalScreen(elementPath: LibraryModalScreen, properties?: Properties) { return Modify.register("ui/library_modal_screen.json", elementPath, properties); };
-    static LocalWorldPickerScreen(elementPath: LocalWorldPickerScreen, properties?: Properties) { return Modify.register("ui/local_world_picker_screen.json", elementPath, properties); };
-    static LoomScreen(elementPath: LoomScreen, properties?: Properties) { return Modify.register("ui/loom_screen.json", elementPath, properties); };
-    static LoomScreenPocket(elementPath: LoomScreenPocket, properties?: Properties) { return Modify.register("ui/loom_screen_pocket.json", elementPath, properties); };
-    static ManageFeedScreen(elementPath: ManageFeedScreen, properties?: Properties) { return Modify.register("ui/manage_feed_screen.json", elementPath, properties); };
-    static ManifestValidationScreen(elementPath: ManifestValidationScreen, properties?: Properties) { return Modify.register("ui/manifest_validation_screen.json", elementPath, properties); };
-    static MarketplaceSdl_SdlLabel(elementPath: MarketplaceSdl_SdlLabel, properties?: Properties) { return Modify.register("ui/marketplace_sdl/sdl_label.json", elementPath, properties); };
-    static MarketplaceSdl_SdlDropdowns(elementPath: MarketplaceSdl_SdlDropdowns, properties?: Properties) { return Modify.register("ui/marketplace_sdl/sdl_dropdowns.json", elementPath, properties); };
-    static MarketplaceSdl_SdlImageRow(elementPath: MarketplaceSdl_SdlImageRow, properties?: Properties) { return Modify.register("ui/marketplace_sdl/sdl_image_row.json", elementPath, properties); };
-    static MarketplaceSdl_SdlTextRow(elementPath: MarketplaceSdl_SdlTextRow, properties?: Properties) { return Modify.register("ui/marketplace_sdl/sdl_text_row.json", elementPath, properties); };
-    static MobEffectScreen(elementPath: MobEffectScreen, properties?: Properties) { return Modify.register("ui/mob_effect_screen.json", elementPath, properties); };
-    static NonXblUserManagementScreen(elementPath: NonXblUserManagementScreen, properties?: Properties) { return Modify.register("ui/non_xbl_user_management_screen.json", elementPath, properties); };
-    static NpcInteractScreen(elementPath: NpcInteractScreen, properties?: Properties) { return Modify.register("ui/npc_interact_screen.json", elementPath, properties); };
-    static OnlineSafetyScreen(elementPath: OnlineSafetyScreen, properties?: Properties) { return Modify.register("ui/online_safety_screen.json", elementPath, properties); };
-    static PackSettingsScreen(elementPath: PackSettingsScreen, properties?: Properties) { return Modify.register("ui/pack_settings_screen.json", elementPath, properties); };
-    static PanoramaScreen(elementPath: PanoramaScreen, properties?: Properties) { return Modify.register("ui/panorama_screen.json", elementPath, properties); };
-    static PatchNotesScreen(elementPath: PatchNotesScreen, properties?: Properties) { return Modify.register("ui/patch_notes_screen.json", elementPath, properties); };
-    static PauseScreen(elementPath: PauseScreen, properties?: Properties) { return Modify.register("ui/pause_screen.json", elementPath, properties); };
-    static PdpScreen(elementPath: PdpScreen, properties?: Properties) { return Modify.register("ui/pdp_screen.json", elementPath, properties); };
-    static PdpScreenshotsSection(elementPath: PdpScreenshotsSection, properties?: Properties) { return Modify.register("ui/pdp_screenshots_section.json", elementPath, properties); };
-    static PermissionsScreen(elementPath: PermissionsScreen, properties?: Properties) { return Modify.register("ui/permissions_screen.json", elementPath, properties); };
-    static PersonaCastCharacterScreen(elementPath: PersonaCastCharacterScreen, properties?: Properties) { return Modify.register("ui/persona_cast_character_screen.json", elementPath, properties); };
-    static PersonaCommon(elementPath: PersonaCommon, properties?: Properties) { return Modify.register("ui/persona_common.json", elementPath, properties); };
-    static PersonaScreen(elementPath: PersonaScreen, properties?: Properties) { return Modify.register("ui/persona_screen.json", elementPath, properties); };
-    static PlayScreen(elementPath: PlayScreen, properties?: Properties) { return Modify.register("ui/play_screen.json", elementPath, properties); };
-    static PerfTurtle(elementPath: PerfTurtle, properties?: Properties) { return Modify.register("ui/perf_turtle.json", elementPath, properties); };
-    static PocketContainers(elementPath: PocketContainers, properties?: Properties) { return Modify.register("ui/pocket_containers.json", elementPath, properties); };
-    static PopupDialog(elementPath: PopupDialog, properties?: Properties) { return Modify.register("ui/popup_dialog.json", elementPath, properties); };
-    static PortfolioScreen(elementPath: PortfolioScreen, properties?: Properties) { return Modify.register("ui/portfolio_screen.json", elementPath, properties); };
-    static PostRatingScreen(elementPath: PostRatingScreen, properties?: Properties) { return Modify.register("ui/post_rating_screen.json", elementPath, properties); };
-    static ProfileCard(elementPath: ProfileCard, properties?: Properties) { return Modify.register("ui/profile_card.json", elementPath, properties); };
-    static ProfileScreen(elementPath: ProfileScreen, properties?: Properties) { return Modify.register("ui/profile_screen.json", elementPath, properties); };
-    static ProgressScreen(elementPath: ProgressScreen, properties?: Properties) { return Modify.register("ui/progress_screen.json", elementPath, properties); };
-    static RatingPrompt(elementPath: RatingPrompt, properties?: Properties) { return Modify.register("ui/rating_prompt.json", elementPath, properties); };
-    static RealmsCommon(elementPath: RealmsCommon, properties?: Properties) { return Modify.register("ui/realms_common.json", elementPath, properties); };
-    static RealmsCreate(elementPath: RealmsCreate, properties?: Properties) { return Modify.register("ui/realms_create.json", elementPath, properties); };
-    static RealmsPendingInvitations(elementPath: RealmsPendingInvitations, properties?: Properties) { return Modify.register("ui/realms_pending_invitations.json", elementPath, properties); };
-    static RealmsSlotsScreen(elementPath: RealmsSlotsScreen, properties?: Properties) { return Modify.register("ui/realms_slots_screen.json", elementPath, properties); };
-    static RealmsSettingsScreen(elementPath: RealmsSettingsScreen, properties?: Properties) { return Modify.register("ui/realms_settings_screen.json", elementPath, properties); };
-    static RealmsAllowlist(elementPath: RealmsAllowlist, properties?: Properties) { return Modify.register("ui/realms_allowlist.json", elementPath, properties); };
-    static RealmsInviteLinkSettingsScreen(elementPath: RealmsInviteLinkSettingsScreen, properties?: Properties) { return Modify.register("ui/realms_invite_link_settings_screen.json", elementPath, properties); };
-    static RealmsPlusEndedScreen(elementPath: RealmsPlusEndedScreen, properties?: Properties) { return Modify.register("ui/realms_plus_ended_screen.json", elementPath, properties); };
-    static RealmsplusUpgradeNoticeScreen(elementPath: RealmsplusUpgradeNoticeScreen, properties?: Properties) { return Modify.register("ui/realmsplus_upgrade_notice_screen.json", elementPath, properties); };
-    static RealmsPlusScreen(elementPath: RealmsPlusScreen, properties?: Properties) { return Modify.register("ui/realmsPlus_screen.json", elementPath, properties); };
-    static RealmsPlusSections_ContentSection(elementPath: RealmsPlusSections_ContentSection, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/content_section.json", elementPath, properties); };
-    static RealmsPlusSections_FaqSection(elementPath: RealmsPlusSections_FaqSection, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/faq_section.json", elementPath, properties); };
-    static RealmsPlusSections_LandingSection(elementPath: RealmsPlusSections_LandingSection, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/landing_section.json", elementPath, properties); };
-    static RealmsPlusSections_RealmsPlusBuyNowScreen(elementPath: RealmsPlusSections_RealmsPlusBuyNowScreen, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/realmsPlus_buy_now_screen.json", elementPath, properties); };
-    static RealmsPlusSections_RealmsPlusViewPacksScreen(elementPath: RealmsPlusSections_RealmsPlusViewPacksScreen, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/realmsPlus_view_packs_screen.json", elementPath, properties); };
-    static RealmsPlusSections_RealmsPlusPurchaseWarningScreen(elementPath: RealmsPlusSections_RealmsPlusPurchaseWarningScreen, properties?: Properties) { return Modify.register("ui/realmsPlus_sections/realmsPlus_purchase_warning_screen.json", elementPath, properties); };
-    static RealmsStoriesTransitionScreen(elementPath: RealmsStoriesTransitionScreen, properties?: Properties) { return Modify.register("ui/realms_stories_transition_screen.json", elementPath, properties); };
-    static RedstoneScreen(elementPath: RedstoneScreen, properties?: Properties) { return Modify.register("ui/redstone_screen.json", elementPath, properties); };
-    static ResourcePacksScreen(elementPath: ResourcePacksScreen, properties?: Properties) { return Modify.register("ui/resource_packs_screen.json", elementPath, properties); };
-    static SafeZoneScreen(elementPath: SafeZoneScreen, properties?: Properties) { return Modify.register("ui/safe_zone_screen.json", elementPath, properties); };
-    static StorageMigrationCommon(elementPath: StorageMigrationCommon, properties?: Properties) { return Modify.register("ui/storage_migration_common.json", elementPath, properties); };
-    static StorageMigrationGenericScreen(elementPath: StorageMigrationGenericScreen, properties?: Properties) { return Modify.register("ui/storage_migration_generic_screen.json", elementPath, properties); };
-    static Scoreboards(elementPath: Scoreboards, properties?: Properties) { return Modify.register("ui/scoreboards.json", elementPath, properties); };
-    static ScreenshotScreen(elementPath: ScreenshotScreen, properties?: Properties) { return Modify.register("ui/screenshot_screen.json", elementPath, properties); };
-    static SelectWorldScreen(elementPath: SelectWorldScreen, properties?: Properties) { return Modify.register("ui/select_world_screen.json", elementPath, properties); };
-    static ServerForm(elementPath: ServerForm, properties?: Properties) { return Modify.register("ui/server_form.json", elementPath, properties); };
-    static SettingsScreen(elementPath: SettingsScreen, properties?: Properties) { return Modify.register("ui/settings_screen.json", elementPath, properties); };
-    static SettingsSections_ControlsSection(elementPath: SettingsSections_ControlsSection, properties?: Properties) { return Modify.register("ui/settings_sections/controls_section.json", elementPath, properties); };
-    static SettingsSections_GeneralSection(elementPath: SettingsSections_GeneralSection, properties?: Properties) { return Modify.register("ui/settings_sections/general_section.json", elementPath, properties); };
-    static SettingsSections_RealmsWorldSection(elementPath: SettingsSections_RealmsWorldSection, properties?: Properties) { return Modify.register("ui/settings_sections/realms_world_section.json", elementPath, properties); };
-    static SettingsSections_SettingsCommon(elementPath: SettingsSections_SettingsCommon, properties?: Properties) { return Modify.register("ui/settings_sections/settings_common.json", elementPath, properties); };
-    static SettingsSections_WorldSection(elementPath: SettingsSections_WorldSection, properties?: Properties) { return Modify.register("ui/settings_sections/world_section.json", elementPath, properties); };
-    static SidebarNavigation(elementPath: SidebarNavigation, properties?: Properties) { return Modify.register("ui/sidebar_navigation.json", elementPath, properties); };
-    static SignScreen(elementPath: SignScreen, properties?: Properties) { return Modify.register("ui/sign_screen.json", elementPath, properties); };
-    static SimpleInprogressScreen(elementPath: SimpleInprogressScreen, properties?: Properties) { return Modify.register("ui/simple_inprogress_screen.json", elementPath, properties); };
-    static SkinPackPurchaseScreen(elementPath: SkinPackPurchaseScreen, properties?: Properties) { return Modify.register("ui/skin_pack_purchase_screen.json", elementPath, properties); };
-    static SkinPickerScreen(elementPath: SkinPickerScreen, properties?: Properties) { return Modify.register("ui/skin_picker_screen.json", elementPath, properties); };
-    static SmithingTableScreen(elementPath: SmithingTableScreen, properties?: Properties) { return Modify.register("ui/smithing_table_screen.json", elementPath, properties); };
-    static SmithingTable2Screen(elementPath: SmithingTable2Screen, properties?: Properties) { return Modify.register("ui/smithing_table_2_screen.json", elementPath, properties); };
-    static SmithingTableScreenPocket(elementPath: SmithingTableScreenPocket, properties?: Properties) { return Modify.register("ui/smithing_table_screen_pocket.json", elementPath, properties); };
-    static SmithingTable2ScreenPocket(elementPath: SmithingTable2ScreenPocket, properties?: Properties) { return Modify.register("ui/smithing_table_2_screen_pocket.json", elementPath, properties); };
-    static SmokerScreen(elementPath: SmokerScreen, properties?: Properties) { return Modify.register("ui/smoker_screen.json", elementPath, properties); };
-    static StartScreen(elementPath: StartScreen, properties?: Properties) { return Modify.register("ui/start_screen.json", elementPath, properties); };
-    static StonecutterScreen(elementPath: StonecutterScreen, properties?: Properties) { return Modify.register("ui/stonecutter_screen.json", elementPath, properties); };
-    static StonecutterScreenPocket(elementPath: StonecutterScreenPocket, properties?: Properties) { return Modify.register("ui/stonecutter_screen_pocket.json", elementPath, properties); };
-    static StorageManagement(elementPath: StorageManagement, properties?: Properties) { return Modify.register("ui/storage_management.json", elementPath, properties); };
-    static StorageManagementPopup(elementPath: StorageManagementPopup, properties?: Properties) { return Modify.register("ui/storage_management_popup.json", elementPath, properties); };
-    static StoreCommon(elementPath: StoreCommon, properties?: Properties) { return Modify.register("ui/store_common.json", elementPath, properties); };
-    static StoreDataDrivenScreen(elementPath: StoreDataDrivenScreen, properties?: Properties) { return Modify.register("ui/store_data_driven_screen.json", elementPath, properties); };
-    static StoreFilterMenuScreen(elementPath: StoreFilterMenuScreen, properties?: Properties) { return Modify.register("ui/store_filter_menu_screen.json", elementPath, properties); };
-    static StoreInventoryScreen(elementPath: StoreInventoryScreen, properties?: Properties) { return Modify.register("ui/store_inventory_screen.json", elementPath, properties); };
-    static StoreItemListScreen(elementPath: StoreItemListScreen, properties?: Properties) { return Modify.register("ui/store_item_list_screen.json", elementPath, properties); };
-    static StorePromoTimelineScreen(elementPath: StorePromoTimelineScreen, properties?: Properties) { return Modify.register("ui/store_promo_timeline_screen.json", elementPath, properties); };
-    static StoreSalesItemListScreen(elementPath: StoreSalesItemListScreen, properties?: Properties) { return Modify.register("ui/store_sales_item_list_screen.json", elementPath, properties); };
-    static StoreSearchScreen(elementPath: StoreSearchScreen, properties?: Properties) { return Modify.register("ui/store_search_screen.json", elementPath, properties); };
-    static StoreSortMenuScreen(elementPath: StoreSortMenuScreen, properties?: Properties) { return Modify.register("ui/store_sort_menu_screen.json", elementPath, properties); };
-    static StructureEditorScreen(elementPath: StructureEditorScreen, properties?: Properties) { return Modify.register("ui/structure_editor_screen.json", elementPath, properties); };
-    static SubmitFeedbackScreen(elementPath: SubmitFeedbackScreen, properties?: Properties) { return Modify.register("ui/submit_feedback_screen.json", elementPath, properties); };
-    static TabbedUpsellScreen(elementPath: TabbedUpsellScreen, properties?: Properties) { return Modify.register("ui/tabbed_upsell_screen.json", elementPath, properties); };
-    static ThanksForTestingScreen(elementPath: ThanksForTestingScreen, properties?: Properties) { return Modify.register("ui/thanks_for_testing_screen.json", elementPath, properties); };
-    static ThirdPartyStoreScreen(elementPath: ThirdPartyStoreScreen, properties?: Properties) { return Modify.register("ui/third_party_store_screen.json", elementPath, properties); };
-    static ToastScreen(elementPath: ToastScreen, properties?: Properties) { return Modify.register("ui/toast_screen.json", elementPath, properties); };
-    static TokenFaqScreen(elementPath: TokenFaqScreen, properties?: Properties) { return Modify.register("ui/token_faq_screen.json", elementPath, properties); };
-    static TradeScreen(elementPath: TradeScreen, properties?: Properties) { return Modify.register("ui/trade_screen.json", elementPath, properties); };
-    static TradeScreenPocket(elementPath: TradeScreenPocket, properties?: Properties) { return Modify.register("ui/trade_screen_pocket.json", elementPath, properties); };
-    static Trade2Screen(elementPath: Trade2Screen, properties?: Properties) { return Modify.register("ui/trade_2_screen.json", elementPath, properties); };
-    static Trade2ScreenPocket(elementPath: Trade2ScreenPocket, properties?: Properties) { return Modify.register("ui/trade_2_screen_pocket.json", elementPath, properties); };
-    static TrialUpsellScreen(elementPath: TrialUpsellScreen, properties?: Properties) { return Modify.register("ui/trial_upsell_screen.json", elementPath, properties); };
-    static UgcViewerScreen(elementPath: UgcViewerScreen, properties?: Properties) { return Modify.register("ui/ugc_viewer_screen.json", elementPath, properties); };
-    static UiArtAssetsCommon(elementPath: UiArtAssetsCommon, properties?: Properties) { return Modify.register("ui/ui_art_assets_common.json", elementPath, properties); };
-    static UiCommon(elementPath: UiCommon, properties?: Properties) { return Modify.register("ui/ui_common.json", elementPath, properties); };
-    static UiCommonClassic(elementPath: UiCommonClassic, properties?: Properties) { return Modify.register("ui/ui_common_classic.json", elementPath, properties); };
-    static UiEduCommon(elementPath: UiEduCommon, properties?: Properties) { return Modify.register("ui/ui_edu_common.json", elementPath, properties); };
-    static UiHoloCursor(elementPath: UiHoloCursor, properties?: Properties) { return Modify.register("ui/ui_holo_cursor.json", elementPath, properties); };
-    static UiPurchaseCommon(elementPath: UiPurchaseCommon, properties?: Properties) { return Modify.register("ui/ui_purchase_common.json", elementPath, properties); };
-    static UiTemplateButtons(elementPath: UiTemplateButtons, properties?: Properties) { return Modify.register("ui/ui_template_buttons.json", elementPath, properties); };
-    static UiTemplateDialogs(elementPath: UiTemplateDialogs, properties?: Properties) { return Modify.register("ui/ui_template_dialogs.json", elementPath, properties); };
-    static UiTemplateTabs(elementPath: UiTemplateTabs, properties?: Properties) { return Modify.register("ui/ui_template_tabs.json", elementPath, properties); };
-    static UiTemplateToggles(elementPath: UiTemplateToggles, properties?: Properties) { return Modify.register("ui/ui_template_toggles.json", elementPath, properties); };
-    static UpdateDimensions(elementPath: UpdateDimensions, properties?: Properties) { return Modify.register("ui/update_dimensions.json", elementPath, properties); };
-    static UpdateVersion(elementPath: UpdateVersion, properties?: Properties) { return Modify.register("ui/update_version.json", elementPath, properties); };
-    static WorldRecoveryScreen(elementPath: WorldRecoveryScreen, properties?: Properties) { return Modify.register("ui/world_recovery_screen.json", elementPath, properties); };
-    static WorldTemplatesScreen(elementPath: WorldTemplatesScreen, properties?: Properties) { return Modify.register("ui/world_templates_screen.json", elementPath, properties); };
-    static XblConsoleQrSignin(elementPath: XblConsoleQrSignin, properties?: Properties) { return Modify.register("ui/xbl_console_qr_signin.json", elementPath, properties); };
-    static XblConsoleSignin(elementPath: XblConsoleSignin, properties?: Properties) { return Modify.register("ui/xbl_console_signin.json", elementPath, properties); };
-    static XblConsoleSigninSucceeded(elementPath: XblConsoleSigninSucceeded, properties?: Properties) { return Modify.register("ui/xbl_console_signin_succeeded.json", elementPath, properties); };
-    static XblImmediateSignin(elementPath: XblImmediateSignin, properties?: Properties) { return Modify.register("ui/xbl_immediate_signin.json", elementPath, properties); };
-    static XblOptionalSignin(elementPath: XblOptionalSignin, properties?: Properties) { return Modify.register("ui/xbl_optional_signin.json", elementPath, properties); };
-    static Win10TrialConversionScreen(elementPath: Win10TrialConversionScreen, properties?: Properties) { return Modify.register("ui/win10_trial_conversion_screen.json", elementPath, properties); };
+	static AchievementScreen(
+		elementPath: AchievementScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/achievement_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static AddExternalServerScreen(
+		elementPath: AddExternalServerScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/add_external_server_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static AdhocInprogessScreen(
+		elementPath: AdhocInprogessScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/adhoc_inprogess_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static AdhocScreen(elementPath: AdhocScreen, properties?: Properties) {
+		return Modify.register("ui/adhoc_screen.json", elementPath, properties);
+	}
+	static AnvilScreen(elementPath: AnvilScreen, properties?: Properties) {
+		return Modify.register("ui/anvil_screen.json", elementPath, properties);
+	}
+	static AnvilScreenPocket(
+		elementPath: AnvilScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/anvil_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static AuthenticationModals(
+		elementPath: AuthenticationModals,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/authentication_modals.json",
+			elementPath,
+			properties
+		);
+	}
+	static AuthenticationScreen(
+		elementPath: AuthenticationScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/authentication_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static AutoSaveInfoScreen(
+		elementPath: AutoSaveInfoScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/auto_save_info_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static BeaconScreen(elementPath: BeaconScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/beacon_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static BeaconScreenPocket(
+		elementPath: BeaconScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/beacon_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static BlastFurnaceScreen(
+		elementPath: BlastFurnaceScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/blast_furnace_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static BookScreen(elementPath: BookScreen, properties?: Properties) {
+		return Modify.register("ui/book_screen.json", elementPath, properties);
+	}
+	static BrewingStandScreen(
+		elementPath: BrewingStandScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/brewing_stand_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static BrewingStandScreenPocket(
+		elementPath: BrewingStandScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/brewing_stand_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static BundlePurchaseWarningScreen(
+		elementPath: BundlePurchaseWarningScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/bundle_purchase_warning_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CartographyScreen(
+		elementPath: CartographyScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/cartography_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CartographyScreenPocket(
+		elementPath: CartographyScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/cartography_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static ChalkboardScreen(
+		elementPath: ChalkboardScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/chalkboard_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ChatScreen(elementPath: ChatScreen, properties?: Properties) {
+		return Modify.register("ui/chat_screen.json", elementPath, properties);
+	}
+	static ChatSettingsMenuScreen(
+		elementPath: ChatSettingsMenuScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/chat_settings_menu_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ChestScreen(elementPath: ChestScreen, properties?: Properties) {
+		return Modify.register("ui/chest_screen.json", elementPath, properties);
+	}
+	static ChooseRealmScreen(
+		elementPath: ChooseRealmScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/choose_realm_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CloudUploadScreen(
+		elementPath: CloudUploadScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/cloud_upload_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CoinPurchaseScreen(
+		elementPath: CoinPurchaseScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/coin_purchase_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CommandBlockScreen(
+		elementPath: CommandBlockScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/command_block_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ConfirmDeleteAccountScreen(
+		elementPath: ConfirmDeleteAccountScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/confirm_delete_account_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ConfirmMsaUnlinkScreen(
+		elementPath: ConfirmMsaUnlinkScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/confirm_msa_unlink_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ContentLog(elementPath: ContentLog, properties?: Properties) {
+		return Modify.register("ui/content_log.json", elementPath, properties);
+	}
+	static ContentLogHistoryScreen(
+		elementPath: ContentLogHistoryScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/content_log_history_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CrafterScreenPocket(
+		elementPath: CrafterScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/crafter_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static CreateWorldUpsellScreen(
+		elementPath: CreateWorldUpsellScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/create_world_upsell_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CreditsScreen(elementPath: CreditsScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/credits_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbPurchaseErrorScreen(
+		elementPath: CsbPurchaseErrorScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_purchase_error_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbScreen(elementPath: CsbScreen, properties?: Properties) {
+		return Modify.register("ui/csb_screen.json", elementPath, properties);
+	}
+	static CsbSections_ContentSection(
+		elementPath: CsbSections_ContentSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/content_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbBanner(
+		elementPath: CsbSections_CsbBanner,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_banner.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbBuyNowScreen(
+		elementPath: CsbSections_CsbBuyNowScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_buy_now_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbCommon(
+		elementPath: CsbSections_CsbCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbPurchaseAmazondevicewarningScreen(
+		elementPath: CsbSections_CsbPurchaseAmazondevicewarningScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_purchase_amazondevicewarning_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbPurchaseWarningScreen(
+		elementPath: CsbSections_CsbPurchaseWarningScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_purchase_warning_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbSubscriptionPanel(
+		elementPath: CsbSections_CsbSubscriptionPanel,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_subscription_panel.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbUpsellDialog(
+		elementPath: CsbSections_CsbUpsellDialog,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_upsell_dialog.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbViewPacksScreen(
+		elementPath: CsbSections_CsbViewPacksScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_view_packs_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_CsbWelcomeScreen(
+		elementPath: CsbSections_CsbWelcomeScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/csb_welcome_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_FaqSection(
+		elementPath: CsbSections_FaqSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/faq_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static CsbSections_LandingSection(
+		elementPath: CsbSections_LandingSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/csb_sections/landing_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static CustomTemplatesScreen(
+		elementPath: CustomTemplatesScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/custom_templates_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static WorldConversionCompleteScreen(
+		elementPath: WorldConversionCompleteScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/world_conversion_complete_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static DayOneExperienceIntroScreen(
+		elementPath: DayOneExperienceIntroScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/day_one_experience_intro_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static DayOneExperienceScreen(
+		elementPath: DayOneExperienceScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/day_one_experience_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static DeathScreen(elementPath: DeathScreen, properties?: Properties) {
+		return Modify.register("ui/death_screen.json", elementPath, properties);
+	}
+	static DebugScreen(elementPath: DebugScreen, properties?: Properties) {
+		return Modify.register("ui/debug_screen.json", elementPath, properties);
+	}
+	static DevConsoleScreen(
+		elementPath: DevConsoleScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/dev_console_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static DisconnectScreen(
+		elementPath: DisconnectScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/disconnect_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static DisplayLoggedErrorScreen(
+		elementPath: DisplayLoggedErrorScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/display_logged_error_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static EduDiscoveryDialog(
+		elementPath: EduDiscoveryDialog,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/edu_discovery_dialog.json",
+			elementPath,
+			properties
+		);
+	}
+	static EduFeatured(elementPath: EduFeatured, properties?: Properties) {
+		return Modify.register("ui/edu_featured.json", elementPath, properties);
+	}
+	static EduPauseScreenPauseButton(
+		elementPath: EduPauseScreenPauseButton,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/edu_pause_screen_pause_button.json",
+			elementPath,
+			properties
+		);
+	}
+	static EmoteWheelScreen(
+		elementPath: EmoteWheelScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/emote_wheel_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static EnchantingScreen(
+		elementPath: EnchantingScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/enchanting_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static EnchantingScreenPocket(
+		elementPath: EnchantingScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/enchanting_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static EncyclopediaScreen(
+		elementPath: EncyclopediaScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/encyclopedia_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ExpandedSkinPackScreen(
+		elementPath: ExpandedSkinPackScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/expanded_skin_pack_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static FeedCommon(elementPath: FeedCommon, properties?: Properties) {
+		return Modify.register("ui/feed_common.json", elementPath, properties);
+	}
+	static FileUploadScreen(
+		elementPath: FileUploadScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/file_upload_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static FurnaceScreen(elementPath: FurnaceScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/furnace_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static FurnaceScreenPocket(
+		elementPath: FurnaceScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/furnace_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static GameTipScreen(elementPath: GameTipScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/game_tip_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static GamepadDisconnected(
+		elementPath: GamepadDisconnected,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/gamepad_disconnected.json",
+			elementPath,
+			properties
+		);
+	}
+	static GameplayCommon(
+		elementPath: GameplayCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/gameplay_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static GatheringInfoScreen(
+		elementPath: GatheringInfoScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/gathering_info_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static GlobalPauseScreen(
+		elementPath: GlobalPauseScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/global_pause_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static GrindstoneScreen(
+		elementPath: GrindstoneScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/grindstone_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static GrindstoneScreenPocket(
+		elementPath: GrindstoneScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/grindstone_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static GammaCalibrationScreen(
+		elementPath: GammaCalibrationScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/gamma_calibration_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static HolographicPostrenderScreen(
+		elementPath: HolographicPostrenderScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/holographic_postrender_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static HorseScreen(elementPath: HorseScreen, properties?: Properties) {
+		return Modify.register("ui/horse_screen.json", elementPath, properties);
+	}
+	static HorseScreenPocket(
+		elementPath: HorseScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/horse_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static HowToPlayCommon(
+		elementPath: HowToPlayCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/how_to_play_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static HowToPlayScreen(
+		elementPath: HowToPlayScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/how_to_play_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static HudScreen(elementPath: HudScreen, properties?: Properties) {
+		return Modify.register("ui/hud_screen.json", elementPath, properties);
+	}
+	static HostOptionsScreen(
+		elementPath: HostOptionsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/host_options_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static InBedScreen(elementPath: InBedScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/in_bed_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ItemDetailDescriptionScreen(
+		elementPath: ItemDetailDescriptionScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/item_detail_description_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ImmersiveReader(
+		elementPath: ImmersiveReader,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/immersive_reader.json",
+			elementPath,
+			properties
+		);
+	}
+	static InventoryScreen(
+		elementPath: InventoryScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/inventory_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static InventoryScreenPocket(
+		elementPath: InventoryScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/inventory_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static InviteScreen(elementPath: InviteScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/invite_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static JigsawEditorScreen(
+		elementPath: JigsawEditorScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/jigsaw_editor_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static LateJoinPregameScreen(
+		elementPath: LateJoinPregameScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/late_join_pregame_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static LibraryModalScreen(
+		elementPath: LibraryModalScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/library_modal_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static LocalWorldPickerScreen(
+		elementPath: LocalWorldPickerScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/local_world_picker_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static LoomScreen(elementPath: LoomScreen, properties?: Properties) {
+		return Modify.register("ui/loom_screen.json", elementPath, properties);
+	}
+	static LoomScreenPocket(
+		elementPath: LoomScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/loom_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static ManageFeedScreen(
+		elementPath: ManageFeedScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/manage_feed_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ManifestValidationScreen(
+		elementPath: ManifestValidationScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/manifest_validation_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static MarketplaceSdl_SdlLabel(
+		elementPath: MarketplaceSdl_SdlLabel,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/marketplace_sdl/sdl_label.json",
+			elementPath,
+			properties
+		);
+	}
+	static MarketplaceSdl_SdlDropdowns(
+		elementPath: MarketplaceSdl_SdlDropdowns,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/marketplace_sdl/sdl_dropdowns.json",
+			elementPath,
+			properties
+		);
+	}
+	static MarketplaceSdl_SdlImageRow(
+		elementPath: MarketplaceSdl_SdlImageRow,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/marketplace_sdl/sdl_image_row.json",
+			elementPath,
+			properties
+		);
+	}
+	static MarketplaceSdl_SdlTextRow(
+		elementPath: MarketplaceSdl_SdlTextRow,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/marketplace_sdl/sdl_text_row.json",
+			elementPath,
+			properties
+		);
+	}
+	static MobEffectScreen(
+		elementPath: MobEffectScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/mob_effect_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static NonXblUserManagementScreen(
+		elementPath: NonXblUserManagementScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/non_xbl_user_management_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static NpcInteractScreen(
+		elementPath: NpcInteractScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/npc_interact_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static OnlineSafetyScreen(
+		elementPath: OnlineSafetyScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/online_safety_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PackSettingsScreen(
+		elementPath: PackSettingsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/pack_settings_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PanoramaScreen(
+		elementPath: PanoramaScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/panorama_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PatchNotesScreen(
+		elementPath: PatchNotesScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/patch_notes_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PauseScreen(elementPath: PauseScreen, properties?: Properties) {
+		return Modify.register("ui/pause_screen.json", elementPath, properties);
+	}
+	static PdpScreen(elementPath: PdpScreen, properties?: Properties) {
+		return Modify.register("ui/pdp_screen.json", elementPath, properties);
+	}
+	static PdpScreenshotsSection(
+		elementPath: PdpScreenshotsSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/pdp_screenshots_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static PermissionsScreen(
+		elementPath: PermissionsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/permissions_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PersonaCastCharacterScreen(
+		elementPath: PersonaCastCharacterScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/persona_cast_character_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PersonaCommon(elementPath: PersonaCommon, properties?: Properties) {
+		return Modify.register(
+			"ui/persona_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static PersonaScreen(elementPath: PersonaScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/persona_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PlayScreen(elementPath: PlayScreen, properties?: Properties) {
+		return Modify.register("ui/play_screen.json", elementPath, properties);
+	}
+	static PerfTurtle(elementPath: PerfTurtle, properties?: Properties) {
+		return Modify.register("ui/perf_turtle.json", elementPath, properties);
+	}
+	static PocketContainers(
+		elementPath: PocketContainers,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/pocket_containers.json",
+			elementPath,
+			properties
+		);
+	}
+	static PopupDialog(elementPath: PopupDialog, properties?: Properties) {
+		return Modify.register("ui/popup_dialog.json", elementPath, properties);
+	}
+	static PortfolioScreen(
+		elementPath: PortfolioScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/portfolio_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static PostRatingScreen(
+		elementPath: PostRatingScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/post_rating_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ProfileCard(elementPath: ProfileCard, properties?: Properties) {
+		return Modify.register("ui/profile_card.json", elementPath, properties);
+	}
+	static ProfileScreen(elementPath: ProfileScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/profile_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ProgressScreen(
+		elementPath: ProgressScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/progress_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RatingPrompt(elementPath: RatingPrompt, properties?: Properties) {
+		return Modify.register(
+			"ui/rating_prompt.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsCommon(elementPath: RealmsCommon, properties?: Properties) {
+		return Modify.register(
+			"ui/realms_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsCreate(elementPath: RealmsCreate, properties?: Properties) {
+		return Modify.register(
+			"ui/realms_create.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPendingInvitations(
+		elementPath: RealmsPendingInvitations,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_pending_invitations.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsSlotsScreen(
+		elementPath: RealmsSlotsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_slots_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsSettingsScreen(
+		elementPath: RealmsSettingsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_settings_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsAllowlist(
+		elementPath: RealmsAllowlist,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_allowlist.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsInviteLinkSettingsScreen(
+		elementPath: RealmsInviteLinkSettingsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_invite_link_settings_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusEndedScreen(
+		elementPath: RealmsPlusEndedScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_plus_ended_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsplusUpgradeNoticeScreen(
+		elementPath: RealmsplusUpgradeNoticeScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsplus_upgrade_notice_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusScreen(
+		elementPath: RealmsPlusScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_ContentSection(
+		elementPath: RealmsPlusSections_ContentSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/content_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_FaqSection(
+		elementPath: RealmsPlusSections_FaqSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/faq_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_LandingSection(
+		elementPath: RealmsPlusSections_LandingSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/landing_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_RealmsPlusBuyNowScreen(
+		elementPath: RealmsPlusSections_RealmsPlusBuyNowScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/realmsPlus_buy_now_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_RealmsPlusViewPacksScreen(
+		elementPath: RealmsPlusSections_RealmsPlusViewPacksScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/realmsPlus_view_packs_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsPlusSections_RealmsPlusPurchaseWarningScreen(
+		elementPath: RealmsPlusSections_RealmsPlusPurchaseWarningScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realmsPlus_sections/realmsPlus_purchase_warning_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RealmsStoriesTransitionScreen(
+		elementPath: RealmsStoriesTransitionScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/realms_stories_transition_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static RedstoneScreen(
+		elementPath: RedstoneScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/redstone_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ResourcePacksScreen(
+		elementPath: ResourcePacksScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/resource_packs_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SafeZoneScreen(
+		elementPath: SafeZoneScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/safe_zone_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StorageMigrationCommon(
+		elementPath: StorageMigrationCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/storage_migration_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static StorageMigrationGenericScreen(
+		elementPath: StorageMigrationGenericScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/storage_migration_generic_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static Scoreboards(elementPath: Scoreboards, properties?: Properties) {
+		return Modify.register("ui/scoreboards.json", elementPath, properties);
+	}
+	static ScreenshotScreen(
+		elementPath: ScreenshotScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/screenshot_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SelectWorldScreen(
+		elementPath: SelectWorldScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/select_world_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ServerForm(elementPath: ServerForm, properties?: Properties) {
+		return Modify.register("ui/server_form.json", elementPath, properties);
+	}
+	static SettingsScreen(
+		elementPath: SettingsScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SettingsSections_ControlsSection(
+		elementPath: SettingsSections_ControlsSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_sections/controls_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static SettingsSections_GeneralSection(
+		elementPath: SettingsSections_GeneralSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_sections/general_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static SettingsSections_RealmsWorldSection(
+		elementPath: SettingsSections_RealmsWorldSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_sections/realms_world_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static SettingsSections_SettingsCommon(
+		elementPath: SettingsSections_SettingsCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_sections/settings_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static SettingsSections_WorldSection(
+		elementPath: SettingsSections_WorldSection,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/settings_sections/world_section.json",
+			elementPath,
+			properties
+		);
+	}
+	static SidebarNavigation(
+		elementPath: SidebarNavigation,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/sidebar_navigation.json",
+			elementPath,
+			properties
+		);
+	}
+	static SignScreen(elementPath: SignScreen, properties?: Properties) {
+		return Modify.register("ui/sign_screen.json", elementPath, properties);
+	}
+	static SimpleInprogressScreen(
+		elementPath: SimpleInprogressScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/simple_inprogress_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SkinPackPurchaseScreen(
+		elementPath: SkinPackPurchaseScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/skin_pack_purchase_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SkinPickerScreen(
+		elementPath: SkinPickerScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/skin_picker_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SmithingTableScreen(
+		elementPath: SmithingTableScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/smithing_table_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SmithingTable2Screen(
+		elementPath: SmithingTable2Screen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/smithing_table_2_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SmithingTableScreenPocket(
+		elementPath: SmithingTableScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/smithing_table_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static SmithingTable2ScreenPocket(
+		elementPath: SmithingTable2ScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/smithing_table_2_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static SmokerScreen(elementPath: SmokerScreen, properties?: Properties) {
+		return Modify.register(
+			"ui/smoker_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StartScreen(elementPath: StartScreen, properties?: Properties) {
+		return Modify.register("ui/start_screen.json", elementPath, properties);
+	}
+	static StonecutterScreen(
+		elementPath: StonecutterScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/stonecutter_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StonecutterScreenPocket(
+		elementPath: StonecutterScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/stonecutter_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static StorageManagement(
+		elementPath: StorageManagement,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/storage_management.json",
+			elementPath,
+			properties
+		);
+	}
+	static StorageManagementPopup(
+		elementPath: StorageManagementPopup,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/storage_management_popup.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreCommon(elementPath: StoreCommon, properties?: Properties) {
+		return Modify.register("ui/store_common.json", elementPath, properties);
+	}
+	static StoreDataDrivenScreen(
+		elementPath: StoreDataDrivenScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_data_driven_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreFilterMenuScreen(
+		elementPath: StoreFilterMenuScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_filter_menu_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreInventoryScreen(
+		elementPath: StoreInventoryScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_inventory_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreItemListScreen(
+		elementPath: StoreItemListScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_item_list_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StorePromoTimelineScreen(
+		elementPath: StorePromoTimelineScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_promo_timeline_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreSalesItemListScreen(
+		elementPath: StoreSalesItemListScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_sales_item_list_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreSearchScreen(
+		elementPath: StoreSearchScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_search_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StoreSortMenuScreen(
+		elementPath: StoreSortMenuScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/store_sort_menu_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static StructureEditorScreen(
+		elementPath: StructureEditorScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/structure_editor_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static SubmitFeedbackScreen(
+		elementPath: SubmitFeedbackScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/submit_feedback_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static TabbedUpsellScreen(
+		elementPath: TabbedUpsellScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/tabbed_upsell_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ThanksForTestingScreen(
+		elementPath: ThanksForTestingScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/thanks_for_testing_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ThirdPartyStoreScreen(
+		elementPath: ThirdPartyStoreScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/third_party_store_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static ToastScreen(elementPath: ToastScreen, properties?: Properties) {
+		return Modify.register("ui/toast_screen.json", elementPath, properties);
+	}
+	static TokenFaqScreen(
+		elementPath: TokenFaqScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/token_faq_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static TradeScreen(elementPath: TradeScreen, properties?: Properties) {
+		return Modify.register("ui/trade_screen.json", elementPath, properties);
+	}
+	static TradeScreenPocket(
+		elementPath: TradeScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/trade_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static Trade2Screen(elementPath: Trade2Screen, properties?: Properties) {
+		return Modify.register(
+			"ui/trade_2_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static Trade2ScreenPocket(
+		elementPath: Trade2ScreenPocket,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/trade_2_screen_pocket.json",
+			elementPath,
+			properties
+		);
+	}
+	static TrialUpsellScreen(
+		elementPath: TrialUpsellScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/trial_upsell_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static UgcViewerScreen(
+		elementPath: UgcViewerScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ugc_viewer_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiArtAssetsCommon(
+		elementPath: UiArtAssetsCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_art_assets_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiCommon(elementPath: UiCommon, properties?: Properties) {
+		return Modify.register("ui/ui_common.json", elementPath, properties);
+	}
+	static UiCommonClassic(
+		elementPath: UiCommonClassic,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_common_classic.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiEduCommon(elementPath: UiEduCommon, properties?: Properties) {
+		return Modify.register(
+			"ui/ui_edu_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiHoloCursor(elementPath: UiHoloCursor, properties?: Properties) {
+		return Modify.register(
+			"ui/ui_holo_cursor.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiPurchaseCommon(
+		elementPath: UiPurchaseCommon,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_purchase_common.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiTemplateButtons(
+		elementPath: UiTemplateButtons,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_template_buttons.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiTemplateDialogs(
+		elementPath: UiTemplateDialogs,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_template_dialogs.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiTemplateTabs(
+		elementPath: UiTemplateTabs,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_template_tabs.json",
+			elementPath,
+			properties
+		);
+	}
+	static UiTemplateToggles(
+		elementPath: UiTemplateToggles,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/ui_template_toggles.json",
+			elementPath,
+			properties
+		);
+	}
+	static UpdateDimensions(
+		elementPath: UpdateDimensions,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/update_dimensions.json",
+			elementPath,
+			properties
+		);
+	}
+	static UpdateVersion(elementPath: UpdateVersion, properties?: Properties) {
+		return Modify.register(
+			"ui/update_version.json",
+			elementPath,
+			properties
+		);
+	}
+	static WorldRecoveryScreen(
+		elementPath: WorldRecoveryScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/world_recovery_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static WorldTemplatesScreen(
+		elementPath: WorldTemplatesScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/world_templates_screen.json",
+			elementPath,
+			properties
+		);
+	}
+	static XblConsoleQrSignin(
+		elementPath: XblConsoleQrSignin,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/xbl_console_qr_signin.json",
+			elementPath,
+			properties
+		);
+	}
+	static XblConsoleSignin(
+		elementPath: XblConsoleSignin,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/xbl_console_signin.json",
+			elementPath,
+			properties
+		);
+	}
+	static XblConsoleSigninSucceeded(
+		elementPath: XblConsoleSigninSucceeded,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/xbl_console_signin_succeeded.json",
+			elementPath,
+			properties
+		);
+	}
+	static XblImmediateSignin(
+		elementPath: XblImmediateSignin,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/xbl_immediate_signin.json",
+			elementPath,
+			properties
+		);
+	}
+	static XblOptionalSignin(
+		elementPath: XblOptionalSignin,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/xbl_optional_signin.json",
+			elementPath,
+			properties
+		);
+	}
+	static Win10TrialConversionScreen(
+		elementPath: Win10TrialConversionScreen,
+		properties?: Properties
+	) {
+		return Modify.register(
+			"ui/win10_trial_conversion_screen.json",
+			elementPath,
+			properties
+		);
+	}
 }

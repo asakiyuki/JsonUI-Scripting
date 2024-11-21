@@ -9,6 +9,8 @@ function searchFilePaths(path = "", isStart = true) {
 				"Config.ts",
 				"items.json",
 				"Files",
+				"Env.ts",
+				"GlobalVariables.ts",
 			].includes(folder)
 		) {
 			console.log(folder);
@@ -27,6 +29,9 @@ function searchFilePaths(path = "", isStart = true) {
 }
 fs.writeFileSync(
 	"./src/index.ts",
-	`console.time("Compiler");\n${searchFilePaths()}`,
+	`console.time("Compiler");
+\ \ ${searchFilePaths()}
+\ \ export * from "./compilers/reader/Env";
+\ \ export * from "./compilers/reader/GlobalVariables";`,
 	"utf-8"
 );

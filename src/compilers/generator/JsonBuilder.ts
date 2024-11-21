@@ -28,6 +28,10 @@ export class JsonBuilder extends Class {
 		modify: {},
 	};
 
+	static registerGlobalVariable(key: string, value: any) {
+		this.save.globalVariables[`$${key}`] = value;
+	}
+
 	static registerElement(namespace: string, element: UI | AnimationKeyFrame) {
 		const extension = Configs.getConfig().buildFileExtension;
 		const buildFile = (this.save.build[

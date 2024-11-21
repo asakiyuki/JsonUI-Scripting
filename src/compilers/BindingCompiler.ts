@@ -4,7 +4,10 @@ import { Random } from "../compoments/Random";
 import { funcObj } from "./BindingFunctions";
 
 export interface BindingFunctionObject {
-	[key: string]: (arg: UI | OverrideInterface, params: Array<string>) => string;
+	[key: string]: (
+		arg: UI | OverrideInterface,
+		params: Array<string>
+	) => string;
 }
 
 export class BindingCompiler {
@@ -25,7 +28,11 @@ export class BindingCompiler {
 			else if (token === "|") build += "or ";
 			else if (token === "!") build += "not ";
 			else {
-				if (this.isNegativeNumber(token) && !this.isOperator(tokens[index - 1]) && tokens[index - 1] !== undefined) {
+				if (
+					this.isNegativeNumber(token) &&
+					!this.isOperator(tokens[index - 1]) &&
+					tokens[index - 1] !== undefined
+				) {
 					build += `- ${token.slice(1)} `;
 				} else build += `${token} `;
 			}
@@ -47,10 +54,15 @@ export class BindingCompiler {
 	}
 
 	static checkAndBuild(token: string, arg: UI | OverrideInterface) {
-		return this.isHasBinding(token) ? this.build(token, arg) : this.buildNewPropertyBag(token, arg);
+		return this.isHasBinding(token)
+			? this.build(token, arg)
+			: this.buildNewPropertyBag(token, arg);
 	}
 
-	static compileSpecialOperator(tokens: Array<string>, arg: UI | OverrideInterface) {
+	static compileSpecialOperator(
+		tokens: Array<string>,
+		arg: UI | OverrideInterface
+	) {
 		const firstTokens: Array<string> = [];
 
 		if (tokens.includes("?")) {
@@ -87,18 +99,26 @@ export class BindingCompiler {
 
 			arg.addBindings([
 				{
-					source_property_name: this.checkAndBuild(secondTokens.join(""), arg),
+					source_property_name: this.checkAndBuild(
+						secondTokens.join(""),
+						arg
+					),
 					target_property_name: <any>secondBinding,
 				},
 				{
-					source_property_name: [`'${generateBindingName}{${firstBinding}}'`],
+					source_property_name: [
+						`'${generateBindingName}{${firstBinding}}'`,
+					],
 					target_property_name: <any>generateBindingName,
 				},
 			]);
 
 			if (elseCount !== 0) {
 				arg.addBindings({
-					source_property_name: this.checkAndBuild(thirdTokens.join(""), arg),
+					source_property_name: this.checkAndBuild(
+						thirdTokens.join(""),
+						arg
+					),
 					target_property_name: <any>thirdBinding,
 				});
 			}
@@ -110,22 +130,61 @@ export class BindingCompiler {
 				if (["%", ">=", "<=", "!="].includes(token)) {
 					const secondTokens = tokens.slice(index + 1);
 
-					const firstBinding = firstTokens.length === 1 ? firstTokens[0] : this.buildNewBinding(firstTokens.join(""), arg);
+					const firstBinding =
+						firstTokens.length === 1
+							? firstTokens[0]
+							: this.buildNewBinding(firstTokens.join(""), arg);
 
-					const secondBinding = secondTokens.length === 1 ? secondTokens[0] : this.buildNewBinding(tokens.slice(index + 1).join(""), arg);
+					const secondBinding =
+						secondTokens.length === 1
+							? secondTokens[0]
+							: this.buildNewBinding(
+									tokens.slice(index + 1).join(""),
+									arg
+							  );
 
 					switch (token) {
 						case ">=": {
-							return [firstBinding, ">", secondBinding, "|", firstBinding, "==", secondBinding];
+							return [
+								firstBinding,
+								">",
+								secondBinding,
+								"|",
+								firstBinding,
+								"==",
+								secondBinding,
+							];
 						}
 						case "<=": {
-							return [firstBinding, "<", secondBinding, "|", firstBinding, "==", secondBinding];
+							return [
+								firstBinding,
+								"<",
+								secondBinding,
+								"|",
+								firstBinding,
+								"==",
+								secondBinding,
+							];
 						}
 						case "!=": {
-							return ["not", this.buildNewBinding(`${firstBinding} == ${secondBinding}`, arg)];
+							return [
+								"not",
+								this.buildNewBinding(
+									`${firstBinding} == ${secondBinding}`,
+									arg
+								),
+							];
 						}
 						case "%": {
-							return [firstBinding, "-", firstBinding, "/", secondBinding, "*", secondBinding];
+							return [
+								firstBinding,
+								"-",
+								firstBinding,
+								"/",
+								secondBinding,
+								"*",
+								secondBinding,
+							];
 						}
 					}
 				} else firstTokens.push(token);
@@ -137,14 +196,22 @@ export class BindingCompiler {
 
 	static lexer(propertyName: string, arg: UI | OverrideInterface) {
 		const getTokens = this.compileSpecialOperator(
-			this.readTokens(this.getTokens(this.splitString(propertyName))).map((token) => {
-				if (this.isCodeBlock(token)) return <string>this.buildNewBinding(token.slice(1, token.length - 1), arg);
-				else if (this.isFunction(token)) {
-					return <string>this.functionHandler(token, arg);
-				} else if (this.isString(token)) {
-					return <string>this.stringHandler(token, arg);
-				} else return token;
-			}),
+			this.readTokens(this.getTokens(this.splitString(propertyName))).map(
+				(token) => {
+					if (this.isCodeBlock(token))
+						return <string>(
+							this.buildNewBinding(
+								token.slice(1, token.length - 1),
+								arg
+							)
+						);
+					else if (this.isFunction(token)) {
+						return <string>this.functionHandler(token, arg);
+					} else if (this.isString(token)) {
+						return <string>this.stringHandler(token, arg);
+					} else return token;
+				}
+			),
 			arg
 		);
 
@@ -160,9 +227,10 @@ export class BindingCompiler {
 		for (const char of propertyName) {
 			if (char === "'" && openFormatCount === 0) {
 				isString = !isString;
-				if (token !== "") {
+
+				if (token !== "" || !isString)
 					tokens.push(isString ? token : `'${token}'`);
-				}
+
 				token = "";
 			} else if (char === "\n" && isString) {
 				token += "\\n";
@@ -183,11 +251,19 @@ export class BindingCompiler {
 	}
 
 	static stringHandler(token: string, arg: UI | OverrideInterface) {
-		const tokens = this.getStringTokens(token.slice(1, token.length - 1)).map((token) => {
-			if (this.isStringCode(token)) return BindingCompiler.build(token.slice(1, token.length - 1), arg);
+		const tokens = this.getStringTokens(
+			token.slice(1, token.length - 1)
+		).map((token) => {
+			if (this.isStringCode(token))
+				return BindingCompiler.build(
+					token.slice(1, token.length - 1),
+					arg
+				);
 			else return `'${token}'`;
 		});
-		return tokens.length > 1 ? `(${tokens.join(" + ")})` : tokens[0];
+		return tokens.length > 1
+			? `(${tokens.join(" + ")})`
+			: tokens[0] || "''";
 	}
 
 	static getStringTokens(token: string) {
@@ -217,24 +293,36 @@ export class BindingCompiler {
 	}
 
 	static functionHandler(token: string, arg: UI | OverrideInterface) {
-		const func = this.readFunctionFromToken(this.getTokens(this.splitString(token)), arg);
+		const func = this.readFunctionFromToken(
+			this.getTokens(this.splitString(token)),
+			arg
+		);
 
 		let str = "";
 
 		if (funcObj[func.name]) {
 			str = funcObj[func.name](
 				arg,
-				func.params.map((token) => (this.isStringPattern(token) ? this.build(`(${token})`, arg) : token))
+				func.params.map((token) =>
+					this.isStringPattern(token)
+						? this.build(`(${token})`, arg)
+						: token
+				)
 			);
 		} else {
-			console.warn(`[Compile error] Cannot found '${func.name}' function!`);
+			console.warn(
+				`[Compile error] Cannot found '${func.name}' function!`
+			);
 			str = `'[Compile Error]: function >>${func.name}<< not found!'`;
 		}
 
 		return str;
 	}
 
-	static readFunctionFromToken(tokens: Array<string>, arg: UI | OverrideInterface) {
+	static readFunctionFromToken(
+		tokens: Array<string>,
+		arg: UI | OverrideInterface
+	) {
 		const name = tokens[0];
 		tokens = tokens.slice(2, tokens.length - 1);
 
@@ -259,7 +347,11 @@ export class BindingCompiler {
 		return {
 			name,
 			params: params.map((token) => {
-				if (this.getTokens(this.splitString(token)).length > 1) return this.build(this.isCodeBlock(token) ? token : `(${token})`, arg);
+				if (this.getTokens(this.splitString(token)).length > 1)
+					return this.build(
+						this.isCodeBlock(token) ? token : `(${token})`,
+						arg
+					);
 				else return token;
 			}),
 		};
@@ -305,7 +397,12 @@ export class BindingCompiler {
 		const tokens: Array<string> = [];
 		for (const token of strTokens) {
 			if (this.isString(token)) tokens.push(token);
-			else tokens.push(...(token.match(/-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|[\[\]()+\-*\/=><!,&%|?:]/gm) ?? []));
+			else
+				tokens.push(
+					...(token.match(
+						/-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|[\[\]()+\-*\/=><!,&%|?:]/gm
+					) ?? [])
+				);
 		}
 		return tokens;
 	}
@@ -330,7 +427,7 @@ export class BindingCompiler {
 	}
 
 	static isString(token: string) {
-		return /^'.+'$/.test(token);
+		return /^'.+'$/.test(token) || token === "''";
 	}
 
 	static isStringCode(token: string) {

@@ -1,8 +1,8 @@
 import fs from "fs-extra";
+import { parse } from "jsonc-parser";
 import { JsonBuilder } from "./JsonBuilder";
 import { SearchFiles } from "./SearchFiles";
 import { GenerateDir } from "./GenerateDir";
-import { installer } from "../Compiler";
 
 export class UIBuilder {
 	static delete(installPath: string) {
@@ -19,9 +19,15 @@ export class UIBuilder {
 		for (const file in build) {
 			const namespace = build[file].namespace;
 			delete build[file].namespace;
-			for (const jsonUI in build[file]) build[file][jsonUI] = build[file][jsonUI].getUI();
+			for (const jsonUI in build[file])
+				build[file][jsonUI] = build[file][jsonUI].getUI();
 
-			console.timeLog("Compiler", `>> ${file} ${Object.keys(build[file]).length} elements has generated!`);
+			console.timeLog(
+				"Compiler",
+				`>> ${file} ${
+					Object.keys(build[file]).length
+				} elements has generated!`
+			);
 
 			build[file].namespace = namespace;
 			fs.writeJsonSync(`${installPath}/@/${file}`, build[file], "utf-8");
@@ -32,14 +38,21 @@ export class UIBuilder {
 	}
 
 	static modify(installPath: string) {
-		if (!fs.existsSync(`${installPath}/ui`)) fs.mkdirSync(`${installPath}/ui`);
+		if (!fs.existsSync(`${installPath}/ui`))
+			fs.mkdirSync(`${installPath}/ui`);
 		let count = 0;
 		const modify = JsonBuilder.save.modify;
 		for (const key in modify) {
 			GenerateDir(installPath, key);
-			for (const element in modify[key]) modify[key][element] = modify[key][element].getUI();
+			for (const element in modify[key])
+				modify[key][element] = modify[key][element].getUI();
 
-			console.timeLog("Compiler", `>> ${key} ${Object.keys(modify[key]).length} modify element(s) has generated!`);
+			console.timeLog(
+				"Compiler",
+				`>> ${key} ${
+					Object.keys(modify[key]).length
+				} modify element(s) has generated!`
+			);
 
 			fs.writeJSONSync(`${installPath}/${key}`, modify[key], "utf-8");
 			delete modify[key];
@@ -50,7 +63,11 @@ export class UIBuilder {
 
 	static uiDefs(installPath: string) {
 		const arr = SearchFiles.array(`${installPath}/@`, "@");
-		fs.writeJsonSync(`${installPath}/ui/_ui_defs.json`, { ui_defs: arr }, "utf-8");
+		fs.writeJsonSync(
+			`${installPath}/ui/_ui_defs.json`,
+			{ ui_defs: arr },
+			"utf-8"
+		);
 		return arr.length;
 	}
 
@@ -73,9 +90,36 @@ export class UIBuilder {
 			.filter((v) => /\.(png|jpg|jpeg)$/.test(v))
 			.map((v) => v.replace(/\.(png|jpg|jpeg)$/, ""));
 
-		if (!fs.existsSync(`${installPath}/textures`)) fs.mkdirSync(`${installPath}/textures`);
-		fs.writeJSONSync(`${installPath}/textures/textures_list.json`, arr, "utf-8");
+		let textureList: Array<string> = [];
+
+		if (fs.existsSync(`.bedrock/textures/textures_list.json`)) {
+			const texturesList = fs.readFileSync(
+				`.bedrock/textures/textures_list.json`,
+				"utf-8"
+			);
+			textureList = parse(texturesList);
+		}
+
+		if (!fs.existsSync(`${installPath}/textures`))
+			fs.mkdirSync(`${installPath}/textures`);
+		fs.writeJSONSync(
+			`${installPath}/textures/textures_list.json`,
+			[...arr, ...textureList],
+			"utf-8"
+		);
 
 		return arr.length;
+	}
+
+	static globalVariables(installPath: string) {
+		const globalVariables = JsonBuilder.save.globalVariables;
+
+		fs.writeJsonSync(
+			`${installPath}/ui/_global_variables.json`,
+			globalVariables,
+			"utf-8"
+		);
+
+		return Object.keys(globalVariables).length;
 	}
 }
