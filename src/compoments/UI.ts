@@ -51,17 +51,68 @@ interface TypeExtend {
 }
 const typeExtend: TypeExtend = {};
 
+/**
+ * A class representing a UI element that can be used to create and manage various UI components.
+ * It includes properties, bindings, children, animations, and extends other UI components.
+ */
 export class UI {
+	/**
+	 * The name of the UI element.
+	 * This can be automatically generated or specified in the constructor.
+	 */
 	name?: string;
+
+	/**
+	 * The namespace of the UI element, used for unique identification.
+	 * This can be automatically generated or specified in the constructor.
+	 */
 	namespace?: string;
+
+	/**
+	 * The type of the UI element, which could extend from another element.
+	 */
 	extends?: string;
+
+	/**
+	 * The type of the UI element (e.g., Panel, Button, etc.).
+	 * @private
+	 */
 	private type?: string;
+
+	/**
+	 * The child elements contained within the UI element.
+	 * @private
+	 */
 	private controls?: Array<ChildElement>;
+
+	/**
+	 * The bindings of the UI element, linking properties to other elements.
+	 * @private
+	 */
 	private bindings?: Array<BindingInterface>;
+
+	/**
+	 * The variables associated with the UI element.
+	 * @private
+	 */
 	private variables?: VariablesInterface;
+
+	/**
+	 * The list of animations associated with the UI element.
+	 * @private
+	 */
 	private anims?: Array<string>;
+
+	/**
+	 * The properties of the UI element.
+	 * @private
+	 */
 	private properties?: Properties;
 
+	/**
+	 * Constructs a new UI element, either by creating a new one or extending an existing one.
+	 * @param identifier A UI element or UI interface used to initialize this element.
+	 */
 	constructor(identifier: UIInterface | UI) {
 		const config = Configs.getConfig();
 
@@ -109,6 +160,12 @@ export class UI {
 		JsonBuilder.registerElement(this.namespace, this);
 	}
 
+	/**
+	 * Creates a Panel UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Panel.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Panel.
+	 */
 	static panel(properties?: Panel, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -116,6 +173,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a StackPanel UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the StackPanel.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a StackPanel.
+	 */
 	static stackPanel(properties?: StackPanel, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -123,6 +187,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a CollectionPanel UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the CollectionPanel.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a CollectionPanel.
+	 */
 	static collectionPanel(
 		properties?: CollectionPanel,
 		identifier?: StaticUIInterface
@@ -133,6 +204,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates an InputPanel UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the InputPanel.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing an InputPanel.
+	 */
 	static inputPanel(properties?: InputPanel, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -140,6 +218,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Grid UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Grid.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Grid.
+	 */
 	static grid(properties?: Grid, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -147,6 +232,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Button UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Button.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Button.
+	 */
 	static button(properties?: Button, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -154,6 +246,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Toggle UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Toggle.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Toggle.
+	 */
 	static toggle(properties?: Toggle, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -161,6 +260,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Label UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Label.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Label.
+	 */
 	static label(properties?: Label, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -168,6 +274,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates an Image UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Image.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing an Image.
+	 */
 	static image(properties?: Image, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -175,6 +288,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Dropdown UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Dropdown.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Dropdown.
+	 */
 	static dropdown(properties?: Dropdown, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -182,6 +302,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Slider UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Slider.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Slider.
+	 */
 	static slider(properties?: Slider, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -189,6 +316,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a SliderBox UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the SliderBox.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a SliderBox.
+	 */
 	static sliderBox(properties?: SliderBox, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -196,6 +330,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates an EditBox UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the EditBox.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing an EditBox.
+	 */
 	static editBox(properties?: EditBox, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -203,6 +344,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a ScrollView UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the ScrollView.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a ScrollView.
+	 */
 	static scrollView(properties?: ScrollView, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -210,6 +358,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a ScrollbarTrack UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the ScrollbarTrack.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a ScrollbarTrack.
+	 */
 	static scrollbarTrack(
 		properties?: ScrollbarTrack,
 		identifier?: StaticUIInterface
@@ -220,6 +375,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a ScrollbarBox UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the ScrollbarBox.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a ScrollbarBox.
+	 */
 	static scrollbarBox(
 		properties?: ScrollbarBox,
 		identifier?: StaticUIInterface
@@ -230,6 +392,13 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a Screen UI element with specified properties and identifier.
+	 * @param properties Properties to apply to the Screen.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a Screen.
+	 */
 	static screen(properties?: Screen, identifier?: StaticUIInterface) {
 		return new UI(<UIInterface>{
 			...identifier,
@@ -237,6 +406,15 @@ export class UI {
 			properties,
 		});
 	}
+
+	/**
+	 * Creates a custom UI element with specified properties and renderer.
+	 * @param renderer The renderer to use for the custom element.
+	 * @param properties The properties for the custom element.
+	 * @param propertyBag Additional properties for the custom element.
+	 * @param identifier An optional identifier for the UI element.
+	 * @returns A new UI instance representing a custom element.
+	 */
 	static custom<T extends Renderer>(
 		renderer: T,
 		properties?: Panel | Specials[T],
@@ -253,6 +431,13 @@ export class UI {
 			},
 		});
 	}
+
+	/**
+	 * Extends an existing UI element with specified properties.
+	 * @param extendElement The UI element or identifier to extend.
+	 * @param properties Additional properties for the extended element.
+	 * @returns A new UI instance representing the extended element.
+	 */
 	static extend(
 		extendElement?: string | Identifier | UI,
 		properties?: Properties
@@ -263,6 +448,13 @@ export class UI {
 		});
 	}
 
+	/**
+	 * Searches for a binding in the UI element based on the given parameters.
+	 * @param bindingName The binding name to search for.
+	 * @param controlName Optional control name to filter bindings.
+	 * @param targetBindingName Optional target binding name to filter further.
+	 * @returns The target binding name or undefined if not found.
+	 */
 	searchBinding(
 		bindingName: Binding,
 		controlName?: string,
@@ -298,6 +490,11 @@ export class UI {
 		return undefined;
 	}
 
+	/**
+	 * Sets the properties of the UI element.
+	 * @param properties The properties to apply to the UI element.
+	 * @returns The updated UI instance.
+	 */
 	setProperties(properties: Properties) {
 		if (properties.property_bag) {
 			properties.property_bag = {
@@ -312,6 +509,12 @@ export class UI {
 		return this;
 	}
 
+	/**
+	 * Adds a child element to the UI element.
+	 * @param child The child element to add (either a string, UI, or identifier).
+	 * @param callback A callback function that will be called after the child is added.
+	 * @returns The updated UI instance.
+	 */
 	addChild(
 		child: string | ChildIdentifier | UI,
 		callback?: UIChildNameCallback
@@ -338,6 +541,11 @@ export class UI {
 		return this;
 	}
 
+	/**
+	 * Adds bindings to the UI element.
+	 * @param bindings The bindings to add (single or multiple).
+	 * @returns The updated UI instance.
+	 */
 	addBindings(
 		bindings:
 			| Array<BindingInterface | Binding | Var>
@@ -349,11 +557,21 @@ export class UI {
 		return this;
 	}
 
+	/**
+	 * Adds multiple bindings to the UI element.
+	 * @param bindings The bindings to add.
+	 * @returns The updated UI instance.
+	 */
 	addMultiBindings(bindings: Array<BindingInterface | Binding | Var>) {
 		this.addBindings(bindings);
 		return this;
 	}
 
+	/**
+	 * Adds variables to the UI element.
+	 * @param variables The variables to add.
+	 * @returns The updated UI instance.
+	 */
 	addVariables(variables: VariablesInterface) {
 		this.variables ||= {};
 
@@ -369,6 +587,10 @@ export class UI {
 		return this;
 	}
 
+	/**
+	 * Retrieves the UI properties and their associated values.
+	 * @returns The UI properties in a structured format.
+	 */
 	getUI() {
 		const code: any = ReadProperties(<any>(this.properties ?? {}));
 
@@ -392,18 +614,36 @@ export class UI {
 		return code;
 	}
 
+	/**
+	 * Retrieves the path of the UI element.
+	 * @returns The path in the format 'namespace.name'.
+	 */
 	getPath() {
 		return `${this.namespace}.${this.name}`;
 	}
 
+	/**
+	 * Retrieves the element identifier for the UI element.
+	 * @returns The element identifier in the format '@namespace.name'.
+	 */
 	getElement() {
 		return `@${this.getPath()}`;
 	}
 
+	/**
+	 * Retrieves the full path of the UI element, including extensions.
+	 * @returns The full path with extensions if available.
+	 */
 	getFullPath(): string {
 		return `${this.name}${this.extends ? `@${this.extends}` : ""}`;
 	}
 
+	/**
+	 * Extends the current UI element with additional properties or an identifier.
+	 * @param identifier An optional identifier to extend the element.
+	 * @param properties Additional properties for the extended element.
+	 * @returns A new UI instance representing the extended element.
+	 */
 	extend(identifier?: ExtendInterface, properties?: Properties) {
 		return new UI({
 			...identifier,
@@ -412,6 +652,12 @@ export class UI {
 		});
 	}
 
+	/**
+	 * Adds an animation to the UI element.
+	 * @param animation The animation to add.
+	 * @param startIndex The starting index for the animation (optional).
+	 * @returns The updated UI instance.
+	 */
 	addAnimation(animation: Animation, startIndex?: number) {
 		(this.anims ||= []).push(animation.getKeyIndex(startIndex || 0));
 		return this;

@@ -1,5 +1,5 @@
 console.time("Compiler");
-  export * from "./compilers/Config";
+export * from "./compilers/Config";
 export * from "./compilers/BindingCompiler";
 export * from "./compilers/BindingFunctions";
 export * from "./compilers/Compiler";
@@ -118,5 +118,5 @@ export * from "./types/values/StringVector";
 export * from "./types/values/TargetElementPath";
 export * from "./types/values/Variable";
 export * from "./types/values/Vector";
-  export * from "./compilers/reader/Env";
-  export * from "./compilers/reader/GlobalVariables";
+export * from "./compilers/reader/Env";
+export * from "./compilers/reader/GlobalVariables";

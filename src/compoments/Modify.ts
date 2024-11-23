@@ -110,15 +110,28 @@ export interface ModificationControls {
 	moveBefore: Array<string>;
 }
 
+/**
+ * Represents a class used to modify the properties, controls, bindings, and variables of a Minecraft UI element.
+ * This class provides various methods to manipulate UI elements dynamically and compile them into JSON format.
+ *
+ * @class Modify
+ */
 export class Modify {
+	/** Holds the properties for the modification. */
 	private properties: Properties = {};
+	/** Holds the controls for the modification. */
 	private controls?: Array<ChildElement>;
+	/** Holds the bindings for the modification. */
 	private bindings?: Array<BindingInterface>;
+	/** Holds the variables for the modification. */
 	private variables?: VariablesInterface;
 
+	/** Holds the modification bindings. */
 	private modifyBindings?: Array<BindingInterface>;
+	/** Holds the bindings to be removed. */
 	private removeModifyBindings?: Array<BindingInterface>;
 
+	/** Contains control modifications like move, replace, remove, etc. */
 	private modifyControls: ModificationControls = {
 		remove: [],
 		replace: [],
@@ -132,8 +145,17 @@ export class Modify {
 		moveFront: [],
 	};
 
+	/**
+	 * Provides methods for overriding properties, controls, bindings, and variables.
+	 * These methods allow you to modify the Minecraft UI element in different ways.
+	 */
 	override: OverrideInterface = {
-		/** Override properties for Modify UI Element */
+		/**
+		 * Override properties for the Modify UI Element.
+		 *
+		 * @param {Properties} properties - The properties to set for the UI element.
+		 * @returns {OverrideInterface} The override interface to allow method chaining.
+		 */
 		setProperties: (properties: Properties) => {
 			this.properties = {
 				...this.properties,
@@ -141,7 +163,13 @@ export class Modify {
 			};
 			return this.override;
 		},
-		/** Override controls for Modify UI Element */
+
+		/**
+		 * Override properties for the Modify UI Element.
+		 *
+		 * @param {Properties} properties - The properties to set for the UI element.
+		 * @returns {OverrideInterface} The override interface to allow method chaining.
+		 */
 		addChild: (
 			child: string | ChildIdentifier | UI,
 			callback?: UIChildNameCallback
@@ -169,7 +197,12 @@ export class Modify {
 			return this.override;
 		},
 
-		/** Override bindings for Modify UI Element */
+		/**
+		 * Override properties for the Modify UI Element.
+		 *
+		 * @param {Properties} properties - The properties to set for the UI element.
+		 * @returns {OverrideInterface} The override interface to allow method chaining.
+		 */
 		addBindings: (
 			bindings:
 				| BindingInterface
@@ -187,7 +220,12 @@ export class Modify {
 			return this.override;
 		},
 
-		/** Override variables for Modify UI Element */
+		/**
+		 * Override properties for the Modify UI Element.
+		 *
+		 * @param {Properties} properties - The properties to set for the UI element.
+		 * @returns {OverrideInterface} The override interface to allow method chaining.
+		 */
 		addVariables: (variables: VariablesInterface) => {
 			this.variables ||= {};
 
@@ -203,6 +241,12 @@ export class Modify {
 			return this.override;
 		},
 
+		/**
+		 * Override properties for the Modify UI Element.
+		 *
+		 * @param {Properties} properties - The properties to set for the UI element.
+		 * @returns {OverrideInterface} The override interface to allow method chaining.
+		 */
 		searchBinding: (
 			bindingName: Binding,
 			controlName?: string,
@@ -241,14 +285,31 @@ export class Modify {
 		},
 	};
 
+	/**
+	 * Provides methods to modify bindings and controls.
+	 * These methods allow you to add, remove, or manipulate bindings and controls dynamically.
+	 */
 	modify: ModificationInterface = {
 		bindings: {
+			/**
+			 * Remove specified bindings.
+			 *
+			 * @param {BindingInterface | BindingInterface[]} bindings - The binding(s) to remove.
+			 * @returns {ModificationBindingsInterface} The bindings interface to allow further modifications.
+			 */
 			remove: (bindings) => {
 				if (Array.isArray(bindings)) {
 					(this.removeModifyBindings ||= [])?.push(...bindings);
 				} else (this.removeModifyBindings ||= [])?.push(bindings);
 				return this.modify.bindings;
 			},
+
+			/**
+			 * Add new bindings.
+			 *
+			 * @param {BindingInterface | Binding | Var | Array<BindingInterface | Binding | Var>} bindings - The bindings to add.
+			 * @returns {ModificationBindingsInterface} The bindings interface to allow further modifications.
+			 */
 			addBindings: (bindings) => {
 				if (Array.isArray(bindings))
 					bindings.forEach((binding) =>
@@ -263,18 +324,32 @@ export class Modify {
 			},
 		},
 		controls: {
+			/**
+			 * Remove specified child controls.
+			 *
+			 * @param {string | Array<string>} childName - The child control name(s) to remove.
+			 * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
+			 */
 			remove: (childName) => {
 				if (Array.isArray(childName))
 					this.modifyControls.remove.push(...childName);
 				else this.modifyControls.remove.push(childName);
 				return this.modify.controls;
 			},
+
+			/**
+			 * Move child controls after specified child.
+			 *
+			 * @param {string | Array<string>} childName - The child control name(s) to move.
+			 * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
+			 */
 			moveAfter: (childName) => {
 				if (Array.isArray(childName))
 					this.modifyControls.moveAfter.push(...childName);
 				else this.modifyControls.moveAfter.push(childName);
 				return this.modify.controls;
 			},
+
 			moveBack: (childName) => {
 				if (Array.isArray(childName))
 					this.modifyControls.moveBack.push(...childName);
@@ -293,6 +368,16 @@ export class Modify {
 				else this.modifyControls.moveBefore.push(childName);
 				return this.modify.controls;
 			},
+
+			/**
+			 * Replace specified child control with a new UI element.
+			 *
+			 * @param {string} childName - The name of the child control to replace.
+			 * @param {UI} ui - The new UI element to replace the existing one.
+			 * @param {Properties} [properties] - Optional properties for the new UI element.
+			 * @param {string} [elementName] - Optional name for the new UI element.
+			 * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
+			 */
 			replace: (childName, ui, properties, elementName) => {
 				this.modifyControls.replace.push([
 					childName,
@@ -323,6 +408,15 @@ export class Modify {
 				]);
 				return this.modify.controls;
 			},
+
+			/**
+			 * Insert a new child element at the back.
+			 *
+			 * @param {UI} ui - The UI element to insert.
+			 * @param {Properties} [properties] - Optional properties for the new UI element.
+			 * @param {string} [elementName] - Optional name for the new UI element.
+			 * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
+			 */
 			insertBack: (ui, properties, elementName) => {
 				this.modifyControls.insertBack.push({
 					[`${elementName || Random.getName()}@${ui.getPath()}`]:
@@ -330,6 +424,15 @@ export class Modify {
 				});
 				return this.modify.controls;
 			},
+
+			/**
+			 * Insert a new child element at the front.
+			 *
+			 * @param {UI} ui - The UI element to insert.
+			 * @param {Properties} [properties] - Optional properties for the new UI element.
+			 * @param {string} [elementName] - Optional name for the new UI element.
+			 * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
+			 */
 			insertFront: (ui, properties, elementName) => {
 				this.modifyControls.insertFront.push({
 					[`${elementName || Random.getName()}@${ui.getPath()}`]:
@@ -340,12 +443,20 @@ export class Modify {
 		},
 	};
 
-	/** Constructor of Modify Minecraft Modify UI Element */
+	/**
+	 * Constructor for the Modify class, optionally accepting properties to initialize.
+	 *
+	 * @param {Properties} [properties] - Optional properties to initialize the Modify object with.
+	 */
 	private constructor(properties?: Properties) {
 		if (properties) this.override.setProperties(properties);
 	}
 
-	/** Compile from class to JsonUI code */
+	/**
+	 * Compiles the current modifications into a JSON UI code.
+	 *
+	 * @returns {any} The compiled JSON code representing the UI element modifications.
+	 */
 	getUI() {
 		const code: any = ReadProperties(this.properties);
 		code["modifications"] = [];
@@ -460,7 +571,15 @@ export class Modify {
 		return code;
 	}
 
-	/** Register modify Minecraft Modify UI Element */
+	/**
+	 * Registers a Modify UI element with the specified file and element path.
+	 * Optionally accepts properties for initialization.
+	 *
+	 * @param {string} filePath - The path of the file to register the UI element in.
+	 * @param {string} elementPath - The path of the UI element to register.
+	 * @param {Properties} [properties] - Optional properties to initialize the Modify object with.
+	 * @returns {Modify} The registered Modify object.
+	 */
 	static register(
 		filePath: string,
 		elementPath: string,

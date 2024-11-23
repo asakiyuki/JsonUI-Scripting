@@ -5,8 +5,14 @@ import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
 import { CompressPack } from "./Compess";
 
+// Retrieve the configuration settings
 const config = Configs.getConfig();
 
+/**
+ * Installs the resource pack using the provided configuration and paths.
+ * The installer uses either the Minecraft Preview or Stable version based on the config settings.
+ * It also installs to either the development or production environment based on the config.
+ */
 export const installer = new ResourcePacks({
 	installGame: config.installToMinecraftPreview
 		? Minecraft.Preview
@@ -16,7 +22,14 @@ export const installer = new ResourcePacks({
 		: ResourcePack.Production,
 });
 
-function manifestBuild(installPath: string) {
+/**
+ * Builds the manifest file for the resource pack and writes it to the specified installation path.
+ *
+ * @param {string} installPath - The directory path where the manifest file will be saved.
+ *
+ * @returns {void} - This function does not return any value.
+ */
+function manifestBuild(installPath: string): void {
 	const { name, description, uuid, version, baseGameVersion } =
 		config.manifest;
 	const manifest = new Manifest({ name, description, uuid, version });
@@ -28,28 +41,35 @@ function manifestBuild(installPath: string) {
 	);
 }
 
+// Set up a process listener for the 'beforeExit' event, which handles compilation tasks
 process.on("beforeExit", () => {
 	const installPath = installer.getInstallPath();
 	const buildPath = config.buildInProject ? ".build" : installPath;
 
+	// Clean up temporary build directories
 	UIBuilder.delete(buildPath);
 
+	// Create necessary directories if they do not exist
 	if (!fs.pathExistsSync(`.bedrock`)) fs.mkdirpSync(".bedrock");
 	if (!fs.pathExistsSync(`${buildPath}`)) fs.mkdirSync(`${buildPath}`);
 	if (!fs.pathExistsSync(`${buildPath}/@`)) fs.mkdirSync(`${buildPath}/@`);
 
 	try {
 		console.log("---------- COMPILING ----------");
+
+		// Perform actions depending on whether the build is within the project or external
 		if (!config.buildInProject) {
 			installer.packLink();
 			console.timeLog("Compiler", ">> Symlink completed!");
 			console.log();
 		}
 
+		// Copy bedrock resources to build path
 		fs.copySync(".bedrock", buildPath);
 		console.timeLog("Compiler", ">> Copy bedrock resources completed!");
 		console.log();
 
+		// Compile various UI files
 		console.timeLog(
 			"Compiler",
 			`>> ${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
@@ -60,8 +80,12 @@ process.on("beforeExit", () => {
 			`>> ${UIBuilder.modify(buildPath)} modify file(s) compiled!`
 		);
 		console.log();
+
+		// Generate and save the manifest
 		manifestBuild(buildPath);
 		console.timeLog("Compiler", `>> Manifest file has been compiled!`);
+
+		// Compile UI and other required resources
 		console.timeLog(
 			"Compiler",
 			`>> ui/_ui_defs.json ${UIBuilder.uiDefs(
@@ -87,6 +111,7 @@ process.on("beforeExit", () => {
 			)} file path(s) found!`
 		);
 
+		// Install the resource pack if not building within the project
 		if (!config.buildInProject) {
 			installer.installPack(
 				config.manifest.uuid,
@@ -95,6 +120,7 @@ process.on("beforeExit", () => {
 			console.timeLog("Compiler", `>> Resource Pack has been installed!`);
 		}
 
+		// Compress the pack if enabled in the config
 		if (config.compessWhenCompiled) {
 			CompressPack(buildPath);
 			console.timeLog(
@@ -103,10 +129,11 @@ process.on("beforeExit", () => {
 			);
 		}
 
+		// Final log of compilation completion
 		console.log();
-
 		console.timeLog("Compiler", ">> Compile completed!");
 
+		// Display relevant information
 		console.log("\n---------- INFO ----------");
 		console.log(`Name: ${config.manifest.name}`);
 		console.log(`Description: ${config.manifest.description}`);
@@ -115,11 +142,13 @@ process.on("beforeExit", () => {
 			`Pack Version: ${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}`
 		);
 		console.log(
-			`Base Gase Version: ${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}`
+			`Base Game Version: ${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}`
 		);
 
+		// Print install path if not building within the project
 		if (!config.buildInProject) console.log(`Install Path: ${installPath}`);
 	} catch (error) {
+		// Handle any errors during the compilation process
 		console.timeLog("Compiler", ">> An error occurred while compiling!");
 		console.error(error);
 	}
