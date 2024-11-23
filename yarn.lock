@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@types/adm-zip@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.npmjs.org/@types/adm-zip/-/adm-zip-0.5.6.tgz"
+  integrity sha512-lRlcSLg5Yoo7C2H2AUiAoYlvifWoCx/se7iUNiCBTfEVVYFVn+Tr9ZGed4K73tYgLe9O4PjdJvbxlkdAOx/qiw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/fs-extra@^11.0.4":
   version "11.0.4"
   resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-11.0.4.tgz"
@@ -23,6 +30,11 @@
   integrity sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==
   dependencies:
     undici-types "~6.13.0"
+
+adm-zip@^0.5.16:
+  version "0.5.16"
+  resolved "https://registry.npmjs.org/adm-zip/-/adm-zip-0.5.16.tgz"
+  integrity sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==
 
 fs-extra@^11.2.0:
   version "11.2.0"

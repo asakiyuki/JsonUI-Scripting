@@ -3,6 +3,7 @@ import { UIBuilder } from "./generator/UIBuilder";
 import fs from "fs-extra";
 import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
+import { CompressPack } from "./Compess";
 
 const config = Configs.getConfig();
 
@@ -92,6 +93,14 @@ process.on("beforeExit", () => {
 				config.manifest.version
 			);
 			console.timeLog("Compiler", `>> Resource Pack has been installed!`);
+		}
+
+		if (config.compessWhenCompiled) {
+			CompressPack(buildPath);
+			console.timeLog(
+				"Compiler",
+				">> Minecraft-UIBuild.mcpack Pack compress completed!"
+			);
 		}
 
 		console.log();

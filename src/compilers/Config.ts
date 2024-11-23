@@ -21,6 +21,7 @@ export interface ConfigManifest {
 
 export interface Config {
 	buildInProject: boolean;
+	compessWhenCompiled: boolean;
 	installToDevelopEvironment: boolean;
 	installToMinecraftPreview: boolean;
 	obfuscateElementNames: boolean;
@@ -73,7 +74,8 @@ export class Configs {
 
 	static getDefaultConfig(): Config {
 		return {
-			buildInProject: false,
+			buildInProject: true,
+			compessWhenCompiled: false,
 			installToDevelopEvironment: true,
 			installToMinecraftPreview: false,
 			obfuscateElementNames: false,
