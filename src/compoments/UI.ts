@@ -37,6 +37,7 @@ import {
 	Binding,
 	BindingInterface,
 	Configs,
+	MappingType,
 	Obj,
 	PropertyBag,
 	ReadProperties,
@@ -45,6 +46,7 @@ import {
 } from "../";
 import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
+import { ButtonMapping } from "../types/objects/ButtonMapping";
 
 interface TypeExtend {
 	[key: string]: string;
@@ -90,6 +92,11 @@ export class UI {
 	 * @private
 	 */
 	private bindings?: Array<BindingInterface>;
+
+	/**
+	 * @private
+	 */
+	private button_mappings?: Array<ButtonMapping>;
 
 	/**
 	 * The variables associated with the UI element.
@@ -660,6 +667,19 @@ export class UI {
 	 */
 	addAnimation(animation: Animation, startIndex?: number) {
 		(this.anims ||= []).push(animation.getKeyIndex(startIndex || 0));
+		return this;
+	}
+
+	/**
+	 * Adds mappings to UI element.
+	 */
+	addMapping(mapping: Array<ButtonMapping> | ButtonMapping) {
+		if (Array.isArray(mapping)) mapping.forEach((v) => this.addMapping(v));
+		else {
+			mapping.mapping_type ||= MappingType.Global;
+			(this.button_mappings ||= []).push(mapping);
+		}
+
 		return this;
 	}
 
