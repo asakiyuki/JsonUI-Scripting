@@ -1,9 +1,12 @@
+import path from "path";
+
+import fs from "fs-extra";
 import { Manifest } from "./generator/Manifest";
 import { UIBuilder } from "./generator/UIBuilder";
-import fs from "fs-extra";
 import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
 import { CompressPack } from "./Compess";
+import { Sounds } from "./generator/Sounds";
 
 // Retrieve the configuration settings
 const config = Configs.getConfig();
@@ -64,6 +67,15 @@ process.on("beforeExit", () => {
 			console.log();
 		}
 
+		// Pack-icon setup
+		if (!fs.existsSync(".bedrock/pack_icon.png")) {
+			const packIconPath = path.join(
+				__dirname,
+				"../../resources/logo.png"
+			);
+			fs.copySync(packIconPath, `${buildPath}/pack_icon.png`);
+		}
+
 		// Copy bedrock resources to build path
 		fs.copySync(".bedrock", buildPath);
 		console.timeLog("Compiler", ">> Copy bedrock resources completed!");
@@ -104,6 +116,14 @@ process.on("beforeExit", () => {
 				buildPath
 			)} files path(s) found!`
 		);
+
+		const soundLength = Sounds.compile(buildPath);
+		if (soundLength)
+			console.timeLog(
+				"Compiler",
+				`>> sounds/sound_definitions.json ${soundLength} sound id has regisrer!`
+			);
+
 		console.timeLog(
 			"Compiler",
 			`>> contents.json ${UIBuilder.contents(

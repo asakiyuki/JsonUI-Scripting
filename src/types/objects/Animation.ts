@@ -23,6 +23,8 @@ export interface AnimationInterface {
 	 */
 	loop?: boolean;
 
+	durationPerKeyFrame?: number;
+
 	/**
 	 * An array of keyframes, where each keyframe can either be an AnimationKey object or a float.
 	 */

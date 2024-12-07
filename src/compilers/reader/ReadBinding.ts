@@ -42,17 +42,22 @@ export function ReadBinding(
 
 		if (bindingObject.source_property_name) {
 			bindingObject.binding_type ||= BindingType.View;
-			if (Array.isArray(bindingObject.source_property_name))
-				if (bindingObject.source_control_name)
-					bindingObject.source_property_name =
-						bindingObject.source_property_name[0];
-				else
+
+			const srcBin = bindingObject.source_property_name;
+
+			if (srcBin && !bindingObject.source_control_name) {
+				if (Array.isArray(srcBin))
 					bindingObject.source_property_name = <any>(
-						BindingCompiler.compile(
-							bindingObject.source_property_name[0],
-							arg
-						)
+						BindingCompiler.compile(srcBin[0], arg)
 					);
+				else if (/^\[.+\]$/.test(srcBin)) {
+					bindingObject.source_property_name =
+						BindingCompiler.compile(
+							srcBin.slice(1, srcBin.length - 1),
+							arg
+						);
+				}
+			}
 		} else if (bindingObject.binding_collection_name) {
 			bindingObject.binding_type ||= BindingType.Collection;
 		}

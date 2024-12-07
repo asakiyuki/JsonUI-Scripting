@@ -8,6 +8,11 @@ import { Sound } from "../Sound";
  */
 export interface Sounds {
 	/**
+	 * The path of the sound, which can automatically register usable sounds.
+	 */
+	sound_path?: string;
+
+	/**
 	 * The name of the sound element.
 	 * This can be used to reference or identify the sound in the system.
 	 */

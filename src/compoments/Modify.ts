@@ -573,6 +573,11 @@ export class Modify {
 		return code;
 	}
 
+	addChild(element: UI, properties?: Properties, elementName?: string) {
+		this.modify.controls.insertFront(element, properties, elementName);
+		return this;
+	}
+
 	/**
 	 * Registers a Modify UI element with the specified file and element path.
 	 * Optionally accepts properties for initialization.

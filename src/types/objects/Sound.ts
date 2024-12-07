@@ -5,6 +5,11 @@ import { Float } from "../values/Number";
  */
 export interface Sound {
 	/**
+	 * The path of the sound, which can automatically register usable sounds.
+	 */
+	sound_path?: string;
+
+	/**
 	 * The name of the sound. This could be the name of an asset or identifier for the sound.
 	 */
 	sound_name?: string;

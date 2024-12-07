@@ -1,5 +1,6 @@
 import { Animation } from "../../compoments/Animation";
 import { Properties } from "../../types/objects/properties/Properties";
+import { Sounds } from "../generator/Sounds";
 import { ColorHandler } from "./Color";
 import { Obj } from "./Object";
 
@@ -86,6 +87,23 @@ export function ReadProperties(properties: Properties) {
 		delete properties.h;
 	} else if (properties.size !== undefined && !Array.isArray(properties.size))
 		(<any>properties.size) = [properties.size, properties.size];
+
+	if (properties.sound_path) {
+		properties.sound_name = Sounds.get(properties.sound_path);
+		delete properties.sound_path;
+	}
+
+	if (properties.sounds) {
+		properties.sounds = properties.sounds.map((sound) => {
+			if (sound.sound_path) {
+				const soundId = Sounds.get(sound.sound_path);
+				delete sound.sound_path;
+				return {
+					sound_name: soundId,
+				};
+			} else return sound;
+		});
+	}
 
 	Obj.forEach(properties, (key, value) => {
 		(<any>properties)[key] = ReadValue(value, (type) => {

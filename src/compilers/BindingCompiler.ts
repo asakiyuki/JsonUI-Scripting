@@ -231,7 +231,7 @@ export class BindingCompiler {
 								secondBinding,
 								"|",
 								firstBinding,
-								"==",
+								"=",
 								secondBinding,
 							];
 						}
@@ -242,7 +242,7 @@ export class BindingCompiler {
 								secondBinding,
 								"|",
 								firstBinding,
-								"==",
+								"=",
 								secondBinding,
 							];
 						}
@@ -250,7 +250,7 @@ export class BindingCompiler {
 							return [
 								"not",
 								this.buildNewBinding(
-									`${firstBinding} == ${secondBinding}`,
+									`${firstBinding} = ${secondBinding}`,
 									arg
 								),
 							];

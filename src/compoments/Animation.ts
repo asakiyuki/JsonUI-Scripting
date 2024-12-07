@@ -68,7 +68,13 @@ export class Animation {
 	 * @private
 	 */
 	private buildAnimation(
-		{ from, keyFrames, loop, type }: AnimationInterface,
+		{
+			from,
+			keyFrames,
+			loop,
+			type,
+			durationPerKeyFrame = 1,
+		}: AnimationInterface,
 		identifier: Identifier
 	) {
 		const frameLength = keyFrames.length - 1;
@@ -101,7 +107,8 @@ export class Animation {
 						next,
 						anim_type: type,
 						from,
-						duration: (<any>keyFrame).duration ?? 1,
+						duration:
+							(<any>keyFrame).duration ?? durationPerKeyFrame,
 						...(<any>keyFrame),
 					},
 					currentIdentifier
