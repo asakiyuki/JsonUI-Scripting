@@ -26,7 +26,7 @@ export function CompressPack(buildPath: string): void {
 		zip.addLocalFile(
 			`${buildPath}/${path.path}`,
 			pathSplit.length !== 1
-				? pathSplit.slice(0, pathSplit.length - 1).join("")
+				? pathSplit.slice(0, pathSplit.length - 1).join("/")
 				: undefined
 		);
 	});

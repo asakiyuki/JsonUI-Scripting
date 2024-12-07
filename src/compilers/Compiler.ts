@@ -141,7 +141,7 @@ process.on("beforeExit", () => {
 		}
 
 		// Compress the pack if enabled in the config
-		if (config.compessWhenCompiled) {
+		if (config.compressAfterCompile) {
 			CompressPack(buildPath);
 			console.timeLog(
 				"Compiler",

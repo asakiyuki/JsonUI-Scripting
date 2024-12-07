@@ -1,3 +1,4 @@
 .VanillaUI
 node_modules
 script
+debug.log

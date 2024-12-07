@@ -55,7 +55,7 @@ export interface Config {
 	/**
 	 * Whether the resource pack should be compressed when compiled.
 	 */
-	compessWhenCompiled: boolean;
+	compressAfterCompile: boolean;
 
 	/**
 	 * Whether the resource pack will be installed into a development environment.
@@ -181,7 +181,7 @@ export class Configs {
 	static getDefaultConfig(): Config {
 		return {
 			buildInProject: true,
-			compessWhenCompiled: false,
+			compressAfterCompile: false,
 			installToDevelopEvironment: true,
 			installToMinecraftPreview: false,
 			obfuscateElementNames: false,
