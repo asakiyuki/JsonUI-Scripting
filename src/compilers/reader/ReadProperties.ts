@@ -61,7 +61,7 @@ export function ReadProperties(properties: Properties) {
 	}
 
 	if (properties.min_w || properties.min_h) {
-		properties.offset = [properties.min_w || 0, properties.min_h || 0];
+		properties.min_size = [properties.min_w || 0, properties.min_h || 0];
 		delete properties.min_w;
 		delete properties.min_h;
 	} else if (
@@ -71,7 +71,7 @@ export function ReadProperties(properties: Properties) {
 		(<any>properties.min_size) = [properties.min_size, properties.min_size];
 
 	if (properties.max_w || properties.max_h) {
-		properties.offset = [properties.max_w || 0, properties.max_h || 0];
+		properties.max_size = [properties.max_w || 0, properties.max_h || 0];
 		delete properties.max_w;
 		delete properties.max_h;
 	} else if (
@@ -81,7 +81,7 @@ export function ReadProperties(properties: Properties) {
 		(<any>properties.max_size) = [properties.max_size, properties.max_size];
 
 	if (properties.w || properties.h) {
-		properties.offset = [properties.w || 0, properties.h || 0];
+		properties.size = [properties.w || 0, properties.h || 0];
 		delete properties.w;
 		delete properties.h;
 	} else if (properties.size !== undefined && !Array.isArray(properties.size))

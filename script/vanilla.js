@@ -98,7 +98,10 @@
 
 				imp.push(`import { ${fileName} } from "./Files/${fileName}";`);
 				classMethod.push(
-					`    static ${fileName}(elementPath: ${fileName}, properties?: Properties) { return Modify.register("${filePath}", elementPath, properties); };`
+					`    static ${fileName}(elementPath: ${fileName}, properties?: Properties, extend?: string) {
+		if (extend) elementPath += \`@\${extend}\`;
+		return Modify.register("${filePath}", elementPath, properties); 
+	};`
 				);
 			}
 		});

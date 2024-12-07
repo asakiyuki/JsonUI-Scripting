@@ -41,9 +41,8 @@ export class BindingCompiler {
 		for (let index = 0; index < tokens.length; index++) {
 			const token = tokens[index];
 
-			if (token === "==") build += "= ";
-			else if (token === "&") build += "and ";
-			else if (token === "|") build += "or ";
+			if (token === "&" || token === "&&") build += "and ";
+			else if (token === "|" || token === "||") build += "or ";
 			else if (token === "!") build += "not ";
 			else {
 				if (
@@ -104,7 +103,49 @@ export class BindingCompiler {
 	) {
 		const firstTokens: Array<string> = [];
 
-		if (tokens.includes("?")) {
+		if (tokens.includes("==")) {
+			const preBuild: Array<string> = [];
+
+			let strToken: Array<string> = [];
+
+			for (const token of tokens) {
+				if (token === "==") {
+					const binding = this.buildNewBinding(
+						strToken.join(""),
+						arg
+					);
+					strToken = [];
+					preBuild.push(...[binding, "="]);
+				} else {
+					strToken.push(token);
+				}
+			}
+
+			preBuild.push(this.buildNewBinding(strToken.join(""), arg));
+			strToken = [];
+
+			const build: Array<string> = [];
+
+			for (let i = 0; i < preBuild.length; i++) {
+				if (preBuild[i] === "=") {
+					if (build.length > 0) build.push("&");
+
+					const [preToken, token, nextToken] = [
+						preBuild[i - 1],
+						preBuild[i],
+						preBuild[i + 1],
+					];
+					build.push(
+						this.buildNewBinding(
+							`${preToken} ${token} ${nextToken}`,
+							arg
+						)
+					);
+				}
+			}
+
+			return build;
+		} else if (tokens.includes("?")) {
 			const startIndex = tokens.indexOf("?");
 			firstTokens.push(...tokens.slice(0, startIndex));
 
@@ -491,7 +532,7 @@ export class BindingCompiler {
 			else
 				tokens.push(
 					...(token.match(
-						/-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|[\[\]()+\-*\/=><!,&%|?:]/gm
+						/-?\d+\.\d+|-\d+|\d+|[#$]?\w+|[><=!]?=|(&&|\|\|)|[\[\]()+\-*\/=><!,&%|?:]/gm
 					) ?? [])
 				);
 		}
@@ -509,6 +550,8 @@ export class BindingCompiler {
 		const rndName: `#${string}` = `#${Random.getName()}`;
 
 		if (this.isHasBinding(token)) {
+			if (this.isBindingOrVariable(token)) return token;
+
 			arg.addBindings({
 				source_property_name: [token],
 				target_property_name: rndName,

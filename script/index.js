@@ -11,6 +11,7 @@ function searchFilePaths(path = "", isStart = true) {
 				"Files",
 				"Env.ts",
 				"GlobalVariables.ts",
+				"API",
 			].includes(folder)
 		) {
 			console.log(folder);

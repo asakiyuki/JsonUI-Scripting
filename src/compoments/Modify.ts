@@ -459,7 +459,7 @@ export class Modify {
 	 */
 	getUI() {
 		const code: any = ReadProperties(this.properties);
-		code["modifications"] = [];
+		const modifications: Array<any> = [];
 
 		for (const key of ["type", "controls", "bindings", "button_mappings"])
 			if ((<any>this)[key]) code[key] = (<any>this)[key];
@@ -474,14 +474,14 @@ export class Modify {
 
 		{
 			if (this.modifyBindings) {
-				code.modifications.push({
+				modifications.push({
 					array_name: "bindings",
 					operation: "insert_front",
 					value: this.modifyBindings,
 				});
 			}
 			if (this.removeModifyBindings) {
-				code.modifications.push(
+				modifications.push(
 					...this.removeModifyBindings.map((v) => ({
 						array_name: "bindings",
 						operation: "remove",
@@ -491,42 +491,42 @@ export class Modify {
 			}
 		}
 		{
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.remove.map((controlName) => ({
 					array_name: "controls",
 					operation: "remove",
 					control_name: controlName,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.moveAfter.map((controlName) => ({
 					array_name: "controls",
 					operation: "move_after",
 					control_name: controlName,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.moveBack.map((controlName) => ({
 					array_name: "controls",
 					operation: "move_back",
 					control_name: controlName,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.moveBefore.map((controlName) => ({
 					array_name: "controls",
 					operation: "move_before",
 					control_name: controlName,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.moveFront.map((controlName) => ({
 					array_name: "controls",
 					operation: "move_front",
 					control_name: controlName,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.replace.map(([childName, element]) => ({
 					array_name: "controls",
 					operation: "replace",
@@ -534,7 +534,7 @@ export class Modify {
 					value: element,
 				}))
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.insertAfter.map(
 					([childName, element]) => ({
 						array_name: "controls",
@@ -544,7 +544,7 @@ export class Modify {
 					})
 				)
 			);
-			code.modifications.push(
+			modifications.push(
 				...this.modifyControls.insertBefore.map(
 					([childName, element]) => ({
 						array_name: "controls",
@@ -555,18 +555,20 @@ export class Modify {
 				)
 			);
 			if (this.modifyControls.insertBack.length)
-				code.modifications.push({
+				modifications.push({
 					array_name: "controls",
 					operation: "insert_back",
 					value: this.modifyControls.insertBack,
 				});
 			if (this.modifyControls.insertFront.length)
-				code.modifications.push({
+				modifications.push({
 					array_name: "controls",
 					operation: "insert_front",
 					value: this.modifyControls.insertFront,
 				});
 		}
+
+		if (modifications.length > 0) code["modifications"] = modifications;
 
 		return code;
 	}

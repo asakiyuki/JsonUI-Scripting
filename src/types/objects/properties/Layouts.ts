@@ -6,6 +6,7 @@ import { StringVector2 } from "../../values/StringVector";
 import { Float, Int } from "../../values/Number";
 import { Var } from "../../values/Variable";
 import { Str } from "../../values/Str";
+import { Any } from "../../values/Any";
 
 /**
  * Represents configuration options related to the layout and positioning of UI elements.
@@ -114,47 +115,47 @@ export interface Layouts {
 	 * Specifies the minimum width of the element as a floating-point number.
 	 * This is the smallest allowable width for the element.
 	 */
-	min_w?: Float;
+	min_w?: Float | Str;
 
 	/**
 	 * Specifies the minimum height of the element as a floating-point number.
 	 * This is the smallest allowable height for the element.
 	 */
-	min_h?: Float;
+	min_h?: Float | Str;
 
 	/**
 	 * Specifies the maximum width of the element as a floating-point number.
 	 * This is the largest allowable width for the element.
 	 */
-	max_w?: Float;
+	max_w?: Float | Str;
 
 	/**
 	 * Specifies the maximum height of the element as a floating-point number.
 	 * This is the largest allowable height for the element.
 	 */
-	max_h?: Float;
+	max_h?: Float | Str;
 
 	/**
 	 * Specifies the width of the element as a floating-point number.
 	 * This value represents the actual width of the element.
 	 */
-	w?: Float;
+	w?: Float | Str;
 
 	/**
 	 * Specifies the height of the element as a floating-point number.
 	 * This value represents the actual height of the element.
 	 */
-	h?: Float;
+	h?: Float | Str;
 
 	/**
 	 * Specifies the X position of the element as a floating-point number.
 	 * This determines the horizontal placement of the element in its parent container.
 	 */
-	x?: Float;
+	x?: Float | Str;
 
 	/**
 	 * Specifies the Y position of the element as a floating-point number.
 	 * This determines the vertical placement of the element in its parent container.
 	 */
-	y?: Float;
+	y?: Float | Str;
 }

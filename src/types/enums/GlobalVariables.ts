@@ -187,6 +187,7 @@ export enum GlobalVariables {
 	'MaterialDiamondColor' = '$material_diamond_color',
 	'MaterialLapisColor' = '$material_lapis_color',
 	'MaterialAmethystColor' = '$material_amethyst_color',
+	'MaterialResinColor' = '$material_resin_color',
 	'DropdownDividerColor' = '$dropdown_divider_color',
 	'TransparentDarkGradientStartColor' = '$transparent_dark_gradient_start_color',
 	'TransparentDarkGradientEndColor' = '$transparent_dark_gradient_end_color',
