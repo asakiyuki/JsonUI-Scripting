@@ -7,6 +7,7 @@ import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
 import { CompressPack } from "./Compess";
 import { Sounds } from "./generator/Sounds";
+import { FormatAudio } from "./reader/Audio";
 
 // Retrieve the configuration settings
 const config = Configs.getConfig();
@@ -59,6 +60,8 @@ process.on("beforeExit", () => {
 
 	try {
 		console.log("---------- COMPILING ----------");
+
+		FormatAudio();
 
 		// Perform actions depending on whether the build is within the project or external
 		if (!config.buildInProject) {

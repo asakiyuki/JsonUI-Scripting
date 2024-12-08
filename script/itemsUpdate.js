@@ -8,8 +8,10 @@ const fs = require("fs-extra");
 
 	for (const key in itemsList) {
 		const id = itemsList[key];
-		list.push(`    '${key}' = ${id * 0x10000}`);
+		list.push(`    '${key}' = ${id * 65536}`);
 	}
+
+	console.log(itemsList);
 
 	fs.writeFileSync(
 		"src/types/enums/ItemAuxID.ts",

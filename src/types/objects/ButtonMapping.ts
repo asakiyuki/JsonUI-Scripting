@@ -6,8 +6,8 @@ import { Bool } from "../values/Bool";
 
 export interface ButtonMapping {
 	ignored?: Bool;
-	from_button_id?: MappingFrom;
-	to_button_id?: MappingTo;
+	from_button_id?: string | MappingFrom;
+	to_button_id?: string | MappingTo;
 	mapping_type?: MappingType;
 	scope?: Scope;
 	input_mode_condition?: InputModeCondition;

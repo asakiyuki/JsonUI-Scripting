@@ -32,12 +32,12 @@ export class Sounds extends Class {
 
 				soundDefinitions[soundId] = {
 					category: "ui",
-					max_distance: null,
-					min_distance: null,
 					sounds: [
 						{
 							load_on_low_memory: true,
 							name: soundPath,
+							stream: true,
+							volume: 1,
 						},
 					],
 				};

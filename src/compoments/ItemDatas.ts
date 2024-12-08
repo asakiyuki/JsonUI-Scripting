@@ -11,14 +11,14 @@ import { Class } from "./Class";
 export class Items extends Class {
 	/**
 	 * Retrieves the item ID from the given item identifier string.
-	 * The ID is calculated by dividing the auxiliary ID by `0x10000`.
+	 * The ID is calculated by dividing the auxiliary ID by `65536`.
 	 *
 	 * @param {string} identification - The item identifier, potentially in the format of `minecraft:itemName` or `itemName`.
 	 * @returns {number} The item ID extracted from the identification string.
 	 * @static
 	 */
 	static getID(identification: string): number {
-		return this.getAuxID(identification) / 0x10000;
+		return this.getAuxID(identification) / 65536;
 	}
 
 	/**
