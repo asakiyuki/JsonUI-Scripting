@@ -6,8 +6,9 @@ import { UIBuilder } from "./generator/UIBuilder";
 import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
 import { CompressPack } from "./Compess";
-import { Sounds } from "./generator/Sounds";
+import { SoundHandler as Sounds } from "./generator/Sounds";
 import { FormatAudio } from "./reader/Audio";
+import { Logs } from "./generator/Log";
 
 // Retrieve the configuration settings
 const config = Configs.getConfig();
@@ -25,6 +26,20 @@ export const installer = new ResourcePacks({
 		? ResourcePack.Development
 		: ResourcePack.Production,
 });
+
+if (!fs.existsSync(`.gitignore`)) {
+	const gitignore = `node_modules
+
+.minecraft
+.build
+.save
+
+asakiyuki.env.js
+
+Minecraft-UIBuild.mcpack`;
+
+	fs.writeFileSync(".gitignore", gitignore, "utf-8");
+}
 
 /**
  * Builds the manifest file for the resource pack and writes it to the specified installation path.
@@ -155,6 +170,16 @@ process.on("beforeExit", () => {
 		// Final log of compilation completion
 		console.log();
 		console.timeLog("Compiler", ">> Compile completed!");
+
+		// Warning log
+		if (Logs.length) {
+			console.log("\n---------- Build Log ----------");
+
+			for (const log of Logs) {
+				if (log.type === "warning") console.warn(log.message);
+				else if (log.type === "error") console.error(log.message);
+			}
+		}
 
 		// Display relevant information
 		console.log("\n---------- INFO ----------");

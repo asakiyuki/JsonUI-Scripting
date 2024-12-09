@@ -3,6 +3,8 @@ import { Class } from "../../compoments/Class";
 import { Modify } from "../../compoments/Modify";
 import { UI } from "../../compoments/UI";
 import { Configs } from "../Config";
+import { CurrentLine } from "../reader/CurrentLine";
+import { Log } from "./Log";
 
 interface JsonObject {
 	build: {
@@ -72,7 +74,17 @@ export class JsonBuilder extends Class {
 		const extension = Configs.getConfig().buildFileExtension;
 		const buildFile = (this.save.build[
 			`${namespace}${extension === "" ? "" : `.${extension}`}`
-		] ??= { namespace });
+		] ||= { namespace });
+
+		for (const e in buildFile) {
+			if (e.split("@")[0] === element.getFullPath().split("@")[0]) {
+				Log.error(
+					`${CurrentLine()} element has a duplicate name and namespace, which can be override.`
+				);
+				break;
+			}
+		}
+
 		buildFile[element.getFullPath()] = element;
 	}
 

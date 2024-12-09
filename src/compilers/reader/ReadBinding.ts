@@ -5,6 +5,8 @@ import { BindingType } from "../../types/enums/BindingType";
 import { BindingInterface } from "../../types/objects/BindingInterface";
 import { Var } from "../../types/values/Variable";
 import { BindingCompiler } from "../BindingCompiler";
+import { Log } from "../generator/Log";
+import { CurrentLine } from "./CurrentLine";
 
 /**
  * Reads and processes a binding object or name and returns a properly structured binding object.
@@ -57,6 +59,10 @@ export function ReadBinding(
 							arg
 						);
 				}
+			}
+
+			if (!bindingObject.target_property_name) {
+				Log.error(`${CurrentLine()} missing target_property_name.`);
 			}
 		} else if (bindingObject.binding_collection_name) {
 			bindingObject.binding_type ||= BindingType.Collection;

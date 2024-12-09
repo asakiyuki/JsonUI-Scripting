@@ -37,6 +37,7 @@ import {
 	Binding,
 	BindingInterface,
 	Configs,
+	CurrentLine,
 	MappingType,
 	Obj,
 	PropertyBag,
@@ -47,6 +48,7 @@ import {
 import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
 import { ButtonMapping } from "../types/objects/ButtonMapping";
+import { Log } from "../compilers/generator/Log";
 
 interface TypeExtend {
 	[key: string]: string;
@@ -447,12 +449,19 @@ export class UI {
 	 */
 	static extend(
 		extendElement?: string | Identifier | UI,
-		properties?: Properties
+		properties?: Properties,
+		identifier?: StaticUIInterface
 	) {
-		return new UI({
-			extends: extendElement,
-			properties,
-		});
+		if (identifier)
+			return new UI({
+				extends: extendElement,
+				...identifier,
+			});
+		else
+			return new UI({
+				extends: extendElement,
+				properties,
+			});
 	}
 
 	/**
@@ -516,6 +525,20 @@ export class UI {
 		return this;
 	}
 
+	private isDuplicate(name: string) {
+		for (const childElement of this.controls || []) {
+			const childKey = Object.keys(childElement)[0];
+			const childName = childKey.split("@")[0];
+
+			if (childName === name) return true;
+		}
+		return false;
+	}
+
+	private isRecusive(name: string) {
+		return name === this.name;
+	}
+
 	/**
 	 * Adds a child element to the UI element.
 	 * @param child The child element to add (either a string, UI, or identifier).
@@ -527,16 +550,48 @@ export class UI {
 		callback?: UIChildNameCallback
 	) {
 		if (!this.controls) this.controls = [];
-		if (typeof child === "string") this.controls.push({ [`${child}`]: {} });
-		else if (child instanceof UI) {
+		if (typeof child === "string") {
+			if (this.isDuplicate(child.split("@")[0])) {
+				Log.warning(
+					`${CurrentLine()} child element should have a unique name!`
+				);
+			}
+
+			this.controls.push({ [`${child}`]: {} });
+		} else if (child instanceof UI) {
+			if (
+				child.name === this.name &&
+				child.namespace === this.namespace
+			) {
+				Log.error(
+					`${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
+				);
+			}
+
 			const name = Random.getName();
 			this.controls.push({ [`${name}${child.getElement()}`]: {} });
 			callback?.(this, name);
 		} else {
-			child.name ??= Random.getName();
-			if (child.extend instanceof UI)
+			child.name ||= Random.getName();
+
+			if (this.isDuplicate(child.name.split("@")[0])) {
+				Log.warning(
+					`${CurrentLine()} child element should have a unique name!`
+				);
+			}
+
+			if (child.extend instanceof UI) {
+				if (
+					child.extend.name === this.name &&
+					child.extend.namespace === this.namespace
+				) {
+					Log.error(
+						`${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
+					);
+				}
+
 				child.extend = child.extend.getPath();
-			else if (typeof child.extend === "object")
+			} else if (typeof child.extend === "object")
 				child.extend = `${child.extend.namespace}.${child.extend.name}`;
 			this.controls.push({
 				[`${child.name}@${child.extend}`]: ReadProperties(

@@ -2,6 +2,8 @@ import { UI } from "../compoments/UI";
 import { OverrideInterface } from "../compoments/Modify";
 import { Random } from "../compoments/Random";
 import { funcObj } from "./BindingFunctions";
+import { Log } from "./generator/Log";
+import { CurrentLine } from "./reader/CurrentLine";
 
 export interface BindingFunctionObject {
 	[key: string]: (
@@ -103,49 +105,7 @@ export class BindingCompiler {
 	) {
 		const firstTokens: Array<string> = [];
 
-		if (tokens.includes("==")) {
-			const preBuild: Array<string> = [];
-
-			let strToken: Array<string> = [];
-
-			for (const token of tokens) {
-				if (token === "==") {
-					const binding = this.buildNewBinding(
-						strToken.join(""),
-						arg
-					);
-					strToken = [];
-					preBuild.push(...[binding, "="]);
-				} else {
-					strToken.push(token);
-				}
-			}
-
-			preBuild.push(this.buildNewBinding(strToken.join(""), arg));
-			strToken = [];
-
-			const build: Array<string> = [];
-
-			for (let i = 0; i < preBuild.length; i++) {
-				if (preBuild[i] === "=") {
-					if (build.length > 0) build.push("&");
-
-					const [preToken, token, nextToken] = [
-						preBuild[i - 1],
-						preBuild[i],
-						preBuild[i + 1],
-					];
-					build.push(
-						this.buildNewBinding(
-							`${preToken} ${token} ${nextToken}`,
-							arg
-						)
-					);
-				}
-			}
-
-			return build;
-		} else if (tokens.includes("?")) {
+		if (tokens.includes("?")) {
 			const startIndex = tokens.indexOf("?");
 			firstTokens.push(...tokens.slice(0, startIndex));
 
@@ -204,6 +164,48 @@ export class BindingCompiler {
 			}
 
 			return [generateBindingName];
+		} else if (tokens.includes("==")) {
+			const preBuild: Array<string> = [];
+
+			let strToken: Array<string> = [];
+
+			for (const token of tokens) {
+				if (token === "==") {
+					const binding = this.buildNewBinding(
+						strToken.join(""),
+						arg
+					);
+					strToken = [];
+					preBuild.push(...[binding, "="]);
+				} else {
+					strToken.push(token);
+				}
+			}
+
+			preBuild.push(this.buildNewBinding(strToken.join(""), arg));
+			strToken = [];
+
+			const build: Array<string> = [];
+
+			for (let i = 0; i < preBuild.length; i++) {
+				if (preBuild[i] === "=") {
+					if (build.length > 0) build.push("&");
+
+					const [preToken, token, nextToken] = [
+						preBuild[i - 1],
+						preBuild[i],
+						preBuild[i + 1],
+					];
+					build.push(
+						this.buildNewBinding(
+							`${preToken} ${token} ${nextToken}`,
+							arg
+						)
+					);
+				}
+			}
+
+			return build;
 		} else {
 			for (let index = 0; index < tokens.length; index++) {
 				const token = tokens[index];
@@ -423,8 +425,10 @@ export class BindingCompiler {
 				)
 			);
 		} else {
-			console.warn(
-				`[Compile error] Cannot found '${func.name}' function!`
+			Log.error(
+				`${CurrentLine()} binding function '${
+					func.name
+				}' does not exist!`
 			);
 			str = `'[Compile Error]: function >>${func.name}<< not found!'`;
 		}

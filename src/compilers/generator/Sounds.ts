@@ -9,7 +9,7 @@ interface SoundID {
 
 const sounds: SoundID = {};
 
-export class Sounds extends Class {
+export class SoundHandler extends Class {
 	static get(path: string) {
 		if (sounds[path]) {
 			return sounds[path];

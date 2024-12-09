@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 (async () => {
 	const itemsList = await fetch(
-		"https://asakiyuki.com/api/minecraft/items/numberic-id"
+		"https://asakiyuki.com/api/minecraft/item-ids"
 	).then((v) => v.json());
 
 	const list = [];
@@ -10,8 +10,6 @@ const fs = require("fs-extra");
 		const id = itemsList[key];
 		list.push(`    '${key}' = ${id * 65536}`);
 	}
-
-	console.log(itemsList);
 
 	fs.writeFileSync(
 		"src/types/enums/ItemAuxID.ts",

@@ -8,7 +8,61 @@ import { Obj } from "./reader/Object";
 if (!fs.existsSync("asakiyuki.config.js"))
 	fs.writeFileSync(
 		"asakiyuki.config.js",
-		`/** @type {import('jsonui-scripting').Config} */\nconst config = {};\n\nmodule.exports = config;`,
+		`/**
+ * Configuration object for the JsonUI Scripting build process.
+ * @type {import('jsonui-scripting').Config}
+ */
+const config = {
+    // The number of namespaces to generate
+    namespaceAmountGenerate: 64,
+
+    // The length of each generated namespace string
+    buildNamespaceStringLength: 32,
+
+    // The length of each generated element name string
+    buildElementNameStringLength: 32,
+
+    // The file extension used for the generated files
+    buildFileExtension: "json",
+
+    // Whether to use extended elements instead of types (true = extended, false = types)
+    useExtendElementInsteadType: false,
+
+    // Whether to obfuscate the names of elements (true = obfuscate, false = keep readable)
+    obfuscateElementNames: false,
+
+    // Whether to install the build into a development environment
+    installToDevelopEvironment: true,
+
+    // Whether to install the build into Minecraft Preview
+    installToMinecraftPreview: false,
+
+    // Whether to compress files after compilation
+    compressAfterCompile: false,
+
+    // Whether the build should take place directly in the current project folder
+    buildInProject: true,
+
+    // Manifest information about the project
+    manifest: {
+        // The name of the project
+        name: "JsonUI Scripting",
+
+		// A description of the project
+        // description: "Build with JsonUI-Scripting <3",
+
+        // The unique identifier (UUID) for this project (Automatically generated)
+        // uuid: '01234567-1234-1234-1234-0123456789A',
+
+        // The base game version required for compatibility
+        // baseGameVersion: [1, 21, 1],
+
+        // The version of this build
+        // version: [1, 1, 1],
+    },
+};
+
+module.exports = config;`,
 		"utf-8"
 	);
 

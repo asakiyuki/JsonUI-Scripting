@@ -1,6 +1,6 @@
 import { Animation } from "../../compoments/Animation";
 import { Properties } from "../../types/objects/properties/Properties";
-import { Sounds } from "../generator/Sounds";
+import { SoundHandler as Sounds } from "../generator/Sounds";
 import { ColorHandler } from "./Color";
 import { Obj } from "./Object";
 
