@@ -4,7 +4,7 @@ import { spawnSync, execSync } from "child_process";
 import { Log } from "../generator/Log";
 
 export function FormatAudio() {
-	const reg = /\.(mp3|wav|m4a)$/;
+	const reg = /\.(mp3|m4a|mp4|mov|opus|acc|flac)$/;
 	const files = SearchFiles.array(".bedrock", ".bedrock").filter((path) =>
 		reg.test(path)
 	);
@@ -18,17 +18,14 @@ export function FormatAudio() {
 
 		console.timeLog(
 			"Compiler",
-			">> Starting to convert all found audio files to OGG format"
+			">> Starting to convert all found audio files to WAV format"
 		);
 
 		for (const file of files) {
-			const out = file.replace(reg, ".ogg");
-			execSync(
-				`ffmpeg -i ${file} -acodec libvorbis -ar 44100 -aq 5 -map_metadata -1 ${out}`,
-				{
-					stdio: "ignore",
-				}
-			);
+			const out = file.replace(reg, ".wav");
+			execSync(`ffmpeg -i ${file} ${out}`, {
+				stdio: "ignore",
+			});
 			fs.rmSync(file);
 
 			console.timeLog(
