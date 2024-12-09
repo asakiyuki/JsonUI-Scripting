@@ -325,13 +325,78 @@ export const funcObj: BindingFunctionObject = {
 		return bindingName;
 	},
 
-	include: (arg, [str, incStr]) => {
+	pow: (arg, [num1, num2]) => {
 		const bindingName: any = `#${Random.getName()}`;
 
-		arg.addBindings({
-			source_property_name: `(not ((${str} - ${incStr}) = ${str}))`,
-			target_property_name: <any>bindingName,
-		});
+		if (BindingCompiler.isNumber(num2)) {
+			const $2 = +num2;
+
+			if (BindingCompiler.isNumber(num1)) return Math.pow(+num1, $2);
+			else {
+				if ($2 === 0) return 1;
+				else if ($2 > 0)
+					return Array.from({ length: $2 }, () => num1).join(" * ");
+				else
+					return `1 / ${Array.from(
+						{ length: $2 * -1 },
+						() => num1
+					).join(" / ")}`;
+			}
+		} else {
+			for (let i = 1; i <= 32; i++) {
+				arg.addBindings({
+					source_property_name: `(${num2} / ((${num1} < ${i}) * ${num2}))`,
+					target_property_name: <any>`${bindingName}${i}`,
+				});
+
+				arg.addBindings({
+					source_property_name: `(${num2} / ((${num1} > ${
+						i * -1
+					}) * ${num2}))`,
+					target_property_name: <any>`${bindingName}_${i}`,
+				});
+			}
+
+			arg.addBindings({
+				source_property_name: `( ${Array.from(
+					{ length: 32 },
+					(v, i) => `${bindingName}${i + 1}`
+				).join(" * ")} / ${Array.from(
+					{ length: 32 },
+					(v, i) => `${bindingName}_${i + 1}`
+				).join(" / ")})`,
+				target_property_name: bindingName,
+			});
+		}
+
+		return bindingName;
+	},
+
+	sqrt: (arg, [num]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		if (BindingCompiler.isNumber(num)) {
+			return `${Math.sqrt(+num)}`;
+		} else {
+			const binding2: any = `#${Random.getName()}`;
+
+			const x = 100;
+
+			arg.addBindings({
+				source_property_name: `(${num} * ${x} / 2)`,
+				target_property_name: bindingName,
+			});
+
+			arg.addBindings({
+				source_property_name: `[ abs((${bindingName} * ${bindingName}) - ${num}) > 0 ]`,
+				target_property_name: binding2,
+			});
+
+			arg.addBindings({
+				source_property_name: `(${binding2} * ((${bindingName} + ${num} / ${bindingName}) / 2) + (not ${binding2}) * ${bindingName})`,
+				target_property_name: bindingName,
+			});
+		}
 
 		return bindingName;
 	},
