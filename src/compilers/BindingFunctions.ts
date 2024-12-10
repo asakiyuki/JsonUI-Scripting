@@ -1,3 +1,4 @@
+import { API } from "../compoments/API";
 import { Items } from "../compoments/ItemDatas";
 import { Random } from "../compoments/Random";
 import { BindingCompiler, BindingFunctionObject } from "./BindingCompiler";
@@ -140,54 +141,70 @@ export const funcObj: BindingFunctionObject = {
 
 	int: (arg, [float, intLength]) => {
 		const sumBnd: Array<string> = [];
-		const _intLength = Number.isNaN(+intLength) ? 9 : +intLength;
+		const _intLength = Number.isNaN(+intLength) ? -1 : +intLength;
 		let bindingName: any = `#${Random.getName()}`;
-		let calcBindingName: any = `#${Random.getName()}`;
 
-		arg.addBindings({
-			source_property_name: [`abs(${float})`],
-			target_property_name: <any>(
-				(calcBindingName = `#${Random.getName()}`)
-			),
-		});
+		if (_intLength < 0) {
+			arg.setProperties({
+				property_bag: {
+					[bindingName]: 0,
+				},
+			});
 
-		for (let i = Math.max(_intLength - 1, 0); i >= 0; i--) {
 			arg.addBindings({
-				source_property_name: `(${eval(`1e${i}`)} * (${Array.from(
-					{
-						length: 10,
-					},
-					(v, c) =>
-						`(${calcBindingName} > ${eval(`${c + 1}e${i}`) - 1})`
-				).join(" + ")}))`,
+				source_property_name: `(${bindingName} + (${bindingName} < ${float}) - (${bindingName} > ${float}))`,
+				target_property_name: bindingName,
+			});
+		} else {
+			let calcBindingName: any = `#${Random.getName()}`;
+
+			arg.addBindings({
+				source_property_name: [`abs(${float})`],
 				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
+					(calcBindingName = `#${Random.getName()}`)
 				),
 			});
-			sumBnd.push(bindingName);
-			if (i !== 0)
+
+			for (let i = _intLength - 1; i >= 0; i--) {
 				arg.addBindings({
-					source_property_name: `(${calcBindingName} - ${bindingName})`,
+					source_property_name: `(${eval(`1e${i}`)} * (${Array.from(
+						{
+							length: 10,
+						},
+						(v, c) =>
+							`(${calcBindingName} > ${
+								eval(`${c + 1}e${i}`) - 1
+							})`
+					).join(" + ")}))`,
 					target_property_name: <any>(
-						(calcBindingName = `#${Random.getName()}`)
+						(bindingName = `#${Random.getName()}`)
 					),
 				});
-		}
+				sumBnd.push(bindingName);
+				if (i !== 0)
+					arg.addBindings({
+						source_property_name: `(${calcBindingName} - ${bindingName})`,
+						target_property_name: <any>(
+							(calcBindingName = `#${Random.getName()}`)
+						),
+					});
+			}
 
-		arg.addBindings([
-			{
-				source_property_name: `(${sumBnd.join(" + ")})`,
-				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
-				),
-			},
-			{
-				source_property_name: `(${bindingName} * (1 - (${float} < 0) * 2))`,
-				target_property_name: <any>(
-					(bindingName = `#${Random.getName()}`)
-				),
-			},
-		]);
+			arg.addBindings([
+				{
+					source_property_name: `(${sumBnd.join(" + ")})`,
+					target_property_name: <any>(
+						(bindingName = `#${Random.getName()}`)
+					),
+				},
+				{
+					source_property_name: `(${bindingName} * (1 - (${float} < 0) * 2))`,
+					target_property_name: <any>(
+						(bindingName = `#${Random.getName()}`)
+					),
+				},
+			]);
+		}
 
 		return bindingName;
 	},
@@ -382,22 +399,99 @@ export const funcObj: BindingFunctionObject = {
 
 			const x = 100;
 
-			arg.addBindings({
-				source_property_name: `(${num} * ${x} / 2)`,
-				target_property_name: bindingName,
-			});
-
-			arg.addBindings({
-				source_property_name: `[ abs((${bindingName} * ${bindingName}) - ${num}) > 0 ]`,
-				target_property_name: binding2,
-			});
-
-			arg.addBindings({
-				source_property_name: `(${binding2} * ((${bindingName} + ${num} / ${bindingName}) / 2) + (not ${binding2}) * ${bindingName})`,
-				target_property_name: bindingName,
-			});
+			arg.addBindings([
+				{
+					source_property_name: `(${num} * ${x} / 2)`,
+					target_property_name: bindingName,
+				},
+				{
+					source_property_name: `[ abs((${bindingName} * ${bindingName}) - ${num}) > 1 ]`,
+					target_property_name: binding2,
+				},
+				{
+					source_property_name: `( (${num} < 0) * -1 + (${num} > -1) * (${binding2} * ((${bindingName} + ${num} / ${bindingName}) / 2) + (not ${binding2}) * ${bindingName}) )`,
+					target_property_name: bindingName,
+				},
+			]);
 		}
 
 		return bindingName;
+	},
+
+	sin: (arg, [deg]) => {
+		const bindingName: any = `#${Random.getName()}`;
+
+		if (BindingCompiler.isNumber(deg))
+			return `${(Math.sin((Math.PI * +deg) / 180) * 1000).toFixed(0)}`;
+		else {
+			API.sinTable.create(arg);
+
+			const bn: any = `#${Random.getName()}`;
+
+			arg.addBindings([
+				{
+					source_property_name: `[ ${deg} % 360 ]`,
+					target_property_name: bn,
+				},
+				{
+					source_property_name: `[ '#deg_base:{ (${bn} < 0) * (${bn} + 360) + (${bn} > -1) * ${bn} }' ]`,
+					target_property_name: bindingName,
+				},
+			]);
+		}
+
+		return bindingName;
+	},
+
+	cos: (arg, [deg]) => {
+		if (BindingCompiler.isNumber(deg))
+			return `${(Math.cos((Math.PI * +deg) / 180) * 1000).toFixed(0)}`;
+		else return BindingCompiler.checkAndBuild(`sin(90 - ${deg})`, arg);
+	},
+
+	tan: (arg, [deg]) => {
+		if (BindingCompiler.isNumber(deg))
+			return `${(Math.tan((Math.PI * +deg) / 180) * 1000).toFixed(0)}`;
+		else {
+			const bindingName: any = `#${Random.getName()}`;
+			const cos: any = `#${Random.getName()}`;
+
+			arg.addBindings([
+				{
+					source_property_name: `[ cos(${deg}) ]`,
+					target_property_name: cos,
+				},
+				{
+					source_property_name: `[ (${cos} == 0) * -1 + (${cos} != 0) * (sin(${deg}) * 1000 / ${cos}) ]`,
+					target_property_name: bindingName,
+				},
+			]);
+
+			return bindingName;
+		}
+	},
+
+	cot: (arg, [deg]) => {
+		if (BindingCompiler.isNumber(deg))
+			return `${((1 / Math.tan((Math.PI * +deg) / 180)) * 1000).toFixed(
+				0
+			)}`;
+		else {
+			const bindingName: any = `#${Random.getName()}`;
+			const sin: any = `#${Random.getName()}`;
+
+			arg.addBindings([
+				{
+					source_property_name: `[ sin(${deg}) ]`,
+					target_property_name: sin,
+				},
+				{
+					source_property_name: `[ (${sin} == 0) * -1 + (${sin} != 0) * (cos(${deg}) * 1000 / ${sin}) ]`,
+					target_property_name: bindingName,
+				},
+			]);
+
+			return bindingName;
+		}
 	},
 };
