@@ -24,6 +24,7 @@ const config = {
     compiler: {
         autoCompress: false,
         fileExtension: "json",
+        encodeJson: false,
         UI: {
             nameLength: 32,
             namespaceAmount: 16,

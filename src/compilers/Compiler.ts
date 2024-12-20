@@ -9,6 +9,8 @@ import { CompressPack } from "./Compess";
 import { SoundHandler as Sounds } from "./generator/Sounds";
 import { FormatAudio } from "./reader/Audio";
 import { Logs } from "./generator/Log";
+import { Encoder } from "./Encoder";
+import { UIWriteJson } from "./PreCompile";
 
 // Retrieve the configuration settings
 const config = Configs.getConfig();
@@ -39,11 +41,8 @@ function manifestBuild(installPath: string): void {
         config.manifest;
     const manifest = new Manifest({ name, description, uuid, version });
     manifest.manifest.header.min_engine_version = baseGameVersion;
-    fs.writeFileSync(
-        `${installPath}/manifest.json`,
-        manifest.buildJson(),
-        "utf-8"
-    );
+
+    UIWriteJson(`${installPath}/manifest.json`, manifest.manifest, "utf-8");
 }
 
 // Set up a process listener for the 'beforeExit' event, which handles compilation tasks
@@ -155,6 +154,15 @@ process.on("beforeExit", () => {
             console.timeLog(
                 "Compiler",
                 ">> Minecraft-UIBuild.mcpack Pack compress completed!"
+            );
+        }
+
+        // Encode json code
+        if (config.compiler.encodeJson) {
+            Encoder.start();
+            console.timeLog(
+                "Compiler",
+                `>> Encoded ${Encoder.count} JSON file(s) successfully!`
             );
         }
 

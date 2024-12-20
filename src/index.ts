@@ -1,10 +1,12 @@
 console.time("Compiler");
-import "./compilers/generator/Template"
+import "./compilers/PreCompile";
+import "./compilers/generator/Template";
 export * from "./compilers/Config";
 export * from "./compilers/BindingCompiler";
 export * from "./compilers/BindingFunctions";
 export * from "./compilers/Compess";
 export * from "./compilers/Compiler";
+export * from "./compilers/Encoder";
 export * from "./compilers/generator/GenerateDir";
 export * from "./compilers/generator/JsonBuilder";
 export * from "./compilers/generator/Log";

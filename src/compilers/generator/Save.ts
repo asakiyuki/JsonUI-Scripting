@@ -6,13 +6,13 @@ type ReturnValue = () => any;
 
 /**
  * A utility class for handling save file creation and updates.
- * 
+ *
  * @class Save
  */
 export class Save extends Class {
     /**
      * Flag to track whether a save file has been created.
-     * 
+     *
      * @type {boolean}
      * @static
      */
@@ -21,7 +21,7 @@ export class Save extends Class {
     /**
      * Creates a file or reads from an existing one.
      * If the save folder doesn't exist, it will be created.
-     * 
+     *
      * @param {string} path - The file path relative to the `.save` folder.
      * @param {ReturnValue} data - A function that returns data to be written to the file.
      * @param {Function} [write=fs.writeFileSync] - The function used to write data to the file.
@@ -47,7 +47,7 @@ export class Save extends Class {
 
     /**
      * Creates a JSON file or reads from an existing JSON file.
-     * 
+     *
      * @param {string} path - The file path relative to the `.save` folder.
      * @param {ReturnValue} data - A function that returns the data to be written to the JSON file.
      * @returns {Object} The data read from the JSON file or newly created JSON data.
@@ -59,7 +59,7 @@ export class Save extends Class {
 
     /**
      * Updates a file by backing up the previous content and writing new data to it.
-     * 
+     *
      * @param {string} path - The file path relative to the `.save` folder.
      * @param {ReturnValue} data - A function that returns the new data to be written to the file.
      * @param {Function} [write=fs.writeFileSync] - The function used to write data to the file.
@@ -82,7 +82,7 @@ export class Save extends Class {
 
     /**
      * Updates a JSON file by backing up the previous content and writing new data to it.
-     * 
+     *
      * @param {string} path - The file path relative to the `.save` folder.
      * @param {ReturnValue} data - A function that returns the new data to be written to the JSON file.
      * @returns {Object} The previous content of the JSON file before the update.
@@ -94,7 +94,7 @@ export class Save extends Class {
 
     /**
      * Generates a pair of UUIDs.
-     * 
+     *
      * @returns {[UUID, UUID]} A tuple containing two UUIDs.
      * @static
      */
@@ -106,7 +106,7 @@ export class Save extends Class {
 
     /**
      * Creates or retrieves resource configuration based on Minecraft version.
-     * 
+     *
      * @param {"stable" | "preview"} [mcVersion="stable"] - The Minecraft version type.
      * @returns {Object} The resource configuration.
      * @static
@@ -120,7 +120,7 @@ export class Save extends Class {
 
     /**
      * Retrieves or generates a build ID.
-     * 
+     *
      * @returns {string} The build ID.
      * @static
      */

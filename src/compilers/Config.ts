@@ -6,6 +6,7 @@ import { Obj } from "./reader/Object";
 
 const defaultConfig: Config = {
     compiler: {
+        encodeJson: false,
         autoCompress: false,
         fileExtension: "json",
         UI: {
@@ -54,6 +55,7 @@ interface ConfigCompiler {
     UI: ConfigCompilerUI;
     autoCompress: boolean;
     fileExtension: string;
+    encodeJson: boolean;
 }
 
 interface ConfigInstaller {

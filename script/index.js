@@ -13,6 +13,7 @@ function searchFilePaths(path = "", isStart = true) {
                 "GlobalVariables.ts",
                 "API",
                 "Template.ts",
+                "PreCompile.ts",
             ].includes(folder)
         ) {
             console.log(folder);
@@ -27,7 +28,8 @@ function searchFilePaths(path = "", isStart = true) {
     }
     return isStart
         ? [
-              `import "./compilers/generator/Template"`,
+              `import "./compilers/PreCompile";`,
+              `import "./compilers/generator/Template";`,
               `export * from "./compilers/Config";`,
               ...importArr,
           ].join("\n")
