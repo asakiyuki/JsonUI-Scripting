@@ -1,14 +1,14 @@
 import { JsonBuilder } from "../compilers/generator/JsonBuilder";
 import {
-	ChildElement,
-	ChildIdentifier,
+    ChildElement,
+    ChildIdentifier,
 } from "../types/compoments/ChildIdentifier";
 import { Identifier } from "../types/compoments/Identifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
 import {
-	ExtendInterface,
-	StaticUIInterface,
-	UIInterface,
+    ExtendInterface,
+    StaticUIInterface,
+    UIInterface,
 } from "../types/compoments/UIInterface";
 import { Renderer } from "../types/enums/Renderer";
 import { Types } from "../types/enums/Types";
@@ -33,17 +33,17 @@ import { Properties } from "../types/objects/properties/Properties";
 import { Specials } from "../types/objects/properties/Specials";
 import { Random } from "./Random";
 import {
-	Animation,
-	Binding,
-	BindingInterface,
-	Configs,
-	CurrentLine,
-	MappingType,
-	Obj,
-	PropertyBag,
-	ReadProperties,
-	ReadValue,
-	Var,
+    Animation,
+    Binding,
+    BindingInterface,
+    Configs,
+    CurrentLine,
+    MappingType,
+    Obj,
+    PropertyBag,
+    ReadProperties,
+    ReadValue,
+    Var,
 } from "../";
 import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
@@ -51,7 +51,7 @@ import { ButtonMapping } from "../types/objects/ButtonMapping";
 import { Log } from "../compilers/generator/Log";
 
 interface TypeExtend {
-	[key: string]: string;
+    [key: string]: string;
 }
 const typeExtend: TypeExtend = {};
 
@@ -60,690 +60,690 @@ const typeExtend: TypeExtend = {};
  * It includes properties, bindings, children, animations, and extends other UI components.
  */
 export class UI {
-	/**
-	 * The name of the UI element.
-	 * This can be automatically generated or specified in the constructor.
-	 */
-	name?: string;
+    /**
+     * The name of the UI element.
+     * This can be automatically generated or specified in the constructor.
+     */
+    name?: string;
 
-	/**
-	 * The namespace of the UI element, used for unique identification.
-	 * This can be automatically generated or specified in the constructor.
-	 */
-	namespace?: string;
+    /**
+     * The namespace of the UI element, used for unique identification.
+     * This can be automatically generated or specified in the constructor.
+     */
+    namespace?: string;
 
-	/**
-	 * The type of the UI element, which could extend from another element.
-	 */
-	extends?: string;
+    /**
+     * The type of the UI element, which could extend from another element.
+     */
+    extends?: string;
 
-	/**
-	 * The type of the UI element (e.g., Panel, Button, etc.).
-	 * @private
-	 */
-	private type?: string;
+    /**
+     * The type of the UI element (e.g., Panel, Button, etc.).
+     * @private
+     */
+    private type?: string;
 
-	/**
-	 * The child elements contained within the UI element.
-	 * @private
-	 */
-	private controls?: Array<ChildElement>;
+    /**
+     * The child elements contained within the UI element.
+     * @private
+     */
+    private controls?: Array<ChildElement>;
 
-	/**
-	 * The bindings of the UI element, linking properties to other elements.
-	 * @private
-	 */
-	private bindings?: Array<BindingInterface>;
+    /**
+     * The bindings of the UI element, linking properties to other elements.
+     * @private
+     */
+    private bindings?: Array<BindingInterface>;
 
-	/**
-	 * @private
-	 */
-	private button_mappings?: Array<ButtonMapping>;
+    /**
+     * @private
+     */
+    private button_mappings?: Array<ButtonMapping>;
 
-	/**
-	 * The variables associated with the UI element.
-	 * @private
-	 */
-	private variables?: VariablesInterface;
+    /**
+     * The variables associated with the UI element.
+     * @private
+     */
+    private variables?: VariablesInterface;
 
-	/**
-	 * The list of animations associated with the UI element.
-	 * @private
-	 */
-	private anims?: Array<string>;
+    /**
+     * The list of animations associated with the UI element.
+     * @private
+     */
+    private anims?: Array<string>;
 
-	/**
-	 * The properties of the UI element.
-	 * @private
-	 */
-	private properties?: Properties;
+    /**
+     * The properties of the UI element.
+     * @private
+     */
+    private properties?: Properties;
 
-	/**
-	 * Constructs a new UI element, either by creating a new one or extending an existing one.
-	 * @param identifier A UI element or UI interface used to initialize this element.
-	 */
-	constructor(identifier: UIInterface | UI) {
-		const config = Configs.getConfig();
+    /**
+     * Constructs a new UI element, either by creating a new one or extending an existing one.
+     * @param identifier A UI element or UI interface used to initialize this element.
+     */
+    constructor(identifier: UIInterface | UI) {
+        const config = Configs.getConfig();
 
-		if (identifier instanceof UI) {
-			this.name = Random.getName();
-			this.namespace = Random.getNamespace();
-			this.extends = identifier.getPath();
-		} else {
-			this.name =
-				(!config.obfuscateElementNames && identifier?.name) ||
-				Random.getName();
-			this.namespace =
-				(!config.obfuscateElementNames && identifier?.namespace) ||
-				Random.getNamespace();
+        if (identifier instanceof UI) {
+            this.name = Random.getName();
+            this.namespace = Random.getNamespace();
+            this.extends = identifier.getPath();
+        } else {
+            this.name =
+                (!config.compiler.UI.obfuscateName && identifier?.name) ||
+                Random.getName();
+            this.namespace =
+                (!config.compiler.UI.obfuscateName && identifier?.namespace) ||
+                Random.getNamespace();
 
-			if (identifier?.extends) {
-				if (identifier.type) {
-					this.type = identifier.type;
-				}
+            if (identifier?.extends) {
+                if (identifier.type) {
+                    this.type = identifier.type;
+                }
 
-				if (identifier.extends instanceof UI)
-					this.extends = `${identifier.extends.getPath()}`;
-				else if (typeof identifier.extends === "string")
-					this.extends = identifier.extends;
-				else
-					this.extends = `${identifier.extends.namespace}.${identifier.extends.name}`;
-			} else {
-				if (
-					config.useExtendElementInsteadType &&
-					identifier.namespace !== "_type_c"
-				) {
-					const type = identifier?.type || Types.Panel;
-					this.extends = typeExtend[type] ||= new UI({
-						name: type,
-						namespace: "_type_c",
-						type,
-					}).getPath();
-				} else this.type = identifier?.type || Types.Panel;
-			}
+                if (identifier.extends instanceof UI)
+                    this.extends = `${identifier.extends.getPath()}`;
+                else if (typeof identifier.extends === "string")
+                    this.extends = identifier.extends;
+                else
+                    this.extends = `${identifier.extends.namespace}.${identifier.extends.name}`;
+            } else {
+                if (
+                    config.compiler.UI.obfuscateType &&
+                    identifier.namespace !== "_type_c"
+                ) {
+                    const type = identifier?.type || Types.Panel;
+                    this.extends = typeExtend[type] ||= new UI({
+                        name: type,
+                        namespace: "_type_c",
+                        type,
+                    }).getPath();
+                } else this.type = identifier?.type || Types.Panel;
+            }
 
-			if (identifier?.properties)
-				this.setProperties(identifier.properties);
-		}
+            if (identifier?.properties)
+                this.setProperties(identifier.properties);
+        }
 
-		JsonBuilder.registerElement(this.namespace, this);
-	}
+        JsonBuilder.registerElement(this.namespace, this);
+    }
 
-	/**
-	 * Creates a Panel UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Panel.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Panel.
-	 */
-	static panel(properties?: Panel, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Panel,
-			properties,
-		});
-	}
+    /**
+     * Creates a Panel UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Panel.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Panel.
+     */
+    static panel(properties?: Panel, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Panel,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a StackPanel UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the StackPanel.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a StackPanel.
-	 */
-	static stackPanel(properties?: StackPanel, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.StackPanel,
-			properties,
-		});
-	}
+    /**
+     * Creates a StackPanel UI element with specified properties and identifier.
+     * @param properties Properties to apply to the StackPanel.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a StackPanel.
+     */
+    static stackPanel(properties?: StackPanel, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.StackPanel,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a CollectionPanel UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the CollectionPanel.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a CollectionPanel.
-	 */
-	static collectionPanel(
-		properties?: CollectionPanel,
-		identifier?: StaticUIInterface
-	) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.CollectionPanel,
-			properties,
-		});
-	}
+    /**
+     * Creates a CollectionPanel UI element with specified properties and identifier.
+     * @param properties Properties to apply to the CollectionPanel.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a CollectionPanel.
+     */
+    static collectionPanel(
+        properties?: CollectionPanel,
+        identifier?: StaticUIInterface
+    ) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.CollectionPanel,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates an InputPanel UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the InputPanel.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing an InputPanel.
-	 */
-	static inputPanel(properties?: InputPanel, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.InputPanel,
-			properties,
-		});
-	}
+    /**
+     * Creates an InputPanel UI element with specified properties and identifier.
+     * @param properties Properties to apply to the InputPanel.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing an InputPanel.
+     */
+    static inputPanel(properties?: InputPanel, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.InputPanel,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Grid UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Grid.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Grid.
-	 */
-	static grid(properties?: Grid, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Grid,
-			properties,
-		});
-	}
+    /**
+     * Creates a Grid UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Grid.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Grid.
+     */
+    static grid(properties?: Grid, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Grid,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Button UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Button.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Button.
-	 */
-	static button(properties?: Button, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Button,
-			properties,
-		});
-	}
+    /**
+     * Creates a Button UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Button.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Button.
+     */
+    static button(properties?: Button, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Button,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Toggle UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Toggle.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Toggle.
-	 */
-	static toggle(properties?: Toggle, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Toggle,
-			properties,
-		});
-	}
+    /**
+     * Creates a Toggle UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Toggle.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Toggle.
+     */
+    static toggle(properties?: Toggle, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Toggle,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Label UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Label.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Label.
-	 */
-	static label(properties?: Label, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Label,
-			properties,
-		});
-	}
+    /**
+     * Creates a Label UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Label.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Label.
+     */
+    static label(properties?: Label, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Label,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates an Image UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Image.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing an Image.
-	 */
-	static image(properties?: Image, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Image,
-			properties,
-		});
-	}
+    /**
+     * Creates an Image UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Image.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing an Image.
+     */
+    static image(properties?: Image, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Image,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Dropdown UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Dropdown.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Dropdown.
-	 */
-	static dropdown(properties?: Dropdown, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Dropdown,
-			properties,
-		});
-	}
+    /**
+     * Creates a Dropdown UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Dropdown.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Dropdown.
+     */
+    static dropdown(properties?: Dropdown, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Dropdown,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Slider UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Slider.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Slider.
-	 */
-	static slider(properties?: Slider, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Slider,
-			properties,
-		});
-	}
+    /**
+     * Creates a Slider UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Slider.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Slider.
+     */
+    static slider(properties?: Slider, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Slider,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a SliderBox UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the SliderBox.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a SliderBox.
-	 */
-	static sliderBox(properties?: SliderBox, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.SliderBox,
-			properties,
-		});
-	}
+    /**
+     * Creates a SliderBox UI element with specified properties and identifier.
+     * @param properties Properties to apply to the SliderBox.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a SliderBox.
+     */
+    static sliderBox(properties?: SliderBox, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.SliderBox,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates an EditBox UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the EditBox.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing an EditBox.
-	 */
-	static editBox(properties?: EditBox, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.EditBox,
-			properties,
-		});
-	}
+    /**
+     * Creates an EditBox UI element with specified properties and identifier.
+     * @param properties Properties to apply to the EditBox.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing an EditBox.
+     */
+    static editBox(properties?: EditBox, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.EditBox,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a ScrollView UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the ScrollView.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a ScrollView.
-	 */
-	static scrollView(properties?: ScrollView, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.ScrollView,
-			properties,
-		});
-	}
+    /**
+     * Creates a ScrollView UI element with specified properties and identifier.
+     * @param properties Properties to apply to the ScrollView.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a ScrollView.
+     */
+    static scrollView(properties?: ScrollView, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.ScrollView,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a ScrollbarTrack UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the ScrollbarTrack.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a ScrollbarTrack.
-	 */
-	static scrollbarTrack(
-		properties?: ScrollbarTrack,
-		identifier?: StaticUIInterface
-	) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.ScrollbarTrack,
-			properties,
-		});
-	}
+    /**
+     * Creates a ScrollbarTrack UI element with specified properties and identifier.
+     * @param properties Properties to apply to the ScrollbarTrack.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a ScrollbarTrack.
+     */
+    static scrollbarTrack(
+        properties?: ScrollbarTrack,
+        identifier?: StaticUIInterface
+    ) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.ScrollbarTrack,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a ScrollbarBox UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the ScrollbarBox.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a ScrollbarBox.
-	 */
-	static scrollbarBox(
-		properties?: ScrollbarBox,
-		identifier?: StaticUIInterface
-	) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.ScrollbarBox,
-			properties,
-		});
-	}
+    /**
+     * Creates a ScrollbarBox UI element with specified properties and identifier.
+     * @param properties Properties to apply to the ScrollbarBox.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a ScrollbarBox.
+     */
+    static scrollbarBox(
+        properties?: ScrollbarBox,
+        identifier?: StaticUIInterface
+    ) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.ScrollbarBox,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a Screen UI element with specified properties and identifier.
-	 * @param properties Properties to apply to the Screen.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a Screen.
-	 */
-	static screen(properties?: Screen, identifier?: StaticUIInterface) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Screen,
-			properties,
-		});
-	}
+    /**
+     * Creates a Screen UI element with specified properties and identifier.
+     * @param properties Properties to apply to the Screen.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a Screen.
+     */
+    static screen(properties?: Screen, identifier?: StaticUIInterface) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Screen,
+            properties,
+        });
+    }
 
-	/**
-	 * Creates a custom UI element with specified properties and renderer.
-	 * @param renderer The renderer to use for the custom element.
-	 * @param properties The properties for the custom element.
-	 * @param propertyBag Additional properties for the custom element.
-	 * @param identifier An optional identifier for the UI element.
-	 * @returns A new UI instance representing a custom element.
-	 */
-	static custom<T extends Renderer>(
-		renderer: T,
-		properties?: Panel | Specials[T],
-		propertyBag?: PropertyBag,
-		identifier?: StaticUIInterface
-	) {
-		return new UI(<UIInterface>{
-			...identifier,
-			type: Types.Custom,
-			properties: {
-				...properties,
-				property_bag: propertyBag,
-				renderer,
-			},
-		});
-	}
+    /**
+     * Creates a custom UI element with specified properties and renderer.
+     * @param renderer The renderer to use for the custom element.
+     * @param properties The properties for the custom element.
+     * @param propertyBag Additional properties for the custom element.
+     * @param identifier An optional identifier for the UI element.
+     * @returns A new UI instance representing a custom element.
+     */
+    static custom<T extends Renderer>(
+        renderer: T,
+        properties?: Panel | Specials[T],
+        propertyBag?: PropertyBag,
+        identifier?: StaticUIInterface
+    ) {
+        return new UI(<UIInterface>{
+            ...identifier,
+            type: Types.Custom,
+            properties: {
+                ...properties,
+                property_bag: propertyBag,
+                renderer,
+            },
+        });
+    }
 
-	/**
-	 * Extends an existing UI element with specified properties.
-	 * @param extendElement The UI element or identifier to extend.
-	 * @param properties Additional properties for the extended element.
-	 * @returns A new UI instance representing the extended element.
-	 */
-	static extend(
-		extendElement?: string | Identifier | UI,
-		properties?: Properties,
-		identifier?: StaticUIInterface
-	) {
-		if (identifier)
-			return new UI({
-				extends: extendElement,
-				...identifier,
-			});
-		else
-			return new UI({
-				extends: extendElement,
-				properties,
-			});
-	}
+    /**
+     * Extends an existing UI element with specified properties.
+     * @param extendElement The UI element or identifier to extend.
+     * @param properties Additional properties for the extended element.
+     * @returns A new UI instance representing the extended element.
+     */
+    static extend(
+        extendElement?: string | Identifier | UI,
+        properties?: Properties,
+        identifier?: StaticUIInterface
+    ) {
+        if (identifier)
+            return new UI({
+                extends: extendElement,
+                ...identifier,
+            });
+        else
+            return new UI({
+                extends: extendElement,
+                properties,
+            });
+    }
 
-	/**
-	 * Searches for a binding in the UI element based on the given parameters.
-	 * @param bindingName The binding name to search for.
-	 * @param controlName Optional control name to filter bindings.
-	 * @param targetBindingName Optional target binding name to filter further.
-	 * @returns The target binding name or undefined if not found.
-	 */
-	searchBinding(
-		bindingName: Binding,
-		controlName?: string,
-		targetBindingName?: Binding
-	) {
-		for (let index = 0; index < (this.bindings?.length || 0); index++) {
-			const binding = this.bindings?.[index];
-			if (controlName) {
-				if (
-					binding?.source_control_name === controlName &&
-					binding.source_property_name === bindingName
-				) {
-					if (targetBindingName) {
-						if (
-							binding.target_property_name === targetBindingName
-						) {
-							return targetBindingName;
-						} else return undefined;
-					} else return binding.target_property_name;
-				}
-			} else {
-				if (binding?.source_property_name === bindingName) {
-					if (targetBindingName) {
-						if (
-							binding.target_property_name === targetBindingName
-						) {
-							return targetBindingName;
-						} else return undefined;
-					} else return binding.target_property_name;
-				}
-			}
-		}
-		return undefined;
-	}
+    /**
+     * Searches for a binding in the UI element based on the given parameters.
+     * @param bindingName The binding name to search for.
+     * @param controlName Optional control name to filter bindings.
+     * @param targetBindingName Optional target binding name to filter further.
+     * @returns The target binding name or undefined if not found.
+     */
+    searchBinding(
+        bindingName: Binding,
+        controlName?: string,
+        targetBindingName?: Binding
+    ) {
+        for (let index = 0; index < (this.bindings?.length || 0); index++) {
+            const binding = this.bindings?.[index];
+            if (controlName) {
+                if (
+                    binding?.source_control_name === controlName &&
+                    binding.source_property_name === bindingName
+                ) {
+                    if (targetBindingName) {
+                        if (
+                            binding.target_property_name === targetBindingName
+                        ) {
+                            return targetBindingName;
+                        } else return undefined;
+                    } else return binding.target_property_name;
+                }
+            } else {
+                if (binding?.source_property_name === bindingName) {
+                    if (targetBindingName) {
+                        if (
+                            binding.target_property_name === targetBindingName
+                        ) {
+                            return targetBindingName;
+                        } else return undefined;
+                    } else return binding.target_property_name;
+                }
+            }
+        }
+        return undefined;
+    }
 
-	/**
-	 * Sets the properties of the UI element.
-	 * @param properties The properties to apply to the UI element.
-	 * @returns The updated UI instance.
-	 */
-	setProperties(properties: Properties) {
-		if (properties.property_bag) {
-			properties.property_bag = {
-				...this.properties?.property_bag,
-				...properties.property_bag,
-			};
-		}
-		this.properties = {
-			...(this.properties || {}),
-			...properties,
-		};
-		return this;
-	}
+    /**
+     * Sets the properties of the UI element.
+     * @param properties The properties to apply to the UI element.
+     * @returns The updated UI instance.
+     */
+    setProperties(properties: Properties) {
+        if (properties.property_bag) {
+            properties.property_bag = {
+                ...this.properties?.property_bag,
+                ...properties.property_bag,
+            };
+        }
+        this.properties = {
+            ...(this.properties || {}),
+            ...properties,
+        };
+        return this;
+    }
 
-	private isDuplicate(name: string) {
-		for (const childElement of this.controls || []) {
-			const childKey = Object.keys(childElement)[0];
-			const childName = childKey.split("@")[0];
+    private isDuplicate(name: string) {
+        for (const childElement of this.controls || []) {
+            const childKey = Object.keys(childElement)[0];
+            const childName = childKey.split("@")[0];
 
-			if (childName === name) return true;
-		}
-		return false;
-	}
+            if (childName === name) return true;
+        }
+        return false;
+    }
 
-	private isRecusive(name: string) {
-		return name === this.name;
-	}
+    private isRecusive(name: string) {
+        return name === this.name;
+    }
 
-	/**
-	 * Adds a child element to the UI element.
-	 * @param child The child element to add (either a string, UI, or identifier).
-	 * @param callback A callback function that will be called after the child is added.
-	 * @returns The updated UI instance.
-	 */
-	addChild(
-		child: string | ChildIdentifier | UI,
-		callback?: UIChildNameCallback
-	) {
-		if (!this.controls) this.controls = [];
-		if (typeof child === "string") {
-			if (this.isDuplicate(child.split("@")[0])) {
-				Log.warning(
-					`${CurrentLine()} child element should have a unique name!`
-				);
-			}
+    /**
+     * Adds a child element to the UI element.
+     * @param child The child element to add (either a string, UI, or identifier).
+     * @param callback A callback function that will be called after the child is added.
+     * @returns The updated UI instance.
+     */
+    addChild(
+        child: string | ChildIdentifier | UI,
+        callback?: UIChildNameCallback
+    ) {
+        if (!this.controls) this.controls = [];
+        if (typeof child === "string") {
+            if (this.isDuplicate(child.split("@")[0])) {
+                Log.warning(
+                    `${CurrentLine()} child element should have a unique name!`
+                );
+            }
 
-			this.controls.push({ [`${child}`]: {} });
-		} else if (child instanceof UI) {
-			if (
-				child.name === this.name &&
-				child.namespace === this.namespace
-			) {
-				Log.error(
-					`${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
-				);
-			}
+            this.controls.push({ [`${child}`]: {} });
+        } else if (child instanceof UI) {
+            if (
+                child.name === this.name &&
+                child.namespace === this.namespace
+            ) {
+                Log.error(
+                    `${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
+                );
+            }
 
-			const name = Random.getName();
-			this.controls.push({ [`${name}${child.getElement()}`]: {} });
-			callback?.(this, name);
-		} else {
-			child.name ||= Random.getName();
+            const name = Random.getName();
+            this.controls.push({ [`${name}${child.getElement()}`]: {} });
+            callback?.(this, name);
+        } else {
+            child.name ||= Random.getName();
 
-			if (this.isDuplicate(child.name.split("@")[0])) {
-				Log.warning(
-					`${CurrentLine()} child element should have a unique name!`
-				);
-			}
+            if (this.isDuplicate(child.name.split("@")[0])) {
+                Log.warning(
+                    `${CurrentLine()} child element should have a unique name!`
+                );
+            }
 
-			if (child.extend instanceof UI) {
-				if (
-					child.extend.name === this.name &&
-					child.extend.namespace === this.namespace
-				) {
-					Log.error(
-						`${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
-					);
-				}
+            if (child.extend instanceof UI) {
+                if (
+                    child.extend.name === this.name &&
+                    child.extend.namespace === this.namespace
+                ) {
+                    Log.error(
+                        `${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
+                    );
+                }
 
-				child.extend = child.extend.getPath();
-			} else if (typeof child.extend === "object")
-				child.extend = `${child.extend.namespace}.${child.extend.name}`;
-			this.controls.push({
-				[`${child.name}@${child.extend}`]: ReadProperties(
-					child.properties || {}
-				),
-			});
-			callback?.(this, child.name);
-		}
-		return this;
-	}
+                child.extend = child.extend.getPath();
+            } else if (typeof child.extend === "object")
+                child.extend = `${child.extend.namespace}.${child.extend.name}`;
+            this.controls.push({
+                [`${child.name}@${child.extend}`]: ReadProperties(
+                    child.properties || {}
+                ),
+            });
+            callback?.(this, child.name);
+        }
+        return this;
+    }
 
-	/**
-	 * Adds bindings to the UI element.
-	 * @param bindings The bindings to add (single or multiple).
-	 * @returns The updated UI instance.
-	 */
-	addBindings(
-		bindings:
-			| Array<BindingInterface | Binding | Var>
-			| (BindingInterface | Binding | Var)
-	) {
-		if (Array.isArray(bindings))
-			for (const binding of bindings) this.addBindings(binding);
-		else (this.bindings ||= []).push(ReadBinding(<any>bindings, this));
-		return this;
-	}
+    /**
+     * Adds bindings to the UI element.
+     * @param bindings The bindings to add (single or multiple).
+     * @returns The updated UI instance.
+     */
+    addBindings(
+        bindings:
+            | Array<BindingInterface | Binding | Var>
+            | (BindingInterface | Binding | Var)
+    ) {
+        if (Array.isArray(bindings))
+            for (const binding of bindings) this.addBindings(binding);
+        else (this.bindings ||= []).push(ReadBinding(<any>bindings, this));
+        return this;
+    }
 
-	/**
-	 * Adds multiple bindings to the UI element.
-	 * @param bindings The bindings to add.
-	 * @returns The updated UI instance.
-	 */
-	addMultiBindings(bindings: Array<BindingInterface | Binding | Var>) {
-		this.addBindings(bindings);
-		return this;
-	}
+    /**
+     * Adds multiple bindings to the UI element.
+     * @param bindings The bindings to add.
+     * @returns The updated UI instance.
+     */
+    addMultiBindings(bindings: Array<BindingInterface | Binding | Var>) {
+        this.addBindings(bindings);
+        return this;
+    }
 
-	/**
-	 * Adds variables to the UI element.
-	 * @param variables The variables to add.
-	 * @returns The updated UI instance.
-	 */
-	addVariables(variables: VariablesInterface) {
-		this.variables ||= {};
+    /**
+     * Adds variables to the UI element.
+     * @param variables The variables to add.
+     * @returns The updated UI instance.
+     */
+    addVariables(variables: VariablesInterface) {
+        this.variables ||= {};
 
-		Obj.forEach(variables, (key, value) => {
-			(<any>this.variables)[key] = {
-				...this.variables,
-				...Obj.map(value, (k, v) => {
-					return { key: k, value: ReadValue(v) };
-				}),
-			};
-		});
+        Obj.forEach(variables, (key, value) => {
+            (<any>this.variables)[key] = {
+                ...this.variables,
+                ...Obj.map(value, (k, v) => {
+                    return { key: k, value: ReadValue(v) };
+                }),
+            };
+        });
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Retrieves the UI properties and their associated values.
-	 * @returns The UI properties in a structured format.
-	 */
-	getUI() {
-		const code: any = ReadProperties(<any>(this.properties ?? {}));
+    /**
+     * Retrieves the UI properties and their associated values.
+     * @returns The UI properties in a structured format.
+     */
+    getUI() {
+        const code: any = ReadProperties(<any>(this.properties ?? {}));
 
-		for (const key of [
-			"type",
-			"controls",
-			"bindings",
-			"button_mappings",
-			"anims",
-		])
-			if ((<any>this)[key]) code[key] = (<any>this)[key];
+        for (const key of [
+            "type",
+            "controls",
+            "bindings",
+            "button_mappings",
+            "anims",
+        ])
+            if ((<any>this)[key]) code[key] = (<any>this)[key];
 
-		if (this.variables)
-			Obj.forEach(this.variables, (k, v) => {
-				(code.variables ||= []).push({
-					requires: k,
-					...v,
-				});
-			});
+        if (this.variables)
+            Obj.forEach(this.variables, (k, v) => {
+                (code.variables ||= []).push({
+                    requires: k,
+                    ...v,
+                });
+            });
 
-		return code;
-	}
+        return code;
+    }
 
-	/**
-	 * Retrieves the path of the UI element.
-	 * @returns The path in the format 'namespace.name'.
-	 */
-	getPath() {
-		return `${this.namespace}.${this.name}`;
-	}
+    /**
+     * Retrieves the path of the UI element.
+     * @returns The path in the format 'namespace.name'.
+     */
+    getPath() {
+        return `${this.namespace}.${this.name}`;
+    }
 
-	/**
-	 * Retrieves the element identifier for the UI element.
-	 * @returns The element identifier in the format '@namespace.name'.
-	 */
-	getElement() {
-		return `@${this.getPath()}`;
-	}
+    /**
+     * Retrieves the element identifier for the UI element.
+     * @returns The element identifier in the format '@namespace.name'.
+     */
+    getElement() {
+        return `@${this.getPath()}`;
+    }
 
-	/**
-	 * Retrieves the full path of the UI element, including extensions.
-	 * @returns The full path with extensions if available.
-	 */
-	getFullPath(): string {
-		return `${this.name}${this.extends ? `@${this.extends}` : ""}`;
-	}
+    /**
+     * Retrieves the full path of the UI element, including extensions.
+     * @returns The full path with extensions if available.
+     */
+    getFullPath(): string {
+        return `${this.name}${this.extends ? `@${this.extends}` : ""}`;
+    }
 
-	/**
-	 * Extends the current UI element with additional properties or an identifier.
-	 * @param identifier An optional identifier to extend the element.
-	 * @param properties Additional properties for the extended element.
-	 * @returns A new UI instance representing the extended element.
-	 */
-	extend(identifier?: ExtendInterface, properties?: Properties) {
-		return new UI({
-			...identifier,
-			extends: this,
-			properties,
-		});
-	}
+    /**
+     * Extends the current UI element with additional properties or an identifier.
+     * @param identifier An optional identifier to extend the element.
+     * @param properties Additional properties for the extended element.
+     * @returns A new UI instance representing the extended element.
+     */
+    extend(identifier?: ExtendInterface, properties?: Properties) {
+        return new UI({
+            ...identifier,
+            extends: this,
+            properties,
+        });
+    }
 
-	/**
-	 * Adds an animation to the UI element.
-	 * @param animation The animation to add.
-	 * @param startIndex The starting index for the animation (optional).
-	 * @returns The updated UI instance.
-	 */
-	addAnimation(animation: Animation, startIndex?: number) {
-		(this.anims ||= []).push(animation.getKeyIndex(startIndex || 0));
-		return this;
-	}
+    /**
+     * Adds an animation to the UI element.
+     * @param animation The animation to add.
+     * @param startIndex The starting index for the animation (optional).
+     * @returns The updated UI instance.
+     */
+    addAnimation(animation: Animation, startIndex?: number) {
+        (this.anims ||= []).push(animation.getKeyIndex(startIndex || 0));
+        return this;
+    }
 
-	/**
-	 * Adds mappings to UI element.
-	 */
-	addMapping(mapping: Array<ButtonMapping> | ButtonMapping) {
-		if (Array.isArray(mapping)) mapping.forEach((v) => this.addMapping(v));
-		else {
-			mapping.mapping_type ||= MappingType.Global;
-			(this.button_mappings ||= []).push(mapping);
-		}
+    /**
+     * Adds mappings to UI element.
+     */
+    addMapping(mapping: Array<ButtonMapping> | ButtonMapping) {
+        if (Array.isArray(mapping)) mapping.forEach((v) => this.addMapping(v));
+        else {
+            mapping.mapping_type ||= MappingType.Global;
+            (this.button_mappings ||= []).push(mapping);
+        }
 
-		return this;
-	}
+        return this;
+    }
 
-	private static apply() {}
-	private static arguments = "";
-	private static bind() {}
-	private static call() {}
-	private static caller = "";
-	private static length = "";
-	private static name = "";
-	private static toString() {}
+    private static apply() {}
+    private static arguments = "";
+    private static bind() {}
+    private static call() {}
+    private static caller = "";
+    private static length = "";
+    private static name = "";
+    private static toString() {}
 }

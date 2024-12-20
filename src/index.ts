@@ -1,11 +1,13 @@
 console.time("Compiler");
-  export * from "./compilers/Config";
+import "./compilers/generator/Template"
+export * from "./compilers/Config";
 export * from "./compilers/BindingCompiler";
 export * from "./compilers/BindingFunctions";
 export * from "./compilers/Compess";
 export * from "./compilers/Compiler";
 export * from "./compilers/generator/GenerateDir";
 export * from "./compilers/generator/JsonBuilder";
+export * from "./compilers/generator/Log";
 export * from "./compilers/generator/Manifest";
 export * from "./compilers/generator/Save";
 export * from "./compilers/generator/SearchFiles";
@@ -124,5 +126,5 @@ export * from "./types/values/StringVector";
 export * from "./types/values/TargetElementPath";
 export * from "./types/values/Variable";
 export * from "./types/values/Vector";
-  export * from "./compilers/reader/Env";
-  export * from "./compilers/reader/GlobalVariables";
+export * from "./compilers/reader/Env";
+export * from "./compilers/reader/GlobalVariables";

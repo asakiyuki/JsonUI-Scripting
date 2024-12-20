@@ -19,27 +19,13 @@ const config = Configs.getConfig();
  * It also installs to either the development or production environment based on the config.
  */
 export const installer = new ResourcePacks({
-	installGame: config.installToMinecraftPreview
-		? Minecraft.Preview
-		: Minecraft.Stable,
-	installFolder: config.installToDevelopEvironment
-		? ResourcePack.Development
-		: ResourcePack.Production,
+    installGame: config.installer.previewVersion
+        ? Minecraft.Preview
+        : Minecraft.Stable,
+    installFolder: config.installer.developEvironment
+        ? ResourcePack.Development
+        : ResourcePack.Production,
 });
-
-if (!fs.existsSync(`.gitignore`)) {
-	const gitignore = `node_modules
-
-.minecraft
-.build
-.save
-
-asakiyuki.env.js
-
-Minecraft-UIBuild.mcpack`;
-
-	fs.writeFileSync(".gitignore", gitignore, "utf-8");
-}
 
 /**
  * Builds the manifest file for the resource pack and writes it to the specified installation path.
@@ -49,157 +35,163 @@ Minecraft-UIBuild.mcpack`;
  * @returns {void} - This function does not return any value.
  */
 function manifestBuild(installPath: string): void {
-	const { name, description, uuid, version, baseGameVersion } =
-		config.manifest;
-	const manifest = new Manifest({ name, description, uuid, version });
-	manifest.manifest.header.min_engine_version = baseGameVersion;
-	fs.writeFileSync(
-		`${installPath}/manifest.json`,
-		manifest.buildJson(),
-		"utf-8"
-	);
+    const { name, description, uuid, version, baseGameVersion } =
+        config.manifest;
+    const manifest = new Manifest({ name, description, uuid, version });
+    manifest.manifest.header.min_engine_version = baseGameVersion;
+    fs.writeFileSync(
+        `${installPath}/manifest.json`,
+        manifest.buildJson(),
+        "utf-8"
+    );
 }
 
 // Set up a process listener for the 'beforeExit' event, which handles compilation tasks
 process.on("beforeExit", () => {
-	const installPath = installer.getInstallPath();
-	const buildPath = config.buildInProject ? ".build" : installPath;
+    const installPath = installer.getInstallPath();
 
-	// Clean up temporary build directories
-	UIBuilder.delete(buildPath);
+    config.installer.autoInstall =
+        config.installer.autoInstall &&
+        fs.pathExistsSync(installer.installPath);
 
-	// Create necessary directories if they do not exist
-	if (!fs.pathExistsSync(`.bedrock`)) fs.mkdirpSync(".bedrock");
-	if (!fs.pathExistsSync(`${buildPath}`)) fs.mkdirSync(`${buildPath}`);
-	if (!fs.pathExistsSync(`${buildPath}/@`)) fs.mkdirSync(`${buildPath}/@`);
+    const buildPath = config.installer.autoInstall ? installPath : ".build";
 
-	try {
-		console.log("---------- COMPILING ----------");
+    // Clean up temporary build directories
+    UIBuilder.delete(buildPath);
 
-		FormatAudio();
+    // Create necessary directories if they do not exist
+    if (!fs.pathExistsSync(`.bedrock`)) fs.mkdirpSync(".bedrock");
+    if (!fs.pathExistsSync(`${buildPath}`)) fs.mkdirSync(`${buildPath}`);
+    if (!fs.pathExistsSync(`${buildPath}/@`)) fs.mkdirSync(`${buildPath}/@`);
 
-		// Perform actions depending on whether the build is within the project or external
-		if (!config.buildInProject) {
-			installer.packLink();
-			console.timeLog("Compiler", ">> Symlink completed!");
-			console.log();
-		}
+    try {
+        console.log("---------- COMPILING ----------");
 
-		// Pack-icon setup
-		if (!fs.existsSync(".bedrock/pack_icon.png")) {
-			const packIconPath = path.join(
-				__dirname,
-				"../../resources/logo.png"
-			);
-			fs.copySync(packIconPath, `${buildPath}/pack_icon.png`);
-		}
+        FormatAudio();
 
-		// Copy bedrock resources to build path
-		fs.copySync(".bedrock", buildPath);
-		console.timeLog("Compiler", ">> Copy bedrock resources completed!");
-		console.log();
+        // Perform actions depending on whether the build is within the project or external
+        if (config.installer.autoInstall) {
+            installer.packLink();
+            console.timeLog("Compiler", ">> Symlink completed!");
+            console.log();
+        }
 
-		// Compile various UI files
-		console.timeLog(
-			"Compiler",
-			`>> ${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
-		);
-		console.log();
-		console.timeLog(
-			"Compiler",
-			`>> ${UIBuilder.modify(buildPath)} modify file(s) compiled!`
-		);
-		console.log();
+        // Pack-icon setup
+        if (!fs.existsSync(".bedrock/pack_icon.png")) {
+            const packIconPath = path.join(
+                __dirname,
+                "../../resources/logo.png"
+            );
+            fs.copySync(packIconPath, `${buildPath}/pack_icon.png`);
+        }
 
-		// Generate and save the manifest
-		manifestBuild(buildPath);
-		console.timeLog("Compiler", `>> Manifest file has been compiled!`);
+        // Copy bedrock resources to build path
+        fs.copySync(".bedrock", buildPath);
+        console.timeLog("Compiler", ">> Copy bedrock resources completed!");
+        console.log();
 
-		// Compile UI and other required resources
-		console.timeLog(
-			"Compiler",
-			`>> ui/_ui_defs.json ${UIBuilder.uiDefs(
-				buildPath
-			)} files path(s) found!`
-		);
-		console.timeLog(
-			"Compiler",
-			`>> ui/_global_variables.json ${UIBuilder.globalVariables(
-				buildPath
-			)} variable(s) compiled!`
-		);
-		console.timeLog(
-			"Compiler",
-			`>> textures/textures_list.json ${UIBuilder.texturesList(
-				buildPath
-			)} files path(s) found!`
-		);
+        // Compile various UI files
+        console.timeLog(
+            "Compiler",
+            `>> ${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
+        );
+        console.log();
+        console.timeLog(
+            "Compiler",
+            `>> ${UIBuilder.modify(buildPath)} modify file(s) compiled!`
+        );
+        console.log();
 
-		const soundLength = Sounds.compile(buildPath);
-		if (soundLength)
-			console.timeLog(
-				"Compiler",
-				`>> sounds/sound_definitions.json ${soundLength} sound id has regisrer!`
-			);
+        // Generate and save the manifest
+        manifestBuild(buildPath);
+        console.timeLog("Compiler", `>> Manifest file has been compiled!`);
 
-		console.timeLog(
-			"Compiler",
-			`>> contents.json ${UIBuilder.contents(
-				buildPath
-			)} file path(s) found!`
-		);
+        // Compile UI and other required resources
+        console.timeLog(
+            "Compiler",
+            `>> ui/_ui_defs.json ${UIBuilder.uiDefs(
+                buildPath
+            )} files path(s) found!`
+        );
+        console.timeLog(
+            "Compiler",
+            `>> ui/_global_variables.json ${UIBuilder.globalVariables(
+                buildPath
+            )} variable(s) compiled!`
+        );
+        console.timeLog(
+            "Compiler",
+            `>> textures/textures_list.json ${UIBuilder.texturesList(
+                buildPath
+            )} files path(s) found!`
+        );
 
-		// Install the resource pack if not building within the project
-		if (!config.buildInProject) {
-			installer.installPack(
-				config.manifest.uuid,
-				config.manifest.version
-			);
-			console.timeLog("Compiler", `>> Resource Pack has been installed!`);
-		}
+        const soundLength = Sounds.compile(buildPath);
+        if (soundLength)
+            console.timeLog(
+                "Compiler",
+                `>> sounds/sound_definitions.json ${soundLength} sound id has regisrer!`
+            );
 
-		// Compress the pack if enabled in the config
-		if (config.compressAfterCompile) {
-			CompressPack(buildPath);
-			console.timeLog(
-				"Compiler",
-				">> Minecraft-UIBuild.mcpack Pack compress completed!"
-			);
-		}
+        console.timeLog(
+            "Compiler",
+            `>> contents.json ${UIBuilder.contents(
+                buildPath
+            )} file path(s) found!`
+        );
 
-		// Final log of compilation completion
-		console.log();
-		console.timeLog("Compiler", ">> Compile completed!");
+        // Install the resource pack if not building within the project
+        if (config.installer.autoInstall) {
+            installer.installPack(
+                config.manifest.uuid,
+                config.manifest.version
+            );
+            console.timeLog("Compiler", `>> Resource Pack has been installed!`);
+        }
 
-		// Warning log
-		if (Logs.length) {
-			console.log("\n---------- Build Log ----------");
+        // Compress the pack if enabled in the config
+        if (config.compiler.autoCompress) {
+            CompressPack(buildPath);
+            console.timeLog(
+                "Compiler",
+                ">> Minecraft-UIBuild.mcpack Pack compress completed!"
+            );
+        }
 
-			for (const log of Logs) {
-				if (log.type === "warning") console.warn(log.message);
-				else if (log.type === "error") console.error(log.message);
-			}
-		}
+        // Final log of compilation completion
+        console.log();
+        console.timeLog("Compiler", ">> Compile completed!");
 
-		// Display relevant information
-		console.log("\n---------- INFO ----------");
-		console.log(`Name: ${config.manifest.name}`);
-		console.log(`Description: ${config.manifest.description}`);
-		console.log(`UUID: ${config.manifest.uuid}`);
-		console.log(
-			`Pack Version: ${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}`
-		);
-		console.log(
-			`Base Game Version: ${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}`
-		);
+        // Warning log
+        if (Logs.length) {
+            console.log("\n---------- Build Log ----------");
 
-		// Print install path if not building within the project
-		if (!config.buildInProject) console.log(`Install Path: ${installPath}`);
-	} catch (error) {
-		// Handle any errors during the compilation process
-		console.timeLog("Compiler", ">> An error occurred while compiling!");
-		console.error(error);
-	}
+            for (const log of Logs) {
+                if (log.type === "warning") console.warn(log.message);
+                else if (log.type === "error") console.error(log.message);
+            }
+        }
+
+        // Display relevant information
+        console.log("\n---------- INFO ----------");
+        console.log(`Name: ${config.manifest.name}`);
+        console.log(`Description: ${config.manifest.description}`);
+        console.log(`UUID: ${config.manifest.uuid}`);
+        console.log(
+            `Pack Version: ${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}`
+        );
+        console.log(
+            `Base Game Version: ${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}`
+        );
+
+        // Print install path if not building within the project
+        if (config.installer.autoInstall)
+            console.log(`Install Path: ${installPath}`);
+    } catch (error) {
+        // Handle any errors during the compilation process
+        console.timeLog("Compiler", ">> An error occurred while compiling!");
+        console.error(error);
+    }
 });
 
 export {};

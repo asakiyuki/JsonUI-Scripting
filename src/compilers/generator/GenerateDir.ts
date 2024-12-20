@@ -14,15 +14,16 @@ import fs from "fs-extra";
  * // Generates the folder structure for "folder1/folder2" inside "/install/path".
  * GenerateDir("/install/path", "folder1/folder2");
  */
-export function GenerateDir(installPath: string, path: string): void {
-	path = `${installPath}/${path}`;
-	if (!fs.existsSync(path)) {
-		let lastPath = "";
-		const folderPath = path.match(/([^\/]+)(?=\/.+)/g) || [];
-		for (const folder of folderPath) {
-			if (!fs.existsSync(`${lastPath}${folder}`))
-				fs.mkdirSync(`${lastPath}${folder}`);
-			lastPath = `${lastPath}${folder}/`;
-		}
-	}
+export function GenerateDir(installPath: string, path?: string): void {
+    path = path ? `${installPath}/${path}` : installPath;
+
+    if (!fs.existsSync(path)) {
+        let lastPath = "";
+        const folderPath = path.match(/([^\/]+)(?=\/.+)/g) || [];
+        for (const folder of folderPath) {
+            if (!fs.existsSync(`${lastPath}${folder}`))
+                fs.mkdirSync(`${lastPath}${folder}`);
+            lastPath = `${lastPath}${folder}/`;
+        }
+    }
 }
