@@ -8,7 +8,7 @@ const env = `const {} = require('jsonui-scripting');
 
 const env = {};
 
-nmodule.exports = env;`;
+module.exports = env;`;
 
 // Global variables
 const globalVariables = `const {} = require("jsonui-scripting");
