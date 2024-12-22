@@ -1,38 +1,38 @@
 {
-	"devDependencies": {
-		"typescript": "^5.6.2"
-	},
-	"dependencies": {
-		"@types/adm-zip": "^0.5.6",
-		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.1.0",
-		"adm-zip": "^0.5.16",
-		"fs-extra": "^11.2.0",
-		"jsonc-parser": "^3.3.1"
-	},
-	"name": "jsonui-scripting",
-	"version": "2.0.7",
-	"description": "Make your Minecraft JsonUI with ScriptingAPI",
-	"main": "dist/index.js",
-	"types": "src/index.ts",
-	"scripts": {
-		"dev": "npx tsc -w",
-		"index": "node script/index",
-		"vanilla": "node script/vanilla",
-		"items": "node script/itemsUpdate"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/asakiyuki/jsonui-scripting.git"
-	},
-	"keywords": [
-		"Minecraft",
-		"JsonUI"
-	],
-	"author": "AsakiYuki",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/asakiyuki/jsonui-scripting/issues"
-	},
-	"homepage": "https://github.com/asakiyuki/jsonui-scripting#readme"
+    "devDependencies": {
+        "typescript": "^5.6.2"
+    },
+    "dependencies": {
+        "@types/adm-zip": "^0.5.6",
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^22.1.0",
+        "adm-zip": "^0.5.16",
+        "fs-extra": "^11.2.0",
+        "jsonc-parser": "^3.3.1"
+    },
+    "name": "jsonui-scripting",
+    "version": "2.0.8",
+    "description": "Make your Minecraft JsonUI with ScriptingAPI",
+    "main": "dist/index.js",
+    "types": "src/index.ts",
+    "scripts": {
+        "dev": "npx tsc -w",
+        "index": "node script/index",
+        "vanilla": "node script/vanilla",
+        "items": "node script/itemsUpdate"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/asakiyuki/jsonui-scripting.git"
+    },
+    "keywords": [
+        "Minecraft",
+        "JsonUI"
+    ],
+    "author": "AsakiYuki",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/asakiyuki/jsonui-scripting/issues"
+    },
+    "homepage": "https://github.com/asakiyuki/jsonui-scripting#readme"
 }

@@ -608,11 +608,7 @@ export class UI {
      * @param bindings The bindings to add (single or multiple).
      * @returns The updated UI instance.
      */
-    addBindings(
-        bindings:
-            | Array<BindingInterface | Binding | Var>
-            | (BindingInterface | Binding | Var)
-    ) {
+    addBindings(bindings: Array<BindingInterface> | BindingInterface) {
         if (Array.isArray(bindings))
             for (const binding of bindings) this.addBindings(binding);
         else (this.bindings ||= []).push(ReadBinding(<any>bindings, this));
@@ -624,7 +620,7 @@ export class UI {
      * @param bindings The bindings to add.
      * @returns The updated UI instance.
      */
-    addMultiBindings(bindings: Array<BindingInterface | Binding | Var>) {
+    addMultiBindings(bindings: Array<BindingInterface>) {
         this.addBindings(bindings);
         return this;
     }
