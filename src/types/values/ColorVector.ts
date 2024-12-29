@@ -1,4 +1,3 @@
-import { RangeFloat } from "./Number";
 import { RangeVector3, RangeVector4 } from "./RangeVector";
 import { Var } from "./Variable";
 
