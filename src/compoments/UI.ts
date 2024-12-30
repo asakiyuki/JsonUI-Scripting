@@ -81,7 +81,7 @@ export class UI {
      * The type of the UI element (e.g., Panel, Button, etc.).
      * @private
      */
-    private type?: string;
+    private type?: Types;
 
     /**
      * The child elements contained within the UI element.

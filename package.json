@@ -11,10 +11,9 @@
         "jsonc-parser": "^3.3.1"
     },
     "name": "jsonui-scripting",
-    "version": "2.0.9",
+    "version": "2.1.0",
     "description": "Make your Minecraft JsonUI with ScriptingAPI",
     "main": "dist/index.js",
-    "types": "src/index.ts",
     "scripts": {
         "dev": "npx tsc -w",
         "index": "node script/index",
