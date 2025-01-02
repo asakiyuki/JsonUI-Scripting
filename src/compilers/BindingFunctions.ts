@@ -1,5 +1,15 @@
+import {
+	Binding,
+	CurrentLine,
+	Log,
+	ModificationBindingsInterface,
+	ModificationInterface,
+	UI,
+} from "../";
 import { API } from "../compoments/API";
+import { Class } from "../compoments/Class";
 import { Items } from "../compoments/ItemDatas";
+import { OverrideInterface } from "../compoments/Modify";
 import { Random } from "../compoments/Random";
 import { BindingCompiler, BindingFunctionObject } from "./BindingCompiler";
 
@@ -495,3 +505,23 @@ export const funcObj: BindingFunctionObject = {
 		}
 	},
 };
+
+export type BindingFunctionsCallback<
+	T = UI | OverrideInterface | ModificationBindingsInterface
+> = (element: T, params: Array<string>) => Binding;
+
+export class BindingFunctions extends Class {
+	static register<T = UI | OverrideInterface | ModificationBindingsInterface>(
+		name: string,
+		callback: BindingFunctionsCallback<T>,
+		override: boolean = false
+	) {
+		const n = name;
+		if (override || !funcObj[n]) {
+			funcObj[n] = <any>callback;
+		} else
+			Log.error(
+				`${CurrentLine()} '${n}' function already exists, do you want to override it?`
+			);
+	}
+}
