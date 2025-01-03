@@ -17,5 +17,6 @@ export enum Types {
     ScrollbarBox = "scrollbar_box",
     Screen = "screen",
     Custom = "custom",
-    SelectionWheel = "selection_wheel"
-};
+    SelectionWheel = "selection_wheel",
+    Any = "Any",
+}

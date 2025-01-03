@@ -1,8 +1,5 @@
 import { JsonBuilder } from "../compilers/generator/JsonBuilder";
-import {
-    ChildElement,
-    ChildIdentifier,
-} from "../types/compoments/ChildIdentifier";
+import { ChildElement } from "../types/compoments/ChildIdentifier";
 import { Identifier } from "../types/compoments/Identifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
 import {
@@ -43,12 +40,20 @@ import {
     PropertyBag,
     ReadProperties,
     ReadValue,
-    Var,
 } from "../";
 import { ReadBinding } from "../compilers/reader/ReadBinding";
 import { VariablesInterface } from "../types/objects/Variables";
 import { ButtonMapping } from "../types/objects/ButtonMapping";
 import { Log } from "../compilers/generator/Log";
+import { PropertiesType } from "../types/objects/elements/PropertiesType";
+
+type ExtractUIType<T, K extends Types = Types.Any> = T extends UI<infer U>
+    ? U
+    : T extends string
+    ? K
+    : T extends Identifier
+    ? K
+    : never;
 
 interface TypeExtend {
     [key: string]: string;
@@ -59,7 +64,7 @@ const typeExtend: TypeExtend = {};
  * A class representing a UI element that can be used to create and manage various UI components.
  * It includes properties, bindings, children, animations, and extends other UI components.
  */
-export class UI {
+export class UI<T extends Types = Types.Any> {
     /**
      * The name of the UI element.
      * This can be automatically generated or specified in the constructor.
@@ -116,7 +121,7 @@ export class UI {
      * The properties of the UI element.
      * @private
      */
-    private properties?: Properties;
+    private properties?: PropertiesType[T];
 
     /**
      * Constructs a new UI element, either by creating a new one or extending an existing one.
@@ -163,10 +168,10 @@ export class UI {
             }
 
             if (identifier?.properties)
-                this.setProperties(identifier.properties);
+                this.setProperties(<any>identifier.properties);
         }
 
-        JsonBuilder.registerElement(this.namespace, this);
+        JsonBuilder.registerElement(this.namespace, <any>this);
     }
 
     /**
@@ -176,7 +181,7 @@ export class UI {
      * @returns A new UI instance representing a Panel.
      */
     static panel(properties?: Panel, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Panel>(<UIInterface>{
             ...identifier,
             type: Types.Panel,
             properties,
@@ -190,7 +195,7 @@ export class UI {
      * @returns A new UI instance representing a StackPanel.
      */
     static stackPanel(properties?: StackPanel, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.StackPanel>(<UIInterface>{
             ...identifier,
             type: Types.StackPanel,
             properties,
@@ -207,7 +212,7 @@ export class UI {
         properties?: CollectionPanel,
         identifier?: StaticUIInterface
     ) {
-        return new UI(<UIInterface>{
+        return new UI<Types.CollectionPanel>(<UIInterface>{
             ...identifier,
             type: Types.CollectionPanel,
             properties,
@@ -221,7 +226,7 @@ export class UI {
      * @returns A new UI instance representing an InputPanel.
      */
     static inputPanel(properties?: InputPanel, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.InputPanel>(<UIInterface>{
             ...identifier,
             type: Types.InputPanel,
             properties,
@@ -235,7 +240,7 @@ export class UI {
      * @returns A new UI instance representing a Grid.
      */
     static grid(properties?: Grid, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Grid>(<UIInterface>{
             ...identifier,
             type: Types.Grid,
             properties,
@@ -249,7 +254,7 @@ export class UI {
      * @returns A new UI instance representing a Button.
      */
     static button(properties?: Button, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Button>(<UIInterface>{
             ...identifier,
             type: Types.Button,
             properties,
@@ -263,7 +268,7 @@ export class UI {
      * @returns A new UI instance representing a Toggle.
      */
     static toggle(properties?: Toggle, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Toggle>(<UIInterface>{
             ...identifier,
             type: Types.Toggle,
             properties,
@@ -277,7 +282,7 @@ export class UI {
      * @returns A new UI instance representing a Label.
      */
     static label(properties?: Label, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Label>(<UIInterface>{
             ...identifier,
             type: Types.Label,
             properties,
@@ -291,7 +296,7 @@ export class UI {
      * @returns A new UI instance representing an Image.
      */
     static image(properties?: Image, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Image>(<UIInterface>{
             ...identifier,
             type: Types.Image,
             properties,
@@ -305,7 +310,7 @@ export class UI {
      * @returns A new UI instance representing a Dropdown.
      */
     static dropdown(properties?: Dropdown, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Dropdown>(<UIInterface>{
             ...identifier,
             type: Types.Dropdown,
             properties,
@@ -319,7 +324,7 @@ export class UI {
      * @returns A new UI instance representing a Slider.
      */
     static slider(properties?: Slider, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Slider>(<UIInterface>{
             ...identifier,
             type: Types.Slider,
             properties,
@@ -333,7 +338,7 @@ export class UI {
      * @returns A new UI instance representing a SliderBox.
      */
     static sliderBox(properties?: SliderBox, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.SliderBox>(<UIInterface>{
             ...identifier,
             type: Types.SliderBox,
             properties,
@@ -347,7 +352,7 @@ export class UI {
      * @returns A new UI instance representing an EditBox.
      */
     static editBox(properties?: EditBox, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.EditBox>(<UIInterface>{
             ...identifier,
             type: Types.EditBox,
             properties,
@@ -361,7 +366,7 @@ export class UI {
      * @returns A new UI instance representing a ScrollView.
      */
     static scrollView(properties?: ScrollView, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.ScrollView>(<UIInterface>{
             ...identifier,
             type: Types.ScrollView,
             properties,
@@ -378,7 +383,7 @@ export class UI {
         properties?: ScrollbarTrack,
         identifier?: StaticUIInterface
     ) {
-        return new UI(<UIInterface>{
+        return new UI<Types.ScrollbarTrack>(<UIInterface>{
             ...identifier,
             type: Types.ScrollbarTrack,
             properties,
@@ -395,7 +400,7 @@ export class UI {
         properties?: ScrollbarBox,
         identifier?: StaticUIInterface
     ) {
-        return new UI(<UIInterface>{
+        return new UI<Types.ScrollbarBox>(<UIInterface>{
             ...identifier,
             type: Types.ScrollbarBox,
             properties,
@@ -409,7 +414,7 @@ export class UI {
      * @returns A new UI instance representing a Screen.
      */
     static screen(properties?: Screen, identifier?: StaticUIInterface) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Screen>(<UIInterface>{
             ...identifier,
             type: Types.Screen,
             properties,
@@ -430,7 +435,7 @@ export class UI {
         propertyBag?: PropertyBag,
         identifier?: StaticUIInterface
     ) {
-        return new UI(<UIInterface>{
+        return new UI<Types.Custom>(<UIInterface>{
             ...identifier,
             type: Types.Custom,
             properties: {
@@ -447,20 +452,23 @@ export class UI {
      * @param properties Additional properties for the extended element.
      * @returns A new UI instance representing the extended element.
      */
-    static extend(
-        extendElement?: string | Identifier | UI,
-        properties?: Properties,
+    static extend<
+        K extends Types = Types.Any,
+        T extends string | Identifier | UI = UI
+    >(
+        extendElement?: T,
+        properties?: PropertiesType[ExtractUIType<typeof extendElement, K>],
         identifier?: StaticUIInterface
     ) {
         if (identifier)
-            return new UI({
+            return new UI<ExtractUIType<typeof extendElement, K>>({
                 extends: extendElement,
                 ...identifier,
             });
         else
-            return new UI({
+            return new UI<ExtractUIType<typeof extendElement, K>>({
                 extends: extendElement,
-                properties,
+                properties: <Properties>properties,
             });
     }
 
@@ -511,14 +519,14 @@ export class UI {
      * @param properties The properties to apply to the UI element.
      * @returns The updated UI instance.
      */
-    setProperties(properties: Properties) {
-        if (properties.property_bag) {
-            properties.property_bag = {
-                ...this.properties?.property_bag,
-                ...properties.property_bag,
+    setProperties(properties: PropertiesType[T]) {
+        if ((<any>properties).property_bag) {
+            (<any>properties).property_bag = {
+                ...(<any>this).properties?.property_bag,
+                ...(<any>properties).property_bag,
             };
         }
-        this.properties = {
+        (<any>this).properties = {
             ...(this.properties || {}),
             ...properties,
         };
@@ -539,67 +547,42 @@ export class UI {
         return name === this.name;
     }
 
-    /**
-     * Adds a child element to the UI element.
-     * @param child The child element to add (either a string, UI, or identifier).
-     * @param callback A callback function that will be called after the child is added.
-     * @returns The updated UI instance.
-     */
-    addChild(
-        child: string | ChildIdentifier | UI,
+    addChild<
+        K extends Types = Types.Any,
+        T extends string | Identifier | UI = UI
+    >(
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element, K>],
+        name?: string | null,
         callback?: UIChildNameCallback
     ) {
         if (!this.controls) this.controls = [];
-        if (typeof child === "string") {
-            if (this.isDuplicate(child.split("@")[0])) {
-                Log.warning(
-                    `${CurrentLine()} child element should have a unique name!`
-                );
-            }
+        name ||= Random.getName();
 
-            this.controls.push({ [`${child}`]: {} });
-        } else if (child instanceof UI) {
-            if (
-                child.name === this.name &&
-                child.namespace === this.namespace
-            ) {
-                Log.error(
-                    `${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
-                );
-            }
+        if (this.isDuplicate(name)) {
+            Log.warning(
+                `${CurrentLine()} child element should have a unique name!`
+            );
+        }
 
-            const name = Random.getName();
-            this.controls.push({ [`${name}${child.getElement()}`]: {} });
-            callback?.(this, name);
-        } else {
-            child.name ||= Random.getName();
-
-            if (this.isDuplicate(child.name.split("@")[0])) {
-                Log.warning(
-                    `${CurrentLine()} child element should have a unique name!`
-                );
-            }
-
-            if (child.extend instanceof UI) {
-                if (
-                    child.extend.name === this.name &&
-                    child.extend.namespace === this.namespace
-                ) {
-                    Log.error(
-                        `${CurrentLine()} you should not add a child element as itself, it can cause a crash.`
+        if (typeof element === "string") {
+            this.controls.push({ [`${name}@${element}`]: properties || {} });
+        } else if (element instanceof UI) {
+            {
+                if (element?.getPath() === this.getPath()) {
+                    Log.warning(
+                        `${CurrentLine()} child element should have a unique name!`
                     );
                 }
 
-                child.extend = child.extend.getPath();
-            } else if (typeof child.extend === "object")
-                child.extend = `${child.extend.namespace}.${child.extend.name}`;
-            this.controls.push({
-                [`${child.name}@${child.extend}`]: ReadProperties(
-                    child.properties || {}
-                ),
-            });
-            callback?.(this, child.name);
+                this.controls.push({
+                    [`${name}${element?.getPath()}`]: properties || {},
+                });
+            }
         }
+
+        callback?.(this, name);
+
         return this;
     }
 
@@ -611,17 +594,7 @@ export class UI {
     addBindings(bindings: Array<BindingInterface> | BindingInterface) {
         if (Array.isArray(bindings))
             for (const binding of bindings) this.addBindings(binding);
-        else (this.bindings ||= []).push(ReadBinding(<any>bindings, this));
-        return this;
-    }
-
-    /**
-     * Adds multiple bindings to the UI element.
-     * @param bindings The bindings to add.
-     * @returns The updated UI instance.
-     */
-    addMultiBindings(bindings: Array<BindingInterface>) {
-        this.addBindings(bindings);
+        else (this.bindings ||= []).push(ReadBinding(<any>bindings, <any>this));
         return this;
     }
 
@@ -702,11 +675,11 @@ export class UI {
      * @param properties Additional properties for the extended element.
      * @returns A new UI instance representing the extended element.
      */
-    extend(identifier?: ExtendInterface, properties?: Properties) {
-        return new UI({
+    extend(identifier?: ExtendInterface, properties?: PropertiesType[T]) {
+        return new UI<T>({
             ...identifier,
             extends: this,
-            properties,
+            properties: <Properties>properties,
         });
     }
 

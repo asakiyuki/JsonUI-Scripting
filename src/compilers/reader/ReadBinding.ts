@@ -32,42 +32,42 @@ import { CurrentLine } from "./CurrentLine";
  * console.log(result); // Processed binding object with necessary adjustments
  */
 export function ReadBinding(
-	binding: BindingName | Var | BindingInterface,
-	arg: UI | OverrideInterface
+    binding: BindingName | Var | BindingInterface,
+    arg: UI | OverrideInterface
 ): BindingInterface {
-	if (typeof binding === "string")
-		return {
-			binding_name: binding,
-		};
-	else {
-		const bindingObject: BindingInterface = <any>binding;
+    if (typeof binding === "string")
+        return {
+            binding_name: binding,
+        };
+    else {
+        const bindingObject: BindingInterface = <any>binding;
 
-		if (bindingObject.source_property_name) {
-			bindingObject.binding_type ||= BindingType.View;
+        if (bindingObject.source_property_name) {
+            bindingObject.binding_type ||= BindingType.View;
 
-			const srcBin = bindingObject.source_property_name;
+            const srcBin = bindingObject.source_property_name;
 
-			if (srcBin && !bindingObject.source_control_name) {
-				if (Array.isArray(srcBin))
-					bindingObject.source_property_name = <any>(
-						BindingCompiler.compile(srcBin[0], arg)
-					);
-				else if (/^\[.+\]$/.test(srcBin)) {
-					bindingObject.source_property_name =
-						BindingCompiler.compile(
-							srcBin.slice(1, srcBin.length - 1),
-							arg
-						);
-				}
-			}
+            if (srcBin && !bindingObject.source_control_name) {
+                if (Array.isArray(srcBin))
+                    bindingObject.source_property_name = <any>(
+                        BindingCompiler.compile(srcBin[0], arg)
+                    );
+                else if (/^\[.+\]$/.test(srcBin)) {
+                    bindingObject.source_property_name =
+                        BindingCompiler.compile(
+                            srcBin.slice(1, srcBin.length - 1),
+                            arg
+                        );
+                }
+            }
 
-			if (!bindingObject.target_property_name) {
-				Log.error(`${CurrentLine()} missing target_property_name.`);
-			}
-		} else if (bindingObject.binding_collection_name) {
-			bindingObject.binding_type ||= BindingType.Collection;
-		}
+            if (!bindingObject.target_property_name) {
+                Log.error(`${CurrentLine()} missing target_property_name.`);
+            }
+        } else if (bindingObject.binding_collection_name) {
+            bindingObject.binding_type ||= BindingType.Collection;
+        }
 
-		return <BindingInterface>bindingObject;
-	}
+        return <BindingInterface>bindingObject;
+    }
 }

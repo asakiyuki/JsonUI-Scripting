@@ -29,26 +29,24 @@ type setNameCallback = (index: number) => string;
  * AddCollectionChild(parentUI, childUI, 5, 0, { color: 'red' }, (index) => `child-${index}`);
  */
 export function AddCollectionChild(
-	parent: UI,
-	child: UI,
-	collectionLength: number,
-	startIndex: number = 0,
-	properties?: Properties,
-	setName?: setNameCallback,
-	callback?: UIChildNameCallback
+    parent: UI,
+    child: UI,
+    collectionLength: number,
+    startIndex: number = 0,
+    properties?: Properties,
+    setName?: setNameCallback,
+    callback?: UIChildNameCallback
 ) {
-	for (let index = startIndex; index < collectionLength; index++) {
-		const name = setName?.(index);
-		parent.addChild(
-			{
-				extend: child,
-				properties: {
-					...properties,
-					collection_index: index,
-				},
-				name,
-			},
-			callback
-		);
-	}
+    for (let index = startIndex; index < collectionLength; index++) {
+        const name = setName?.(index);
+        parent.addChild(
+            child,
+            {
+                ...properties,
+                collection_index: index,
+            },
+            name,
+            callback
+        );
+    }
 }
