@@ -16,9 +16,10 @@
     "main": "dist/index.js",
     "scripts": {
         "dev": "npx tsc -w",
-        "index": "node script/index",
-        "vanilla": "node script/vanilla",
-        "items": "node script/itemsUpdate"
+        "ui-pull": "bun scripts/scanner/scan.ts",
+        "ui-build": "bun scripts/scanner/index.ts",
+        "import": "bun scripts/index.js",
+        "items": "bun scripts/items.js"
     },
     "repository": {
         "type": "git",

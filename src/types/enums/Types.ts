@@ -18,5 +18,11 @@ export enum Types {
     Screen = "screen",
     Custom = "custom",
     SelectionWheel = "selection_wheel",
+    Factory = "Any",
+    LabelCycler = "Any",
+    ImageCycler = "Any",
+    GridPageIndicator = "Any",
+    CarouselLabel = "Any",
+    ScrollTrack = "Any",
     Any = "Any",
 }

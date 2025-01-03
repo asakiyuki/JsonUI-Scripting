@@ -1,1 +1,0 @@
-export type EduFeatured = "featured_button_content" | "featured_button_content/button_label" | "featured_button";

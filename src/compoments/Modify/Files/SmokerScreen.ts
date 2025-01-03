@@ -1,1 +1,0 @@
-export type SmokerScreen = "smoker_screen";

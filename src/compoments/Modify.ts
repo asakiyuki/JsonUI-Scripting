@@ -8,7 +8,9 @@ import {
 } from "../types/compoments/ChildIdentifier";
 import { UIChildNameCallback } from "../types/compoments/NameCallback";
 import { BindingName } from "../types/enums/BindingName";
+import { Types } from "../types/enums/Types";
 import { BindingInterface } from "../types/objects/BindingInterface";
+import { PropertiesType } from "../types/objects/elements/PropertiesType";
 import { Properties } from "../types/objects/properties/Properties";
 import { VariablesInterface } from "../types/objects/Variables";
 import { Binding } from "../types/values/Binding";
@@ -116,7 +118,7 @@ export interface ModificationControls {
  *
  * @class Modify
  */
-export class Modify {
+export class Modify<T extends Types = Types.Any> {
     /** Holds the properties for the modification. */
     private properties: Properties = {};
     /** Holds the controls for the modification. */
@@ -156,7 +158,7 @@ export class Modify {
          * @param {Properties} properties - The properties to set for the UI element.
          * @returns {OverrideInterface} The override interface to allow method chaining.
          */
-        setProperties: (properties: Properties) => {
+        setProperties: (properties: PropertiesType[T]) => {
             this.properties = {
                 ...this.properties,
                 ...properties,
@@ -587,20 +589,20 @@ export class Modify {
      * @param {Properties} [properties] - Optional properties to initialize the Modify object with.
      * @returns {Modify} The registered Modify object.
      */
-    static register(
+    static register<T extends Types = Types.Any>(
         filePath: string,
         elementPath: string,
         properties?: Properties
     ) {
         const modify = JsonBuilder.getModify(filePath, elementPath);
         modify?.override?.setProperties(properties || {});
-        return (
-            modify ||
-            JsonBuilder.registerModify(
-                filePath,
-                elementPath,
-                new Modify(properties)
-            )
+        return <Modify<T>>(
+            (modify ||
+                JsonBuilder.registerModify(
+                    filePath,
+                    elementPath,
+                    new Modify<T>(properties)
+                ))
         );
     }
 

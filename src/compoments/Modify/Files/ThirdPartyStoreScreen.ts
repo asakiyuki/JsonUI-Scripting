@@ -1,1 +1,0 @@
-export type ThirdPartyStoreScreen = "third_party_store_screen";

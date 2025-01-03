@@ -1,1 +1,0 @@
-export type SimpleInprogressScreen = "title_text" | "main_panel" | "main_panel/common_panel" | "main_panel/title" | "main_panel/main_content" | "main_panel/progress_loading_bars" | "simple_inprogress_screen" | "simple_inprogress_screen_content" | "simple_inprogress_screen_content/root_panel" | "simple_inprogress_screen_content/root_panel/main_panel";
