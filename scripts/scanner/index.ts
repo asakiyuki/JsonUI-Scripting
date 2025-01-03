@@ -219,7 +219,7 @@ interface ElementInType {
                 .replace(/_\w/g, (str) => str.slice(1).toUpperCase())
                 .replaceAll("/", "_");
 
-            code += `    ${
+            code += `    static ${
                 /^\d/.test(e) ? `_${e}` : e
             }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
                 v.slice(1).toUpperCase()
