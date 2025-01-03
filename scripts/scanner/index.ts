@@ -223,7 +223,7 @@ interface ElementInType {
                 /^\d/.test(e) ? `_${e}` : e
             }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
                 v.slice(1).toUpperCase()
-            )}>(properties: PropertiesType[T]) {
+            )}>(properties?: PropertiesType[T]) {
         return Modify.register<T>("${file}", "${element}", <any>properties)
     }\n`;
 
