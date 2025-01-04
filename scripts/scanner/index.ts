@@ -9,6 +9,7 @@ interface SpaceCode {
         };
         type: string;
         file: string;
+        childs?: string[];
     };
 }
 
@@ -64,6 +65,7 @@ interface ScanCode {
         path: string = "",
         file: string
     ) {
+        const childName: string[] = [];
         const controls = code.controls;
         const _namespace = namespace;
 
@@ -99,8 +101,16 @@ interface ScanCode {
                 }
 
                 if (_code.controls) {
-                    scanJsonUICode(_namespace, _code, fullName, file);
+                    const childList = scanJsonUICode(
+                        _namespace,
+                        _code,
+                        fullName,
+                        file
+                    );
+                    scanner[_namespace][fullName].childs = childList;
                 }
+
+                childName.push(name);
             }
         } else {
             scanner[namespace] = {};
@@ -132,10 +142,18 @@ interface ScanCode {
                 }
 
                 if (_code.controls) {
-                    scanJsonUICode(_namespace, _code, name, file);
+                    const childList = scanJsonUICode(
+                        _namespace,
+                        _code,
+                        name,
+                        file
+                    );
+                    scanner[_namespace][name].childs = childList;
                 }
             }
         }
+
+        return childName;
     }
 
     for (const file of fileList) {
@@ -213,7 +231,7 @@ interface ElementInType {
         let code = `class ${Namespace} extends Class {\n`;
 
         for (const element in ui[namespace]) {
-            const { type, file } = ui[namespace][element];
+            const { type, file, childs } = ui[namespace][element];
 
             const e = element
                 .replace(/_\w/g, (str) => str.slice(1).toUpperCase())
@@ -224,7 +242,9 @@ interface ElementInType {
             }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
                 v.slice(1).toUpperCase()
             )}>(properties?: PropertiesType[T]) {
-        return Modify.register<T>("${file}", "${element}", <any>properties)
+        return Modify.register<T${
+            childs?.length ? `, ${childs.map((v) => `"${v}"`).join(" | ")}` : ""
+        }>("${file}", "${element}", <any>properties)
     }\n`;
 
             SpaceElement.push({ name: element, file });

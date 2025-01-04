@@ -18,10 +18,14 @@ import { Var } from "../types/values/Variable";
 import { Random } from "./Random";
 import { UI } from "./UI";
 
+type ExtractUIType<T> = T extends UI<infer U> ? U : never;
+
 export interface OverrideInterface {
     setProperties(properties: Properties): OverrideInterface;
-    addChild(
-        child: string | ChildIdentifier | UI,
+    addChild<T extends UI<any>>(
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
+        name?: string | null,
         callback?: UIChildNameCallback
     ): OverrideInterface;
     addBindings(
@@ -48,55 +52,45 @@ export interface ModificationBindingsInterface {
     ): ModificationBindingsInterface;
 }
 
-export interface ModificationControlsInterface {
-    remove: (
-        childName: string | Array<string>
-    ) => ModificationControlsInterface;
-    moveBack: (
-        childName: string | Array<string>
-    ) => ModificationControlsInterface;
-    moveFront: (
-        childName: string | Array<string>
-    ) => ModificationControlsInterface;
-    moveAfter: (
-        childName: string | Array<string>
-    ) => ModificationControlsInterface;
-    moveBefore: (
-        childName: string | Array<string>
-    ) => ModificationControlsInterface;
-    replace: (
-        childName: string,
-        element: UI,
-        properties?: Properties,
+export interface ModificationControlsInterface<K extends string = string> {
+    remove(childName: K | K[]): ModificationControlsInterface;
+    moveBack(childName: K | K[]): ModificationControlsInterface;
+    moveFront(childName: K | K[]): ModificationControlsInterface;
+    moveAfter(childName: K | K[]): ModificationControlsInterface;
+    moveBefore(childName: K | K[]): ModificationControlsInterface;
+    replace<T extends UI<any>>(
+        childName: K,
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
         elementName?: string
-    ) => ModificationControlsInterface;
-    insertBack: (
-        element: UI,
-        properties?: Properties,
+    ): ModificationControlsInterface;
+    insertBack<T extends UI<any>>(
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
         elementName?: string
-    ) => ModificationControlsInterface;
-    insertFront: (
-        element: UI,
-        properties?: Properties,
+    ): ModificationControlsInterface;
+    insertFront<T extends UI<any>>(
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
         elementName?: string
-    ) => ModificationControlsInterface;
-    insertAfter: (
-        childName: string,
-        element: UI,
-        properties?: Properties,
+    ): ModificationControlsInterface;
+    insertAfter<T extends UI<any>>(
+        childName: K,
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
         elementName?: string
-    ) => ModificationControlsInterface;
-    insertBefore: (
-        childName: string,
-        element: UI,
-        properties?: Properties,
+    ): ModificationControlsInterface;
+    insertBefore<T extends UI<any>>(
+        childName: K,
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
         elementName?: string
-    ) => ModificationControlsInterface;
+    ): ModificationControlsInterface;
 }
 
-export interface ModificationInterface {
+export interface ModificationInterface<T extends string = string> {
     bindings: ModificationBindingsInterface;
-    controls: ModificationControlsInterface;
+    controls: ModificationControlsInterface<T>;
 }
 
 export interface ModificationControls {
@@ -118,7 +112,7 @@ export interface ModificationControls {
  *
  * @class Modify
  */
-export class Modify<T extends Types = Types.Any> {
+export class Modify<T extends Types = Types.Any, K extends string = string> {
     /** Holds the properties for the modification. */
     private properties: Properties = {};
     /** Holds the controls for the modification. */
@@ -152,12 +146,6 @@ export class Modify<T extends Types = Types.Any> {
      * These methods allow you to modify the Minecraft UI element in different ways.
      */
     override: OverrideInterface = {
-        /**
-         * Override properties for the Modify UI Element.
-         *
-         * @param {Properties} properties - The properties to set for the UI element.
-         * @returns {OverrideInterface} The override interface to allow method chaining.
-         */
         setProperties: (properties: PropertiesType[T]) => {
             this.properties = {
                 ...this.properties,
@@ -166,52 +154,20 @@ export class Modify<T extends Types = Types.Any> {
             return this.override;
         },
 
-        /**
-         * Override properties for the Modify UI Element.
-         *
-         * @param {Properties} properties - The properties to set for the UI element.
-         * @returns {OverrideInterface} The override interface to allow method chaining.
-         */
-        addChild: (
-            child: string | ChildIdentifier | UI,
-            callback?: UIChildNameCallback
-        ) => {
+        addChild: (element, properties, name, callback) => {
             if (!this.controls) this.controls = [];
-            if (typeof child === "string")
-                this.controls.push({ [`${child}`]: {} });
-            else if (child instanceof UI) {
-                const name = Random.getName();
-                this.controls.push({ [`${name}${child.getElement()}`]: {} });
-                callback?.(this, name);
-            } else {
-                child.name ??= Random.getName();
-                if (child.extend instanceof UI)
-                    child.extend = child.extend.getPath();
-                else if (typeof child.extend === "object")
-                    child.extend = `${child.extend.namespace}.${child.extend.name}`;
-                this.controls.push({
-                    [`${child.name}@${child.extend}`]: ReadProperties(
-                        child.properties || {}
-                    ),
-                });
-                callback?.(this, child.name);
-            }
+            name ||= Random.getName();
+
+            this.controls.push({
+                [`${name}${element.getPath()}`]: properties || {},
+            });
+
+            callback?.(this, name);
+
             return this.override;
         },
 
-        /**
-         * Override properties for the Modify UI Element.
-         *
-         * @param {Properties} properties - The properties to set for the UI element.
-         * @returns {OverrideInterface} The override interface to allow method chaining.
-         */
-        addBindings: (
-            bindings:
-                | BindingInterface
-                | Binding
-                | Var
-                | (BindingInterface | Binding | Var)[]
-        ) => {
+        addBindings: (bindings) => {
             if (Array.isArray(bindings))
                 for (const binding of bindings)
                     this.override.addBindings(binding);
@@ -222,13 +178,7 @@ export class Modify<T extends Types = Types.Any> {
             return this.override;
         },
 
-        /**
-         * Override properties for the Modify UI Element.
-         *
-         * @param {Properties} properties - The properties to set for the UI element.
-         * @returns {OverrideInterface} The override interface to allow method chaining.
-         */
-        addVariables: (variables: VariablesInterface) => {
+        addVariables: (variables) => {
             this.variables ||= {};
 
             Obj.forEach(variables, (key, value) => {
@@ -290,14 +240,8 @@ export class Modify<T extends Types = Types.Any> {
      * Provides methods to modify bindings and controls.
      * These methods allow you to add, remove, or manipulate bindings and controls dynamically.
      */
-    modify: ModificationInterface = {
+    modify: ModificationInterface<K> = {
         bindings: {
-            /**
-             * Remove specified bindings.
-             *
-             * @param {BindingInterface | BindingInterface[]} bindings - The binding(s) to remove.
-             * @returns {ModificationBindingsInterface} The bindings interface to allow further modifications.
-             */
             remove: (bindings) => {
                 if (Array.isArray(bindings)) {
                     (this.removeModifyBindings ||= [])?.push(...bindings);
@@ -305,12 +249,6 @@ export class Modify<T extends Types = Types.Any> {
                 return this.modify.bindings;
             },
 
-            /**
-             * Add new bindings.
-             *
-             * @param {BindingInterface | Binding | Var | Array<BindingInterface | Binding | Var>} bindings - The bindings to add.
-             * @returns {ModificationBindingsInterface} The bindings interface to allow further modifications.
-             */
             addBindings: (bindings) => {
                 if (Array.isArray(bindings))
                     bindings.forEach((binding) =>
@@ -325,12 +263,6 @@ export class Modify<T extends Types = Types.Any> {
             },
         },
         controls: {
-            /**
-             * Remove specified child controls.
-             *
-             * @param {string | Array<string>} childName - The child control name(s) to remove.
-             * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
-             */
             remove: (childName) => {
                 if (Array.isArray(childName))
                     this.modifyControls.remove.push(...childName);
@@ -338,12 +270,6 @@ export class Modify<T extends Types = Types.Any> {
                 return this.modify.controls;
             },
 
-            /**
-             * Move child controls after specified child.
-             *
-             * @param {string | Array<string>} childName - The child control name(s) to move.
-             * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
-             */
             moveAfter: (childName) => {
                 if (Array.isArray(childName))
                     this.modifyControls.moveAfter.push(...childName);
@@ -370,15 +296,6 @@ export class Modify<T extends Types = Types.Any> {
                 return this.modify.controls;
             },
 
-            /**
-             * Replace specified child control with a new UI element.
-             *
-             * @param {string} childName - The name of the child control to replace.
-             * @param {UI} ui - The new UI element to replace the existing one.
-             * @param {Properties} [properties] - Optional properties for the new UI element.
-             * @param {string} [elementName] - Optional name for the new UI element.
-             * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
-             */
             replace: (childName, ui, properties, elementName) => {
                 this.modifyControls.replace.push([
                     childName,
@@ -410,14 +327,6 @@ export class Modify<T extends Types = Types.Any> {
                 return this.modify.controls;
             },
 
-            /**
-             * Insert a new child element at the back.
-             *
-             * @param {UI} ui - The UI element to insert.
-             * @param {Properties} [properties] - Optional properties for the new UI element.
-             * @param {string} [elementName] - Optional name for the new UI element.
-             * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
-             */
             insertBack: (ui, properties, elementName) => {
                 this.modifyControls.insertBack.push({
                     [`${elementName || Random.getName()}@${ui.getPath()}`]:
@@ -425,15 +334,6 @@ export class Modify<T extends Types = Types.Any> {
                 });
                 return this.modify.controls;
             },
-
-            /**
-             * Insert a new child element at the front.
-             *
-             * @param {UI} ui - The UI element to insert.
-             * @param {Properties} [properties] - Optional properties for the new UI element.
-             * @param {string} [elementName] - Optional name for the new UI element.
-             * @returns {ModificationControlsInterface} The controls interface to allow further modifications.
-             */
             insertFront: (ui, properties, elementName) => {
                 this.modifyControls.insertFront.push({
                     [`${elementName || Random.getName()}@${ui.getPath()}`]:
@@ -574,7 +474,11 @@ export class Modify<T extends Types = Types.Any> {
         return code;
     }
 
-    addChild(element: UI<any>, properties?: Properties, elementName?: string) {
+    addChild<T extends UI<any>>(
+        element: T,
+        properties?: PropertiesType[ExtractUIType<typeof element>],
+        elementName?: string
+    ) {
         this.modify.controls.insertFront(element, properties, elementName);
         return this;
     }
@@ -588,19 +492,19 @@ export class Modify<T extends Types = Types.Any> {
      * @param {Properties} [properties] - Optional properties to initialize the Modify object with.
      * @returns {Modify} The registered Modify object.
      */
-    static register<T extends Types = Types.Any>(
+    static register<T extends Types = Types.Any, K extends string = string>(
         filePath: string,
         elementPath: string,
         properties?: Properties
     ) {
         const modify = JsonBuilder.getModify(filePath, elementPath);
         modify?.override?.setProperties(properties || {});
-        return <Modify<T>>(
+        return <Modify<T, K>>(
             (modify ||
                 JsonBuilder.registerModify(
                     filePath,
                     elementPath,
-                    new Modify<T>(properties)
+                    new Modify<T, K>(properties)
                 ))
         );
     }

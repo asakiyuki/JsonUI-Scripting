@@ -27,7 +27,8 @@ import { Obj } from "./Object";
 export function ReadValue(value: any, callback?: (type: string) => any) {
     if (Array.isArray(value)) {
         if (typeof value[0] === "string") {
-            if (value[0].startsWith("#")) value = ColorHandler.parse(value[0]);
+            if (value[0].startsWith("#") || value[0].startsWith("0x"))
+                value = ColorHandler.parse(value[0]);
             else if (value[0].startsWith("$")) return callback?.("var");
         }
     } else if (value instanceof Animation) return value.getKeyIndex(0);
@@ -67,7 +68,9 @@ export function ReadProperties(properties: Properties) {
         delete properties.min_h;
     } else if (
         properties.min_size !== undefined &&
-        !Array.isArray(properties.min_size)
+        !Array.isArray(properties.min_size) &&
+        typeof properties.min_size === "string" &&
+        !properties.min_size.startsWith("$")
     )
         (<any>properties.min_size) = [properties.min_size, properties.min_size];
 
@@ -77,7 +80,9 @@ export function ReadProperties(properties: Properties) {
         delete properties.max_h;
     } else if (
         properties.max_size !== undefined &&
-        !Array.isArray(properties.max_size)
+        !Array.isArray(properties.max_size) &&
+        typeof properties.max_size === "string" &&
+        !properties.max_size.startsWith("$")
     )
         (<any>properties.max_size) = [properties.max_size, properties.max_size];
 
@@ -85,7 +90,12 @@ export function ReadProperties(properties: Properties) {
         properties.size = [properties.w || 0, properties.h || 0];
         delete properties.w;
         delete properties.h;
-    } else if (properties.size !== undefined && !Array.isArray(properties.size))
+    } else if (
+        properties.size !== undefined &&
+        !Array.isArray(properties.size) &&
+        typeof properties.size === "string" &&
+        !properties.size.startsWith("$")
+    )
         (<any>properties.size) = [properties.size, properties.size];
 
     if (properties.sound_path) {
