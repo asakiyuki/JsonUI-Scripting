@@ -299,32 +299,64 @@ export const funcObj: BindingFunctionObject = {
         return bindingName;
     },
 
-    getAfterPrefix: (arg, [str, str2, prefix, maxLength = 30]) => {
-        const bindingName: any = Random.bindingName();
+    getAfterPrefix: (arg, [splitStr, afterStr, prefix]) => {
+        const returnBinding = Random.bindingName();
+        const slpStr = Random.bindingName();
+        const isDeleteAble = Random.bindingName();
+        const count = Random.bindingName();
 
-        arg.addBindings({
-            source_property_name: `(${prefix} + ${str} - ${Array.from(
-                { length: +maxLength },
-                (v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
-            ).join(" - ")} )`,
-            target_property_name: bindingName,
-        });
+        const rndPrefix = `§${Random.getName()}`;
 
-        return bindingName;
+        arg.addBindings([
+            {
+                source_property_name: `[ '${rndPrefix}:${rndPrefix}:{ ${splitStr} }' - ( '${rndPrefix}:{ slice(${splitStr}, 0, ${count} ) + ${afterStr} }' ) ]`,
+                target_property_name: slpStr,
+            },
+            {
+                source_property_name: `[ '${rndPrefix}:${rndPrefix}:{ ${splitStr} }' == ${slpStr} ]`,
+                target_property_name: isDeleteAble,
+            },
+            {
+                source_property_name: `(${count} + ${isDeleteAble})`,
+                target_property_name: count,
+            },
+            {
+                source_property_name: `(${prefix} + ${slpStr} - '${rndPrefix}:')`,
+                target_property_name: returnBinding,
+            },
+        ]);
+
+        return returnBinding;
     },
 
-    getAfter: (arg, [str, str2, maxLength = 30]) => {
-        const bindingName: any = Random.bindingName();
+    getAfter: (arg, [splitStr, afterStr]) => {
+        const returnBinding = Random.bindingName();
+        const slpStr = Random.bindingName();
+        const isDeleteAble = Random.bindingName();
+        const count = Random.bindingName();
 
-        arg.addBindings({
-            source_property_name: `( ${str} - ${Array.from(
-                { length: +maxLength },
-                (v, i) => `('%.${i + 1}s' * ${str} + ${str2})`
-            ).join(" - ")} )`,
-            target_property_name: bindingName,
-        });
+        const rndPrefix = `§${Random.getName()}`;
 
-        return bindingName;
+        arg.addBindings([
+            {
+                source_property_name: `[ '${rndPrefix}:${rndPrefix}:{ ${splitStr} }' - ( '${rndPrefix}:{ slice(${splitStr}, 0, ${count} ) + ${afterStr} }' ) ]`,
+                target_property_name: slpStr,
+            },
+            {
+                source_property_name: `[ '${rndPrefix}:${rndPrefix}:{ ${splitStr} }' == ${slpStr} ]`,
+                target_property_name: isDeleteAble,
+            },
+            {
+                source_property_name: `(${count} + ${isDeleteAble})`,
+                target_property_name: count,
+            },
+            {
+                source_property_name: `(${slpStr} - '${rndPrefix}:')`,
+                target_property_name: returnBinding,
+            },
+        ]);
+
+        return returnBinding;
     },
 
     getBefore: (arg, [str, str2, maxLength = 30]) => {

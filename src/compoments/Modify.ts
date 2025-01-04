@@ -233,7 +233,6 @@ export class Modify<T extends Types = Types.Any> {
 
             Obj.forEach(variables, (key, value) => {
                 (<any>this.variables)[key] = {
-                    ...this.variables,
                     ...Obj.map(value, (k, v) => {
                         return { key: k, value: ReadValue(v) };
                     }),
