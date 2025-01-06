@@ -552,8 +552,11 @@ export class UI<T extends Types = Types.Any> {
         T extends string | Identifier | UI = UI
     >(
         element: T,
-        properties?: PropertiesType[ExtractUIType<typeof element, K>],
-        name?: string | null,
+        properties?:
+            | PropertiesType[ExtractUIType<typeof element, K>]
+            | null
+            | 0,
+        name?: string | null | 0,
         callback?: UIChildNameCallback
     ) {
         if (!this.controls) this.controls = [];
@@ -576,7 +579,7 @@ export class UI<T extends Types = Types.Any> {
                 }
 
                 this.controls.push({
-                    [`${name}${element?.getPath()}`]: properties || {},
+                    [`${name}@${element?.getPath()}`]: properties || {},
                 });
             }
         }

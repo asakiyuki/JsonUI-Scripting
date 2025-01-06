@@ -1,5 +1,6 @@
-.VanillaUI
+.Vanilla
 node_modules
 script
 debug.log
 src
+ui.data

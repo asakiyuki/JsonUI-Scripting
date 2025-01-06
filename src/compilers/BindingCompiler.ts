@@ -44,9 +44,7 @@ export class BindingCompiler {
         for (let index = 0; index < tokens.length; index++) {
             const token = tokens[index];
 
-            if (token === "&" || token === "&&") build += "and ";
-            else if (token === "|" || token === "||") build += "or ";
-            else if (token === "!") build += "not ";
+            if (token === "!") build += "not ";
             else {
                 if (
                     this.isNegativeNumber(token) &&
@@ -104,7 +102,7 @@ export class BindingCompiler {
         tokens: Array<string>,
         arg: UI | OverrideInterface
     ) {
-        const firstTokens: Array<string> = [];
+        let firstTokens: Array<string> = [];
 
         if (tokens.includes("?")) {
             const startIndex = tokens.indexOf("?");
@@ -208,6 +206,35 @@ export class BindingCompiler {
 
             return build;
         } else {
+            for (let index = 0; index < tokens.length; index++) {
+                const token = tokens[index];
+
+                if (["&&", "||", "&", "|"].includes(token)) {
+                    const secondTokens = tokens.slice(index + 1);
+
+                    const firstBinding =
+                        firstTokens.length === 1
+                            ? firstTokens[0]
+                            : this.buildNewBinding(firstTokens.join(" "), arg);
+
+                    const secondBinding =
+                        secondTokens.length === 1
+                            ? secondTokens[0]
+                            : this.buildNewBinding(
+                                  tokens.slice(index + 1).join(" "),
+                                  arg
+                              );
+
+                    return [
+                        firstBinding,
+                        ["&&", "&"].includes(token) ? "and" : "or",
+                        secondBinding,
+                    ];
+                } else firstTokens.push(token);
+            }
+
+            firstTokens = firstTokens.slice(firstTokens.length);
+
             for (let index = 0; index < tokens.length; index++) {
                 const token = tokens[index];
                 if (["%", ">=", "<=", "!="].includes(token)) {
