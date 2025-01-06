@@ -7,11 +7,13 @@
         "@types/fs-extra": "^11.0.4",
         "@types/node": "^22.1.0",
         "adm-zip": "^0.5.16",
+        "commander": "^13.0.0",
         "fs-extra": "^11.2.0",
         "jsonc-parser": "^3.3.1"
     },
+    "type": "module",
     "name": "jsonui-scripting",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "description": "Make your Minecraft JsonUI with ScriptingAPI",
     "main": "dist/index.js",
     "scripts": {
@@ -20,6 +22,9 @@
         "ui-build": "bun scripts/scanner/index.ts",
         "import": "bun scripts/index.js",
         "items": "bun scripts/items.js"
+    },
+    "bin": {
+        "create-jsonui-pack": "dist/create-app.js"
     },
     "repository": {
         "type": "git",

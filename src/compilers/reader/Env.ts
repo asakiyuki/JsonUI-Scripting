@@ -2,11 +2,7 @@ import fs from "fs-extra";
 import { Obj } from "./Object";
 
 Obj.forEach(
-    eval(
-        fs
-            .readFileSync("asakiyuki.env.js", "utf-8")
-            .replace(/['"`]jsonui-scripting['"`]/, '"../../index"')
-    ),
+    require(`${process.cwd()}/asakiyuki.env.js`).env,
     (key, value) => (process.env[key] = value)
 );
 

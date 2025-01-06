@@ -14,6 +14,8 @@ function searchFilePaths(path = "", isStart = true) {
                 "API",
                 "Template.ts",
                 "PreCompile.ts",
+                "template.ts",
+                "create-app.ts",
             ].includes(folder)
         ) {
             console.log(folder);

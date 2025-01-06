@@ -124,7 +124,7 @@ export class Configs {
      * Loads the configuration file and parses it into the `save` property.
      */
     constructor() {
-        this.save = eval(fs.readFileSync("asakiyuki.config.js", "utf-8"));
+        this.save = require(`${process.cwd()}/asakiyuki.config.js`).config;
     }
 
     /**
