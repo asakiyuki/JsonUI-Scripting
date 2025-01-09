@@ -1,47 +1,47 @@
 {
-  "devDependencies": {
-    "@types/adm-zip": "^0.5.7",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.10.5",
-    "esbuild": "^0.24.2",
-    "tiny-glob": "^0.2.9",
-    "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "adm-zip": "^0.5.16",
-    "commander": "^13.0.0",
-    "fs-extra": "^11.2.0",
-    "jsonc-parser": "^3.3.1"
-  },
-  "name": "jsonui-scripting",
-  "version": "2.1.6",
-  "description": "Make your Minecraft JsonUI with ScriptingAPI",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
-  "scripts": {
-    "build": "bun run ./scripts/build.ts --types",
-    "dev": "bun run ./scripts/build.ts --watch --sourcemap",
-    "ui-pull": "bun scripts/scanner/scan.ts",
-    "ui-build": "bun scripts/scanner/index.ts",
-    "import": "bun scripts/index.js",
-    "items": "bun scripts/items.js"
-  },
-  "bin": {
-    "create-jsonui-pack": "dist/create-app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/asakiyuki/jsonui-scripting.git"
-  },
-  "keywords": [
-    "Minecraft",
-    "JsonUI"
-  ],
-  "author": "AsakiYuki",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/asakiyuki/jsonui-scripting/issues"
-  },
-  "homepage": "https://github.com/asakiyuki/jsonui-scripting#readme"
+    "devDependencies": {
+        "@types/adm-zip": "^0.5.7",
+        "@types/fs-extra": "^11.0.4",
+        "@types/node": "^22.10.5",
+        "esbuild": "^0.24.2",
+        "tiny-glob": "^0.2.9",
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "adm-zip": "^0.5.16",
+        "commander": "^13.0.0",
+        "fs-extra": "^11.2.0",
+        "jsonc-parser": "^3.3.1"
+    },
+    "name": "jsonui-scripting",
+    "version": "2.2.0",
+    "description": "Make your Minecraft JsonUI with ScriptingAPI",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "scripts": {
+        "build": "bun run ./scripts/build.ts --types",
+        "dev": "bun run ./scripts/build.ts --watch --sourcemap",
+        "ui-pull": "bun scripts/scanner/scan.ts",
+        "ui-build": "bun scripts/scanner/index.ts",
+        "import": "bun scripts/index.js",
+        "items": "bun scripts/items.js"
+    },
+    "bin": {
+        "create-jsonui-pack": "dist/create-app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/asakiyuki/jsonui-scripting.git"
+    },
+    "keywords": [
+        "Minecraft",
+        "JsonUI"
+    ],
+    "author": "AsakiYuki",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/asakiyuki/jsonui-scripting/issues"
+    },
+    "homepage": "https://github.com/asakiyuki/jsonui-scripting#readme"
 }
