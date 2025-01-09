@@ -74,7 +74,7 @@ const compilerOptions: CompilerOptions = {
 async function generateTypes() {
     const configPath = ts.findConfigFile("../", ts.sys.fileExists, "tsconfig.json");
     if (!configPath) {
-        throw new Error("Không tìm thấy file tsconfig.json");
+        throw new Error("tsconfig.json not found");
     }
 
     const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
@@ -104,12 +104,6 @@ async function generateTypes() {
                     },
                 })
             );
-            // const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n");
-            // console.log(
-            //     `${chalk.blueBright(diagnostic.file.fileName)} (${chalk.red(line + 1)},${chalk.red(
-            //         character + 1
-            //     )}): ${chalk.yellow(message)}\n`
-            // );
         } else {
             console.log(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
         }
