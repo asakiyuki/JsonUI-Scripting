@@ -40,6 +40,7 @@
         "JsonUI"
     ],
     "author": "AsakiYuki",
+    "contributors": [ "NguyenDuck" ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/asakiyuki/jsonui-scripting/issues"
