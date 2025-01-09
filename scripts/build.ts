@@ -11,6 +11,7 @@ const sourcemap = process.argv.includes("--sourcemap");
 const watchMode = process.argv.includes("--watch");
 
 async function run() {
+    console.clear();
     const startTime = performance.now();
 
     console.log("\x1b[32mCleaning dist directory\x1b[0m");
@@ -32,7 +33,7 @@ async function run() {
         outdir: "./dist/cjs",
         bundle: false,
         sourcemap,
-        minify: false,
+        minify: true,
         format: "cjs",
         platform: "node",
         target,
@@ -47,7 +48,7 @@ async function run() {
         outdir: "./dist/esm",
         bundle: true,
         sourcemap,
-        minify: false,
+        minify: true,
         splitting: true,
         format: "esm",
         platform: "node",
@@ -59,7 +60,7 @@ async function run() {
 
     if (buildTypes) {
         console.log(`\x1b[34mGenerating declaration types...\x1b[0m`);
-        await generateTypes();
+        generateTypes();
     }
 
     const endTime = performance.now();
@@ -73,7 +74,7 @@ const compilerOptions: CompilerOptions = {
     declarationDir: "./dist/types/",
 };
 
-async function generateTypes() {
+function generateTypes() {
     const configPath = ts.findConfigFile("../", ts.sys.fileExists, "tsconfig.json");
     if (!configPath) {
         throw new Error("tsconfig.json not found");

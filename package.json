@@ -23,7 +23,7 @@
     "types": "./dist/types/index.d.ts",
     "scripts": {
         "build": "bun run ./scripts/build.ts --types",
-        "dev": "bun run --watch ./scripts/build.ts",
+        "dev": "bun run ./scripts/build.ts --sourcemap --watch",
         "ui-pull": "bun scripts/scanner/scan.ts",
         "ui-build": "bun scripts/scanner/index.ts",
         "import": "bun scripts/index.js",
