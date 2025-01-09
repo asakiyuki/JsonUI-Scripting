@@ -1,5 +1,6 @@
+import debounceFn from "debounce-fn";
 import { buildSync } from "esbuild";
-import { rmSync, writeFileSync, watch } from "fs";
+import { rmSync, watch, writeFileSync } from "fs";
 import path from "path";
 import { performance } from "perf_hooks";
 import glob from "tiny-glob";
@@ -113,4 +114,4 @@ async function generateTypes() {
 
 run();
 
-if (watchMode) watch("./src", { recursive: true }, () => run());
+if (watchMode) watch("./src", { recursive: true }, debounceFn(run, { wait: 300 }));
