@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 (async () => {
 	const itemsList = await fetch(
-		"https://asakiyuki.com/api/minecraft/item-ids"
+		"https://api.asakiyuki.com/games/minecraft/item-ids"
 	).then((v) => v.json());
 
 	const list = [];
