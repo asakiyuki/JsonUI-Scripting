@@ -124,7 +124,10 @@ export class Configs {
      * Loads the configuration file and parses it into the `save` property.
      */
     constructor() {
-        this.save = require(`${process.cwd()}/asakiyuki.config.js`).config;
+        this.save = null!
+        import(`${process.cwd()}/asakiyuki.config.js`).then(({ config }) => {
+            this.save = config;
+        });
     }
 
     /**

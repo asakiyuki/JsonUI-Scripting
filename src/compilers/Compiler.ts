@@ -79,7 +79,7 @@ process.on("beforeExit", () => {
         if (!fs.existsSync(".bedrock/pack_icon.png")) {
             const packIconPath = path.join(
                 __dirname,
-                "../../resources/logo.png"
+                "../../../resources/logo.png"
             );
             fs.copySync(packIconPath, `${buildPath}/pack_icon.png`);
         }

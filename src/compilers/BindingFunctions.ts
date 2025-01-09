@@ -176,13 +176,13 @@ export const funcObj: BindingFunctionObject = {
 
             for (let i = _intLength - 1; i >= 0; i--) {
                 arg.addBindings({
-                    source_property_name: `(${eval(`1e${i}`)} * (${Array.from(
+                    source_property_name: `(${Math.pow(10, i)} * (${Array.from(
                         {
                             length: 10,
                         },
                         (v, c) =>
                             `(${calcBindingName} > ${
-                                eval(`${c + 1}e${i}`) - 1
+                                (c + 1) * Math.pow(10, i) - 1
                             })`
                     ).join(" + ")}))`,
                     target_property_name: <any>(
