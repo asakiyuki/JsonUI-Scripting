@@ -23,7 +23,7 @@ npm install jsonui-scripting
 <p>The syntax is very simple. If you just want to display the text "Hello World" on the main screen, here is the code for that:</p>
 
 ```javascript
-const { UI, Files, Anchor } = require("jsonui-scripting");
+const { UI, Vanilla, Anchor } = require("jsonui-scripting");
 
 const label = UI.label({
 	text: "Hello World!",
@@ -32,7 +32,7 @@ const label = UI.label({
 	layer: 50,
 });
 
-Files.StartScreen("start_screen_content").modify.controls.insertFront(label);
+Vanilla.start.startScreenContent().addChild(label);
 ```
 
 <p>And you just need to run the code you wrote, and here is the result:</p>
