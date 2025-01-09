@@ -1,12 +1,13 @@
 import { buildSync } from "esbuild";
-import { rmSync, writeFileSync } from "fs";
+import { rmSync, writeFileSync, watch } from "fs";
 import path from "path";
 import { performance } from "perf_hooks";
 import glob from "tiny-glob";
 import ts, { CompilerOptions } from "typescript";
-import chalk from "chalk";
 
-const buildTypes = process.argv.findIndex((v) => v === "--types") != -1;
+const buildTypes = process.argv.includes("--types");
+const sourcemap = process.argv.includes("--sourcemap");
+const watchMode = process.argv.includes("--watch");
 
 async function run() {
     const startTime = performance.now();
@@ -29,7 +30,7 @@ async function run() {
         entryPoints,
         outdir: "./dist/cjs",
         bundle: false,
-        sourcemap: false,
+        sourcemap,
         minify: false,
         format: "cjs",
         platform: "node",
@@ -44,7 +45,7 @@ async function run() {
         entryPoints: ["./src/index.ts"],
         outdir: "./dist/esm",
         bundle: true,
-        sourcemap: false,
+        sourcemap,
         minify: false,
         splitting: true,
         format: "esm",
@@ -111,3 +112,5 @@ async function generateTypes() {
 }
 
 run();
+
+if (watchMode) watch("./src", { recursive: true }, () => run());
