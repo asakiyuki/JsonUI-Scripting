@@ -1,4 +1,4 @@
-console.time("Compiler");
+console.time("COMPILER");
 import "./compilers/PreCompile";
 import "./compilers/generator/Template";
 export * from "./compilers/Config";

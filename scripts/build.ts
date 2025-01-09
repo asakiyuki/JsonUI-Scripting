@@ -11,6 +11,7 @@ const sourcemap = process.argv.includes("--sourcemap");
 const watchMode = process.argv.includes("--watch");
 
 async function run() {
+    console.clear();
     const startTime = performance.now();
 
     console.log("\x1b[32mCleaning dist directory\x1b[0m");
@@ -32,7 +33,7 @@ async function run() {
         outdir: "./dist/cjs",
         bundle: false,
         sourcemap,
-        minify: false,
+        minify: true,
         format: "cjs",
         platform: "node",
         target,
@@ -47,7 +48,7 @@ async function run() {
         outdir: "./dist/esm",
         bundle: true,
         sourcemap,
-        minify: false,
+        minify: true,
         splitting: true,
         format: "esm",
         platform: "node",
@@ -59,12 +60,16 @@ async function run() {
 
     if (buildTypes) {
         console.log(`\x1b[34mGenerating declaration types...\x1b[0m`);
-        await generateTypes();
+        generateTypes();
     }
 
     const endTime = performance.now();
     const executionTime = (endTime - startTime) / 1000;
-    console.log(`\x1b[32mBuild Success with execution time ${executionTime.toFixed(2)} s\x1b[0m`);
+    console.log(
+        `\x1b[32mBuild Success with execution time ${executionTime.toFixed(
+            2
+        )}s\x1b[0m`
+    );
 }
 
 const compilerOptions: CompilerOptions = {
@@ -73,14 +78,22 @@ const compilerOptions: CompilerOptions = {
     declarationDir: "./dist/types/",
 };
 
-async function generateTypes() {
-    const configPath = ts.findConfigFile("../", ts.sys.fileExists, "tsconfig.json");
+function generateTypes() {
+    const configPath = ts.findConfigFile(
+        "../",
+        ts.sys.fileExists,
+        "tsconfig.json"
+    );
     if (!configPath) {
         throw new Error("tsconfig.json not found");
     }
 
     const configFile = ts.readConfigFile(configPath, ts.sys.readFile);
-    const parsedConfig = ts.parseJsonConfigFileContent(configFile.config, ts.sys, path.dirname(configPath));
+    const parsedConfig = ts.parseJsonConfigFileContent(
+        configFile.config,
+        ts.sys,
+        path.dirname(configPath)
+    );
 
     const program = ts.createProgram(parsedConfig.fileNames, {
         ...parsedConfig.options,
@@ -89,7 +102,9 @@ async function generateTypes() {
 
     const emitResult = program.emit();
 
-    const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+    const allDiagnostics = ts
+        .getPreEmitDiagnostics(program)
+        .concat(emitResult.diagnostics);
 
     allDiagnostics.forEach((diagnostic) => {
         if (diagnostic.file) {
@@ -107,11 +122,14 @@ async function generateTypes() {
                 })
             );
         } else {
-            console.log(ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n"));
+            console.log(
+                ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
+            );
         }
     });
 }
 
 run();
 
-if (watchMode) watch("./src", { recursive: true }, debounceFn(run, { wait: 300 }));
+if (watchMode)
+    watch("./src", { recursive: true }, debounceFn(run, { wait: 300 }));

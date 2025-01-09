@@ -71,7 +71,7 @@ process.on("beforeExit", () => {
         // Perform actions depending on whether the build is within the project or external
         if (config.installer.autoInstall) {
             installer.packLink();
-            console.timeLog("Compiler", ">> Symlink completed!");
+            console.timeLog("COMPILER", "Symlink completed!");
             console.log();
         }
 
@@ -86,41 +86,41 @@ process.on("beforeExit", () => {
 
         // Copy bedrock resources to build path
         fs.copySync(".bedrock", buildPath);
-        console.timeLog("Compiler", ">> Copy bedrock resources completed!");
+        console.timeLog("COMPILER", "Copy bedrock resources completed!");
         console.log();
 
         // Compile various UI files
         console.timeLog(
-            "Compiler",
-            `>> ${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
+            "COMPILER",
+            `${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
         );
         console.log();
         console.timeLog(
-            "Compiler",
-            `>> ${UIBuilder.modify(buildPath)} modify file(s) compiled!`
+            "COMPILER",
+            `${UIBuilder.modify(buildPath)} modify file(s) compiled!`
         );
         console.log();
 
         // Generate and save the manifest
         manifestBuild(buildPath);
-        console.timeLog("Compiler", `>> Manifest file has been compiled!`);
+        console.timeLog("COMPILER", `Manifest file has been compiled!`);
 
         // Compile UI and other required resources
         console.timeLog(
-            "Compiler",
-            `>> ui/_ui_defs.json ${UIBuilder.uiDefs(
+            "COMPILER",
+            `ui/_ui_defs.json ${UIBuilder.uiDefs(
                 buildPath
             )} files path(s) found!`
         );
         console.timeLog(
-            "Compiler",
-            `>> ui/_global_variables.json ${UIBuilder.globalVariables(
+            "COMPILER",
+            `ui/_global_variables.json ${UIBuilder.globalVariables(
                 buildPath
             )} variable(s) compiled!`
         );
         console.timeLog(
-            "Compiler",
-            `>> textures/textures_list.json ${UIBuilder.texturesList(
+            "COMPILER",
+            `textures/textures_list.json ${UIBuilder.texturesList(
                 buildPath
             )} files path(s) found!`
         );
@@ -128,15 +128,13 @@ process.on("beforeExit", () => {
         const soundLength = Sounds.compile(buildPath);
         if (soundLength)
             console.timeLog(
-                "Compiler",
-                `>> sounds/sound_definitions.json ${soundLength} sound id has regisrer!`
+                "COMPILER",
+                `sounds/sound_definitions.json ${soundLength} sound id has regisrer!`
             );
 
         console.timeLog(
-            "Compiler",
-            `>> contents.json ${UIBuilder.contents(
-                buildPath
-            )} file path(s) found!`
+            "COMPILER",
+            `contents.json ${UIBuilder.contents(buildPath)} file path(s) found!`
         );
 
         // Install the resource pack if not building within the project
@@ -145,15 +143,15 @@ process.on("beforeExit", () => {
                 config.manifest.uuid,
                 config.manifest.version
             );
-            console.timeLog("Compiler", `>> Resource Pack has been installed!`);
+            console.timeLog("COMPILER", `Resource Pack has been installed!`);
         }
 
         // Compress the pack if enabled in the config
         if (config.compiler.autoCompress) {
             CompressPack(buildPath);
             console.timeLog(
-                "Compiler",
-                ">> Minecraft-UIBuild.mcpack Pack compress completed!"
+                "COMPILER",
+                "Minecraft-UIBuild.mcpack Pack compress completed!"
             );
         }
 
@@ -161,14 +159,14 @@ process.on("beforeExit", () => {
         if (config.compiler.encodeJson) {
             Encoder.start();
             console.timeLog(
-                "Compiler",
-                `>> Encoded ${Encoder.count} JSON file(s) successfully!`
+                "COMPILER",
+                `Encoded ${Encoder.count} JSON file(s) successfully!`
             );
         }
 
         // Final log of compilation completion
         console.log();
-        console.timeLog("Compiler", ">> Compile completed!");
+        console.timeLog("COMPILER", "Compile completed!");
 
         // Warning log
         if (Logs.length) {
@@ -182,22 +180,24 @@ process.on("beforeExit", () => {
 
         // Display relevant information
         console.log("\n---------- INFO ----------");
-        console.log(`Name: ${config.manifest.name}`);
-        console.log(`Description: ${config.manifest.description}`);
-        console.log(`UUID: ${config.manifest.uuid}`);
+        console.log(`Name: \x1b[96m${config.manifest.name}\x1b[0m`);
         console.log(
-            `Pack Version: ${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}`
+            `Description: \x1b[96m${config.manifest.description}\x1b[0m`
+        );
+        console.log(`UUID: \x1b[96m${config.manifest.uuid}\x1b[0m`);
+        console.log(
+            `Pack Version: \x1b[96m${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}\x1b[0m`
         );
         console.log(
-            `Base Game Version: ${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}`
+            `Base Game Version: \x1b[96m${config.manifest.baseGameVersion[0]}.${config.manifest.baseGameVersion[1]}.${config.manifest.baseGameVersion[2]}\x1b[0m`
         );
 
         // Print install path if not building within the project
         if (config.installer.autoInstall)
-            console.log(`Install Path: ${installPath}`);
+            console.log(`Install Path: \x1b[96m${installPath}\x1b[0m`);
     } catch (error) {
         // Handle any errors during the compilation process
-        console.timeLog("Compiler", ">> An error occurred while compiling!");
+        console.timeLog("COMPILER", "An error occurred while compiling!");
         console.error(error);
     }
 });

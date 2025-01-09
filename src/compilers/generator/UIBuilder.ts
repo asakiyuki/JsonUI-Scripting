@@ -46,8 +46,8 @@ export class UIBuilder {
                 build[file][jsonUI] = build[file][jsonUI].getUI();
 
             console.timeLog(
-                "Compiler",
-                `>> ${file} ${
+                "COMPILER",
+                `${file} ${
                     Object.keys(build[file]).length
                 } elements has generated!`
             );
@@ -79,8 +79,8 @@ export class UIBuilder {
                 modify[key][element] = modify[key][element].getUI();
 
             console.timeLog(
-                "Compiler",
-                `>> ${key} ${
+                "COMPILER",
+                `${key} ${
                     Object.keys(modify[key]).length
                 } modify element(s) has generated!`
             );
