@@ -5,12 +5,13 @@ import path from "path";
 import { performance } from "perf_hooks";
 import glob from "tiny-glob";
 import ts, { CompilerOptions } from "typescript";
+import { DateUtils } from "./utils";
 
 const buildTypes = process.argv.includes("--types");
 const sourcemap = process.argv.includes("--sourcemap");
 const watchMode = process.argv.includes("--watch");
 
-async function run() {
+async function build() {
     console.clear();
     const startTime = performance.now();
 
@@ -58,18 +59,9 @@ async function run() {
         flag: "w",
     });
 
-    if (buildTypes) {
-        console.log(`\x1b[34mGenerating declaration types...\x1b[0m`);
-        generateTypes();
-    }
-
     const endTime = performance.now();
     const executionTime = (endTime - startTime) / 1000;
-    console.log(
-        `\x1b[32mBuild Success with execution time ${executionTime.toFixed(
-            2
-        )}s\x1b[0m`
-    );
+    console.log(`\x1b[32mBuild Success with execution time ${executionTime.toFixed(2)}s\x1b[0m`);
 }
 
 const compilerOptions: CompilerOptions = {
@@ -78,12 +70,10 @@ const compilerOptions: CompilerOptions = {
     declarationDir: "./dist/types/",
 };
 
-function generateTypes() {
-    const configPath = ts.findConfigFile(
-        "../",
-        ts.sys.fileExists,
-        "tsconfig.json"
-    );
+let program: ts.Program | null = null;
+
+async function setupCompiler() {
+    const configPath = ts.findConfigFile("../", ts.sys.fileExists, "tsconfig.json");
     if (!configPath) {
         throw new Error("tsconfig.json not found");
     }
@@ -95,41 +85,45 @@ function generateTypes() {
         path.dirname(configPath)
     );
 
-    const program = ts.createProgram(parsedConfig.fileNames, {
+    return ts.createProgram(parsedConfig.fileNames, {
         ...parsedConfig.options,
         ...compilerOptions,
     });
+}
+
+async function generateTypes() {
+    const start = performance.now();
+    console.log(`\x1b[34mGenerating declaration types...\x1b[0m`);
+    if (!program) {
+        program = await setupCompiler();
+    }
 
     const emitResult = program.emit();
 
-    const allDiagnostics = ts
-        .getPreEmitDiagnostics(program)
-        .concat(emitResult.diagnostics);
+    const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
 
-    allDiagnostics.forEach((diagnostic) => {
-        if (diagnostic.file) {
-            console.log(
-                ts.formatDiagnosticsWithColorAndContext(allDiagnostics, {
-                    getCanonicalFileName(fileName) {
-                        return fileName;
-                    },
-                    getCurrentDirectory() {
-                        return process.cwd();
-                    },
-                    getNewLine() {
-                        return "\n";
-                    },
-                })
-            );
-        } else {
-            console.log(
-                ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-            );
-        }
-    });
+    if (allDiagnostics.length)
+        console.log(
+            ts.formatDiagnosticsWithColorAndContext(allDiagnostics, {
+                getCanonicalFileName: n => n,
+                getCurrentDirectory: () => process.cwd(),
+                getNewLine: () => "\n",
+            })
+        );
+    console.log(
+        "\x1b[34mBuild types completed in",
+        DateUtils.greatestFormat(performance.now() - start),
+        "\x1b[0m"
+    );
+}
+
+function run() {
+    build();
+    if (buildTypes) generateTypes();
 }
 
 run();
 
-if (watchMode)
+if (watchMode) {
     watch("./src", { recursive: true }, debounceFn(run, { wait: 300 }));
+}
