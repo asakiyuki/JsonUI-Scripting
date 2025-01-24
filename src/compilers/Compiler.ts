@@ -1,11 +1,9 @@
-import path from "path";
-
 import fs from "fs-extra";
 import { Manifest } from "./generator/Manifest";
 import { UIBuilder } from "./generator/UIBuilder";
 import { ResourcePacks, Minecraft, ResourcePack } from "./Installer";
 import { Configs } from "./Config";
-import { CompressPack } from "./Compess";
+import { CompressPack } from "./Compress";
 import { SoundHandler as Sounds } from "./generator/Sounds";
 import { FormatAudio } from "./reader/Audio";
 import { Logs } from "./generator/Log";
@@ -53,6 +51,8 @@ process.on("beforeExit", () => {
 
     // Clean up temporary build directories
     UIBuilder.delete(buildPath);
+    if (fs.pathExistsSync(".build")) fs.removeSync(".build");
+    if (fs.pathExistsSync(".minecraft")) fs.unlinkSync(".minecraft");
 
     // Create necessary directories if they do not exist
     if (!fs.pathExistsSync(`.bedrock`)) fs.mkdirpSync(".bedrock");

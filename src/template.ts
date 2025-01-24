@@ -1,14 +1,21 @@
 // Env
-export const env = `export const env = {};`;
+export const env = `const env = {};
+
+module.exports = { env };`;
 
 // Global variables
-export const globalVariables = `import {} from "jsonui-scripting";
+export const globalVariables = `const {} = require("jsonui-scripting");
 
-export const global_variables = {};`;
+const global_variables = {};
+
+module.exports = { global_variables };`;
 
 // Config
-export const config = `/**\n * Configuration object for the JsonUI Scripting build process.\n * @type {import('jsonui-scripting').Config}\n */
-export const config = {
+export const config = `/**
+ * Configuration object for the JsonUI Scripting build process.
+ * @type {import('jsonui-scripting').Config}
+ */
+const config = {
     compiler: {
         autoCompress: false,
         fileExtension: "json",
@@ -22,17 +29,19 @@ export const config = {
         },
     },
     installer: {
-        autoInstall: {autoinstall},
-        developEvironment: {development},
-        previewVersion: {preview},
+        autoInstall: true,
+        developEvironment: true,
+        previewVersion: false,
         customPath: false,
         installPath: "/your/minecraft/data/path",
     },
     manifest: {
-        name: "{packname}",
-        description: "{packdescription}"
+        name: "JsonUI Scripting",
+        description: "Build with JsonUI Scripting <3",
     },
-};`;
+};
+
+module.exports = { config }`;
 
 // Gitignore
 export const gitignore = `# Node packages
@@ -44,7 +53,7 @@ node_modules
 .save
 
 # Build variables
-asakiyuki.env.js
+asakiyuki.env.cjs
 
 # Compress package
 Minecraft-UIBuild.mcpack`;

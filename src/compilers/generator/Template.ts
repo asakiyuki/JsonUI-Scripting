@@ -5,14 +5,14 @@ import fs from "fs-extra";
 // Template Object
 const template: { [file: string]: string } = {
     ".gitignore": gitignore,
-    "asakiyuki.config.js": config
+    "asakiyuki.config.cjs": config
         .replace("{packname}", "JsonUI Scripting")
         .replace("{packdescription}", "Build with JsonUI Scripting <3")
         .replace("{autoinstall}", "true")
         .replace("{development}", "true")
         .replace("{preview}", "false"),
-    "asakiyuki.global_variables.js": globalVariables,
-    "asakiyuki.env.js": env,
+    "asakiyuki.global_variables.cjs": globalVariables,
+    "asakiyuki.env.cjs": env,
 };
 
 // Generator

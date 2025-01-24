@@ -1,7 +1,7 @@
 import { Obj } from "./Object";
 
 Obj.forEach(
-    require(`${process.cwd()}/asakiyuki.env.js`).env,
+    require(`${process.cwd()}/asakiyuki.env.cjs`).env,
     (key, value) => (process.env[key] = value)
 );
 

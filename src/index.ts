@@ -4,7 +4,7 @@ import "./compilers/generator/Template";
 export * from "./compilers/Config";
 export * from "./compilers/BindingCompiler";
 export * from "./compilers/BindingFunctions";
-export * from "./compilers/Compess";
+export * from "./compilers/Compress";
 export * from "./compilers/Compiler";
 export * from "./compilers/Encoder";
 export * from "./compilers/generator/GenerateDir";

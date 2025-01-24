@@ -1,11 +1,4 @@
-import {
-    Binding,
-    CurrentLine,
-    Log,
-    ModificationBindingsInterface,
-    UI,
-} from "../";
-// import { API } from "../compoments/API";
+import { Binding, CurrentLine, Log, ModificationBindingsInterface, UI } from "../";
 import { Class } from "../compoments/Class";
 import { Items } from "../compoments/ItemDatas";
 import { OverrideInterface } from "../compoments/Modify";
@@ -26,9 +19,7 @@ export const funcObj: BindingFunctionObject = {
         const bindingName = Random.bindingName();
 
         arg.addBindings({
-            source_property_name: `((${params.join(" + ")}) / ${
-                params.length
-            })`,
+            source_property_name: `((${params.join(" + ")}) / ${params.length})`,
             target_property_name: bindingName,
         });
 
@@ -77,7 +68,7 @@ export const funcObj: BindingFunctionObject = {
     isEven: (arg, params) => {
         const bindingName = Random.bindingName();
         if (params.length > 1) {
-            params.map((binding) => {
+            params.map(binding => {
                 const bindingName = Random.bindingName();
                 arg.addBindings({
                     source_property_name: [`(${binding} % 2) == 0`],
@@ -102,7 +93,7 @@ export const funcObj: BindingFunctionObject = {
     isOdd: (arg, params) => {
         const bindingName = Random.bindingName();
         if (params.length > 1) {
-            params.map((binding) => {
+            params.map(binding => {
                 const bindingName = Random.bindingName();
                 arg.addBindings({
                     source_property_name: [`(${binding} % 2) == 1`],
@@ -169,9 +160,7 @@ export const funcObj: BindingFunctionObject = {
 
             arg.addBindings({
                 source_property_name: [`abs(${float})`],
-                target_property_name: <any>(
-                    (calcBindingName = Random.bindingName())
-                ),
+                target_property_name: <any>(calcBindingName = Random.bindingName()),
             });
 
             for (let i = _intLength - 1; i >= 0; i--) {
@@ -180,37 +169,26 @@ export const funcObj: BindingFunctionObject = {
                         {
                             length: 10,
                         },
-                        (v, c) =>
-                            `(${calcBindingName} > ${
-                                (c + 1) * Math.pow(10, i) - 1
-                            })`
+                        (v, c) => `(${calcBindingName} > ${(c + 1) * Math.pow(10, i) - 1})`
                     ).join(" + ")}))`,
-                    target_property_name: <any>(
-                        (bindingName = Random.bindingName())
-                    ),
+                    target_property_name: <any>(bindingName = Random.bindingName()),
                 });
                 sumBnd.push(bindingName);
                 if (i !== 0)
                     arg.addBindings({
                         source_property_name: `(${calcBindingName} - ${bindingName})`,
-                        target_property_name: <any>(
-                            (calcBindingName = Random.bindingName())
-                        ),
+                        target_property_name: <any>(calcBindingName = Random.bindingName()),
                     });
             }
 
             arg.addBindings([
                 {
                     source_property_name: `(${sumBnd.join(" + ")})`,
-                    target_property_name: <any>(
-                        (bindingName = Random.bindingName())
-                    ),
+                    target_property_name: <any>(bindingName = Random.bindingName()),
                 },
                 {
                     source_property_name: `(${bindingName} * (1 - (${float} < 0) * 2))`,
-                    target_property_name: <any>(
-                        (bindingName = Random.bindingName())
-                    ),
+                    target_property_name: <any>(bindingName = Random.bindingName()),
                 },
             ]);
         }
@@ -232,10 +210,7 @@ export const funcObj: BindingFunctionObject = {
             })),
             {
                 source_property_name: [
-                    `'${arrayBindingName}{${BindingCompiler.checkAndBuild(
-                        accessIndex,
-                        arg
-                    )}}'`,
+                    `'${arrayBindingName}{${BindingCompiler.checkAndBuild(accessIndex, arg)}}'`,
                 ],
                 target_property_name: bindingName,
             },
@@ -247,13 +222,7 @@ export const funcObj: BindingFunctionObject = {
     getPrefix: (arg, [str, strLength = 0]) => {
         const bindingName: any = Random.bindingName();
 
-        if (
-            !(
-                BindingCompiler.isString(str) ||
-                BindingCompiler.isHasBinding(str)
-            )
-        )
-            str = `'${str}'`;
+        if (!(BindingCompiler.isString(str) || BindingCompiler.isHasBinding(str))) str = `'${str}'`;
 
         arg.addBindings({
             source_property_name: [
@@ -270,19 +239,11 @@ export const funcObj: BindingFunctionObject = {
     slice: (arg, [str, start, end]) => {
         const bindingName: any = Random.bindingName();
 
-        if (
-            !(
-                BindingCompiler.isString(str) ||
-                BindingCompiler.isHasBinding(str)
-            )
-        )
-            str = `'${str}'`;
+        if (!(BindingCompiler.isString(str) || BindingCompiler.isHasBinding(str))) str = `'${str}'`;
 
         if (end) {
             arg.addBindings({
-                source_property_name: [
-                    ` '%.{${end} - ${start}}s' * slice(${str}, ${start}) `,
-                ],
+                source_property_name: [` '%.{${end} - ${start}}s' * slice(${str}, ${start}) `],
                 target_property_name: bindingName,
             });
         } else {
@@ -392,13 +353,8 @@ export const funcObj: BindingFunctionObject = {
             if (BindingCompiler.isNumber(num1)) return Math.pow(+num1, $2);
             else {
                 if ($2 === 0) return 1;
-                else if ($2 > 0)
-                    return Array.from({ length: $2 }, () => num1).join(" * ");
-                else
-                    return `1 / ${Array.from(
-                        { length: $2 * -1 },
-                        () => num1
-                    ).join(" / ")}`;
+                else if ($2 > 0) return Array.from({ length: $2 }, () => num1).join(" * ");
+                else return `1 / ${Array.from({ length: $2 * -1 }, () => num1).join(" / ")}`;
             }
         } else {
             for (let i = 1; i <= 32; i++) {
@@ -408,9 +364,7 @@ export const funcObj: BindingFunctionObject = {
                 });
 
                 arg.addBindings({
-                    source_property_name: `(${num2} / ((${num1} > ${
-                        i * -1
-                    }) * ${num2}))`,
+                    source_property_name: `(${num2} / ((${num1} > ${i * -1}) * ${num2}))`,
                     target_property_name: <any>`${bindingName}_${i}`,
                 });
             }
@@ -537,9 +491,10 @@ export const funcObj: BindingFunctionObject = {
     // },
 };
 
-export type BindingFunctionsCallback<
-    T = UI | OverrideInterface | ModificationBindingsInterface
-> = (element: T, params: Array<string>) => Binding | string;
+export type BindingFunctionsCallback<T = UI | OverrideInterface | ModificationBindingsInterface> = (
+    element: T,
+    params: Array<string>
+) => Binding | string;
 
 export class BindingFunctions extends Class {
     static register<T = UI | OverrideInterface | ModificationBindingsInterface>(
