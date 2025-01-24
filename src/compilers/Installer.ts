@@ -3,6 +3,7 @@ import { SemverString, UUID, Version } from "./../types/objects/Manifest";
 import { Save } from "./generator/Save";
 import { UIBuilder } from "./generator/UIBuilder";
 import { UIWriteJson } from "./PreCompile";
+import { Configs } from "./Config";
 
 /**
  * Represents the global resource packs configuration.
@@ -133,11 +134,18 @@ export class ResourcePacks {
      * @param {ResourcePackInterface} data - The configuration object containing the Minecraft game version and folder type.
      */
     constructor(data: ResourcePackInterface) {
-        const appdata = `${process.env.LOCALAPPDATA}\\Packages`;
-        this.gamePath = `${appdata}\\${data.installGame}\\`;
-        this.gameDataPath = `${this.gamePath}LocalState\\games\\com.mojang`;
-        this.installPath = `${this.gameDataPath}\\${data.installFolder}`;
-        this.globalResoucePacksPath = `${this.gameDataPath}\\minecraftpe\\global_resource_packs.json`;
+        const config = Configs.getConfig();
+
+        if (config.installer.installPath && config.installer.customPath) {
+            this.gamePath = config.installer.installPath;
+        } else {
+            const appdata = `${process.env.LOCALAPPDATA}/Packages`;
+            this.gamePath = `${appdata}/${data.installGame}/LocalState`;
+        }
+
+        this.gameDataPath = `${this.gamePath}/games/com.mojang`;
+        this.installPath = `${this.gameDataPath}/${data.installFolder}`;
+        this.globalResoucePacksPath = `${this.gameDataPath}/minecraftpe/global_resource_packs.json`;
     }
 
     /**
@@ -158,9 +166,7 @@ export class ResourcePacks {
         for (const packData of globalResourcePacks) {
             if (
                 packData.pack_id === uuid &&
-                (versionIsArray
-                    ? JSON.stringify(packData.version)
-                    : packData.version) === version
+                (versionIsArray ? JSON.stringify(packData.version) : packData.version) === version
             )
                 return true;
         }
@@ -206,9 +212,7 @@ export class ResourcePacks {
             i++;
             if (
                 packData.pack_id === uuid &&
-                (versionIsArray
-                    ? JSON.stringify(packData.version)
-                    : packData.version) === version
+                (versionIsArray ? JSON.stringify(packData.version) : packData.version) === version
             ) {
                 globalResourcePacks.splice(i, 1);
                 break;
@@ -223,7 +227,7 @@ export class ResourcePacks {
      * @returns {string} - The installation path for the resource pack.
      */
     getInstallPath() {
-        return `${this.installPath}\\${Save.getBuildID()}`;
+        return `${this.installPath}/${Save.getBuildID()}`;
     }
 
     /**

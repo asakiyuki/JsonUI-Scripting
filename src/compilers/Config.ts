@@ -1,5 +1,4 @@
 import { UUID } from "crypto";
-import fs from "fs-extra";
 import { Save } from "./generator/Save";
 import { Version, SemverString, installer } from "..";
 import { Obj } from "./reader/Object";
@@ -21,6 +20,8 @@ const defaultConfig: Config = {
         autoInstall: true,
         developEvironment: true,
         previewVersion: false,
+        customPath: false,
+        installPath: undefined,
     },
     manifest: {
         name: "JsonUI Scripting",
@@ -62,6 +63,8 @@ interface ConfigInstaller {
     autoInstall: boolean;
     developEvironment: boolean;
     previewVersion: boolean;
+    customPath: boolean;
+    installPath?: string;
 }
 
 export interface Config {
@@ -90,13 +93,9 @@ export function readObject(obj?: object, defaultObjValue?: object) {
         if (!obj) obj = {};
         Obj.forEach(defaultObjValue || {}, (key, value) => {
             if (typeof value === "object") {
-                (<any>obj)[key] = readObject(
-                    (<any>obj)[key],
-                    (<any>defaultObjValue)[key]
-                );
+                (<any>obj)[key] = readObject((<any>obj)[key], (<any>defaultObjValue)[key]);
             } else {
-                (<any>obj)[key] =
-                    (<any>obj)[key] ?? (<any>defaultObjValue)[key];
+                (<any>obj)[key] = (<any>obj)[key] ?? (<any>defaultObjValue)[key];
             }
         });
         return obj;
@@ -124,10 +123,7 @@ export class Configs {
      * Loads the configuration file and parses it into the `save` property.
      */
     constructor() {
-        this.save = null!
-        import(`${process.cwd()}/asakiyuki.config.js`).then(({ config }) => {
-            this.save = config;
-        });
+        this.save = require(`${process.cwd()}/asakiyuki.config.js`).config;
     }
 
     /**
@@ -169,3 +165,5 @@ export class Configs {
  * This allows other modules to access the configuration settings through `config`.
  */
 export const config = Configs;
+
+Configs.getConfig();

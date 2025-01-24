@@ -21,9 +21,7 @@ const config = Configs.getConfig();
  * It also installs to either the development or production environment based on the config.
  */
 export const installer = new ResourcePacks({
-    installGame: config.installer.previewVersion
-        ? Minecraft.Preview
-        : Minecraft.Stable,
+    installGame: config.installer.previewVersion ? Minecraft.Preview : Minecraft.Stable,
     installFolder: config.installer.developEvironment
         ? ResourcePack.Development
         : ResourcePack.Production,
@@ -37,8 +35,7 @@ export const installer = new ResourcePacks({
  * @returns {void} - This function does not return any value.
  */
 function manifestBuild(installPath: string): void {
-    const { name, description, uuid, version, baseGameVersion } =
-        config.manifest;
+    const { name, description, uuid, version, baseGameVersion } = config.manifest;
     const manifest = new Manifest({ name, description, uuid, version });
     manifest.manifest.header.min_engine_version = baseGameVersion;
 
@@ -50,8 +47,7 @@ process.on("beforeExit", () => {
     const installPath = installer.getInstallPath();
 
     config.installer.autoInstall =
-        config.installer.autoInstall &&
-        fs.pathExistsSync(installer.installPath);
+        config.installer.autoInstall && fs.pathExistsSync(installer.installPath);
 
     const buildPath = config.installer.autoInstall ? installPath : ".build";
 
@@ -75,30 +71,15 @@ process.on("beforeExit", () => {
             console.log();
         }
 
-        // Pack-icon setup
-        if (!fs.existsSync(".bedrock/pack_icon.png")) {
-            const packIconPath = path.join(
-                __dirname,
-                "../../../resources/logo.png"
-            );
-            fs.copySync(packIconPath, `${buildPath}/pack_icon.png`);
-        }
-
         // Copy bedrock resources to build path
         fs.copySync(".bedrock", buildPath);
         console.timeLog("COMPILER", "Copy bedrock resources completed!");
         console.log();
 
         // Compile various UI files
-        console.timeLog(
-            "COMPILER",
-            `${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`
-        );
+        console.timeLog("COMPILER", `${UIBuilder.jsonUI(buildPath)} custom file(s) compiled!`);
         console.log();
-        console.timeLog(
-            "COMPILER",
-            `${UIBuilder.modify(buildPath)} modify file(s) compiled!`
-        );
+        console.timeLog("COMPILER", `${UIBuilder.modify(buildPath)} modify file(s) compiled!`);
         console.log();
 
         // Generate and save the manifest
@@ -108,9 +89,7 @@ process.on("beforeExit", () => {
         // Compile UI and other required resources
         console.timeLog(
             "COMPILER",
-            `ui/_ui_defs.json ${UIBuilder.uiDefs(
-                buildPath
-            )} files path(s) found!`
+            `ui/_ui_defs.json ${UIBuilder.uiDefs(buildPath)} files path(s) found!`
         );
         console.timeLog(
             "COMPILER",
@@ -120,9 +99,7 @@ process.on("beforeExit", () => {
         );
         console.timeLog(
             "COMPILER",
-            `textures/textures_list.json ${UIBuilder.texturesList(
-                buildPath
-            )} files path(s) found!`
+            `textures/textures_list.json ${UIBuilder.texturesList(buildPath)} files path(s) found!`
         );
 
         const soundLength = Sounds.compile(buildPath);
@@ -139,29 +116,20 @@ process.on("beforeExit", () => {
 
         // Install the resource pack if not building within the project
         if (config.installer.autoInstall) {
-            installer.installPack(
-                config.manifest.uuid,
-                config.manifest.version
-            );
+            installer.installPack(config.manifest.uuid, config.manifest.version);
             console.timeLog("COMPILER", `Resource Pack has been installed!`);
         }
 
         // Compress the pack if enabled in the config
         if (config.compiler.autoCompress) {
             CompressPack(buildPath);
-            console.timeLog(
-                "COMPILER",
-                "Minecraft-UIBuild.mcpack Pack compress completed!"
-            );
+            console.timeLog("COMPILER", "Minecraft-UIBuild.mcpack Pack compress completed!");
         }
 
         // Encode json code
         if (config.compiler.encodeJson) {
             Encoder.start();
-            console.timeLog(
-                "COMPILER",
-                `Encoded ${Encoder.count} JSON file(s) successfully!`
-            );
+            console.timeLog("COMPILER", `Encoded ${Encoder.count} JSON file(s) successfully!`);
         }
 
         // Final log of compilation completion
@@ -181,9 +149,7 @@ process.on("beforeExit", () => {
         // Display relevant information
         console.log("\n---------- INFO ----------");
         console.log(`Name: \x1b[96m${config.manifest.name}\x1b[0m`);
-        console.log(
-            `Description: \x1b[96m${config.manifest.description}\x1b[0m`
-        );
+        console.log(`Description: \x1b[96m${config.manifest.description}\x1b[0m`);
         console.log(`UUID: \x1b[96m${config.manifest.uuid}\x1b[0m`);
         console.log(
             `Pack Version: \x1b[96m${config.manifest.version[0]}.${config.manifest.version[1]}.${config.manifest.version[2]}\x1b[0m`

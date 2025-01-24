@@ -25,6 +25,8 @@ export const config = {
         autoInstall: {autoinstall},
         developEvironment: {development},
         previewVersion: {preview},
+        customPath: false,
+        installPath: "/your/minecraft/data/path",
     },
     manifest: {
         name: "{packname}",
