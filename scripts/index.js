@@ -43,7 +43,7 @@ function searchFilePaths(path = "", isStart = true) {
 }
 fs.writeFileSync(
     "./src/index.ts",
-    `console.time("Compiler");
+    `console.time("COMPILER");
 ${searchFilePaths()}
 export * from "./compilers/reader/Env";
 export * from "./compilers/reader/GlobalVariables";`,

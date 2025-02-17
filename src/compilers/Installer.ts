@@ -139,8 +139,11 @@ export class ResourcePacks {
         if (config.installer.installPath && config.installer.customPath) {
             this.gamePath = config.installer.installPath;
         } else {
-            const appdata = `${process.env.LOCALAPPDATA}/Packages`;
-            this.gamePath = `${appdata}/${data.installGame}/LocalState`;
+            if (process.env.LOCALAPPDATA) {
+                this.gamePath = `${process.env.LOCALAPPDATA}/Packages/${data.installGame}/LocalState`;
+            } else if (process.env.HOME) {
+                this.gamePath = `${process.env.HOME}/.local/share/mcpelauncher`;
+            } else { this.gamePath = ""; }
         }
 
         this.gameDataPath = `${this.gamePath}/games/com.mojang`;

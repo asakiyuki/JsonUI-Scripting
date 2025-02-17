@@ -168,4 +168,4 @@ process.on("beforeExit", () => {
     }
 });
 
-export {};
+export { };
