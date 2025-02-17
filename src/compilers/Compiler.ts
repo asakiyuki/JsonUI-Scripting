@@ -40,8 +40,11 @@ function manifestBuild(installPath: string): void {
     UIWriteJson(`${installPath}/manifest.json`, manifest.manifest, "utf-8");
 }
 
-// Set up a process listener for the 'beforeExit' event, which handles compilation tasks
+let isRunned = false;
 process.on("beforeExit", () => {
+    if (isRunned) return;
+    isRunned = true;
+
     const installPath = installer.getInstallPath();
 
     config.installer.autoInstall =
@@ -168,4 +171,4 @@ process.on("beforeExit", () => {
     }
 });
 
-export { };
+export {};
