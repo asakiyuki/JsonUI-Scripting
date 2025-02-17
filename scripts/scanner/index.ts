@@ -27,7 +27,7 @@ interface ScanCode {
                 withFileTypes: true,
             })
             .filter((file) => file.isFile())
-            .map((file) => `${file.parentPath}\\${file.name}`);
+            .map((file) => `${file.parentPath}/${file.name}`);
     })();
 
     interface SplitElementName {
@@ -86,9 +86,9 @@ interface ScanCode {
                     scanner[_namespace][fullName] = {
                         extend: <any>(targetName
                             ? {
-                                  namespace: namespace,
-                                  name: targetName,
-                              }
+                                namespace: namespace,
+                                name: targetName,
+                            }
                             : undefined),
                         type: _code.type,
                         file,
@@ -127,9 +127,9 @@ interface ScanCode {
                     scanner[_namespace][name] = {
                         extend: <any>(targetName
                             ? {
-                                  namespace: namespace,
-                                  name: targetName,
-                              }
+                                namespace: namespace,
+                                name: targetName,
+                            }
                             : undefined),
                         type: _code.type,
                         file,
@@ -196,7 +196,7 @@ interface ScanCode {
         }
     }
 
-    fs.writeFileSync("ui.data", JSON.stringify(scanner, null, 4));
+    fs.writeFileSync("ui.d.json", JSON.stringify(scanner, null, 4));
 }
 
 interface ElementInType {
@@ -212,7 +212,7 @@ interface ElementInType {
     ].join("\n");
     const writeDir = "src/compoments/Modify";
 
-    const ui: ScanCode = JSON.parse(fs.readFileSync("ui.data", "utf-8"));
+    const ui: ScanCode = JSON.parse(fs.readFileSync("ui.d.json", "utf-8"));
 
     let build = `${imports}\n\n`;
     4;
@@ -237,14 +237,12 @@ interface ElementInType {
                 .replace(/_\w/g, (str) => str.slice(1).toUpperCase())
                 .replaceAll("/", "_");
 
-            code += `    static ${
-                /^\d/.test(e) ? `_${e}` : e
-            }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
-                v.slice(1).toUpperCase()
-            )}>(properties?: PropertiesType[T]) {
-        return Modify.register<T${
-            childs?.length ? `, ${childs.map((v) => `"${v}"`).join(" | ")}` : ""
-        }>("${file}", "${element}", <any>properties)
+            code += `    static ${/^\d/.test(e) ? `_${e}` : e
+                }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
+                    v.slice(1).toUpperCase()
+                )}>(properties?: PropertiesType[T]) {
+        return Modify.register<T${childs?.length ? `, ${childs.map((v) => `"${v}"`).join(" | ")}` : ""
+                }>("${file}", "${element}", <any>properties)
     }\n`;
 
             SpaceElement.push({ name: element, file });

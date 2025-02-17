@@ -3,8 +3,5 @@ node_modules
 resources
 scripts
 src
-script
-debug.log
-src
-ui.data
+ui.d.json
 tsconfig.json

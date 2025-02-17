@@ -16,6 +16,10 @@ function searchFilePaths(path = "", isStart = true) {
                 "PreCompile.ts",
                 "template.ts",
                 "create-app.ts",
+
+                // Bug
+                "ItemAuxID.ts",
+                "ItemDatas.ts"
             ].includes(folder)
         ) {
             console.log(folder);

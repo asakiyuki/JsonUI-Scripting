@@ -10,7 +10,6 @@ export function safeWriteFile(filePath: string, data: string) {
 
     try {
         fs.writeFileSync(filePath, data, { encoding: "utf-8" });
-        console.log(`File written: ${filePath}`);
     } catch (error) {
         console.error(`Error writing file: ${filePath}`, error);
     }
