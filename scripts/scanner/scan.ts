@@ -9,7 +9,7 @@ const branches = "main";
 async function getMCJsonFile(path: string) {
     try {
         return parse(await readGithubFile(userName, project, branches, path));
-    } catch (error) { }
+    } catch (error) {}
 }
 
 (async () => {
@@ -19,10 +19,11 @@ async function getMCJsonFile(path: string) {
 
     let count = 0;
 
-    for (const path of ui_defs) {
-        console.log(`[${++count}/${ui_defs.length}] Write: rsp/${path} -> .Vanilla/${path}`);
-        const data = await getMCJsonFile(`resource_pack/${path}`);
-
-        if (data !== undefined) safeWriteFile(`.Vanilla/${path}`, JSON.stringify(data));
-    }
+    await Promise.all(
+        ui_defs.map(async path => {
+            console.log(`[${++count}/${ui_defs.length}] Write: rsp/${path} -> .Vanilla/${path}`);
+            const data = await getMCJsonFile(`resource_pack/${path}`);
+            if (data !== undefined) safeWriteFile(`.Vanilla/${path}`, JSON.stringify(data));
+        })
+    );
 })();

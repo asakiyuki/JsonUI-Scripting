@@ -27,7 +27,7 @@
         "ui-build": "bun scripts/scanner/index.ts",
         "import": "bun scripts/index.js",
         "items": "bun scripts/items.js",
-        "update": "yarn run ui-pull && yarn run ui-build && yarn run items && yarn run import && yarn run build"
+        "update": "yarn run ui-pull && yarn run ui-build && yarn run import && yarn run build"
     },
     "repository": {
         "type": "git",
