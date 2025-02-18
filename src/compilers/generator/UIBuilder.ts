@@ -42,14 +42,11 @@ export class UIBuilder {
         for (const file in build) {
             const namespace = build[file].namespace;
             delete build[file].namespace;
-            for (const jsonUI in build[file])
-                build[file][jsonUI] = build[file][jsonUI].getUI();
+            for (const jsonUI in build[file]) build[file][jsonUI] = build[file][jsonUI].getUI();
 
             console.timeLog(
                 "COMPILER",
-                `${file} ${
-                    Object.keys(build[file]).length
-                } elements has generated!`
+                `${file} ${Object.keys(build[file]).length} elements has generated!`
             );
 
             build[file].namespace = namespace;
@@ -69,20 +66,16 @@ export class UIBuilder {
      * @static
      */
     static modify(installPath: string): number {
-        if (!fs.existsSync(`${installPath}/ui`))
-            fs.mkdirSync(`${installPath}/ui`);
+        if (!fs.existsSync(`${installPath}/ui`)) fs.mkdirSync(`${installPath}/ui`);
         let count = 0;
         const modify = JsonBuilder.save.modify;
         for (const key in modify) {
             GenerateDir(installPath, key);
-            for (const element in modify[key])
-                modify[key][element] = modify[key][element].getUI();
+            for (const element in modify[key]) modify[key][element] = modify[key][element].getUI();
 
             console.timeLog(
                 "COMPILER",
-                `${key} ${
-                    Object.keys(modify[key]).length
-                } modify element(s) has generated!`
+                `${key} ${Object.keys(modify[key]).length} modify element(s) has generated!`
             );
 
             UIWriteJson(`${installPath}/${key}`, modify[key], "utf-8");
@@ -102,11 +95,7 @@ export class UIBuilder {
      */
     static uiDefs(installPath: string): number {
         const arr = SearchFiles.array(`${installPath}/@`, "@");
-        UIWriteJson(
-            `${installPath}/ui/_ui_defs.json`,
-            { ui_defs: arr },
-            "utf-8"
-        );
+        UIWriteJson(`${installPath}/ui/_ui_defs.json`, { ui_defs: arr }, "utf-8");
         return arr.length;
     }
 
@@ -123,7 +112,7 @@ export class UIBuilder {
         UIWriteJson(
             `${installPath}/contents.json`,
             {
-                content: arr.map((v) => ({ path: v })),
+                content: arr.map(v => ({ path: v })),
             },
             "utf-8"
         );
@@ -142,21 +131,17 @@ export class UIBuilder {
      */
     static texturesList(installPath: string): number {
         const arr = SearchFiles.array(installPath)
-            .filter((v) => /\.(png|jpg|jpeg)$/.test(v))
-            .map((v) => v.replace(/\.(png|jpg|jpeg)$/, ""));
+            .filter(v => /\.(png|jpg|jpeg)$/.test(v))
+            .map(v => v.replace(/\.(png|jpg|jpeg)$/, ""));
 
         let textureList: Array<string> = [];
 
         if (fs.existsSync(`.bedrock/textures/textures_list.json`)) {
-            const texturesList = fs.readFileSync(
-                `.bedrock/textures/textures_list.json`,
-                "utf-8"
-            );
+            const texturesList = fs.readFileSync(`.bedrock/textures/textures_list.json`, "utf-8");
             textureList = parse(texturesList);
         }
 
-        if (!fs.existsSync(`${installPath}/textures`))
-            fs.mkdirSync(`${installPath}/textures`);
+        if (!fs.existsSync(`${installPath}/textures`)) fs.mkdirSync(`${installPath}/textures`);
         UIWriteJson(
             `${installPath}/textures/textures_list.json`,
             [...arr, ...textureList],
@@ -176,11 +161,7 @@ export class UIBuilder {
     static globalVariables(installPath: string): number {
         const globalVariables = JsonBuilder.save.globalVariables;
 
-        UIWriteJson(
-            `${installPath}/ui/_global_variables.json`,
-            globalVariables,
-            "utf-8"
-        );
+        UIWriteJson(`${installPath}/ui/_global_variables.json`, globalVariables, "utf-8");
 
         return Object.keys(globalVariables).length;
     }

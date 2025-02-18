@@ -19,9 +19,10 @@ export function GenerateDir(installPath: string, path?: string): void {
 
     if (!fs.existsSync(path)) {
         let lastPath = "";
-        const folderPath = path.match(/([^\/]+)(?=\/.+)/g) || [];
+        const folderPath = path.split("/") || [];
+        folderPath.pop();
         for (const folder of folderPath) {
-            if (!fs.existsSync(`${lastPath}${folder}`))
+            if (!(folder === "" || fs.existsSync(`${lastPath}${folder}`)))
                 fs.mkdirSync(`${lastPath}${folder}`);
             lastPath = `${lastPath}${folder}/`;
         }
