@@ -21,9 +21,9 @@ async function getMCJsonFile(path: string) {
 
     await Promise.all(
         ui_defs.map(async path => {
-            console.log(`[${++count}/${ui_defs.length}] Write: rsp/${path} -> .Vanilla/${path}`);
             const data = await getMCJsonFile(`resource_pack/${path}`);
             if (data !== undefined) safeWriteFile(`.Vanilla/${path}`, JSON.stringify(data));
+            console.log(`[${++count}/${ui_defs.length}] Writed: rsp/${path} -> .Vanilla/${path}`);
         })
     );
 })();
