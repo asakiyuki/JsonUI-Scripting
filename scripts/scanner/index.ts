@@ -26,8 +26,8 @@ interface ScanCode {
                 recursive: true,
                 withFileTypes: true,
             })
-            .filter((file) => file.isFile())
-            .map((file) => `${file.parentPath}/${file.name}`);
+            .filter(file => file.isFile())
+            .map(file => `${file.parentPath}/${file.name}`);
     })();
 
     interface SplitElementName {
@@ -59,12 +59,7 @@ interface ScanCode {
         return splitName;
     }
 
-    function scanJsonUICode(
-        namespace: string,
-        code: any,
-        path: string = "",
-        file: string
-    ) {
+    function scanJsonUICode(namespace: string, code: any, path: string = "", file: string) {
         const childName: string[] = [];
         const controls = code.controls;
         const _namespace = namespace;
@@ -74,11 +69,7 @@ interface ScanCode {
                 const key = Object.keys(elementObject)[0];
                 const _code = elementObject[key];
 
-                const {
-                    name,
-                    namespace = _namespace,
-                    targetName,
-                } = splitElementName(key);
+                const { name, namespace = _namespace, targetName } = splitElementName(key);
 
                 const fullName = `${path}/${name}`;
 
@@ -86,9 +77,9 @@ interface ScanCode {
                     scanner[_namespace][fullName] = {
                         extend: <any>(targetName
                             ? {
-                                namespace: namespace,
-                                name: targetName,
-                            }
+                                  namespace: namespace,
+                                  name: targetName,
+                              }
                             : undefined),
                         type: _code.type,
                         file,
@@ -101,12 +92,7 @@ interface ScanCode {
                 }
 
                 if (_code.controls) {
-                    const childList = scanJsonUICode(
-                        _namespace,
-                        _code,
-                        fullName,
-                        file
-                    );
+                    const childList = scanJsonUICode(_namespace, _code, fullName, file);
                     scanner[_namespace][fullName].childs = childList;
                 }
 
@@ -117,19 +103,18 @@ interface ScanCode {
 
             for (const key in code) {
                 const _code = code[key];
-                const {
-                    name,
-                    namespace = _namespace,
-                    targetName,
-                } = splitElementName(key);
+                const { name, namespace = _namespace, targetName } = splitElementName(key);
 
+                if (_code.anim_type) {
+                    continue;
+                }
                 if (targetName) {
                     scanner[_namespace][name] = {
                         extend: <any>(targetName
                             ? {
-                                namespace: namespace,
-                                name: targetName,
-                            }
+                                  namespace: namespace,
+                                  name: targetName,
+                              }
                             : undefined),
                         type: _code.type,
                         file,
@@ -142,12 +127,7 @@ interface ScanCode {
                 }
 
                 if (_code.controls) {
-                    const childList = scanJsonUICode(
-                        _namespace,
-                        _code,
-                        name,
-                        file
-                    );
+                    const childList = scanJsonUICode(_namespace, _code, name, file);
                     scanner[_namespace][name].childs = childList;
                 }
             }
@@ -171,10 +151,7 @@ interface ScanCode {
 
             if (e.type) return e.type;
             else {
-                const type = findElementType(
-                    e.extend?.name!,
-                    e.extend?.namespace!
-                );
+                const type = findElementType(e.extend?.name!, e.extend?.namespace!);
                 scanner[namespace][name].type = type;
                 return type;
             }
@@ -224,9 +201,7 @@ interface ElementInType {
 
         if (namespace === "undefined") continue;
 
-        const Namespace = `_${namespace}`.replace(/(_|-)\w/g, (str) =>
-            str.slice(1).toUpperCase()
-        );
+        const Namespace = `_${namespace}`.replace(/(_|-)\w/g, str => str.slice(1).toUpperCase());
 
         let code = `class ${Namespace} extends Class {\n`;
 
@@ -234,15 +209,17 @@ interface ElementInType {
             const { type, file, childs } = ui[namespace][element];
 
             const e = element
-                .replace(/_\w/g, (str) => str.slice(1).toUpperCase())
+                .replace(/_\w/g, str => str.slice(1).toUpperCase())
                 .replaceAll("/", "_");
 
-            code += `    static ${/^\d/.test(e) ? `_${e}` : e
-                }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, (v) =>
-                    v.slice(1).toUpperCase()
-                )}>(properties?: PropertiesType[T]) {
-        return Modify.register<T${childs?.length ? `, ${childs.map((v) => `"${v}"`).join(" | ")}` : ""
-                }>("${file}", "${element}", <any>properties)
+            code += `    static ${
+                /^\d/.test(e) ? `_${e}` : e
+            }<T extends Types = Types.${`_${type}`.replaceAll(/_\w/g, v =>
+                v.slice(1).toUpperCase()
+            )}>(properties?: PropertiesType[T]) {
+        return Modify.register<T${
+            childs?.length ? `, ${childs.map(v => `"${v}"`).join(" | ")}` : ""
+        }>("${file}", "${element}", <any>properties)
     }\n`;
 
             SpaceElement.push({ name: element, file });
@@ -250,9 +227,7 @@ interface ElementInType {
 
         code += "}\n\n";
         build += code;
-        cls += `    static ${Namespace[0].toLowerCase()}${Namespace.slice(
-            1
-        )} = ${Namespace};\n`;
+        cls += `    static ${Namespace[0].toLowerCase()}${Namespace.slice(1)} = ${Namespace};\n`;
     }
     cls += `}`;
 
