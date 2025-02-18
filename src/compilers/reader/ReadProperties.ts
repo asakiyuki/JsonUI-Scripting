@@ -1,4 +1,5 @@
 import { Animation } from "../../compoments/Animation";
+import { LocalizeText } from "../../compoments/LocalizeText";
 import { Properties } from "../../types/objects/properties/Properties";
 import { SoundHandler as Sounds } from "../generator/Sounds";
 import { ColorHandler } from "./Color";
@@ -32,6 +33,7 @@ export function ReadValue(value: any, callback?: (type: string) => any) {
             else if (value[0].startsWith("$")) return callback?.("var");
         }
     } else if (value instanceof Animation) return value.getKeyIndex(0);
+    else if (value instanceof LocalizeText) return value.get();
 
     return value;
 }
@@ -104,7 +106,7 @@ export function ReadProperties(properties: Properties) {
     }
 
     if (properties.sounds) {
-        properties.sounds = properties.sounds.map((sound) => {
+        properties.sounds = properties.sounds.map(sound => {
             if (sound.sound_path) {
                 const soundId = Sounds.get(sound.sound_path);
                 delete sound.sound_path;
@@ -116,22 +118,15 @@ export function ReadProperties(properties: Properties) {
     }
 
     Obj.forEach(properties, (key, value) => {
-        (<any>properties)[key] = ReadValue(value, (type) => {
+        (<any>properties)[key] = ReadValue(value, type => {
             if (type === "var") {
-                const isSpecialProperty = [
-                    "size",
-                    "min_size",
-                    "max_size",
-                ].includes(key);
+                const isSpecialProperty = ["size", "min_size", "max_size"].includes(key);
 
                 const disableDefault = value[2];
-                const propertyName = disableDefault
-                    ? value[0]
-                    : `${value[0]}|default`;
+                const propertyName = disableDefault ? value[0] : `${value[0]}|default`;
 
                 if (isSpecialProperty) {
-                    if (Array.isArray(value[1]))
-                        properties[propertyName] = value[1];
+                    if (Array.isArray(value[1])) properties[propertyName] = value[1];
                     else properties[propertyName] = [value[1], value[1]];
                 } else {
                     properties[propertyName] = ReadValue(value[1]);

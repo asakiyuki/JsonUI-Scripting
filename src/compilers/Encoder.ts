@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import { Class } from "../compoments/Class";
-import { jsonFilePath } from "./PreCompile";
+import { jsonFilePath, WritePreComment } from "./PreCompile";
 import { Obj } from "./reader/Object";
 
 export class Encoder extends Class {
@@ -16,27 +16,20 @@ export class Encoder extends Class {
     }
 
     static replaceCode(path: string, code: any) {
-        fs.writeFileSync(
-            path,
-            JSON.stringify(code).replaceAll("\\\\", "\\"),
-            "utf-8"
-        );
+        fs.writeFileSync(path, WritePreComment(code).replaceAll("\\\\", "\\"), "utf-8");
     }
 
     static encode(code: any): any {
-        return Array.isArray(code)
-            ? Encoder.encodeArray(code)
-            : Encoder.encodeObject(code);
+        return Array.isArray(code) ? Encoder.encodeArray(code) : Encoder.encodeObject(code);
     }
 
     static encodeArray(code: any[]): any[] {
-        return code.map((value) => {
+        return code.map(value => {
             const valueType = typeof value;
 
             if (valueType === "object") {
                 return Encoder.encode(value);
-            } else if (valueType === "string")
-                return Encoder.encodeString(value);
+            } else if (valueType === "string") return Encoder.encodeString(value);
             else return value;
         });
     }
@@ -59,10 +52,7 @@ export class Encoder extends Class {
 
     static encodeString(code: string) {
         return Array.from(code)
-            .map(
-                (char) =>
-                    `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`
-            )
+            .map(char => `\\u${char.charCodeAt(0).toString(16).padStart(4, "0")}`)
             .join("");
     }
 

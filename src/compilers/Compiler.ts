@@ -9,6 +9,8 @@ import { FormatAudio } from "./reader/Audio";
 import { Logs } from "./generator/Log";
 import { Encoder } from "./Encoder";
 import { UIWriteJson } from "./PreCompile";
+import { localizeText } from "../compoments/LocalizeText";
+import { LangBuilder } from "./generator/LangBuilder";
 
 // Retrieve the configuration settings
 const config = Configs.getConfig();
@@ -84,6 +86,10 @@ process.on("beforeExit", () => {
         console.log();
         console.timeLog("COMPILER", `${UIBuilder.modify(buildPath)} modify file(s) compiled!`);
         console.log();
+        if (Object.keys(localizeText).length) {
+            console.timeLog("COMPILER", `${LangBuilder.build(buildPath)} lang file(s) compiled!`);
+            console.log();
+        }
 
         // Generate and save the manifest
         manifestBuild(buildPath);
