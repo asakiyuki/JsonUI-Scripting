@@ -4,7 +4,7 @@ import { safeWriteFile } from "../lib/writeFile";
 
 const userName = "mojang";
 const project = "bedrock-samples";
-const branches = "main";
+const branches = process.argv.includes("--preview") ? "preview" : "main";
 
 async function getMCJsonFile(path: string) {
     try {

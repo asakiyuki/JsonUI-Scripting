@@ -19,16 +19,13 @@ function searchFilePaths(path = "", isStart = true) {
 
                 // Bug
                 "ItemAuxID.ts",
-                "ItemDatas.ts"
+                "ItemDatas.ts",
             ].includes(folder)
         ) {
-            console.log(folder);
             continue;
         } else {
             if (folder.split(".").length === 2)
-                importArr.push(
-                    `export * from "./${path}${folder.replace(".ts", "")}";`
-                );
+                importArr.push(`export * from "./${path}${folder.replace(".ts", "")}";`);
             else importArr.push(...searchFilePaths(`${path}${folder}/`, false));
         }
     }

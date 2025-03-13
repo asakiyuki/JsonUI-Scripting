@@ -15,7 +15,7 @@
         "jsonc-parser": "^3.3.1"
     },
     "name": "jsonui-scripting",
-    "version": "2.2.8",
+    "version": "2.2.9",
     "description": "Make your Minecraft JsonUI with ScriptingAPI",
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.js",
@@ -27,7 +27,8 @@
         "ui-build": "bun scripts/scanner/index.ts",
         "import": "bun scripts/index.js",
         "items": "bun scripts/items.js",
-        "update": "yarn run ui-pull && yarn run ui-build && yarn run import && yarn run build"
+        "stable": "yarn run ui-pull && yarn run ui-build && yarn run import && yarn run build",
+        "preview": "yarn run stable --preview"
     },
     "repository": {
         "type": "git",
